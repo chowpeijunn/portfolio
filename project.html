@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Title — Chow Pei Jun</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .project-page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 120px 32px 80px;
+    }
+
+    .project-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-heading);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+      transition: color 0.3s ease;
+    }
+
+    .project-back:hover {
+      color: var(--text);
+    }
+
+    .project-back svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .project-hero {
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--card-bg);
+      margin-bottom: 48px;
+    }
+
+    .project-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .project-header h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 32px;
+      flex-shrink: 0;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .meta-value {
+      font-family: var(--font-heading);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .project-body {
+      max-width: 640px;
+    }
+
+    .project-body p {
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .project-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 64px;
+    }
+
+    .project-gallery img {
+      width: 100%;
+      border-radius: 10px;
+      background: var(--card-bg);
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    @media (max-width: 600px) {
+      .project-page {
+        padding: 80px 16px 48px;
+      }
+      .project-header {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .project-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle visible" id="themeToggle" aria-label="Toggle dark mode">
+    <span class="toggle-icon light-icon">☀</span>
+    <span class="toggle-icon dark-icon">☾</span>
+  </button>
+
+  <div class="project-page">
+    <a href="index.html" class="project-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back
+    </a>
+
+    <div class="project-hero">
+      <img src="https://placehold.co/960x540/e0ddd5/0A0F2C?text=Project+Hero" alt="Project hero image">
+    </div>
+
+    <div class="project-header">
+      <h1>Project Title</h1>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Placeholder</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">2025</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <span class="meta-value">Placeholder</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-body">
+      <p>Placeholder description for this project. This is where you'd describe the challenge, the approach, and the outcome. Keep it concise — the work should speak for itself.</p>
+      <p>A second paragraph for additional context, process notes, or reflection on what was learned.</p>
+    </div>
+
+    <div class="project-gallery">
+      <img src="https://placehold.co/480x360/e0ddd5/0A0F2C?text=Detail+01" alt="Project detail 1">
+      <img src="https://placehold.co/480x360/e0ddd5/0A0F2C?text=Detail+02" alt="Project detail 2">
+      <img src="https://placehold.co/480x360/e0ddd5/0A0F2C?text=Detail+03" alt="Project detail 3">
+      <img src="https://placehold.co/480x360/e0ddd5/0A0F2C?text=Detail+04" alt="Project detail 4">
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle (same logic, standalone)
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) html.setAttribute('data-theme', saved);
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  </script>
+</body>
+</html>
