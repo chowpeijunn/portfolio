@@ -9,7 +9,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Vogue%20x%20MBS/vogue-mbs.png",
+      "thumb": "assets/thumbs/vogue-x-mbs.jpg",
       "video": "videos/TVC/2026/Vogue%20x%20MBS/260310_VoguexMBS_35s_Digital_Master.mp4",
       "client": "Vogue × Marina Bay Sands",
       "credits": [
@@ -32,7 +32,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Shopee%20VIP%20-%20Shopee/Screenshot%202026-04-03%20at%2010.50.16%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
       "video": "videos/TVC/2026/Shopee%20VIP%20-%20Shopee/260220_Shopee%20VIP_33s_16x9_Digital_master.mp4",
       "client": "Shopee",
       "credits": [
@@ -54,7 +54,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20kyle%2Bysien.png",
+      "thumb": "assets/thumbs/wedding-01.jpg",
       "video": "",
       "client": "AndroidsinBoots",
       "credits": [
@@ -77,7 +77,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2025/Brand%20Video%20-%20KFC/Screenshot%202026-04-03%20at%2011.55.08%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/brand-video-kfc.jpg",
       "video": "videos/TVC/2025/Brand%20Video%20-%20KFC/250829_KFC%20Brand_16x9_60s_Digital_Masters.mp4",
       "client": "KFC",
       "credits": [
@@ -100,7 +100,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2025/Shopee%2010.10%20-%20Shopee/Screenshot%202026-04-04%20at%209.17.31%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/shopee-1010-shopee.jpg",
       "video": "videos/TVC/2025/Shopee%2010.10%20-%20Shopee/251002_Shopee%2010.10_30s_16x9_Digital_Master.mp4",
       "client": "Shopee",
       "credits": [
@@ -121,7 +121,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20kenneth%2Bnatalie.png",
+      "thumb": "assets/thumbs/kenneth-natalie.jpg",
       "video": "videos/Weddings/kenneth_%2B_natalie_ft._sophie_(pre-wedding_film)%20(1080p).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -143,7 +143,7 @@
         "tvc",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Thrive%20-%20The%20Business%20Times/Screenshot%202026-04-04%20at%209.38.07%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/thrive-bt.jpg",
       "video": "videos/TVC/2026/Thrive%20-%20The%20Business%20Times/2602011_Thrive%20BT_Main_16x9_Digital_Subless_CleanEndFrame_Master.mp4",
       "client": "The Business Times",
       "credits": [
@@ -165,7 +165,7 @@
         "tvc",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Age%20Strong%20-%20HPB/Screenshot%202026-04-03%20at%2011.54.00%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/age-strong-hpb.jpg",
       "video": "videos/TVC/2026/Age%20Strong%20-%20HPB/260114_HPB%20AS_Meet%20the%20parents_15s_16x9_EN_Digital_Master.mp4",
       "client": "Health Promotion Board (HPB)",
       "credits": [
@@ -193,7 +193,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Kia%20Man%20vs%20Wild%20-%20Discovery/kia-man-vs-wild-discovery.png",
+      "thumb": "assets/thumbs/kia-man-vs-wild-discovery.jpg",
       "video": "videos/TVC/2026/Kia%20Man%20vs%20Wild%20-%20Discovery/Clean_260310_KIA%20Discovery_Main_16X9_Digital_Master.mp4",
       "client": "Kia × Discovery Channel",
       "credits": [
@@ -216,7 +216,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Shopee%203.3%20-%20Shopee/Screenshot%202026-04-03%20at%2011.51.38%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/shopee-33-shopee.jpg",
       "video": "videos/TVC/2026/Shopee%203.3%20-%20Shopee/260219_Shopee%203.3_Horror_35s_Online_16X9_Digital_Masters.mp4",
       "client": "Shopee",
       "credits": [
@@ -238,7 +238,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20eugene%2Bannabelle.png",
+      "thumb": "assets/thumbs/eugene-annabelle.jpg",
       "video": "videos/Weddings/eugene_%2B_annabelle_(wedding_trailer)%20(Original).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -261,7 +261,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Samyang%20Buldak%20-%20KFC/Screenshot%202026-04-03%20at%2011.52.30%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/samyang-buldak-kfc.jpg",
       "video": "videos/TVC/2026/Samyang%20Buldak%20-%20KFC/260320_KFC%20Samyang_Main_16X9_Master_Digital_Clean.mov",
       "client": "KFC",
       "credits": [
@@ -284,7 +284,7 @@
         "branded content",
         "events"
       ],
-      "thumb": "videos/Corporate/Foodflix%20-%20SATS/Asset%2019.png",
+      "thumb": "assets/thumbs/foodflix-sats.jpg",
       "video": "videos/Corporate/Foodflix%20-%20SATS/sats__foodflix%20(1080p).mp4",
       "client": "SATS",
       "credits": [
@@ -306,7 +306,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "videos/Events/Beaut%C3%A9s%20du%20monde%20%20-%20Cartier/Asset%2018.png",
+      "thumb": "assets/thumbs/beautes-du-monde-cartier.jpg",
       "video": "videos/Events/Beaut%C3%A9s%20du%20monde%20%20-%20Cartier/cartier__beaut%C3%A9s_du_monde%20(1080p).mp4",
       "client": "Cartier",
       "credits": [
@@ -328,7 +328,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "videos/Events/The%20Heart%20of%20the%20Spirit%20-%20The%20Macallan/heart-of-the-spirit-macallan.png",
+      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.jpg",
       "video": "videos/Events/The%20Heart%20of%20the%20Spirit%20-%20The%20Macallan/%5Bno%20supers%2C%20no%20logos%5D%20The%20Macallan%20The%20Heart%20Of%20The%20Spirit%20Campaign%20Film.mp4",
       "client": "The Macallan",
       "credits": [
@@ -350,7 +350,7 @@
         "corporate",
         "branded content"
       ],
-      "thumb": "videos/Corporate/GoBusiness%20-%20Govtech/Screenshot%202026-04-04%20at%2010.54.59%E2%80%AFAM.png",
+      "thumb": "assets/thumbs/gobusiness-govtech.jpg",
       "video": "videos/Corporate/GoBusiness%20-%20Govtech/govtech__gobusiness%20(1080p).mp4",
       "client": "GovTech",
       "credits": [
@@ -372,7 +372,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20Ryan%2Bcheryl.png",
+      "thumb": "assets/thumbs/ryan-cheryl.jpg",
       "video": "videos/Weddings/ryan_%2B_cheryl_(same-day-edit).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -395,7 +395,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/FAS%20-%20Shopee/Screenshot%202026-04-03%20at%2011.23.38%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/fas-shopee.jpg",
       "video": "videos/TVC/2026/FAS%20-%20Shopee/260320_FAS_Main_16X9_Master_Subless.mp4",
       "client": "Shopee",
       "credits": [
@@ -417,7 +417,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20ivan%2Bjocelyn.png",
+      "thumb": "assets/thumbs/ivan-jocelyn.jpg",
       "video": "videos/Weddings/ivan_%2B_jocelyn_(wedding_trailer)%20(1080p).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -440,7 +440,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Solo%20Sliders%20-%20Pizzahut/Screenshot%202026-04-03%20at%2011.51.55%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/solo-sliders-pizzahut.jpg",
       "video": "videos/TVC/2026/Solo%20Sliders%20-%20Pizzahut/260310_Pizzahut%20Sliders_16x9_Main_Endframe%2002_Digital_Master.mp4",
       "client": "Pizza Hut",
       "credits": [
@@ -462,7 +462,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20Yichang%2BClara.png",
+      "thumb": "assets/thumbs/yichang-clara.jpg",
       "video": "videos/Weddings/yichang_%2B_clara_(wedding_trailer)%20(Original).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -484,7 +484,7 @@
         "tvc",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Service%20SG/Screenshot%202026-04-03%20at%2011.54.35%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/service-sg.jpg",
       "video": "videos/TVC/2026/Service%20SG/260213_Service%20SG_30s_EL_subless_Digital_Master_1.mp4",
       "client": "ServiceSG",
       "credits": [
@@ -506,7 +506,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20wilson%2Bchelsea.png",
+      "thumb": "assets/thumbs/wilson-chelsea.jpg",
       "video": "",
       "client": "AndroidsinBoots",
       "credits": [
@@ -528,7 +528,7 @@
         "tvc",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/Progressive%20Wages%20-%20Ministry%20of%20Manpower%20(MOM)/Screenshot%202026-04-03%20at%2011.52.54%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
       "video": "videos/TVC/2026/Progressive%20Wages%20-%20Ministry%20of%20Manpower%20(MOM)/251218_MOM%20P%20Wage_60s_16x9_Digital_EL_Master.mp4",
       "client": "Ministry of Manpower (MOM)",
       "credits": [
@@ -550,7 +550,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20weilun%2Bsandy.png",
+      "thumb": "assets/thumbs/weilun-sandy.jpg",
       "video": "videos/Weddings/weilun_%2B_sandy_(wedding_trailer)%20(Original).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -573,7 +573,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2025/Shopee%209.9%20-%20Shopee/Screenshot%202026-04-03%20at%2011.55.21%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/shopee-99-shopee.jpg",
       "video": "videos/TVC/2025/Shopee%209.9%20-%20Shopee/250826_Shopee%209.9_16x9_45s_Digital_Master.mp4",
       "client": "Shopee",
       "credits": [
@@ -595,7 +595,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20norman%2Bxinru.png",
+      "thumb": "assets/thumbs/wedding-02.jpg",
       "video": "",
       "client": "AndroidsinBoots",
       "credits": [
@@ -616,7 +616,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20samuel%2Bhuiqi.png",
+      "thumb": "assets/thumbs/samuel-huiqi.jpg",
       "video": "videos/Weddings/samuel_%2B_huiqi_(pre-wedding_film)%20(Original).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -639,7 +639,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2025/Thai%20Curry%20-%20Pizzahut/Screenshot%202026-04-03%20at%2011.58.29%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/thai-curry-pizzahut.jpg",
       "video": "videos/TVC/2025/Thai%20Curry%20-%20Pizzahut/250905_Pizza%20Hut%20Thai_16x9_30s_GreenCurry_NoSubs_Digtal_Master.mov",
       "client": "Pizza Hut",
       "credits": [
@@ -660,7 +660,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "videos/Weddings/Screenshot%202026-04-04%20at%209.16.29%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/nianhua-debbie.jpg",
       "video": "videos/Weddings/nianhua_%2B_debbie_(pre-wedding_filmlet_subtitled)%20(Original).mp4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -712,7 +712,7 @@
         "tvc",
         "branded content"
       ],
-      "thumb": "videos/TVC/2026/PHC%202026%20-%20Public%20Hygiene%20Council%20(PHC)/PHC%202026_Thumbnail.jpg",
+      "thumb": "assets/thumbs/phc-2026.jpg",
       "video": "videos/TVC/2026/PHC%202026%20-%20Public%20Hygiene%20Council%20(PHC)/260402_PHC%202026_Main_Digital_Master_subless_1080p.mp4",
       "client": "Public Hygiene Council",
       "credits": [
@@ -735,7 +735,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "videos/TVC/2025/Xmas%202025%20-%20Pizzahut/Screenshot%202026-04-04%20at%2012.00.25%E2%80%AFAM.png",
+      "thumb": "assets/thumbs/xmas-pizzahut.jpg",
       "video": "videos/TVC/2025/Xmas%202025%20-%20Pizzahut/251030_PH%20Xmas_30s_16x9_Digital_Subless_Master.mov",
       "client": "Pizza Hut",
       "credits": [
@@ -757,7 +757,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20jeric%2Blydia.png",
+      "thumb": "assets/thumbs/jeric-lydia.jpg",
       "video": "",
       "client": "AndroidsinBoots",
       "credits": [
@@ -779,7 +779,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "videos/Weddings/thumbnail%20%20mel%2Bjadey.png",
+      "thumb": "assets/thumbs/me-jadey.jpg",
       "video": "",
       "client": "AndroidsinBoots",
       "credits": [
@@ -801,7 +801,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "videos/Events/The%20Macallan%20House%20Launch%20-%20The%20Macallan/Asset%2020.png",
+      "thumb": "assets/thumbs/macallan-house-launch.jpg",
       "video": "videos/Events/The%20Macallan%20House%20Launch%20-%20The%20Macallan/the_macallan_house_launch_film%20(1080p).mp4",
       "client": "The Macallan",
       "credits": [
@@ -823,7 +823,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "videos/Events/The%20Reach%20VIP%20Launch%20-%20The%20Macallan/Screenshot%202026-04-05%20at%2012.30.31%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/wedding-03.jpg",
       "video": "videos/Events/The%20Reach%20VIP%20Launch%20-%20The%20Macallan/macallan__%27the_reach%27_vip_launch%20(1080p).mp4",
       "client": "The Macallan",
       "credits": [
@@ -845,7 +845,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "videos/Events/Ritz%20Carlton%20Wedding%20Showcase%20-%20Heaven%27s%20Gift/Screenshot%202026-04-05%20at%2012.20.52%E2%80%AFPM.png",
+      "thumb": "assets/thumbs/wedding-04.jpg",
       "video": "videos/Events/Ritz%20Carlton%20Wedding%20Showcase%20-%20Heaven%27s%20Gift/(landscape)_ritz-carlton_modern_oasis_bridal_show.mp4",
       "client": "Heaven's Gift",
       "credits": [
@@ -867,7 +867,7 @@
         "corporate",
         "branded content"
       ],
-      "thumb": "videos/Corporate/My%20Big%20Fat%20Web3%20Wedding%20-%20VICE/Screenshot%202026-04-04%20at%2010.54.33%E2%80%AFAM.png",
+      "thumb": "assets/thumbs/web3-wedding-vice.jpg",
       "video": "videos/Corporate/My%20Big%20Fat%20Web3%20Wedding%20-%20VICE/Vice__My_Big_Fat_Web3_Wedding_(Trailer).mp4",
       "client": "VICE",
       "credits": [
@@ -889,7 +889,7 @@
         "corporate",
         "branded content"
       ],
-      "thumb": "videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20%28HTA%29/portraits-hta.png",
+      "thumb": "assets/thumbs/portraits-hta.jpg",
       "video": "videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_annie_%26_kanthan)%20(1080p).mp4",
       "client": "Home Team Academy (HTA)",
       "credits": [
@@ -918,7 +918,7 @@
         "corporate",
         "branded content"
       ],
-      "thumb": "videos/Corporate/Ubin%20Kakis%20-%20SMU/Asset%2022.png",
+      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
       "video": "",
       "client": "Singapore Management University (SMU)",
       "credits": [
