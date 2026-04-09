@@ -1,4 +1,58 @@
 /* ============================================
+   DATA LOADING & CARD RENDERING
+   ============================================ */
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderCards(projects) {
+  const hub = document.getElementById('centerHub');
+  if (!hub) return;
+
+  // Build lookup map used by openDetail
+  window._projectMap = Object.create(null);
+  projects.forEach(p => { window._projectMap[p.title] = p; });
+
+  function makeCard(p) {
+    const catDisplay = p.category.charAt(0).toUpperCase() + p.category.slice(1);
+    const tags = Array.isArray(p.tags) ? p.tags.join(',') : (p.tags || '');
+    return `<a href="project.html" class="project-card" ` +
+      `data-category="${escapeHtml(p.category)}" ` +
+      `data-tags="${escapeHtml(tags)}" ` +
+      `data-title="${escapeHtml(p.title)}" ` +
+      `data-thumb="${escapeHtml(p.thumb || '')}">` +
+      `<div class="card-media">` +
+      `<img class="card-thumb" src="${p.thumb || ''}" alt="${escapeHtml(p.title)}" loading="lazy">` +
+      `<video class="card-video" muted loop playsinline preload="none" src="${p.video || ''}"></video>` +
+      `<div class="card-info">` +
+      `<span class="card-info-title">${escapeHtml(p.title)}</span>` +
+      `<span class="card-info-cat">${catDisplay}</span>` +
+      `</div></div></a>`;
+  }
+
+  const beforeHTML = projects.filter(p => p.slot === 'before').map(makeCard).join('\n      ');
+  const afterHTML  = projects.filter(p => p.slot === 'after').map(makeCard).join('\n      ');
+
+  if (beforeHTML) hub.insertAdjacentHTML('beforebegin', beforeHTML);
+  if (afterHTML)  hub.insertAdjacentHTML('afterend',    afterHTML);
+}
+
+// Fetch project data immediately so cards are ready before the loader finishes
+const _dataReady = fetch('data.json')
+  .then(r => r.json())
+  .then(data => {
+    renderCards(data.projects);
+    initHoverToPlay();
+    initFilter();
+    return data;
+  })
+  .catch(err => console.error('Failed to load data.json:', err));
+
+/* ============================================
    COUNTER LOADER → LETTER-BY-LETTER NAME (on actual hub card)
    ============================================ */
 (function () {
@@ -45,7 +99,8 @@
     });
   }
 
-  function revealSite() {
+  async function revealSite() {
+    await _dataReady;
     loader.classList.add('done');
     canvasEl.classList.add('visible');
     nav.classList.add('visible');
@@ -396,7 +451,7 @@ window.addEventListener('resize', () => {
 /* ============================================
    HOVER-TO-PLAY VIDEO
    ============================================ */
-(function () {
+function initHoverToPlay() {
   document.querySelectorAll('.project-card').forEach((card) => {
     const video = card.querySelector('.card-video');
     if (!video) return;
@@ -410,12 +465,12 @@ window.addEventListener('resize', () => {
       video.currentTime = 0;
     });
   });
-})();
+}
 
 /* ============================================
    FILTER — Hub card buttons
    ============================================ */
-(function () {
+function initFilter() {
   const filterBtns = document.querySelectorAll('.hub-filter-btn');
   const cards = document.querySelectorAll('.project-card');
 
@@ -459,7 +514,7 @@ window.addEventListener('resize', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') resetFilter();
   });
-})();
+}
 
 /* ============================================
    PROJECT DETAIL OVERLAY
@@ -476,163 +531,11 @@ window.addEventListener('resize', () => {
   const backBtn     = document.getElementById('backBtn');   // bottom bar back btn
   const canvasInner = document.getElementById('canvasInner');
 
-  // Client / agency per project title
-  const CLIENT_BY_TITLE = {
-    'Vogue x MBS':                   'Vogue × Marina Bay Sands',
-    'Shopee VIP':                    'Shopee',
-    'KFC Brand Video':               'KFC',
-    'Shopee 10.10':                  'Shopee',
-    'Thrive BT':                     'The Business Times',
-    'Age Strong':                    'Health Promotion Board (HPB)',
-    'Kia x Discovery':               'Kia × Discovery Channel',
-    'Shopee 3.3':                    'Shopee',
-    'FAS':                           'Shopee',
-    'Samyang Buldak Carbonara':      'KFC',
-    'Solo Sliders':                  'Pizza Hut',
-    'Service SG':                    'ServiceSG',
-    'Progressive Wages':             'Ministry of Manpower (MOM)',
-    'Shopee 9.9':                    'Shopee',
-    'Thai Curry':                    'Pizza Hut',
-    'Subway Everyday Value':         'Subway',
-    'Xmas':                          'Pizza Hut',
-    // Events
-    'Beautés du Monde':              'Cartier',
-    'Foodflix':                      'SATS',
-    'Heart of the Spirit':           'The Macallan',
-    'Macallan House Launch':         'The Macallan',
-    'The Reach VIP Launch':          'The Macallan',
-    'Ritz Carlton Wedding Showcase': "Heaven's Gift",
-    // Corporate
-    'GoBusiness':                    'GovTech',
-    'My Big Fat Web3 Wedding':       'VICE',
-    'Portraits of HTA':              'Home Team Academy (HTA)',
-    'Ubin Kakis':                    'Singapore Management University (SMU)',
-    // Weddings
-    'Ryan + Cheryl':       'AndroidsinBoots',
-    'Yi Chang + Clara':    'AndroidsinBoots',
-    'Mel + Jadey':         'AndroidsinBoots',
-    'Weilun + Sandy':      'AndroidsinBoots',
-    'Ivan + Jocelyn':      'AndroidsinBoots',
-    'Wilson + Chelsea':    'AndroidsinBoots',
-    'Kenneth + Natalie':   'AndroidsinBoots',
-    'Kyle + Ysien':        'AndroidsinBoots',
-    'Eugene + Annabelle':  'AndroidsinBoots',
-    'Samuel + Hui Qi':     'AndroidsinBoots',
-    'Norman + Xin Ru':     'AndroidsinBoots',
-    'Nianhua + Debbie':    'AndroidsinBoots',
-    'Jeric + Lydia':       'AndroidsinBoots',
-  };
-
-  // Per-title credits (take priority over category defaults)
-  const CREDITS_BY_TITLE = {
-    // TVC
-    'Vogue x MBS':               [['Work', 'Online | Cleanups'],                                              ['Production', 'Abundant Productions']],
-    'Shopee VIP':                [['Work', 'Online | Look Comp | Screen Replacements | Cleanups'],            ['Production', 'Abundant Productions']],
-    'KFC Brand Video':           [['Work', 'Online | Cleanups | Skin retouching'],                            ['Production', 'Abundant Productions']],
-    'Shopee 10.10':              [['Work', 'Online | Cleanups | Key & Rotoscoping | Set extensions'],         ['Production', 'Abundant Productions']],
-    'Thrive BT':                 [['Work', 'Online | Transitions | 3D Tracking & Rotoscoping | Cleanups'],    ['Production', 'Abundant Productions']],
-    'Age Strong':                [['Work', 'Online | Screen Replacements | Cleanups'],                        ['Production', 'Abundant Productions']],
-    'Kia x Discovery':           [['Work', 'Online | Cleanups | Licence Plate Replacements | Rotoscoping'],   ['Production', 'Abundant Productions']],
-    'Shopee 3.3':                [['Work', 'Online | Comp | Screen Replacements | Cleanups'],                 ['Production', 'Abundant Productions']],
-    'FAS':                       [['Work', 'Online | Screen Replacements | Set Extension'],                    ['Production', 'Abundant Productions']],
-    'Samyang Buldak Carbonara':  [['Work', 'Online | Cleanups | Skin retouching'],                            ['Production', 'Abundant Productions']],
-    'Solo Sliders':              [['Work', 'Online | Transitions | Tracking & Rotoscoping | Cleanups'],       ['Production', 'Abundant Productions']],
-    'Service SG':                [['Work', 'Online | Cleanups'],                                              ['Production', 'Abundant Productions']],
-    'Progressive Wages':         [['Work', 'Online | Cleanups | Tracking & Rotoscoping | Graphics'],          ['Production', 'Abundant Productions']],
-    'Shopee 9.9':                [['Work', 'Online | Cleanups | Partial Key & Rotoscoping'],                  ['Production', 'Abundant Productions']],
-    'Thai Curry':                [['Work', 'Online | Screen Replacements | Cleanups'],                        ['Production', 'Abundant Productions']],
-    'Subway Everyday Value':     [['Work', 'Online | Cleanups'],                                              ['Production', 'Abundant Productions']],
-    'Xmas':                      [['Work', 'Online | Cleanups | Skin retouching'],                            ['Production', 'Abundant Productions']],
-    // Events
-    'Beautés du Monde':              [['Work', '2nd Videographer | Producer'],      ['Production', 'Optical Films']],
-    'Heart of the Spirit':           [['Work', '1st Videographer | Producer'],      ['Production', 'Optical Films']],
-    'Macallan House Launch':         [['Work', '1st Videographer | Producer'],      ['Production', 'Optical Films']],
-    'The Reach VIP Launch':          [['Work', '2nd Videographer | Producer'],      ['Production', 'Optical Films']],
-    'Ritz Carlton Wedding Showcase': [['Work', '2nd Videographer | Producer'],      ['Production', 'AndroidsinBoots']],
-    // Corporate
-    'GoBusiness':              [['Work', 'Assistant Producer'],               ['Production', 'Optical Films']],
-    'My Big Fat Web3 Wedding': [['Work', 'Producer'],                         ['Production', 'Optical Films']],
-    'Portraits of HTA':        [['Work', 'Producer'],                         ['Production', 'Optical Films']],
-    'Ubin Kakis':              [['Work', 'Producer'],                         ['Production', 'Optical Films']],
-    'Foodflix':                [['Work', 'Assistant Producer'],               ['Production', 'Optical Films']],
-    // Weddings
-    'Ryan + Cheryl':      [['Work', 'Project Lead | 1st Videographer | Editor'], ['Production', 'AndroidsinBoots']],
-    'Yi Chang + Clara':   [['Work', 'Project Lead | 1st Videographer | Editor'], ['Production', 'AndroidsinBoots']],
-    'Mel + Jadey':        [['Work', '2nd Videographer | Editor'],                ['Production', 'AndroidsinBoots']],
-    'Weilun + Sandy':     [['Work', 'Project Lead | 1st Videographer'],          ['Production', 'AndroidsinBoots']],
-    'Ivan + Jocelyn':     [['Work', 'Project Lead | 1st Videographer | Editor'], ['Production', 'AndroidsinBoots']],
-    'Wilson + Chelsea':   [['Work', '2nd Videographer | Editor'],                ['Production', 'AndroidsinBoots']],
-    'Kenneth + Natalie':  [['Work', 'Project Lead | 1st Videographer'],          ['Production', 'AndroidsinBoots']],
-    'Kyle + Ysien':       [['Work', 'Editor'],                                   ['Production', 'AndroidsinBoots']],
-    'Eugene + Annabelle': [['Work', 'Project Lead | 1st Videographer | Editor'], ['Production', 'AndroidsinBoots']],
-    'Samuel + Hui Qi':    [['Work', 'Project Lead | 1st Videographer | Editor'], ['Production', 'AndroidsinBoots']],
-    'Norman + Xin Ru':    [['Work', 'Project Lead | 1st Videographer'],          ['Production', 'AndroidsinBoots']],
-    'Nianhua + Debbie':   [['Work', 'Project Lead | 1st Videographer'],          ['Production', 'AndroidsinBoots']],
-    'Jeric + Lydia':      [['Work', 'Project Lead | 1st Videographer | Editor'], ['Production', 'AndroidsinBoots']],
-  };
-
-  // Default credits per category (fallback)
-  const CREDITS_BY_CAT = {
-    weddings: [
-      ['Cinematography', 'Chow Pei Jun'],
-      ['Direction',      'Chow Pei Jun'],
-      ['Editing',        'Chow Pei Jun'],
-      ['Colour Grade',   'Chow Pei Jun'],
-      ['Music',          'Licensed'],
-    ],
-    corporate: [
-      ['Cinematography', 'Chow Pei Jun'],
-      ['Direction',      'Chow Pei Jun'],
-      ['Editing',        'Chow Pei Jun'],
-    ],
-    'social content': [
-      ['Direction',      'Chow Pei Jun'],
-      ['Cinematography', 'Chow Pei Jun'],
-      ['Editing',        'Chow Pei Jun'],
-    ],
-    'branded content': [
-      ['Creative Direction', 'Chow Pei Jun'],
-      ['Cinematography',     'Chow Pei Jun'],
-      ['Editing',            'Chow Pei Jun'],
-      ['Colour Grade',       'Chow Pei Jun'],
-    ],
-  };
-
-  // Multi-video projects — all video URLs for the detail player section
-  const VIDEOS_BY_TITLE = {
-    'Subway Everyday Value': [
-      'videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%201_15s_16x9_Digital_Superless_Master.mp4',
-      'videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%202_15s_16x9_Digital_Superless_Master.mp4',
-      'videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%203_15s_16x9_Digital_Superless_Master.mp4',
-      'videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%204_15s_16x9_Digital_Superless_Master.mp4',
-      'videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%205_15s_16x9_Digital_Superless_Master.mp4',
-    ],
-    'Portraits of HTA': [
-      'videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_annie_%26_kanthan)%20(1080p).mp4',
-      'videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_nagoor_%26_jason)%20(1080p).mp4',
-      'videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_nicole_%26_charlene)%20(1080p).mp4',
-      'videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_sharmala_%26_taufiq)%20(1080p).mp4',
-      'videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(trailer)%20(1080p).mp4',
-    ],
-    'Age Strong': [
-      'videos/TVC/2026/Age%20Strong%20-%20HPB/260114_HPB%20AS_Meet%20the%20parents_15s_16x9_EN_Digital_Master.mp4',
-      'videos/TVC/2026/Age%20Strong%20-%20HPB/260114_HPB%20AS_Walk%20the%20talk_15s_16x9_EN_Digital_Master.mp4',
-      'videos/TVC/2026/Age%20Strong%20-%20HPB/260114_HPB%20AS_Win%20for%20yourself_15s_16x9_EN_Digital_Master.mp4',
-    ],
-  };
-
-  function getCredits(title, cat) {
-    return CREDITS_BY_TITLE[title] || CREDITS_BY_CAT[cat] || [
-      ['Cinematography', 'Chow Pei Jun'],
-      ['Direction',      'Chow Pei Jun'],
-      ['Editing',        'Chow Pei Jun'],
-    ];
-  }
-
   function openDetail(card) {
     const title    = card.dataset.title    || '';
     const category = card.dataset.category || '';
-    const thumbSrc = card.querySelector('.card-thumb')?.src || '';
+    const thumbSrc = card.dataset.thumb    || '';
+    const project  = (window._projectMap || {})[title] || {};
 
     // Badge
     catBadge.textContent = category.charAt(0).toUpperCase() + category.slice(1);
@@ -645,10 +548,15 @@ window.addEventListener('resize', () => {
     detailThumb.alt = title;
 
     // Client
-    clientEl.textContent = CLIENT_BY_TITLE[title] || '';
+    clientEl.textContent = project.client || '';
 
     // Credits
-    const rows = getCredits(title, category);
+    const defaultCredits = [
+      ['Cinematography', 'Chow Pei Jun'],
+      ['Direction',      'Chow Pei Jun'],
+      ['Editing',        'Chow Pei Jun'],
+    ];
+    const rows = project.credits || defaultCredits;
     creditsEl.innerHTML = rows.map(([label, val]) =>
       `<span class="detail-credit-label">${label}</span>` +
       `<span class="detail-credit-value">${val}</span>`
@@ -660,7 +568,7 @@ window.addEventListener('resize', () => {
     // Additional videos for multi-video projects
     const detailVideosEl = document.getElementById('detailVideos');
     if (detailVideosEl) {
-      const extraVideos = VIDEOS_BY_TITLE[title];
+      const extraVideos = project.videos;
       if (extraVideos && extraVideos.length > 0) {
         detailVideosEl.innerHTML = extraVideos.map(src =>
           `<video class="detail-video-player" controls preload="metadata" src="${src}"></video>`
