@@ -4,81 +4,180 @@
       "slot": "before",
       "title": "Vogue x MBS",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2026/Vogue%20x%20MBS/vogue-mbs.png",
-      "video": "videos/TVC/2026/Vogue%20x%20MBS/260310_VoguexMBS_35s_Digital_Master.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/vogue-x-mbs/thumb.jpg",
+      "video": "videos/TVC/vogue-x-mbs/main.mp4",
       "client": "Vogue × Marina Bay Sands",
-      "credits": [["Work", "Online | Cleanups"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Shopee VIP",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2026/Shopee%20VIP%20-%20Shopee/Screenshot%202026-04-03%20at%2010.50.16%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Shopee%20VIP%20-%20Shopee/260220_Shopee%20VIP_33s_16x9_Digital_master.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/shopee-vip/thumb.jpg",
+      "video": "videos/TVC/shopee-vip/main.mp4",
       "client": "Shopee",
-      "credits": [["Work", "Online | Look Comp | Screen Replacements | Cleanups"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Look Comp | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Kyle + Ysien",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20kyle%2Bysien.png",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/kyle-ysien/thumb.jpg",
       "video": "",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "KFC Brand Video",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2025/Brand%20Video%20-%20KFC/Screenshot%202026-04-03%20at%2011.55.08%E2%80%AFPM.png",
-      "video": "videos/TVC/2025/Brand%20Video%20-%20KFC/250829_KFC%20Brand_16x9_60s_Digital_Masters.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/brand-video-kfc/thumb.jpg",
+      "video": "videos/TVC/brand-video-kfc/main.mp4",
       "client": "KFC",
-      "credits": [["Work", "Online | Cleanups | Skin retouching"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Skin retouching"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Shopee 10.10",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2025/Shopee%2010.10%20-%20Shopee/Screenshot%202026-04-04%20at%209.17.31%E2%80%AFPM.png",
-      "video": "videos/TVC/2025/Shopee%2010.10%20-%20Shopee/251002_Shopee%2010.10_30s_16x9_Digital_Master.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/shopee-1010/thumb.jpg",
+      "video": "videos/TVC/shopee-1010/film-1.mp4",
       "client": "Shopee",
-      "credits": [["Work", "Online | Cleanups | Key & Rotoscoping | Set extensions"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Key & Rotoscoping | Set extensions"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Kenneth + Natalie",
       "category": "weddings",
-      "tags": ["weddings"],
-      "thumb": "videos/Weddings/thumbnail%20%20kenneth%2Bnatalie.png",
-      "video": "videos/Weddings/kenneth_%2B_natalie_ft._sophie_(pre-wedding_film)%20(1080p).mp4",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "videos/Weddings/kenneth-natalie/thumb.jpg",
+      "video": "videos/Weddings/kenneth-natalie/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Thrive BT",
       "category": "tvc",
-      "tags": ["tvc", "branded content"],
-      "thumb": "videos/TVC/2026/Thrive%20-%20The%20Business%20Times/Screenshot%202026-04-04%20at%209.38.07%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Thrive%20-%20The%20Business%20Times/2602011_Thrive%20BT_Main_16x9_Digital_Subless_CleanEndFrame_Master.mp4",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/thrive-bt/thumb.jpg",
+      "video": "videos/TVC/thrive-bt/main.mp4",
       "client": "The Business Times",
-      "credits": [["Work", "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Age Strong",
       "category": "tvc",
-      "tags": ["tvc", "branded content"],
-      "thumb": "videos/TVC/2026/Age%20Strong%20-%20HPB/Screenshot%202026-04-03%20at%2011.54.00%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Age%20Strong%20-%20HPB/260114_HPB%20AS_Meet%20the%20parents_15s_16x9_EN_Digital_Master.mp4",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/age-strong-hpb/thumb.jpg",
+      "video": "videos/TVC/age-strong-hpb/film-1.mp4",
       "client": "Health Promotion Board (HPB)",
-      "credits": [["Work", "Online | Screen Replacements | Cleanups"], ["Production", "Abundant Productions"]],
+      "credits": [
+        [
+          "Work",
+          "Online | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
       "videos": [
         "videos/TVC/2026/Age%20Strong%20-%20HPB/260114_HPB%20AS_Meet%20the%20parents_15s_16x9_EN_Digital_Master.mp4",
         "videos/TVC/2026/Age%20Strong%20-%20HPB/260114_HPB%20AS_Walk%20the%20talk_15s_16x9_EN_Digital_Master.mp4",
@@ -89,231 +188,514 @@
       "slot": "before",
       "title": "Kia x Discovery",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2026/Kia%20Man%20vs%20Wild%20-%20Discovery/kia-man-vs-wild-discovery.png",
-      "video": "videos/TVC/2026/Kia%20Man%20vs%20Wild%20-%20Discovery/Clean_260310_KIA%20Discovery_Main_16X9_Digital_Master.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/kia-man-vs-wild/thumb.jpg",
+      "video": "videos/TVC/kia-man-vs-wild/main.mp4",
       "client": "Kia × Discovery Channel",
-      "credits": [["Work", "Online | Cleanups | Licence Plate Replacements | Rotoscoping"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Licence Plate Replacements | Rotoscoping"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Shopee 3.3",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2026/Shopee%203.3%20-%20Shopee/Screenshot%202026-04-03%20at%2011.51.38%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Shopee%203.3%20-%20Shopee/260219_Shopee%203.3_Horror_35s_Online_16X9_Digital_Masters.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/shopee-33/thumb.jpg",
+      "video": "videos/TVC/shopee-33/main.mp4",
       "client": "Shopee",
-      "credits": [["Work", "Online | Comp | Screen Replacements | Cleanups"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Comp | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Eugene + Annabelle",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20eugene%2Bannabelle.png",
-      "video": "videos/Weddings/eugene_%2B_annabelle_(wedding_trailer)%20(Original).mp4",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/eugene-annabelle/thumb.jpg",
+      "video": "videos/Weddings/eugene-annabelle/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "before",
       "title": "Samyang Buldak Carbonara",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2026/Samyang%20Buldak%20-%20KFC/Screenshot%202026-04-03%20at%2011.52.30%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Samyang%20Buldak%20-%20KFC/260320_KFC%20Samyang_Main_16X9_Master_Digital_Clean.mov",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/samyang-buldak-kfc/thumb.jpg",
+      "video": "videos/TVC/samyang-buldak-kfc/main.mov",
       "client": "KFC",
-      "credits": [["Work", "Online | Cleanups | Skin retouching"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Skin retouching"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Foodflix",
       "category": "corporate",
-      "tags": ["corporate", "branded content", "events"],
-      "thumb": "videos/Corporate/Foodflix%20-%20SATS/Asset%2019.png",
-      "video": "videos/Corporate/Foodflix%20-%20SATS/sats__foodflix%20(1080p).mp4",
+      "tags": [
+        "corporate",
+        "branded content",
+        "events"
+      ],
+      "thumb": "videos/Corporate/foodflix-sats/thumb.jpg",
+      "video": "videos/Corporate/foodflix-sats/main.mp4",
       "client": "SATS",
-      "credits": [["Work", "Assistant Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "Assistant Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Beautés du Monde",
       "category": "events",
-      "tags": ["events", "branded content"],
-      "thumb": "videos/Events/Beaut%C3%A9s%20du%20monde%20%20-%20Cartier/Asset%2018.png",
-      "video": "videos/Events/Beaut%C3%A9s%20du%20monde%20%20-%20Cartier/cartier__beaut%C3%A9s_du_monde%20(1080p).mp4",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "videos/Events/beautes-du-monde-cartier/thumb.jpg",
+      "video": "videos/Events/beautes-du-monde-cartier/main.mp4",
       "client": "Cartier",
-      "credits": [["Work", "2nd Videographer | Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Heart of the Spirit",
       "category": "events",
-      "tags": ["events", "branded content"],
-      "thumb": "videos/Events/The%20Heart%20of%20the%20Spirit%20-%20The%20Macallan/heart-of-the-spirit-macallan.png",
-      "video": "videos/Events/The%20Heart%20of%20the%20Spirit%20-%20The%20Macallan/%5Bno%20supers%2C%20no%20logos%5D%20The%20Macallan%20The%20Heart%20Of%20The%20Spirit%20Campaign%20Film.mp4",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "videos/Events/heart-of-the-spirit-macallan/thumb.jpg",
+      "video": "videos/Events/heart-of-the-spirit-macallan/main.mp4",
       "client": "The Macallan",
-      "credits": [["Work", "1st Videographer | Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "1st Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "GoBusiness",
       "category": "corporate",
-      "tags": ["corporate", "branded content"],
-      "thumb": "videos/Corporate/GoBusiness%20-%20Govtech/Screenshot%202026-04-04%20at%2010.54.59%E2%80%AFAM.png",
-      "video": "videos/Corporate/GoBusiness%20-%20Govtech/govtech__gobusiness%20(1080p).mp4",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "videos/Corporate/gobusiness-govtech/thumb.jpg",
+      "video": "videos/Corporate/gobusiness-govtech/main.mp4",
       "client": "GovTech",
-      "credits": [["Work", "Assistant Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "Assistant Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Ryan + Cheryl",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20Ryan%2Bcheryl.png",
-      "video": "videos/Weddings/ryan_%2B_cheryl_(same-day-edit).mp4",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/ryan-cheryl/thumb.jpg",
+      "video": "videos/Weddings/ryan-cheryl/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "FAS",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2026/FAS%20-%20Shopee/Screenshot%202026-04-03%20at%2011.23.38%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/FAS%20-%20Shopee/260320_FAS_Main_16X9_Master_Subless.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/fas-shopee/thumb.jpg",
+      "video": "videos/TVC/fas-shopee/main.mp4",
       "client": "Shopee",
-      "credits": [["Work", "Online | Screen Replacements | Set Extension"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Screen Replacements | Set Extension"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Ivan + Jocelyn",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20ivan%2Bjocelyn.png",
-      "video": "videos/Weddings/ivan_%2B_jocelyn_(wedding_trailer)%20(1080p).mp4",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/ivan-jocelyn/thumb.jpg",
+      "video": "videos/Weddings/ivan-jocelyn/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Solo Sliders",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2026/Solo%20Sliders%20-%20Pizzahut/Screenshot%202026-04-03%20at%2011.51.55%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Solo%20Sliders%20-%20Pizzahut/260310_Pizzahut%20Sliders_16x9_Main_Endframe%2002_Digital_Master.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/solo-sliders-pizzahut/thumb.jpg",
+      "video": "videos/TVC/solo-sliders-pizzahut/main.mp4",
       "client": "Pizza Hut",
-      "credits": [["Work", "Online | Transitions | Tracking & Rotoscoping | Cleanups"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Transitions | Tracking & Rotoscoping | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Yi Chang + Clara",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20Yichang%2BClara.png",
-      "video": "videos/Weddings/yichang_%2B_clara_(wedding_trailer)%20(Original).mp4",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/yichang-clara/thumb.jpg",
+      "video": "videos/Weddings/yichang-clara/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Service SG",
       "category": "tvc",
-      "tags": ["tvc", "branded content"],
-      "thumb": "videos/TVC/2026/Service%20SG/Screenshot%202026-04-03%20at%2011.54.35%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Service%20SG/260213_Service%20SG_30s_EL_subless_Digital_Master_1.mp4",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/service-sg/thumb.jpg",
+      "video": "videos/TVC/service-sg/main.mp4",
       "client": "ServiceSG",
-      "credits": [["Work", "Online | Cleanups"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Wilson + Chelsea",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20wilson%2Bchelsea.png",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/wilson-chelsea/thumb.jpg",
       "video": "",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "2nd Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Progressive Wages",
       "category": "tvc",
-      "tags": ["tvc", "branded content"],
-      "thumb": "videos/TVC/2026/Progressive%20Wages%20-%20Ministry%20of%20Manpower%20%28MOM%29/Screenshot%202026-04-03%20at%2011.52.54%E2%80%AFPM.png",
-      "video": "videos/TVC/2026/Progressive%20Wages%20-%20Ministry%20of%20Manpower%20%28MOM%29/251218_MOM%20P%20Wage_60s_16x9_Digital_EL_Master.mp4",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/progressive-wages-mom/thumb.jpg",
+      "video": "videos/TVC/progressive-wages-mom/main.mp4",
       "client": "Ministry of Manpower (MOM)",
-      "credits": [["Work", "Online | Cleanups | Tracking & Rotoscoping | Graphics"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Weilun + Sandy",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20weilun%2Bsandy.png",
-      "video": "videos/Weddings/weilun_%2B_sandy_(wedding_trailer)%20(Original).mp4",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/weilun-sandy/thumb.jpg",
+      "video": "videos/Weddings/weilun-sandy/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Shopee 9.9",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2025/Shopee%209.9%20-%20Shopee/Screenshot%202026-04-03%20at%2011.55.21%E2%80%AFPM.png",
-      "video": "videos/TVC/2025/Shopee%209.9%20-%20Shopee/250826_Shopee%209.9_16x9_45s_Digital_Master.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/shopee-99/thumb.jpg",
+      "video": "videos/TVC/shopee-99/main.mp4",
       "client": "Shopee",
-      "credits": [["Work", "Online | Cleanups | Partial Key & Rotoscoping"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Partial Key & Rotoscoping"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Norman + Xin Ru",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20norman%2Bxinru.png",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/norman-xinru/thumb.jpg",
       "video": "",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Samuel + Hui Qi",
       "category": "weddings",
-      "tags": ["weddings"],
-      "thumb": "videos/Weddings/thumbnail%20%20samuel%2Bhuiqi.png",
-      "video": "videos/Weddings/samuel_%2B_huiqi_(pre-wedding_film)%20(Original).mp4",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "videos/Weddings/samuel-huiqi/thumb.jpg",
+      "video": "videos/Weddings/samuel-huiqi/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Thai Curry",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2025/Thai%20Curry%20-%20Pizzahut/Screenshot%202026-04-03%20at%2011.58.29%E2%80%AFPM.png",
-      "video": "videos/TVC/2025/Thai%20Curry%20-%20Pizzahut/250905_Pizza%20Hut%20Thai_16x9_30s_GreenCurry_NoSubs_Digtal_Master.mov",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/thai-curry-pizzahut/thumb.jpg",
+      "video": "videos/TVC/thai-curry-pizzahut/main.mov",
       "client": "Pizza Hut",
-      "credits": [["Work", "Online | Screen Replacements | Cleanups"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Nianhua + Debbie",
       "category": "weddings",
-      "tags": ["weddings"],
-      "thumb": "videos/Weddings/Screenshot%202026-04-04%20at%209.16.29%E2%80%AFPM.png",
-      "video": "videos/Weddings/nianhua_%2B_debbie_(pre-wedding_filmlet_subtitled)%20(Original).mp4",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "videos/Weddings/nianhua-debbie/thumb.jpg",
+      "video": "videos/Weddings/nianhua-debbie/main.mp4",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Subway Everyday Value",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "assets/thumbs/subway-everyday-value-subway.jpg",
-      "video": "videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%201_15s_16x9_Digital_Superless_Master.mp4",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/subway-everyday-value/thumb.jpg",
+      "video": "videos/TVC/subway-everyday-value/film-1.mp4",
       "client": "Subway",
-      "credits": [["Work", "Online | Cleanups"], ["Production", "Abundant Productions"]],
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
       "videos": [
         "videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%201_15s_16x9_Digital_Superless_Master.mp4",
         "videos/TVC/2025/Subway%20Everyday%20value%20-%20Subway/251015_Subway_Film%202_15s_16x9_Digital_Superless_Master.mp4",
@@ -324,83 +706,202 @@
     },
     {
       "slot": "after",
+      "title": "PHC 2026",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/phc-2026/thumb.jpg",
+      "video": "videos/TVC/phc-2026/main.mp4",
+      "client": "Public Hygiene Council",
+      "credits": [
+        [
+          "Work",
+          "Online | VFX | Motion Graphics"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
       "title": "Xmas",
       "category": "tvc",
-      "tags": ["tvc", "ads", "branded content"],
-      "thumb": "videos/TVC/2025/Xmas%202025%20-%20Pizzahut/Screenshot%202026-04-04%20at%2012.00.25%E2%80%AFAM.png",
-      "video": "videos/TVC/2025/Xmas%202025%20-%20Pizzahut/251030_PH%20Xmas_30s_16x9_Digital_Subless_Master.mov",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "videos/TVC/xmas-2025-pizzahut/thumb.jpg",
+      "video": "videos/TVC/xmas-2025-pizzahut/main.mov",
       "client": "Pizza Hut",
-      "credits": [["Work", "Online | Cleanups | Skin retouching"], ["Production", "Abundant Productions"]]
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Skin retouching"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Jeric + Lydia",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20jeric%2Blydia.png",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/jeric-lydia/thumb.jpg",
       "video": "",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "Project Lead | 1st Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Mel + Jadey",
       "category": "weddings",
-      "tags": ["weddings", "event coverage"],
-      "thumb": "videos/Weddings/thumbnail%20%20mel%2Bjadey.png",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "videos/Weddings/mel-jadey/thumb.jpg",
       "video": "",
       "client": "AndroidsinBoots",
-      "credits": [["Work", "2nd Videographer | Editor"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Macallan House Launch",
       "category": "events",
-      "tags": ["events", "branded content"],
-      "thumb": "videos/Events/The%20Macallan%20House%20Launch%20-%20The%20Macallan/Asset%2020.png",
-      "video": "videos/Events/The%20Macallan%20House%20Launch%20-%20The%20Macallan/the_macallan_house_launch_film%20(1080p).mp4",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "videos/Events/macallan-house-launch/thumb.jpg",
+      "video": "videos/Events/macallan-house-launch/main.mp4",
       "client": "The Macallan",
-      "credits": [["Work", "1st Videographer | Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "1st Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "The Reach VIP Launch",
       "category": "events",
-      "tags": ["events", "branded content"],
-      "thumb": "videos/Events/The%20Reach%20VIP%20Launch%20-%20The%20Macallan/Screenshot%202026-04-05%20at%2012.30.31%E2%80%AFPM.png",
-      "video": "videos/Events/The%20Reach%20VIP%20Launch%20-%20The%20Macallan/macallan__%27the_reach%27_vip_launch%20(1080p).mp4",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "videos/Events/the-reach-vip-launch/thumb.jpg",
+      "video": "videos/Events/the-reach-vip-launch/main.mp4",
       "client": "The Macallan",
-      "credits": [["Work", "2nd Videographer | Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Ritz Carlton Wedding Showcase",
       "category": "events",
-      "tags": ["events", "branded content"],
+      "tags": [
+        "events",
+        "branded content"
+      ],
       "thumb": "videos/Events/Ritz%20Carlton%20Wedding%20Showcase%20-%20Heaven%27s%20Gift/Screenshot%202026-04-05%20at%2012.20.52%E2%80%AFPM.png",
       "video": "videos/Events/Ritz%20Carlton%20Wedding%20Showcase%20-%20Heaven%27s%20Gift/(landscape)_ritz-carlton_modern_oasis_bridal_show.mp4",
       "client": "Heaven's Gift",
-      "credits": [["Work", "2nd Videographer | Producer"], ["Production", "AndroidsinBoots"]]
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "My Big Fat Web3 Wedding",
       "category": "corporate",
-      "tags": ["corporate", "branded content"],
-      "thumb": "videos/Corporate/My%20Big%20Fat%20Web3%20Wedding%20-%20VICE/Screenshot%202026-04-04%20at%2010.54.33%E2%80%AFAM.png",
-      "video": "videos/Corporate/My%20Big%20Fat%20Web3%20Wedding%20-%20VICE/Vice__My_Big_Fat_Web3_Wedding_(Trailer).mp4",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "videos/Corporate/web3-wedding-vice/thumb.jpg",
+      "video": "videos/Corporate/web3-wedding-vice/main.mp4",
       "client": "VICE",
-      "credits": [["Work", "Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     },
     {
       "slot": "after",
       "title": "Portraits of HTA",
       "category": "corporate",
-      "tags": ["corporate", "branded content"],
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
       "thumb": "videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20%28HTA%29/portraits-hta.png",
-      "video": "videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_annie_%26_kanthan)%20(1080p).mp4",
+      "video": "videos/Corporate/portraits-hta/film-1.mp4",
       "client": "Home Team Academy (HTA)",
-      "credits": [["Work", "Producer"], ["Production", "Optical Films"]],
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
       "videos": [
         "videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_annie_%26_kanthan)%20(1080p).mp4",
         "videos/Corporate/Portraits%20of%20the%20Home%20Team%20Academy%20-%20Home%20Team%20Academy%20(HTA)/home_team_academy__portraits_of_the_home_team_(featuring_nagoor_%26_jason)%20(1080p).mp4",
@@ -413,34 +914,85 @@
       "slot": "after",
       "title": "Ubin Kakis",
       "category": "corporate",
-      "tags": ["corporate", "branded content"],
-      "thumb": "videos/Corporate/Ubin%20Kakis%20-%20SMU/Asset%2022.png",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "videos/Corporate/ubin-kakis-smu/thumb.jpg",
       "video": "",
       "client": "Singapore Management University (SMU)",
-      "credits": [["Work", "Producer"], ["Production", "Optical Films"]]
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
     "weddings": [
-      ["Cinematography", "Chow Pei Jun"],
-      ["Direction",      "Chow Pei Jun"],
-      ["Editing",        "Chow Pei Jun"],
-      ["Colour Grade",   "Chow Pei Jun"],
-      ["Music",          "Licensed"]
+      [
+        "Cinematography",
+        "Chow Pei Jun"
+      ],
+      [
+        "Direction",
+        "Chow Pei Jun"
+      ],
+      [
+        "Editing",
+        "Chow Pei Jun"
+      ],
+      [
+        "Colour Grade",
+        "Chow Pei Jun"
+      ],
+      [
+        "Music",
+        "Licensed"
+      ]
     ],
     "corporate": [
-      ["Cinematography", "Chow Pei Jun"],
-      ["Direction",      "Chow Pei Jun"],
-      ["Editing",        "Chow Pei Jun"]
+      [
+        "Cinematography",
+        "Chow Pei Jun"
+      ],
+      [
+        "Direction",
+        "Chow Pei Jun"
+      ],
+      [
+        "Editing",
+        "Chow Pei Jun"
+      ]
     ],
     "events": [
-      ["Cinematography", "Chow Pei Jun"],
-      ["Direction",      "Chow Pei Jun"],
-      ["Editing",        "Chow Pei Jun"]
+      [
+        "Cinematography",
+        "Chow Pei Jun"
+      ],
+      [
+        "Direction",
+        "Chow Pei Jun"
+      ],
+      [
+        "Editing",
+        "Chow Pei Jun"
+      ]
     ],
     "tvc": [
-      ["Work",       "Online | Cleanups"],
-      ["Production", "Abundant Productions"]
+      [
+        "Work",
+        "Online | Cleanups"
+      ],
+      [
+        "Production",
+        "Abundant Productions"
+      ]
     ]
   }
 }
