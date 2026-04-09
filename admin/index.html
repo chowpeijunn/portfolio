@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0C0E1A;
+      --surface:  #13162A;
+      --surface2: #1A1E33;
+      --border:   rgba(255,255,255,0.08);
+      --text:     #E8E6DF;
+      --dim:      rgba(232,230,223,0.45);
+      --accent:   #5B7FFF;
+      --accent-h: #7A98FF;
+      --danger:   #FF5757;
+      --success:  #4CAF82;
+      --cat-tvc:        #FF6B35;
+      --cat-weddings:   #FF8FAB;
+      --cat-corporate:  #4ECDC4;
+      --cat-events:     #A78BFA;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── AUTH ──────────────────────────────────────────────────── */
+    #authScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .auth-logo {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 20px;
+    }
+
+    .auth-card h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+
+    .auth-card .subtitle {
+      color: var(--dim);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .field { display: flex; flex-direction: column; margin-bottom: 14px; }
+
+    label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--dim);
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+    select option { background: var(--surface2); }
+    textarea { resize: vertical; min-height: 72px; }
+
+    button {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-h); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--dim);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      font-size: 13px;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+    .btn-danger-ghost {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid transparent;
+      padding: 7px 12px;
+      font-size: 13px;
+    }
+    .btn-danger-ghost:hover { border-color: var(--danger); background: rgba(255,87,87,0.07); }
+
+    .btn-icon {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      padding: 5px 9px;
+      font-size: 15px;
+      line-height: 1;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .btn-icon:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+    .error-msg { color: var(--danger); font-size: 13px; margin-top: 12px; display: none; }
+    .hint { font-size: 12px; color: var(--dim); margin-top: 16px; line-height: 1.7; }
+    .hint a { color: var(--accent); text-decoration: none; }
+    .hint a:hover { text-decoration: underline; }
+
+    /* ── APP SHELL ─────────────────────────────────────────────── */
+    #appScreen { display: none; flex-direction: column; min-height: 100vh; }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      height: 58px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .header-left h1 { font-size: 15px; font-weight: 600; }
+
+    .dirty-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: none;
+      flex-shrink: 0;
+    }
+    .dirty-dot.on { display: block; }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+
+    #statusMsg {
+      font-size: 13px;
+      color: var(--dim);
+      transition: color 0.25s;
+      min-width: 80px;
+      text-align: right;
+    }
+    #statusMsg.loading { color: var(--accent); }
+    #statusMsg.success { color: var(--success); }
+    #statusMsg.error   { color: var(--danger);  }
+
+    /* ── MAIN ──────────────────────────────────────────────────── */
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .list-header-left { display: flex; align-items: center; gap: 10px; }
+
+    .list-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+    }
+
+    .count-badge {
+      font-size: 11px;
+      color: var(--dim);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 8px;
+    }
+
+    .drag-hint { font-size: 12px; color: var(--dim); }
+
+    /* ── PROJECT CARDS ─────────────────────────────────────────── */
+    #projectList { display: flex; flex-direction: column; gap: 6px; }
+
+    .proj-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+
+    .proj-card.drag-over { border-color: var(--accent); background: rgba(91,127,255,0.04); }
+    .proj-card.dragging  { opacity: 0.35; }
+
+    /* ── CARD HEADER ───────────────────────────────────────────── */
+    .card-hdr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .card-hdr:hover { background: rgba(255,255,255,0.025); }
+
+    .drag-handle {
+      font-size: 17px;
+      color: var(--dim);
+      cursor: grab;
+      padding: 2px 3px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .drag-handle:active { cursor: grabbing; }
+
+    .cat-pill {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 9px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+    .cat-tvc       { background: rgba(255,107,53,0.14); color: var(--cat-tvc); }
+    .cat-weddings  { background: rgba(255,143,171,0.14); color: var(--cat-weddings); }
+    .cat-corporate { background: rgba(78,205,196,0.14);  color: var(--cat-corporate); }
+    .cat-events    { background: rgba(167,139,250,0.14); color: var(--cat-events); }
+
+    .card-title { font-size: 14px; font-weight: 500; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .card-client { font-size: 13px; color: var(--dim); flex-shrink: 0; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .slot-pill {
+      font-size: 10px;
+      color: var(--dim);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+
+    .chevron {
+      background: none;
+      border: none;
+      color: var(--dim);
+      font-size: 17px;
+      line-height: 1;
+      padding: 2px 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s, color 0.15s;
+    }
+    .chevron:hover { color: var(--text); }
+    .proj-card.open .chevron { transform: rotate(180deg); }
+
+    /* ── EDIT FORM ─────────────────────────────────────────────── */
+    .card-form {
+      display: none;
+      padding: 20px 18px 22px;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    .proj-card.open .card-form { display: block; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .col2 { grid-column: 1 / -1; }
+
+    /* Credits */
+    .credits-list { display: flex; flex-direction: column; gap: 7px; }
+
+    .credit-row { display: flex; gap: 8px; align-items: center; }
+    .credit-row input:nth-child(1) { flex: 0 0 150px; }
+    .credit-row input:nth-child(2) { flex: 1; }
+
+    /* Videos */
+    .video-list { display: flex; flex-direction: column; gap: 7px; }
+    .video-row  { display: flex; gap: 8px; align-items: center; }
+    .video-row input { flex: 1; font-size: 12px; font-family: monospace; }
+
+    .add-row-btn {
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--dim);
+      font-family: inherit;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.15s;
+    }
+    .add-row-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .form-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ADD BUTTON ────────────────────────────────────────────── */
+    #addBtn {
+      width: 100%;
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--dim);
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.15s;
+    }
+    #addBtn:hover { border-color: var(--accent); color: var(--accent); background: rgba(91,127,255,0.04); }
+  </style>
+</head>
+<body>
+
+<!-- ── AUTH SCREEN ────────────────────────────────────────────── -->
+<div id="authScreen">
+  <div class="auth-card">
+    <p class="auth-logo">Chow Pei Jun · Portfolio</p>
+    <h1>Admin</h1>
+    <p class="subtitle">Connect with a GitHub token to edit your portfolio content. The token never leaves your browser — it goes directly to GitHub's API.</p>
+
+    <div class="field">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="patInput" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="field">
+      <label>Branch</label>
+      <input type="text" id="branchInput" value="main" placeholder="main">
+    </div>
+
+    <button class="btn-primary" id="connectBtn" style="width:100%; margin-top:4px">Connect →</button>
+    <p class="error-msg" id="authError"></p>
+
+    <p class="hint">
+      Generate a token at GitHub → Settings → Developer Settings →
+      <a href="https://github.com/settings/tokens" target="_blank">Personal Access Tokens (Fine-grained)</a>.
+      Grant <strong>Contents: Read &amp; Write</strong> for the <code>chowpeijunn/portfolio</code> repo.
+    </p>
+  </div>
+</div>
+
+<!-- ── APP SCREEN ─────────────────────────────────────────────── -->
+<div id="appScreen">
+  <header>
+    <div class="header-left">
+      <h1>Portfolio Admin</h1>
+      <div class="dirty-dot" id="dirtyDot" title="Unsaved changes"></div>
+    </div>
+    <div class="header-right">
+      <span id="statusMsg"></span>
+      <button class="btn-primary" id="saveBtn" disabled>Save Changes</button>
+      <button class="btn-ghost"   id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="list-header">
+      <div class="list-header-left">
+        <span class="list-title">Projects</span>
+        <span class="count-badge" id="countBadge">0</span>
+      </div>
+      <span class="drag-hint">⠿ drag to reorder</span>
+    </div>
+
+    <div id="projectList"></div>
+    <button id="addBtn">+ Add project</button>
+  </main>
+</div>
+
+<script>
+/* ── CONFIG ──────────────────────────────────────────────────── */
+const REPO = 'chowpeijunn/portfolio';
+const GH   = 'https://api.github.com';
+
+/* ── STATE ───────────────────────────────────────────────────── */
+let _pat    = '';
+let _branch = 'main';
+let _sha    = '';
+let _data   = null;
+let _dirty  = false;
+let _dragI  = null;
+
+/* ── STORAGE ─────────────────────────────────────────────────── */
+function loadStorage() {
+  _pat    = localStorage.getItem('pj_admin_pat')    || '';
+  _branch = localStorage.getItem('pj_admin_branch') || 'main';
+}
+function saveStorage() {
+  localStorage.setItem('pj_admin_pat',    _pat);
+  localStorage.setItem('pj_admin_branch', _branch);
+}
+function clearStorage() {
+  localStorage.removeItem('pj_admin_pat');
+  localStorage.removeItem('pj_admin_branch');
+}
+
+/* ── GITHUB API ──────────────────────────────────────────────── */
+function ghFetch(path, opts = {}) {
+  return fetch(`${GH}${path}`, {
+    ...opts,
+    headers: {
+      Authorization: `token ${_pat}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+      ...(opts.headers || {}),
+    },
+  });
+}
+
+async function loadData() {
+  const res  = await ghFetch(`/repos/${REPO}/contents/data.json?ref=${_branch}`);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(res.status === 401 ? 'Invalid token.' : res.status === 404 ? `data.json not found on branch "${_branch}".` : err.message || `Error ${res.status}`);
+  }
+  const json  = await res.json();
+  _sha  = json.sha;
+  // GitHub returns base64 with newlines
+  const raw   = json.content.replace(/\n/g, '');
+  _data = JSON.parse(decodeURIComponent(escape(atob(raw))));
+}
+
+async function saveToGitHub() {
+  // Refresh SHA to avoid conflicts
+  const headRes  = await ghFetch(`/repos/${REPO}/contents/data.json?ref=${_branch}`);
+  const headJson = await headRes.json();
+  _sha = headJson.sha;
+
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(_data, null, 2))));
+
+  const res = await ghFetch(`/repos/${REPO}/contents/data.json`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      message: 'Update portfolio content via admin UI',
+      content: encoded,
+      sha:    _sha,
+      branch: _branch,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Save failed (${res.status})`);
+  }
+  const saved = await res.json();
+  _sha = saved.content.sha;
+}
+
+/* ── AUTH ────────────────────────────────────────────────────── */
+async function connect() {
+  const pat    = document.getElementById('patInput').value.trim();
+  const branch = document.getElementById('branchInput').value.trim() || 'main';
+  const errEl  = document.getElementById('authError');
+  const btn    = document.getElementById('connectBtn');
+
+  if (!pat) { showAuthErr('Please enter a token.'); return; }
+
+  btn.disabled    = true;
+  btn.textContent = 'Connecting…';
+  errEl.style.display = 'none';
+
+  _pat    = pat;
+  _branch = branch;
+
+  try {
+    await loadData();
+    saveStorage();
+    showApp();
+  } catch (e) {
+    _pat = '';
+    showAuthErr(e.message || 'Connection failed.');
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = 'Connect →';
+  }
+}
+
+function showAuthErr(msg) {
+  const el = document.getElementById('authError');
+  el.textContent  = msg;
+  el.style.display = 'block';
+}
+
+function logout() {
+  clearStorage();
+  _pat = _branch = _sha = '';
+  _data  = null;
+  _dirty = false;
+  document.getElementById('appScreen').style.display  = 'none';
+  document.getElementById('authScreen').style.display = 'flex';
+}
+
+/* ── APP ─────────────────────────────────────────────────────── */
+function showApp() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display  = 'flex';
+  setDirty(false);
+  renderList();
+  setStatus('');
+}
+
+function setStatus(msg, type = '') {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className   = type;
+}
+
+function setDirty(val) {
+  _dirty = val;
+  document.getElementById('dirtyDot').classList.toggle('on', val);
+  document.getElementById('saveBtn').disabled = !val;
+}
+
+async function handleSave() {
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = 'Saving…';
+  btn.disabled    = true;
+  setStatus('Saving…', 'loading');
+
+  try {
+    await saveToGitHub();
+    setStatus('Saved ✓', 'success');
+    setDirty(false);
+    setTimeout(() => setStatus(''), 3000);
+  } catch (e) {
+    setStatus(e.message, 'error');
+    btn.disabled = false;
+  } finally {
+    btn.textContent = 'Save Changes';
+  }
+}
+
+/* ── RENDER ──────────────────────────────────────────────────── */
+function renderList() {
+  const list = document.getElementById('projectList');
+  list.innerHTML = '';
+  document.getElementById('countBadge').textContent = _data.projects.length;
+
+  _data.projects.forEach((p, i) => list.appendChild(buildCard(p, i)));
+}
+
+function buildCard(p, i) {
+  const card = document.createElement('div');
+  card.className = 'proj-card';
+
+  /* ── header ── */
+  const hdr = document.createElement('div');
+  hdr.className = 'card-hdr';
+  hdr.innerHTML = `
+    <span class="drag-handle" draggable="true" title="Drag to reorder">⠿</span>
+    <span class="cat-pill cat-${escH(p.category)}">${escH(p.category)}</span>
+    <span class="card-title">${escH(p.title)}</span>
+    <span class="card-client">${escH(p.client || '')}</span>
+    <span class="slot-pill">${escH(p.slot)}</span>
+    <button class="chevron" title="Edit">▾</button>
+  `;
+
+  // toggle open
+  hdr.addEventListener('click', e => {
+    if (e.target.closest('.drag-handle')) return;
+    card.classList.toggle('open');
+  });
+
+  // drag-and-drop
+  const handle = hdr.querySelector('.drag-handle');
+  handle.addEventListener('dragstart', e => {
+    _dragI = i;
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  handle.addEventListener('dragend', () => card.classList.remove('dragging'));
+  card.addEventListener('dragover',  e => { e.preventDefault(); card.classList.add('drag-over'); });
+  card.addEventListener('dragleave', ()  => card.classList.remove('drag-over'));
+  card.addEventListener('drop', e => {
+    e.preventDefault();
+    card.classList.remove('drag-over');
+    if (_dragI !== null && _dragI !== i) {
+      const [moved] = _data.projects.splice(_dragI, 1);
+      _data.projects.splice(i, 0, moved);
+      setDirty(true);
+      renderList();
+    }
+    _dragI = null;
+  });
+
+  /* ── form ── */
+  const form = document.createElement('div');
+  form.className = 'card-form';
+  form.innerHTML = formHTML(p);
+
+  // wire credits
+  form.querySelector('.add-credit').addEventListener('click', () => {
+    const row = makeCreditRow('', '');
+    form.querySelector('.credits-list').appendChild(row);
+  });
+  form.querySelectorAll('.credit-row').forEach(wireRemove);
+
+  // wire videos
+  form.querySelector('.add-video').addEventListener('click', () => {
+    const row = makeVideoRow('');
+    form.querySelector('.video-list').appendChild(row);
+  });
+  form.querySelectorAll('.video-row').forEach(wireRemove);
+
+  // apply / delete
+  form.querySelector('.apply-btn').addEventListener('click', () => {
+    applyForm(form, i);
+  });
+  form.querySelector('.delete-btn').addEventListener('click', () => {
+    if (confirm(`Delete "${p.title}"?`)) {
+      _data.projects.splice(i, 1);
+      setDirty(true);
+      renderList();
+    }
+  });
+
+  card.appendChild(hdr);
+  card.appendChild(form);
+  return card;
+}
+
+function formHTML(p) {
+  const cats = ['tvc','weddings','corporate','events'];
+
+  const creditRows = (p.credits || []).map(([l, v]) => creditRowHTML(l, v)).join('');
+  const videoRows  = (p.videos  || []).map(v => videoRowHTML(v)).join('');
+
+  return `
+    <div class="form-grid">
+      <div class="field">
+        <label>Title</label>
+        <input class="f-title" type="text" value="${escA(p.title || '')}">
+      </div>
+      <div class="field">
+        <label>Client / Brand</label>
+        <input class="f-client" type="text" value="${escA(p.client || '')}">
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select class="f-cat">
+          ${cats.map(c => `<option value="${c}" ${p.category===c?'selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Position</label>
+        <select class="f-slot">
+          <option value="before" ${p.slot==='before'?'selected':''}>Before hub</option>
+          <option value="after"  ${p.slot==='after' ?'selected':''}>After hub</option>
+        </select>
+      </div>
+      <div class="field col2">
+        <label>Tags (comma-separated)</label>
+        <input class="f-tags" type="text" value="${escA(Array.isArray(p.tags) ? p.tags.join(', ') : (p.tags||''))}">
+      </div>
+      <div class="field col2">
+        <label>Thumbnail path</label>
+        <input class="f-thumb" type="text" value="${escA(p.thumb||'')}" style="font-family:monospace;font-size:12px">
+      </div>
+      <div class="field col2">
+        <label>Main video path (hover preview on card)</label>
+        <input class="f-video" type="text" value="${escA(p.video||'')}" style="font-family:monospace;font-size:12px">
+      </div>
+      <div class="field col2">
+        <label>Credits</label>
+        <div class="credits-list">${creditRows}</div>
+        <button type="button" class="add-row-btn add-credit">+ Add credit row</button>
+      </div>
+      <div class="field col2">
+        <label>Additional videos <span style="font-weight:400;text-transform:none;letter-spacing:0">(multi-film projects only — one path per line)</span></label>
+        <div class="video-list">${videoRows}</div>
+        <button type="button" class="add-row-btn add-video">+ Add video</button>
+      </div>
+    </div>
+    <div class="form-footer">
+      <button type="button" class="btn-danger-ghost delete-btn">Delete project</button>
+      <button type="button" class="btn-primary apply-btn">Apply changes</button>
+    </div>
+  `;
+}
+
+function creditRowHTML(label, val) {
+  return `<div class="credit-row">
+    <input type="text" placeholder="Label (e.g. Work)" value="${escA(label||'')}">
+    <input type="text" placeholder="Value (e.g. Online | Cleanups)" value="${escA(val||'')}">
+    <button type="button" class="btn-icon remove-btn" title="Remove">×</button>
+  </div>`;
+}
+
+function videoRowHTML(src) {
+  return `<div class="video-row">
+    <input type="text" placeholder="videos/TVC/..." value="${escA(src||'')}">
+    <button type="button" class="btn-icon remove-btn" title="Remove">×</button>
+  </div>`;
+}
+
+function makeCreditRow(l, v) {
+  const wrap = document.createElement('div');
+  wrap.innerHTML = creditRowHTML(l, v);
+  const row = wrap.firstElementChild;
+  wireRemove(row);
+  return row;
+}
+
+function makeVideoRow(src) {
+  const wrap = document.createElement('div');
+  wrap.innerHTML = videoRowHTML(src);
+  const row = wrap.firstElementChild;
+  wireRemove(row);
+  return row;
+}
+
+function wireRemove(row) {
+  const btn = row.querySelector('.remove-btn');
+  if (btn) btn.addEventListener('click', () => row.remove());
+}
+
+function applyForm(form, i) {
+  const g = sel => form.querySelector(sel);
+
+  const tags = g('.f-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+
+  const credits = [];
+  form.querySelectorAll('.credit-row').forEach(row => {
+    const [a, b] = row.querySelectorAll('input');
+    if (a.value.trim() || b.value.trim()) credits.push([a.value.trim(), b.value.trim()]);
+  });
+
+  const videos = [];
+  form.querySelectorAll('.video-row input').forEach(inp => {
+    if (inp.value.trim()) videos.push(inp.value.trim());
+  });
+
+  const updated = {
+    ...(_data.projects[i]),
+    slot:     g('.f-slot').value,
+    title:    g('.f-title').value.trim(),
+    category: g('.f-cat').value,
+    tags,
+    thumb:    g('.f-thumb').value.trim(),
+    video:    g('.f-video').value.trim(),
+    client:   g('.f-client').value.trim(),
+    credits,
+  };
+
+  if (videos.length) {
+    updated.videos = videos;
+  } else {
+    delete updated.videos;
+  }
+
+  _data.projects[i] = updated;
+  setDirty(true);
+  renderList();
+}
+
+/* ── ADD PROJECT ─────────────────────────────────────────────── */
+function addProject() {
+  _data.projects.push({
+    slot: 'after', title: 'New Project', category: 'tvc',
+    tags: ['tvc'], thumb: '', video: '', client: '',
+    credits: [['Work', ''], ['Production', '']],
+  });
+  setDirty(true);
+  renderList();
+  // auto-open the new card and scroll to it
+  const cards = document.querySelectorAll('.proj-card');
+  const last  = cards[cards.length - 1];
+  last.classList.add('open');
+  last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ── UTILS ───────────────────────────────────────────────────── */
+function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escA(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+
+/* ── INIT ────────────────────────────────────────────────────── */
+document.getElementById('connectBtn').addEventListener('click', connect);
+document.getElementById('patInput').addEventListener('keydown', e => { if (e.key === 'Enter') connect(); });
+document.getElementById('saveBtn').addEventListener('click', handleSave);
+document.getElementById('logoutBtn').addEventListener('click', logout);
+document.getElementById('addBtn').addEventListener('click', addProject);
+
+loadStorage();
+
+if (_pat) {
+  // auto-reconnect with stored credentials
+  document.getElementById('patInput').value    = _pat;
+  document.getElementById('branchInput').value = _branch;
+  setStatus('Loading…', 'loading');
+  loadData()
+    .then(() => showApp())
+    .catch(() => {
+      // token may have expired — show auth
+      document.getElementById('appScreen').style.display  = 'none';
+      document.getElementById('authScreen').style.display = 'flex';
+    });
+} else {
+  document.getElementById('branchInput').value = _branch;
+}
+</script>
+</body>
+</html>
