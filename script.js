@@ -19,7 +19,7 @@ function getYouTubeId(url) {
 
 function getYouTubeThumbnail(url) {
   const id = getYouTubeId(url);
-  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+  return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : '';
 }
 
 function renderCards(projects) {
