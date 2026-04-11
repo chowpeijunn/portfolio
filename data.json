@@ -54,7 +54,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/wedding-01.jpg",
+      "thumb": "https://img.youtube.com/vi/NehXTHu9H1s/hqdefault.jpg",
       "video": "https://youtu.be/NehXTHu9H1s",
       "client": "AndroidsinBoots",
       "credits": [
@@ -121,7 +121,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/kenneth-natalie.jpg",
+      "thumb": "https://img.youtube.com/vi/zQPagPyOaLA/hqdefault.jpg",
       "video": "https://youtu.be/zQPagPyOaLA",
       "client": "AndroidsinBoots",
       "credits": [
@@ -192,7 +192,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/kia-man-vs-wild-discovery.jpg",
+      "thumb": "https://img.youtube.com/vi/ykw1c318hOY/hqdefault.jpg",
       "video": "https://youtu.be/ykw1c318hOY",
       "client": "Kia × Discovery Channel",
       "credits": [
@@ -237,7 +237,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/eugene-annabelle.jpg",
+      "thumb": "https://img.youtube.com/vi/aN7I7F1gPnI/hqdefault.jpg",
       "video": "https://youtu.be/aN7I7F1gPnI",
       "client": "AndroidsinBoots",
       "credits": [
@@ -327,7 +327,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.jpg",
+      "thumb": "https://img.youtube.com/vi/w7In-QMwguo/hqdefault.jpg",
       "video": "https://youtu.be/w7In-QMwguo",
       "client": "The Macallan",
       "credits": [
@@ -371,7 +371,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/ryan-cheryl.jpg",
+      "thumb": "https://img.youtube.com/vi/R_Y8V4YaEhU/hqdefault.jpg",
       "video": "https://youtu.be/R_Y8V4YaEhU",
       "client": "AndroidsinBoots",
       "credits": [
@@ -416,7 +416,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/ivan-jocelyn.jpg",
+      "thumb": "https://img.youtube.com/vi/7YCSG7n4Q3s/hqdefault.jpg",
       "video": "https://youtu.be/7YCSG7n4Q3s",
       "client": "AndroidsinBoots",
       "credits": [
@@ -461,7 +461,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/yichang-clara.jpg",
+      "thumb": "https://img.youtube.com/vi/pcUNC46vu-s/hqdefault.jpg",
       "video": "https://youtu.be/pcUNC46vu-s",
       "client": "AndroidsinBoots",
       "credits": [
@@ -472,28 +472,6 @@
         [
           "Production",
           "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Service SG",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/service-sg.jpg",
-      "video": "videos/TVC/2026/Service%20SG/260213_Service%20SG_30s_EL_subless_Digital_Master_1.mp4",
-      "client": "ServiceSG",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
         ]
       ]
     },
@@ -549,7 +527,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/weilun-sandy.jpg",
+      "thumb": "https://img.youtube.com/vi/If-L6E2CqMg/hqdefault.jpg",
       "video": "https://youtu.be/If-L6E2CqMg",
       "client": "AndroidsinBoots",
       "credits": [
@@ -733,7 +711,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/jeric-lydia.jpg",
+      "thumb": "https://img.youtube.com/vi/sWIkJ65nBt4/hqdefault.jpg",
       "video": "https://youtu.be/sWIkJ65nBt4",
       "client": "AndroidsinBoots",
       "credits": [
@@ -777,7 +755,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/macallan-house-launch.jpg",
+      "thumb": "https://img.youtube.com/vi/mW5OixOzaN8/hqdefault.jpg",
       "video": "https://youtu.be/mW5OixOzaN8",
       "client": "The Macallan",
       "credits": [
@@ -821,7 +799,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/wedding-04.jpg",
+      "thumb": "https://img.youtube.com/vi/qSGJ6Qo-NdA/hqdefault.jpg",
       "video": "https://youtu.be/qSGJ6Qo-NdA",
       "client": "Heaven's Gift",
       "credits": [
@@ -865,7 +843,7 @@
         "corporate",
         "branded content"
       ],
-      "thumb": "assets/thumbs/portraits-hta.jpg",
+      "thumb": "https://img.youtube.com/vi/m2RVVT-VFZ4/hqdefault.jpg",
       "video": "https://youtu.be/m2RVVT-VFZ4",
       "client": "Home Team Academy (HTA)",
       "credits": [

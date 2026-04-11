@@ -9,6 +9,19 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function getYouTubeId(url) {
+  if (!url) return '';
+  if (url.includes('youtu.be/'))    return url.split('youtu.be/')[1].split('?')[0];
+  if (url.includes('/shorts/'))     return url.split('/shorts/')[1].split('?')[0];
+  if (url.includes('watch?v='))     return url.split('watch?v=')[1].split('&')[0];
+  return '';
+}
+
+function getYouTubeThumbnail(url) {
+  const id = getYouTubeId(url);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+}
+
 function renderCards(projects) {
   const hub = document.getElementById('centerHub');
   if (!hub) return;
@@ -20,14 +33,25 @@ function renderCards(projects) {
   function makeCard(p) {
     const catDisplay = p.category.charAt(0).toUpperCase() + p.category.slice(1);
     const tags = Array.isArray(p.tags) ? p.tags.join(',') : (p.tags || '');
-    return `<a href="project.html" class="project-card" ` +
+    const thumbSrc = p.thumb || '';
+    const ytFallback = getYouTubeThumbnail(p.video || '');
+    const isYT = (p.video || '').includes('youtu');
+    // Only include <video> for local (non-YouTube) sources
+    const videoEl = (!isYT && p.video)
+      ? `<video class="card-video" muted loop playsinline preload="none" src="${escapeHtml(p.video)}"></video>`
+      : '';
+    const onerrorAttr = ytFallback
+      ? ` onerror="this.onerror=null;this.src='${ytFallback}'"`
+      : '';
+    return `<a href="#" class="project-card" ` +
       `data-category="${escapeHtml(p.category)}" ` +
       `data-tags="${escapeHtml(tags)}" ` +
       `data-title="${escapeHtml(p.title)}" ` +
-      `data-thumb="${escapeHtml(p.thumb || '')}">` +
+      `data-thumb="${escapeHtml(thumbSrc)}" ` +
+      `data-video="${escapeHtml(p.video || '')}">` +
       `<div class="card-media">` +
-      `<img class="card-thumb" src="${p.thumb || ''}" alt="${escapeHtml(p.title)}" loading="lazy">` +
-      `<video class="card-video" muted loop playsinline preload="none" src="${p.video || ''}"></video>` +
+      `<img class="card-thumb" src="${thumbSrc}" alt="${escapeHtml(p.title)}" loading="lazy"${onerrorAttr}>` +
+      videoEl +
       `<div class="card-info">` +
       `<span class="card-info-title">${escapeHtml(p.title)}</span>` +
       `<span class="card-info-cat">${catDisplay}</span>` +
@@ -162,6 +186,7 @@ function centerOnHub(smooth) {
   // Horizontal: center the hub card
   const offsetX = window.innerWidth / 2 - hub.offsetLeft - hub.offsetWidth / 2;
   const offsetY = window.innerHeight / 2 - hubCenterY;
+  inner._hubCenterTx = offsetX; // store so clamp can allow this position
 
   if (smooth) {
     inner.classList.remove('no-transition');
@@ -251,10 +276,10 @@ window.addEventListener('resize', () => {
     const viewW = window.innerWidth;
     const viewH = window.innerHeight;
 
-    // Horizontal: inner is 100vw (border-box), padding provides the 14px gap.
-    // Allow panning only when content is wider than viewport; otherwise lock to 0.
-    const minX = Math.min(0, viewW - innerW);
-    const maxX = Math.max(0, viewW - innerW);
+    // Horizontal: allow panning to hub-centered position and back to natural 0
+    const hubTx = inner._hubCenterTx || 0;
+    const minX = Math.min(0, viewW - innerW, hubTx);
+    const maxX = Math.max(0, viewW - innerW, hubTx);
     const minY = viewH - innerH - 14;
     const maxY = 14;
 
@@ -453,17 +478,38 @@ window.addEventListener('resize', () => {
    ============================================ */
 function initHoverToPlay() {
   document.querySelectorAll('.project-card').forEach((card) => {
-    const video = card.querySelector('.card-video');
-    if (!video) return;
+    const media = card.querySelector('.card-media');
+    const videoUrl = card.dataset.video || '';
+    const ytId = getYouTubeId(videoUrl);
 
-    card.addEventListener('mouseenter', () => {
-      video.play().catch(() => {});
-    });
+    if (ytId) {
+      // YouTube: inject muted autoplay iframe on hover
+      let hoverIframe = null;
 
-    card.addEventListener('mouseleave', () => {
-      video.pause();
-      video.currentTime = 0;
-    });
+      card.addEventListener('mouseenter', () => {
+        if (hoverIframe) return;
+        hoverIframe = document.createElement('iframe');
+        hoverIframe.className = 'card-hover-iframe';
+        hoverIframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&rel=0&playsinline=1`;
+        hoverIframe.allow = 'autoplay; encrypted-media';
+        hoverIframe.setAttribute('frameborder', '0');
+        media.appendChild(hoverIframe);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (hoverIframe) {
+          hoverIframe.src = '';
+          hoverIframe.remove();
+          hoverIframe = null;
+        }
+      });
+    } else {
+      // Local video
+      const video = card.querySelector('.card-video');
+      if (!video || !video.getAttribute('src')) return;
+      card.addEventListener('mouseenter', () => video.play().catch(() => {}));
+      card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+    }
   });
 }
 
@@ -535,16 +581,21 @@ function initFilter() {
   }
 
   function youtubeEmbedUrl(url) {
-    let id = '';
-    if (url.includes('youtu.be/'))      id = url.split('youtu.be/')[1].split('?')[0];
-    else if (url.includes('/shorts/'))  id = url.split('/shorts/')[1].split('?')[0];
-    else if (url.includes('watch?v='))  id = url.split('watch?v=')[1].split('&')[0];
+    const id = getYouTubeId(url);
     return id ? `https://www.youtube.com/embed/${id}?rel=0` : '';
   }
 
   function makeVideoEl(src) {
     if (isYouTube(src)) {
       return `<iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
+    }
+    return `<video class="detail-video-player" controls preload="metadata" src="${src}"></video>`;
+  }
+
+  // For extra videos: wrapped in 16:9 container
+  function makeExtraVideoEl(src) {
+    if (isYouTube(src)) {
+      return `<div class="detail-video-wrap"><iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>`;
     }
     return `<video class="detail-video-player" controls preload="metadata" src="${src}"></video>`;
   }
@@ -593,7 +644,7 @@ function initFilter() {
     if (detailVideosEl) {
       const extraVideos = project.videos;
       if (extraVideos && extraVideos.length > 0) {
-        detailVideosEl.innerHTML = extraVideos.map(makeVideoEl).join('');
+        detailVideosEl.innerHTML = extraVideos.map(makeExtraVideoEl).join('');
         detailVideosEl.style.display = 'flex';
       } else {
         detailVideosEl.innerHTML = '';
