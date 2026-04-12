@@ -25,29 +25,6 @@
     },
     {
       "slot": "before",
-      "title": "Shopee VIP",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
-      "video": "https://youtu.be/LJYTB7AMaBU",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Look Comp | Screen Replacements | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
       "title": "Kyle + Ysien",
       "category": "weddings",
       "tags": [
@@ -734,7 +711,7 @@
         "branded content"
       ],
       "thumb": "assets/thumbs/subway-everyday-value-subway.jpg",
-      "video": "https://youtu.be/ctTDm78mtb0",
+      "video": "https://youtu.be/Qfl1X_e0Tg0",
       "client": "Subway",
       "credits": [
         [
@@ -750,7 +727,7 @@
         "https://youtu.be/LSS3UVMVNW8",
         "https://youtu.be/gpHyY3bNluA",
         "https://youtu.be/vMiF_H_6BJ4",
-        "https://youtu.be/Qfl1X_e0Tg0"
+        "https://youtu.be/ctTDm78mtb0 "
       ]
     },
     {
@@ -861,6 +838,29 @@
         [
           "Production",
           "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Shopee VIP",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
+      "video": "https://youtu.be/LJYTB7AMaBU",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Look Comp | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
         ]
       ]
     },
