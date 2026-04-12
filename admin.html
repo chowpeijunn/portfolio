@@ -664,6 +664,16 @@ function toggleTag(tag, checked) {
   if (checked) { if (!p.tags.includes(tag)) p.tags.push(tag); }
   else { p.tags = p.tags.filter(t => t !== tag); }
   markDirty();
+  // Re-render tags row so active state updates visually
+  const tagsRow = document.querySelector('.tags-row');
+  if (tagsRow) {
+    tagsRow.innerHTML = ALL_TAGS.map(t => {
+      const active = (p.tags || []).includes(t);
+      return `<label class="tag-chip ${active ? 'active' : ''}">
+        <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTag('${t}', this.checked)"> ${t}
+      </label>`;
+    }).join('');
+  }
 }
 
 function applyThumbUrl(val) {
