@@ -67,28 +67,6 @@
     },
     {
       "slot": "before",
-      "title": "My Big Fat Web3 Wedding",
-      "category": "corporate",
-      "tags": [
-        "corporate",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/web3-wedding-vice.jpg",
-      "video": "https://youtu.be/78rS5DGiOJc",
-      "client": "VICE",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
       "title": "PHC 2026",
       "category": "tvc",
       "tags": [
@@ -106,6 +84,28 @@
         [
           "Production",
           "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "My Big Fat Web3 Wedding",
+      "category": "corporate",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/web3-wedding-vice.jpg",
+      "video": "https://youtu.be/78rS5DGiOJc",
+      "client": "VICE",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
         ]
       ]
     },
