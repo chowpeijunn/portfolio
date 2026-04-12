@@ -66,28 +66,6 @@
       ]
     },
     {
-      "slot": "after",
-      "title": "Ubin Kakis",
-      "category": "corporate",
-      "tags": [
-        "corporate",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
-      "video": "https://youtu.be/Z_xkK-XQdoY",
-      "client": "Singapore Management University (SMU)",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
       "slot": "before",
       "title": "KFC Brand Video",
       "category": "tvc",
@@ -103,72 +81,6 @@
         [
           "Work",
           "Online | Cleanups | Skin retouching"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Heart of the Spirit",
-      "category": "events",
-      "tags": [
-        "events",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
-      "video": "https://youtu.be/w7In-QMwguo",
-      "client": "The Macallan",
-      "credits": [
-        [
-          "Work",
-          "1st Videographer | Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Mel + Jadey",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/me-jadey.jpg",
-      "video": "https://youtu.be/OoNk_WGmhW8",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
-      "title": "Shopee 10.10",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
-      "video": "https://youtu.be/1VhaWAZnVWc",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Key & Rotoscoping | Set extensions"
         ],
         [
           "Production",
@@ -198,50 +110,6 @@
       ]
     },
     {
-      "slot": "after",
-      "title": "Beautés du Monde",
-      "category": "events",
-      "tags": [
-        "events",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/beautes-du-monde-cartier.jpg",
-      "video": "https://youtu.be/x5JmeDIf0V8",
-      "client": "Cartier",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
-      "title": "Thrive BT",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/thrive-bt-thumbnail.png",
-      "video": "https://youtu.be/-iNtE4e-l4A",
-      "client": "The Business Times",
-      "credits": [
-        [
-          "Work",
-          "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
       "slot": "before",
       "title": "Age Strong",
       "category": "tvc",
@@ -265,34 +133,6 @@
       "videos": [
         "https://youtu.be/UxCR6cett0c",
         "https://youtu.be/L82k7Wq_4LI"
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Portraits of HTA",
-      "category": "corporate",
-      "tags": [
-        "corporate",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/portraits-hta.png",
-      "video": "https://youtu.be/m2RVVT-VFZ4",
-      "client": "Home Team Academy (HTA)",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "videos": [
-        "https://youtu.be/9IJpjz0rtU8",
-        "https://youtu.be/_JmdVs15Yb8",
-        "https://youtu.be/rf8l1mZX-II",
-        "https://youtu.be/wrJFlspDcv4"
       ]
     },
     {
@@ -357,6 +197,189 @@
         [
           "Work",
           "Online | Cleanups | Skin retouching"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Shopee VIP",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
+      "video": "https://youtu.be/LJYTB7AMaBU",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Look Comp | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Ubin Kakis",
+      "category": "corporate",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
+      "video": "https://youtu.be/Z_xkK-XQdoY",
+      "client": "Singapore Management University (SMU)",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Heart of the Spirit",
+      "category": "events",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
+      "video": "https://youtu.be/w7In-QMwguo",
+      "client": "The Macallan",
+      "credits": [
+        [
+          "Work",
+          "1st Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Mel + Jadey",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/me-jadey.jpg",
+      "video": "https://youtu.be/OoNk_WGmhW8",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Beautés du Monde",
+      "category": "events",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/beautes-du-monde-cartier.jpg",
+      "video": "https://youtu.be/x5JmeDIf0V8",
+      "client": "Cartier",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Portraits of HTA",
+      "category": "corporate",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/portraits-hta.png",
+      "video": "https://youtu.be/m2RVVT-VFZ4",
+      "client": "Home Team Academy (HTA)",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "videos": [
+        "https://youtu.be/9IJpjz0rtU8",
+        "https://youtu.be/_JmdVs15Yb8",
+        "https://youtu.be/rf8l1mZX-II",
+        "https://youtu.be/wrJFlspDcv4"
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Thrive BT",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/thrive-bt-thumbnail.png",
+      "video": "https://youtu.be/-iNtE4e-l4A",
+      "client": "The Business Times",
+      "credits": [
+        [
+          "Work",
+          "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "FAS",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/fas-shopee.jpg",
+      "video": "https://youtu.be/l3nxMXH5CLE",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Screen Replacements | Set Extension"
         ],
         [
           "Production",
@@ -474,29 +497,6 @@
     },
     {
       "slot": "after",
-      "title": "FAS",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/fas-shopee.jpg",
-      "video": "https://youtu.be/l3nxMXH5CLE",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Screen Replacements | Set Extension"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Ivan + Jocelyn",
       "category": "weddings",
       "tags": [
@@ -513,6 +513,29 @@
         [
           "Production",
           "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 10.10",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
+      "video": "https://youtu.be/1VhaWAZnVWc",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Key & Rotoscoping | Set extensions"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
         ]
       ]
     },
@@ -827,29 +850,6 @@
         [
           "Production",
           "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
-      "title": "Shopee VIP",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
-      "video": "https://youtu.be/LJYTB7AMaBU",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Look Comp | Screen Replacements | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
         ]
       ]
     },
