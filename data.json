@@ -455,12 +455,12 @@
     {
       "slot": "after",
       "title": "GoBusiness",
-      "category": "corporate",
+      "category": "tvc",
       "tags": [
-        "corporate",
-        "branded content"
+        "branded content",
+        "tvc"
       ],
-      "thumb": "assets/thumbs/gobusiness-govtech.jpg",
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
       "video": "https://youtu.be/xoIFNObpu6M",
       "client": "GovTech",
       "credits": [

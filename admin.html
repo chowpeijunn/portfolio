@@ -894,7 +894,7 @@ function setGridCols(n) {
 
 function renderGridBoard() {
   const board = document.getElementById('gridBoard');
-  // col=1 uses a 2-col grid internally: hub spans 2 rows, 2 videos stack beside it
+  // col=1: use a 2-col grid so hub is full-width, next 2 cards are half-width side by side
   const innerCols = gridCols === 1 ? 2 : gridCols;
   board.style.gridTemplateColumns = `repeat(${innerCols}, 1fr)`;
   board.innerHTML = '';
@@ -906,7 +906,8 @@ function renderGridBoard() {
     if (slot === hubIdx) {
       const hub = document.createElement('div');
       hub.className = 'gc gc-hub';
-      if (gridCols === 1) hub.style.gridRow = 'span 2';
+      // col=1: hub spans both columns (full width)
+      if (gridCols === 1) hub.style.gridColumn = '1 / -1';
       hub.innerHTML = `<div class="gc-hub-inner">
         <div class="gc-hub-name">Chow Pei Jun</div>
         <div class="gc-hub-sub">hub card</div>
@@ -938,6 +939,11 @@ function renderGridBoard() {
     const card = document.createElement('div');
     card.className = 'gc';
     card.draggable = true;
+    // col=1: all cards full-width EXCEPT the 2 immediately after hub (shown side by side)
+    if (gridCols === 1) {
+      const isRightAfterHub = orderIdx === hubIdx || orderIdx === hubIdx + 1;
+      if (!isRightAfterHub) card.style.gridColumn = '1 / -1';
+    }
 
     const thumb = p.thumb || '';
     card.innerHTML = `
