@@ -67,6 +67,28 @@
     },
     {
       "slot": "before",
+      "title": "My Big Fat Web3 Wedding",
+      "category": "corporate",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/web3-wedding-vice.jpg",
+      "video": "https://youtu.be/78rS5DGiOJc",
+      "client": "VICE",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
       "title": "PHC 2026",
       "category": "tvc",
       "tags": [
@@ -89,50 +111,22 @@
     },
     {
       "slot": "before",
-      "title": "Age Strong",
-      "category": "tvc",
+      "title": "Jeric + Lydia",
+      "category": "weddings",
       "tags": [
-        "tvc",
-        "branded content"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/age-strong-hpb.jpg",
-      "video": "https://youtu.be/_AwYPsexsco",
-      "client": "Health Promotion Board (HPB)",
+      "thumb": "assets/thumbs/thumbnail-jericlydia.png",
+      "video": "https://youtu.be/sWIkJ65nBt4",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Online | Screen Replacements | Cleanups"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "videos": [
-        "https://youtu.be/UxCR6cett0c",
-        "https://youtu.be/L82k7Wq_4LI"
-      ]
-    },
-    {
-      "slot": "before",
-      "title": "Vogue x MBS",
-      "category": "corporate",
-      "tags": [
-        "ads",
-        "branded content",
-        "corporate"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
-      "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
+          "AndroidsinBoots"
         ]
       ]
     },
@@ -211,24 +205,28 @@
     },
     {
       "slot": "before",
-      "title": "My Big Fat Web3 Wedding",
-      "category": "corporate",
+      "title": "Age Strong",
+      "category": "tvc",
       "tags": [
-        "corporate",
+        "tvc",
         "branded content"
       ],
-      "thumb": "assets/thumbs/web3-wedding-vice.jpg",
-      "video": "https://youtu.be/78rS5DGiOJc",
-      "client": "VICE",
+      "thumb": "assets/thumbs/age-strong-hpb.jpg",
+      "video": "https://youtu.be/_AwYPsexsco",
+      "client": "Health Promotion Board (HPB)",
       "credits": [
         [
           "Work",
-          "Producer"
+          "Online | Screen Replacements | Cleanups"
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
+      ],
+      "videos": [
+        "https://youtu.be/UxCR6cett0c",
+        "https://youtu.be/L82k7Wq_4LI"
       ]
     },
     {
@@ -768,22 +766,24 @@
     },
     {
       "slot": "after",
-      "title": "Jeric + Lydia",
-      "category": "weddings",
+      "title": "Vogue x MBS",
+      "category": "corporate",
       "tags": [
-        "weddings"
+        "ads",
+        "branded content",
+        "corporate"
       ],
-      "thumb": "assets/thumbs/thumbnail-jericlydia.png",
-      "video": "https://youtu.be/sWIkJ65nBt4",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
+      "video": "https://youtube.com/shorts/7phCcyXsNgo",
+      "client": "Vogue × Marina Bay Sands",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Online | Cleanups"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ]
     },
