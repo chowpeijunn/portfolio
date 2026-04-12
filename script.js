@@ -795,47 +795,46 @@ function initFilter() {
     }
   }
 
-  // Detect column count and position hub in center column
+  // Mirror CSS breakpoints exactly
+  function getGridCols() {
+    const w = window.innerWidth;
+    if (w > 1499) return 5;
+    if (w > 1099) return 4;
+    if (w > 799)  return 3;
+    return 2;
+  }
+
+  // Place hub in the centre column for the current grid
   function updateHubSpan() {
     const hub = document.getElementById('centerHub');
     if (!hub) return;
-    const cols = getComputedStyle(inner).gridTemplateColumns.split(' ').length;
-
+    const cols = getGridCols();
     if (cols <= 2) {
       hub.style.gridColumn = 'span 2';
     } else {
-      // Count items before the hub to find its natural column position
-      const children = Array.from(inner.children);
-      const hubIndex = children.indexOf(hub);
-      const naturalCol = (hubIndex % cols) + 1;
-      const targetCol = Math.ceil(cols / 2);
-
-      if (naturalCol === targetCol) {
-        // Already centered — let grid flow naturally, no gap
-        hub.style.gridColumn = '';
-      } else {
-        // Force to center column (may leave a gap, but centers hub)
-        hub.style.gridColumn = String(targetCol);
-      }
+      // 3→col2, 4→col2, 5→col3
+      hub.style.gridColumn = String(Math.ceil(cols / 2));
     }
     setTimeout(() => centerOnHub(false), 0);
   }
 
-  // Continuously capture positions
-  prevPositions = capturePositions();
   updateHubSpan();
 
-  let resizeTimeout = null;
+  // Only re-run when the column count actually crosses a breakpoint
+  let activeCols = getGridCols();
+  let resizeRAF = null;
   window.addEventListener('resize', () => {
-    // Capture before reflow
-    if (!resizeTimeout) {
-      prevPositions = capturePositions();
-    }
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      updateHubSpan();
-      animateFlip(prevPositions);
-      resizeTimeout = null;
-    }, 16);
+    cancelAnimationFrame(resizeRAF);
+    resizeRAF = requestAnimationFrame(() => {
+      const newCols = getGridCols();
+      if (newCols !== activeCols) {
+        prevPositions = capturePositions();
+        activeCols = newCols;
+        updateHubSpan();
+        animateFlip(prevPositions);
+      } else {
+        centerOnHub(false);
+      }
+    });
   });
 })();

@@ -369,19 +369,19 @@
     },
     {
       "slot": "before",
-      "title": "Heart of the Spirit",
+      "title": "Beautés du Monde",
       "category": "events",
       "tags": [
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
-      "video": "https://youtu.be/w7In-QMwguo",
-      "client": "The Macallan",
+      "thumb": "assets/thumbs/beautes-du-monde-cartier.jpg",
+      "video": "https://youtu.be/x5JmeDIf0V8",
+      "client": "Cartier",
       "credits": [
         [
           "Work",
-          "1st Videographer | Producer"
+          "2nd Videographer | Producer"
         ],
         [
           "Production",
@@ -502,19 +502,19 @@
     },
     {
       "slot": "after",
-      "title": "Beautés du Monde",
+      "title": "Heart of the Spirit",
       "category": "events",
       "tags": [
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/beautes-du-monde-cartier.jpg",
-      "video": "https://youtu.be/x5JmeDIf0V8",
-      "client": "Cartier",
+      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
+      "video": "https://youtu.be/w7In-QMwguo",
+      "client": "The Macallan",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Producer"
+          "1st Videographer | Producer"
         ],
         [
           "Production",
