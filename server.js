@@ -82,7 +82,7 @@ app.post('/api/publish', (req, res) => {
   try {
     const msg = (req.body && req.body.message) || 'Admin: update content';
     const opts = { cwd: __dirname };
-    execSync('git add data.json assets/thumbs/', opts);
+    execSync('git add -A', opts);
     // Check if there's actually anything to commit
     const status = execSync('git status --porcelain', opts).toString().trim();
     if (!status) return res.json({ ok: true, message: 'Nothing new to publish — already up to date.' });
