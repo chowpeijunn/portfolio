@@ -111,27 +111,6 @@
     },
     {
       "slot": "before",
-      "title": "Jeric + Lydia",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/thumbnail-jericlydia.png",
-      "video": "https://youtu.be/sWIkJ65nBt4",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
       "title": "Portraits of HTA",
       "category": "corporate",
       "tags": [
@@ -160,6 +139,27 @@
     },
     {
       "slot": "before",
+      "title": "Jeric + Lydia",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/thumbnail-jericlydia.png",
+      "video": "https://youtu.be/sWIkJ65nBt4",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
       "title": "Kia x Discovery",
       "category": "tvc",
       "tags": [
@@ -183,23 +183,22 @@
     },
     {
       "slot": "before",
-      "title": "Foodflix",
-      "category": "corporate",
+      "title": "Ryan + Cheryl",
+      "category": "weddings",
       "tags": [
-        "corporate",
-        "branded content"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/foodflix-sats.jpg",
-      "video": "https://youtu.be/Cw0QIlILnzY",
-      "client": "SATS",
+      "thumb": "assets/thumbs/thumbnail-ryancheryl.png",
+      "video": "https://youtu.be/R_Y8V4YaEhU",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Assistant Producer"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ]
     },
@@ -436,22 +435,23 @@
     },
     {
       "slot": "before",
-      "title": "Ryan + Cheryl",
-      "category": "weddings",
+      "title": "Foodflix",
+      "category": "corporate",
       "tags": [
-        "weddings"
+        "corporate",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/thumbnail-ryancheryl.png",
-      "video": "https://youtu.be/R_Y8V4YaEhU",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/foodflix-sats.jpg",
+      "video": "https://youtu.be/Cw0QIlILnzY",
+      "client": "SATS",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Assistant Producer"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Optical Films"
         ]
       ]
     },
