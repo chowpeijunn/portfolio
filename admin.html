@@ -327,7 +327,8 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   <span class="status-msg" id="statusMsg"></span>
   <button class="btn btn-ghost" onclick="openGridView()">⊞ Arrange</button>
   <button class="btn btn-ghost" onclick="window.open('/', '_blank')">View Site</button>
-  <button class="btn btn-primary" onclick="saveAll()">Save Changes</button>
+  <button class="btn btn-primary" onclick="saveAll()">Save</button>
+  <button class="btn" style="background:#22c55e;color:#fff" onclick="saveAndPublish()">Save &amp; Publish ↗</button>
 </div>
 
 <!-- GRID VIEW OVERLAY -->
@@ -1021,6 +1022,49 @@ async function handleUploadFile(file) {
     setTimeout(() => { if (progress) progress.classList.remove('visible'); }, 3000);
   } catch (err) {
     if (progress) { progress.textContent = 'Upload failed: ' + err.message; progress.style.color = 'var(--danger)'; }
+  }
+}
+
+// ── SAVE & PUBLISH ────────────────────────────────────────
+
+async function saveAndPublish() {
+  const msg = document.getElementById('statusMsg');
+  msg.textContent = 'Saving…';
+  msg.className = 'status-msg';
+
+  // 1. Save data.json
+  try {
+    const res = await fetch('/api/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data, null, 2)
+    });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+  } catch (e) {
+    msg.textContent = 'Save failed: ' + e.message;
+    msg.className = 'status-msg err';
+    return;
+  }
+
+  // 2. Git commit + push
+  msg.textContent = 'Publishing…';
+  try {
+    const res = await fetch('/api/publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Admin: update content' })
+    });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    dirty.clear();
+    renderList();
+    msg.textContent = '✓ ' + json.message;
+    msg.className = 'status-msg ok';
+    setTimeout(() => { msg.textContent = ''; msg.className = 'status-msg'; }, 6000);
+  } catch (e) {
+    msg.textContent = 'Publish failed: ' + e.message;
+    msg.className = 'status-msg err';
   }
 }
 

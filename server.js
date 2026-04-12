@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 const multer = require('multer');
 
 const app = express();
@@ -74,6 +75,23 @@ app.get('/api/thumbs', (req, res) => {
 app.post('/api/upload-thumb', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file received' });
   res.json({ ok: true, path: `assets/thumbs/${req.file.filename}` });
+});
+
+// Publish: git add + commit + push
+app.post('/api/publish', (req, res) => {
+  try {
+    const msg = (req.body && req.body.message) || 'Admin: update content';
+    const opts = { cwd: __dirname };
+    execSync('git add data.json assets/thumbs/', opts);
+    // Check if there's actually anything to commit
+    const status = execSync('git status --porcelain', opts).toString().trim();
+    if (!status) return res.json({ ok: true, message: 'Nothing new to publish — already up to date.' });
+    execSync(`git commit -m "${msg.replace(/"/g, "'")}"`, opts);
+    execSync('git push', opts);
+    res.json({ ok: true, message: 'Published! Vercel is deploying now (~30 seconds).' });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.listen(PORT, () => {
