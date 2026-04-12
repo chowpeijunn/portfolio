@@ -305,6 +305,17 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 }
 .gc-hub-name { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; }
 .gc-hub-sub { font-size: 10px; color: rgba(255,255,255,0.2); }
+/* 4-col: hub spans 2 cols but inner card is 1-col wide, centred */
+.gc-hub-inner-single {
+  /* 1 card wide = half of 2-col span minus half the 10px gap */
+  width: calc(50% - 5px);
+  aspect-ratio: 16/9;
+  background: #141420;
+  border: 2px dashed #333;
+  border-radius: 6px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+}
 
 /* Drop zone at end */
 .gc-drop-end {
@@ -849,10 +860,7 @@ function openGridView() {
     else before.push(i);
   });
   gridOrder = [...before, ...after];
-  // Centre hub: hub spans 2 cols, so target visual centre = (total_slots / 2)
-  // total visual slots = projects + 2 (hub spans 2). We want hubIdx projects before hub.
-  // hubIdx ≈ (gridOrder.length + 2) / 2 - 2 = gridOrder.length / 2 - 1
-  hubIdx = Math.max(0, Math.round(gridOrder.length / 2) - 1);
+  centerHubForCols();
   renderGridBoard();
   document.getElementById('gridOverlay').classList.add('visible');
   // Scroll hub into view
@@ -883,8 +891,23 @@ function applyGridView() {
   closeGridView();
 }
 
+// Centre hubIdx so the hub lands in the middle column for the current gridCols.
+// Even cols (2,4): hub spans 2 → target col-start = floor((cols-1)/2) from 0-based row start
+// Odd cols (3,5):  hub is 1-wide → same formula gives the centre column index
+function centerHubForCols() {
+  // Target column-start (0-based within its row) so hub is centred:
+  // 2→0 (span 2 fills row), 3→1 (col 2 of 3), 4→1 (span 2 at cols 2-3), 5→2 (col 3 of 5)
+  const targetMod = Math.floor((gridCols - 1) / 2);
+  const base = Math.round(gridOrder.length / 2);
+  const currentMod = base % gridCols;
+  let diff = ((targetMod - currentMod) % gridCols + gridCols) % gridCols;
+  if (diff > Math.floor(gridCols / 2)) diff -= gridCols; // pick nearest direction
+  hubIdx = Math.max(0, Math.min(gridOrder.length, base + diff));
+}
+
 function setGridCols(n) {
   gridCols = n;
+  centerHubForCols(); // re-centre when switching column count
   renderGridBoard();
   // highlight active col btn
   document.querySelectorAll('.col-btn').forEach(b => {
@@ -896,7 +919,7 @@ function setGridCols(n) {
 function renderGridBoard() {
   const board = document.getElementById('gridBoard');
   board.style.gridTemplateColumns = `repeat(${gridCols}, 1fr)`;
-  board.style.gridAutoFlow = 'dense';
+  board.style.gridAutoFlow = 'row';
   board.innerHTML = '';
 
   // Render all items in order, inserting hub at hubIdx
@@ -906,12 +929,34 @@ function renderGridBoard() {
     if (slot === hubIdx) {
       const hub = document.createElement('div');
       hub.className = 'gc gc-hub';
-      // hub always spans 2 columns
-      hub.style.gridColumn = 'span 2';
-      hub.innerHTML = `<div class="gc-hub-inner">
-        <div class="gc-hub-name">Chow Pei Jun</div>
-        <div class="gc-hub-sub">hub card</div>
-      </div>`;
+
+      if (gridCols === 2) {
+        // Full row — hub fills both columns
+        hub.style.gridColumn = 'span 2';
+        hub.innerHTML = `<div class="gc-hub-inner">
+          <div class="gc-hub-name">Chow Pei Jun</div>
+          <div class="gc-hub-sub">hub card</div>
+        </div>`;
+      } else if (gridCols === 4) {
+        // Spans 2 cols but the visible card is 1-col wide, centred inside
+        hub.style.gridColumn = 'span 2';
+        hub.style.background = 'transparent';
+        hub.style.border = 'none';
+        hub.style.overflow = 'visible';
+        hub.style.display = 'flex';
+        hub.style.alignItems = 'flex-start';
+        hub.style.justifyContent = 'center';
+        hub.innerHTML = `<div class="gc-hub-inner-single">
+          <div class="gc-hub-name">Chow Pei Jun</div>
+          <div class="gc-hub-sub">hub card</div>
+        </div>`;
+      } else {
+        // 3 or 5 cols — 1 card wide, centred column via hubIdx
+        hub.innerHTML = `<div class="gc-hub-inner">
+          <div class="gc-hub-name">Chow Pei Jun</div>
+          <div class="gc-hub-sub">hub card</div>
+        </div>`;
+      }
       // Allow dropping onto hub to place card just before/after it
       hub.addEventListener('dragover', (e) => { e.preventDefault(); hub.style.borderColor = 'var(--accent)'; });
       hub.addEventListener('dragleave', () => { hub.style.borderColor = ''; });
