@@ -2,41 +2,18 @@
   "projects": [
     {
       "slot": "before",
-      "title": "Vogue x MBS",
-      "category": "corporate",
-      "tags": [
-        "ads",
-        "branded content",
-        "corporate"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
-      "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
-      "title": "Kyle + Ysien",
+      "title": "Kenneth + Natalie",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/wedding-04.jpg",
-      "video": "https://youtu.be/NehXTHu9H1s",
+      "thumb": "assets/thumbs/kn-thumbnail.jpg",
+      "video": "https://youtu.be/zQPagPyOaLA",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Editor"
+          "Project Lead | 1st Videographer"
         ],
         [
           "Production",
@@ -64,6 +41,27 @@
         [
           "Production",
           "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Kyle + Ysien",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/wedding-04.jpg",
+      "video": "https://youtu.be/NehXTHu9H1s",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
         ]
       ]
     },
@@ -116,41 +114,71 @@
     },
     {
       "slot": "before",
-      "title": "Kenneth + Natalie",
-      "category": "weddings",
+      "title": "Vogue x MBS",
+      "category": "corporate",
       "tags": [
-        "weddings"
+        "ads",
+        "branded content",
+        "corporate"
       ],
-      "thumb": "assets/thumbs/kn-thumbnail.jpg",
-      "video": "https://youtu.be/zQPagPyOaLA",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
+      "video": "https://youtube.com/shorts/7phCcyXsNgo",
+      "client": "Vogue × Marina Bay Sands",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer"
+          "Online | Cleanups"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ]
     },
     {
       "slot": "before",
-      "title": "Shopee VIP",
+      "title": "Portraits of HTA",
+      "category": "corporate",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/portraits-hta.png",
+      "video": "https://youtu.be/m2RVVT-VFZ4",
+      "client": "Home Team Academy (HTA)",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "videos": [
+        "https://youtu.be/9IJpjz0rtU8",
+        "https://youtu.be/_JmdVs15Yb8",
+        "https://youtu.be/rf8l1mZX-II",
+        "https://youtu.be/wrJFlspDcv4"
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Kia x Discovery",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
-      "video": "https://youtu.be/LJYTB7AMaBU",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
+      "video": "https://youtu.be/ykw1c318hOY",
+      "client": "Kia × Discovery Channel",
       "credits": [
         [
           "Work",
-          "Online | Look Comp | Screen Replacements | Cleanups"
+          "Online | Cleanups | Licence Plate Replacements | Rotoscoping"
         ],
         [
           "Production",
@@ -182,29 +210,6 @@
     },
     {
       "slot": "before",
-      "title": "Kia x Discovery",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
-      "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia × Discovery Channel",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Licence Plate Replacements | Rotoscoping"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
       "title": "Weilun + Sandy",
       "category": "weddings",
       "tags": [
@@ -226,20 +231,41 @@
     },
     {
       "slot": "before",
-      "title": "Samyang Buldak Carbonara",
+      "title": "Ivan + Jocelyn",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/53006978956_594f0c2b31_b.jpg",
+      "video": "https://youtu.be/7YCSG7n4Q3s",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Shopee 10.10",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/samyang-buldak-kfc.jpg",
-      "video": "https://youtu.be/YhajWC0WMx8",
-      "client": "KFC",
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
+      "video": "https://youtu.be/1VhaWAZnVWc",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Skin retouching"
+          "Online | Cleanups | Key & Rotoscoping | Set extensions"
         ],
         [
           "Production",
@@ -300,28 +326,6 @@
     },
     {
       "slot": "before",
-      "title": "Ubin Kakis",
-      "category": "corporate",
-      "tags": [
-        "corporate",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
-      "video": "https://youtu.be/Z_xkK-XQdoY",
-      "client": "Singapore Management University (SMU)",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
       "title": "Shopee 3.3",
       "category": "tvc",
       "tags": [
@@ -345,36 +349,38 @@
     },
     {
       "slot": "before",
-      "title": "Ivan + Jocelyn",
-      "category": "weddings",
+      "title": "Samyang Buldak Carbonara",
+      "category": "tvc",
       "tags": [
-        "weddings"
+        "tvc",
+        "ads",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/53006978956_594f0c2b31_b.jpg",
-      "video": "https://youtu.be/7YCSG7n4Q3s",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/samyang-buldak-kfc.jpg",
+      "video": "https://youtu.be/YhajWC0WMx8",
+      "client": "KFC",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Online | Cleanups | Skin retouching"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ]
     },
     {
       "slot": "before",
-      "title": "Portraits of HTA",
+      "title": "Ubin Kakis",
       "category": "corporate",
       "tags": [
         "corporate",
         "branded content"
       ],
-      "thumb": "assets/thumbs/portraits-hta.png",
-      "video": "https://youtu.be/m2RVVT-VFZ4",
-      "client": "Home Team Academy (HTA)",
+      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
+      "video": "https://youtu.be/Z_xkK-XQdoY",
+      "client": "Singapore Management University (SMU)",
       "credits": [
         [
           "Work",
@@ -384,12 +390,6 @@
           "Production",
           "Optical Films"
         ]
-      ],
-      "videos": [
-        "https://youtu.be/9IJpjz0rtU8",
-        "https://youtu.be/_JmdVs15Yb8",
-        "https://youtu.be/rf8l1mZX-II",
-        "https://youtu.be/wrJFlspDcv4"
       ]
     },
     {
@@ -438,27 +438,6 @@
     },
     {
       "slot": "before",
-      "title": "Mel + Jadey",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/me-jadey.jpg",
-      "video": "https://youtu.be/OoNk_WGmhW8",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
       "title": "Ryan + Cheryl",
       "category": "weddings",
       "tags": [
@@ -471,6 +450,27 @@
         [
           "Work",
           "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Mel + Jadey",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/me-jadey.jpg",
+      "video": "https://youtu.be/OoNk_WGmhW8",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
         ],
         [
           "Production",
@@ -525,19 +525,20 @@
     },
     {
       "slot": "after",
-      "title": "PHC 2026",
+      "title": "Thai Curry",
       "category": "tvc",
       "tags": [
         "tvc",
+        "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/phc-2026.jpg",
-      "video": "https://youtu.be/Irg0Qcy8gv4",
-      "client": "Public Hygiene Council",
+      "thumb": "assets/thumbs/thai-curry-pizzahut.jpg",
+      "video": "https://youtu.be/ydrXW5J84RI",
+      "client": "Pizza Hut",
       "credits": [
         [
           "Work",
-          "Online | VFX | Motion Graphics"
+          "Online | Screen Replacements | Cleanups"
         ],
         [
           "Production",
@@ -569,22 +570,23 @@
     },
     {
       "slot": "after",
-      "title": "Yi Chang + Clara",
-      "category": "weddings",
+      "title": "PHC 2026",
+      "category": "tvc",
       "tags": [
-        "weddings"
+        "tvc",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
-      "video": "https://youtu.be/pcUNC46vu-s",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/phc-2026.jpg",
+      "video": "https://youtu.be/Irg0Qcy8gv4",
+      "client": "Public Hygiene Council",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Online | VFX | Motion Graphics"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ]
     },
@@ -604,6 +606,28 @@
         [
           "Work",
           "Online | Transitions | Tracking & Rotoscoping | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Progressive Wages",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
+      "video": "https://youtu.be/Oaoh5YTyntQ",
+      "client": "Ministry of Manpower (MOM)",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
         ],
         [
           "Production",
@@ -634,41 +658,18 @@
     },
     {
       "slot": "after",
-      "title": "Progressive Wages",
-      "category": "tvc",
+      "title": "Jeric + Lydia",
+      "category": "weddings",
       "tags": [
-        "tvc",
-        "branded content"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
-      "video": "https://youtu.be/Oaoh5YTyntQ",
-      "client": "Ministry of Manpower (MOM)",
+      "thumb": "assets/thumbs/thumbnail-jericlydia.png",
+      "video": "https://youtu.be/sWIkJ65nBt4",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Ritz Carlton Wedding Showcase",
-      "category": "events",
-      "tags": [
-        "events",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
-      "video": "https://youtu.be/qSGJ6Qo-NdA",
-      "client": "Heaven's Gift",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Producer"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
@@ -678,24 +679,43 @@
     },
     {
       "slot": "after",
-      "title": "Xmas",
-      "category": "tvc",
+      "title": "Yi Chang + Clara",
+      "category": "weddings",
       "tags": [
-        "tvc",
-        "ads",
-        "branded content"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/xmas-pizzahut.jpg",
-      "video": "https://youtu.be/WDgh_YVAl-o",
-      "client": "Pizza Hut",
+      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
+      "video": "https://youtu.be/pcUNC46vu-s",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Skin retouching"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Samuel + Hui Qi",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/samuel-huiqi.jpg",
+      "video": "https://youtu.be/FhqX9KT8nr8",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
         ]
       ]
     },
@@ -724,89 +744,24 @@
     },
     {
       "slot": "after",
-      "title": "Samuel + Hui Qi",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/samuel-huiqi.jpg",
-      "video": "https://youtu.be/FhqX9KT8nr8",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Thai Curry",
+      "title": "Xmas",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/thai-curry-pizzahut.jpg",
-      "video": "https://youtu.be/ydrXW5J84RI",
+      "thumb": "assets/thumbs/xmas-pizzahut.jpg",
+      "video": "https://youtu.be/WDgh_YVAl-o",
       "client": "Pizza Hut",
       "credits": [
         [
           "Work",
-          "Online | Screen Replacements | Cleanups"
+          "Online | Cleanups | Skin retouching"
         ],
         [
           "Production",
           "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Shopee 10.10",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
-      "video": "https://youtu.be/1VhaWAZnVWc",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Key & Rotoscoping | Set extensions"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Jeric + Lydia",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/thumbnail-jericlydia.png",
-      "video": "https://youtu.be/sWIkJ65nBt4",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
         ]
       ]
     },
@@ -846,6 +801,51 @@
         [
           "Work",
           "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Shopee VIP",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
+      "video": "https://youtu.be/LJYTB7AMaBU",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Look Comp | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Ritz Carlton Wedding Showcase",
+      "category": "events",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
+      "video": "https://youtu.be/qSGJ6Qo-NdA",
+      "client": "Heaven's Gift",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
         ],
         [
           "Production",

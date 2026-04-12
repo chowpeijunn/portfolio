@@ -254,8 +254,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   opacity: 0.35;
   transform: scale(0.97);
 }
-.gc.gc-drag-over-before { border-color: var(--accent); box-shadow: -3px 0 0 var(--accent); }
-.gc.gc-drag-over-after  { border-color: var(--accent); box-shadow:  3px 0 0 var(--accent); }
+.gc.gc-drag-over { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent); }
 
 .gc img {
   width: 100%; aspect-ratio: 16/9;
@@ -1004,36 +1003,24 @@ function renderGridBoard() {
     });
     card.addEventListener('dragend', () => {
       card.classList.remove('gc-dragging');
-      document.querySelectorAll('.gc-drag-over-before,.gc-drag-over-after').forEach(el =>
-        el.classList.remove('gc-drag-over-before', 'gc-drag-over-after'));
+      document.querySelectorAll('.gc-drag-over').forEach(el =>
+        el.classList.remove('gc-drag-over'));
     });
     card.addEventListener('dragover', (e) => {
       e.preventDefault();
       if (gridDragSrc === null || gridDragSrc === orderIdx) return;
-      const half = card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2;
-      card.classList.remove('gc-drag-over-before', 'gc-drag-over-after');
-      card.classList.add(e.clientX < half ? 'gc-drag-over-before' : 'gc-drag-over-after');
+      card.classList.add('gc-drag-over');
     });
     card.addEventListener('dragleave', () =>
-      card.classList.remove('gc-drag-over-before', 'gc-drag-over-after'));
+      card.classList.remove('gc-drag-over'));
     card.addEventListener('drop', (e) => {
       e.preventDefault();
-      card.classList.remove('gc-drag-over-before', 'gc-drag-over-after');
+      card.classList.remove('gc-drag-over');
       if (gridDragSrc === null || gridDragSrc === orderIdx) return;
-
-      const half = card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2;
-      const before = e.clientX < half;
-
-      const [item] = gridOrder.splice(gridDragSrc, 1);
-
-      // hubIdx is NEVER adjusted — hub stays at its fixed position.
-      // Recalculate where the target card sits after the removal.
-      const newTargetIdx = gridDragSrc < orderIdx ? orderIdx - 1 : orderIdx;
-      let insertAt = before ? newTargetIdx : newTargetIdx + 1;
-      insertAt = Math.max(0, Math.min(insertAt, gridOrder.length));
-
-      gridOrder.splice(insertAt, 0, item);
-
+      // Swap the two cards
+      const tmp = gridOrder[gridDragSrc];
+      gridOrder[gridDragSrc] = gridOrder[orderIdx];
+      gridOrder[orderIdx] = tmp;
       gridDragSrc = null;
       renderGridBoard();
     });
@@ -1041,22 +1028,7 @@ function renderGridBoard() {
     board.appendChild(card);
   }
 
-  // Drop zone at very end (after all after-hub cards)
-  const endZone = document.createElement('div');
-  endZone.className = 'gc-drop-end';
-  endZone.addEventListener('dragover', (e) => { e.preventDefault(); endZone.classList.add('gc-drag-over-end'); });
-  endZone.addEventListener('dragleave', () => endZone.classList.remove('gc-drag-over-end'));
-  endZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    endZone.classList.remove('gc-drag-over-end');
-    if (gridDragSrc === null) return;
-    const [item] = gridOrder.splice(gridDragSrc, 1);
-    // hubIdx never adjusts — hub stays fixed
-    gridOrder.push(item);
-    gridDragSrc = null;
-    renderGridBoard();
-  });
-  board.appendChild(endZone);
+  // No end-zone needed — drag-to-swap means every card is a valid drop target
 }
 
 // ── UPLOAD ────────────────────────────────────────────────
