@@ -339,7 +339,6 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
     <div class="topbar-spacer"></div>
     <div class="grid-col-controls">
       <span>Columns:</span>
-      <button class="col-btn" onclick="setGridCols(1)">1</button>
       <button class="col-btn" onclick="setGridCols(2)">2</button>
       <button class="col-btn" onclick="setGridCols(3)">3</button>
       <button class="col-btn" onclick="setGridCols(4)">4</button>
@@ -850,8 +849,10 @@ function openGridView() {
     else before.push(i);
   });
   gridOrder = [...before, ...after];
-  // Always open with hub visually centred
-  hubIdx = Math.ceil(gridOrder.length / 2);
+  // Centre hub: hub spans 2 cols, so target visual centre = (total_slots / 2)
+  // total visual slots = projects + 2 (hub spans 2). We want hubIdx projects before hub.
+  // hubIdx ≈ (gridOrder.length + 2) / 2 - 2 = gridOrder.length / 2 - 1
+  hubIdx = Math.max(0, Math.round(gridOrder.length / 2) - 1);
   renderGridBoard();
   document.getElementById('gridOverlay').classList.add('visible');
   // Scroll hub into view
@@ -894,9 +895,8 @@ function setGridCols(n) {
 
 function renderGridBoard() {
   const board = document.getElementById('gridBoard');
-  // col=1: use a 2-col grid so hub is full-width, next 2 cards are half-width side by side
-  const innerCols = gridCols === 1 ? 2 : gridCols;
-  board.style.gridTemplateColumns = `repeat(${innerCols}, 1fr)`;
+  board.style.gridTemplateColumns = `repeat(${gridCols}, 1fr)`;
+  board.style.gridAutoFlow = 'dense';
   board.innerHTML = '';
 
   // Render all items in order, inserting hub at hubIdx
@@ -906,8 +906,8 @@ function renderGridBoard() {
     if (slot === hubIdx) {
       const hub = document.createElement('div');
       hub.className = 'gc gc-hub';
-      // col=1: hub spans both columns (full width)
-      if (gridCols === 1) hub.style.gridColumn = '1 / -1';
+      // hub always spans 2 columns
+      hub.style.gridColumn = 'span 2';
       hub.innerHTML = `<div class="gc-hub-inner">
         <div class="gc-hub-name">Chow Pei Jun</div>
         <div class="gc-hub-sub">hub card</div>
@@ -920,11 +920,11 @@ function renderGridBoard() {
         hub.style.borderColor = '';
         if (gridDragSrc === null) return;
         const [item] = gridOrder.splice(gridDragSrc, 1);
-        // adjust hubIdx for removal
-        if (gridDragSrc < hubIdx) hubIdx--;
-        // insert right before hub
-        gridOrder.splice(hubIdx, 0, item);
-        if (gridDragSrc >= hubIdx) hubIdx++; // item came from after, now it's before
+        // Insert as first after-hub card. After removing, hub's effective
+        // boundary shifts by -1 if src was before hub.
+        const insertAt = gridDragSrc < hubIdx ? hubIdx - 1 : hubIdx;
+        gridOrder.splice(Math.max(0, insertAt), 0, item);
+        // hubIdx never changes — hub stays fixed
         gridDragSrc = null;
         renderGridBoard();
       });
@@ -981,18 +981,13 @@ function renderGridBoard() {
 
       const [item] = gridOrder.splice(gridDragSrc, 1);
 
-      // Adjust hubIdx for the removal
-      if (gridDragSrc < hubIdx) hubIdx--;
-
-      // Find where target card now sits after removal
+      // hubIdx is NEVER adjusted — hub stays at its fixed position.
+      // Recalculate where the target card sits after the removal.
       const newTargetIdx = gridDragSrc < orderIdx ? orderIdx - 1 : orderIdx;
       let insertAt = before ? newTargetIdx : newTargetIdx + 1;
       insertAt = Math.max(0, Math.min(insertAt, gridOrder.length));
 
       gridOrder.splice(insertAt, 0, item);
-
-      // Adjust hubIdx for the insertion
-      if (insertAt < hubIdx) hubIdx++;
 
       gridDragSrc = null;
       renderGridBoard();
@@ -1011,7 +1006,7 @@ function renderGridBoard() {
     endZone.classList.remove('gc-drag-over-end');
     if (gridDragSrc === null) return;
     const [item] = gridOrder.splice(gridDragSrc, 1);
-    if (gridDragSrc < hubIdx) hubIdx--;
+    // hubIdx never adjusts — hub stays fixed
     gridOrder.push(item);
     gridDragSrc = null;
     renderGridBoard();

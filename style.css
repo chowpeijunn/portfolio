@@ -375,9 +375,12 @@ a { color: inherit; text-decoration: none; }
 
 .card-hover-iframe {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  /* Scale up slightly so video fills the card and hides any YouTube chrome */
+  width: 115%;
+  height: 115%;
+  transform: translate(-50%, -50%);
   border: none;
   z-index: 1;
   pointer-events: none; /* clicks pass through to card */
