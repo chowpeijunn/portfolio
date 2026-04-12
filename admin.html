@@ -339,6 +339,8 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
     <div class="topbar-spacer"></div>
     <div class="grid-col-controls">
       <span>Columns:</span>
+      <button class="col-btn" onclick="setGridCols(1)">1</button>
+      <button class="col-btn" onclick="setGridCols(2)">2</button>
       <button class="col-btn" onclick="setGridCols(3)">3</button>
       <button class="col-btn" onclick="setGridCols(4)">4</button>
       <button class="col-btn" onclick="setGridCols(5)">5</button>
@@ -837,17 +839,18 @@ async function saveAll() {
 // ── GRID VIEW ─────────────────────────────────────────────
 
 let gridCols = 5;
-let gridBefore = []; // project indices before hub
-let gridAfter  = []; // project indices after hub
-let gridDragSrc = null; // { section: 'before'|'after', idx: number }
+let gridOrder = []; // flat array of ALL project indices
+let hubIdx = 0;     // hub is visually inserted before gridOrder[hubIdx]
+let gridDragSrc = null;
 
 function openGridView() {
-  gridBefore = [];
-  gridAfter  = [];
+  const before = [], after = [];
   data.projects.forEach((p, i) => {
-    if (p.slot === 'after') gridAfter.push(i);
-    else gridBefore.push(i);
+    if (p.slot === 'after') after.push(i);
+    else before.push(i);
   });
+  gridOrder = [...before, ...after];
+  hubIdx = before.length; // hub sits after all 'before' projects
   renderGridBoard();
   document.getElementById('gridOverlay').classList.add('visible');
 }
@@ -859,8 +862,10 @@ function closeGridView() {
 
 function applyGridView() {
   const newProjects = [];
-  gridBefore.forEach(i => { data.projects[i].slot = 'before'; newProjects.push(data.projects[i]); });
-  gridAfter.forEach(i  => { data.projects[i].slot = 'after';  newProjects.push(data.projects[i]); });
+  gridOrder.forEach((idx, i) => {
+    data.projects[idx].slot = i < hubIdx ? 'before' : 'after';
+    newProjects.push(data.projects[idx]);
+  });
   data.projects = newProjects;
   dirty.clear();
   data.projects.forEach((_, i) => dirty.add(i));
@@ -874,87 +879,11 @@ function applyGridView() {
 function setGridCols(n) {
   gridCols = n;
   renderGridBoard();
-}
-
-function makeGridCard(projIdx, section, posInSection) {
-  const p = data.projects[projIdx];
-  const card = document.createElement('div');
-  card.className = 'gc';
-  card.draggable = true;
-
-  const thumb = p.thumb || '';
-  card.innerHTML = `
-    ${thumb
-      ? `<img src="${thumb}" alt="" draggable="false">`
-      : `<div class="gc-no-thumb">no thumbnail</div>`}
-    <div class="gc-num">${section === 'before'
-      ? posInSection + 1
-      : gridBefore.length + 1 + posInSection + 1}</div>
-    <div class="gc-label">
-      <div class="gc-label-title">${esc(p.title || 'Untitled')}</div>
-      <div class="gc-label-cat">${p.category || ''}</div>
-    </div>`;
-
-  card.addEventListener('dragstart', (e) => {
-    gridDragSrc = { section, idx: posInSection };
-    e.dataTransfer.effectAllowed = 'move';
-    setTimeout(() => card.classList.add('gc-dragging'), 0);
+  // highlight active col btn
+  document.querySelectorAll('.col-btn').forEach(b => {
+    b.style.background = parseInt(b.textContent) === n ? 'var(--accent)' : '';
+    b.style.color = parseInt(b.textContent) === n ? '#fff' : '';
   });
-  card.addEventListener('dragend', () => {
-    card.classList.remove('gc-dragging');
-    document.querySelectorAll('.gc-drag-over-before,.gc-drag-over-after').forEach(el =>
-      el.classList.remove('gc-drag-over-before','gc-drag-over-after'));
-  });
-  card.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    if (!gridDragSrc || gridDragSrc.section !== section) return;
-    if (gridDragSrc.idx === posInSection) return;
-    const half = card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2;
-    card.classList.remove('gc-drag-over-before','gc-drag-over-after');
-    card.classList.add(e.clientX < half ? 'gc-drag-over-before' : 'gc-drag-over-after');
-  });
-  card.addEventListener('dragleave', () =>
-    card.classList.remove('gc-drag-over-before','gc-drag-over-after'));
-  card.addEventListener('drop', (e) => {
-    e.preventDefault();
-    card.classList.remove('gc-drag-over-before','gc-drag-over-after');
-    if (!gridDragSrc || gridDragSrc.section !== section) return;
-    const arr = section === 'before' ? gridBefore : gridAfter;
-    const from = gridDragSrc.idx;
-    const to   = posInSection;
-    if (from === to) return;
-    const half = card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2;
-    const insertBefore = e.clientX < half;
-    const [item] = arr.splice(from, 1);
-    let insertAt = from < to ? to - 1 : to;
-    if (!insertBefore) insertAt++;
-    arr.splice(insertAt, 0, item);
-    gridDragSrc = null;
-    renderGridBoard();
-  });
-
-  return card;
-}
-
-function makeDropEnd(section) {
-  const zone = document.createElement('div');
-  zone.className = 'gc-drop-end';
-  zone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    if (gridDragSrc && gridDragSrc.section === section) zone.classList.add('gc-drag-over-end');
-  });
-  zone.addEventListener('dragleave', () => zone.classList.remove('gc-drag-over-end'));
-  zone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    zone.classList.remove('gc-drag-over-end');
-    if (!gridDragSrc || gridDragSrc.section !== section) return;
-    const arr = section === 'before' ? gridBefore : gridAfter;
-    const [item] = arr.splice(gridDragSrc.idx, 1);
-    arr.push(item);
-    gridDragSrc = null;
-    renderGridBoard();
-  });
-  return zone;
 }
 
 function renderGridBoard() {
@@ -962,26 +891,121 @@ function renderGridBoard() {
   board.style.gridTemplateColumns = `repeat(${gridCols}, 1fr)`;
   board.innerHTML = '';
 
-  // Before cards
-  gridBefore.forEach((projIdx, pos) => {
-    board.appendChild(makeGridCard(projIdx, 'before', pos));
-  });
-  board.appendChild(makeDropEnd('before'));
+  // Render all items in order, inserting hub at hubIdx
+  const total = gridOrder.length; // excludes hub
+  for (let slot = 0; slot <= total; slot++) {
+    // Insert hub at its fixed position
+    if (slot === hubIdx) {
+      const hub = document.createElement('div');
+      hub.className = 'gc gc-hub';
+      hub.innerHTML = `<div class="gc-hub-inner">
+        <div class="gc-hub-name">Chow Pei Jun</div>
+        <div class="gc-hub-sub">hub card</div>
+      </div>`;
+      // Allow dropping onto hub to place card just before/after it
+      hub.addEventListener('dragover', (e) => { e.preventDefault(); hub.style.borderColor = 'var(--accent)'; });
+      hub.addEventListener('dragleave', () => { hub.style.borderColor = ''; });
+      hub.addEventListener('drop', (e) => {
+        e.preventDefault();
+        hub.style.borderColor = '';
+        if (gridDragSrc === null) return;
+        const [item] = gridOrder.splice(gridDragSrc, 1);
+        // adjust hubIdx for removal
+        if (gridDragSrc < hubIdx) hubIdx--;
+        // insert right before hub
+        gridOrder.splice(hubIdx, 0, item);
+        if (gridDragSrc >= hubIdx) hubIdx++; // item came from after, now it's before
+        gridDragSrc = null;
+        renderGridBoard();
+      });
+      board.appendChild(hub);
+    }
 
-  // Hub card (always fixed between before and after)
-  const hub = document.createElement('div');
-  hub.className = 'gc gc-hub';
-  hub.innerHTML = `<div class="gc-hub-inner">
-    <div class="gc-hub-name">Chow Pei Jun</div>
-    <div class="gc-hub-sub">Hub — always here</div>
-  </div>`;
-  board.appendChild(hub);
+    if (slot === total) break;
 
-  // After cards
-  gridAfter.forEach((projIdx, pos) => {
-    board.appendChild(makeGridCard(projIdx, 'after', pos));
+    const orderIdx = slot;
+    const projIdx = gridOrder[orderIdx];
+    const p = data.projects[projIdx];
+    const card = document.createElement('div');
+    card.className = 'gc';
+    card.draggable = true;
+
+    const thumb = p.thumb || '';
+    card.innerHTML = `
+      ${thumb
+        ? `<img src="${thumb}" alt="" draggable="false">`
+        : `<div class="gc-no-thumb">no thumbnail</div>`}
+      <div class="gc-num">${orderIdx + 1}</div>
+      <div class="gc-label">
+        <div class="gc-label-title">${esc(p.title || 'Untitled')}</div>
+        <div class="gc-label-cat">${orderIdx < hubIdx ? '↑ before' : '↓ after'}</div>
+      </div>`;
+
+    card.addEventListener('dragstart', (e) => {
+      gridDragSrc = orderIdx;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => card.classList.add('gc-dragging'), 0);
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('gc-dragging');
+      document.querySelectorAll('.gc-drag-over-before,.gc-drag-over-after').forEach(el =>
+        el.classList.remove('gc-drag-over-before', 'gc-drag-over-after'));
+    });
+    card.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (gridDragSrc === null || gridDragSrc === orderIdx) return;
+      const half = card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2;
+      card.classList.remove('gc-drag-over-before', 'gc-drag-over-after');
+      card.classList.add(e.clientX < half ? 'gc-drag-over-before' : 'gc-drag-over-after');
+    });
+    card.addEventListener('dragleave', () =>
+      card.classList.remove('gc-drag-over-before', 'gc-drag-over-after'));
+    card.addEventListener('drop', (e) => {
+      e.preventDefault();
+      card.classList.remove('gc-drag-over-before', 'gc-drag-over-after');
+      if (gridDragSrc === null || gridDragSrc === orderIdx) return;
+
+      const half = card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2;
+      const before = e.clientX < half;
+
+      const [item] = gridOrder.splice(gridDragSrc, 1);
+
+      // Adjust hubIdx for the removal
+      if (gridDragSrc < hubIdx) hubIdx--;
+
+      // Find where target card now sits after removal
+      const newTargetIdx = gridDragSrc < orderIdx ? orderIdx - 1 : orderIdx;
+      let insertAt = before ? newTargetIdx : newTargetIdx + 1;
+      insertAt = Math.max(0, Math.min(insertAt, gridOrder.length));
+
+      gridOrder.splice(insertAt, 0, item);
+
+      // Adjust hubIdx for the insertion
+      if (insertAt < hubIdx) hubIdx++;
+
+      gridDragSrc = null;
+      renderGridBoard();
+    });
+
+    board.appendChild(card);
+  }
+
+  // Drop zone at very end (after all after-hub cards)
+  const endZone = document.createElement('div');
+  endZone.className = 'gc-drop-end';
+  endZone.addEventListener('dragover', (e) => { e.preventDefault(); endZone.classList.add('gc-drag-over-end'); });
+  endZone.addEventListener('dragleave', () => endZone.classList.remove('gc-drag-over-end'));
+  endZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    endZone.classList.remove('gc-drag-over-end');
+    if (gridDragSrc === null) return;
+    const [item] = gridOrder.splice(gridDragSrc, 1);
+    if (gridDragSrc < hubIdx) hubIdx--;
+    gridOrder.push(item);
+    gridDragSrc = null;
+    renderGridBoard();
   });
-  board.appendChild(makeDropEnd('after'));
+  board.appendChild(endZone);
 }
 
 // ── UPLOAD ────────────────────────────────────────────────
