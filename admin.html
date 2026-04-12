@@ -939,11 +939,7 @@ function renderGridBoard() {
     const card = document.createElement('div');
     card.className = 'gc';
     card.draggable = true;
-    // col=1: all cards full-width EXCEPT the 2 immediately after hub (shown side by side)
-    if (gridCols === 1) {
-      const isRightAfterHub = orderIdx === hubIdx || orderIdx === hubIdx + 1;
-      if (!isRightAfterHub) card.style.gridColumn = '1 / -1';
-    }
+    // col=1: all project cards are half-width (natural 2-col flow), only hub spans full width
 
     const thumb = p.thumb || '';
     card.innerHTML = `
