@@ -850,9 +850,15 @@ function openGridView() {
     else before.push(i);
   });
   gridOrder = [...before, ...after];
-  hubIdx = before.length; // hub sits after all 'before' projects
+  // Always open with hub visually centred
+  hubIdx = Math.ceil(gridOrder.length / 2);
   renderGridBoard();
   document.getElementById('gridOverlay').classList.add('visible');
+  // Scroll hub into view
+  setTimeout(() => {
+    const hub = document.querySelector('.gc-hub');
+    if (hub) hub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
 }
 
 function closeGridView() {
@@ -888,7 +894,9 @@ function setGridCols(n) {
 
 function renderGridBoard() {
   const board = document.getElementById('gridBoard');
-  board.style.gridTemplateColumns = `repeat(${gridCols}, 1fr)`;
+  // col=1 uses a 2-col grid internally: hub spans 2 rows, 2 videos stack beside it
+  const innerCols = gridCols === 1 ? 2 : gridCols;
+  board.style.gridTemplateColumns = `repeat(${innerCols}, 1fr)`;
   board.innerHTML = '';
 
   // Render all items in order, inserting hub at hubIdx
@@ -898,6 +906,7 @@ function renderGridBoard() {
     if (slot === hubIdx) {
       const hub = document.createElement('div');
       hub.className = 'gc gc-hub';
+      if (gridCols === 1) hub.style.gridRow = 'span 2';
       hub.innerHTML = `<div class="gc-hub-inner">
         <div class="gc-hub-name">Chow Pei Jun</div>
         <div class="gc-hub-sub">hub card</div>
