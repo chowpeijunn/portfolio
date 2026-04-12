@@ -5,9 +5,9 @@
       "title": "Vogue x MBS",
       "category": "corporate",
       "tags": [
-        "tvc",
         "ads",
-        "branded content"
+        "branded content",
+        "corporate"
       ],
       "thumb": "assets/thumbs/vogue-mbs.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
@@ -28,9 +28,7 @@
       "title": "Kyle + Ysien",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage",
-        "corporate"
+        "weddings"
       ],
       "thumb": "assets/thumbs/wedding-04.jpg",
       "video": "https://youtu.be/NehXTHu9H1s",
@@ -51,8 +49,7 @@
       "title": "Eugene + Annabelle",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
       "video": "https://youtu.be/aN7I7F1gPnI",
@@ -115,11 +112,32 @@
     },
     {
       "slot": "after",
+      "title": "Heart of the Spirit",
+      "category": "events",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
+      "video": "https://youtu.be/w7In-QMwguo",
+      "client": "The Macallan",
+      "credits": [
+        [
+          "Work",
+          "1st Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
       "title": "Mel + Jadey",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/me-jadey.jpg",
       "video": "https://youtu.be/OoNk_WGmhW8",
@@ -352,8 +370,7 @@
       "category": "corporate",
       "tags": [
         "corporate",
-        "branded content",
-        "events"
+        "branded content"
       ],
       "thumb": "assets/thumbs/foodflix-sats.jpg",
       "video": "https://youtu.be/Cw0QIlILnzY",
@@ -379,28 +396,6 @@
       ],
       "thumb": "assets/thumbs/macallan-house-launch.jpg",
       "video": "https://youtu.be/mW5OixOzaN8",
-      "client": "The Macallan",
-      "credits": [
-        [
-          "Work",
-          "1st Videographer | Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Heart of the Spirit",
-      "category": "events",
-      "tags": [
-        "events",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
-      "video": "https://youtu.be/w7In-QMwguo",
       "client": "The Macallan",
       "credits": [
         [
@@ -461,8 +456,7 @@
       "title": "Ryan + Cheryl",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/thumbnail-ryancheryl.png",
       "video": "https://youtu.be/R_Y8V4YaEhU",
@@ -506,8 +500,7 @@
       "title": "Ivan + Jocelyn",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/53006978956_594f0c2b31_b.jpg",
       "video": "https://youtu.be/7YCSG7n4Q3s",
@@ -551,8 +544,7 @@
       "title": "Yi Chang + Clara",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/thumbnail-yichangclara.png",
       "video": "https://youtu.be/pcUNC46vu-s",
@@ -573,8 +565,7 @@
       "title": "Wilson + Chelsea",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/wilson-chelsea.jpg",
       "video": "https://youtu.be/eOdWUo2DBm4",
@@ -617,8 +608,7 @@
       "title": "Weilun + Sandy",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
       "video": "https://youtu.be/If-L6E2CqMg",
@@ -780,8 +770,7 @@
       "title": "Jeric + Lydia",
       "category": "weddings",
       "tags": [
-        "weddings",
-        "event coverage"
+        "weddings"
       ],
       "thumb": "assets/thumbs/thumbnail-jericlydia.png",
       "video": "https://youtu.be/sWIkJ65nBt4",
