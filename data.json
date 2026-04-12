@@ -3,13 +3,13 @@
     {
       "slot": "before",
       "title": "Vogue x MBS",
-      "category": "tvc",
+      "category": "corporate",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "https://img.youtube.com/vi/7phCcyXsNgo/mqdefault.jpg",
+      "thumb": "assets/thumbs/vogue-mbs.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
       "client": "Vogue × Marina Bay Sands",
       "credits": [
@@ -52,7 +52,8 @@
       "category": "weddings",
       "tags": [
         "weddings",
-        "event coverage"
+        "event coverage",
+        "corporate"
       ],
       "thumb": "assets/thumbs/wedding-04.jpg",
       "video": "https://youtu.be/NehXTHu9H1s",
@@ -65,6 +66,50 @@
         [
           "Production",
           "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Eugene + Annabelle",
+      "category": "weddings",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
+      "video": "https://youtu.be/aN7I7F1gPnI",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Ubin Kakis",
+      "category": "corporate",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
+      "video": "https://youtu.be/Z_xkK-XQdoY",
+      "client": "Singapore Management University (SMU)",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
         ]
       ]
     },
@@ -92,6 +137,28 @@
       ]
     },
     {
+      "slot": "after",
+      "title": "Mel + Jadey",
+      "category": "weddings",
+      "tags": [
+        "weddings",
+        "event coverage"
+      ],
+      "thumb": "assets/thumbs/me-jadey.jpg",
+      "video": "https://youtu.be/OoNk_WGmhW8",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
       "slot": "before",
       "title": "Shopee 10.10",
       "category": "tvc",
@@ -100,7 +167,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/shopee-1010-shopee.jpg",
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
       "video": "https://youtu.be/1VhaWAZnVWc",
       "client": "Shopee",
       "credits": [
@@ -132,6 +199,28 @@
         [
           "Production",
           "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Beautés du Monde",
+      "category": "events",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/beautes-du-monde-cartier.jpg",
+      "video": "https://youtu.be/x5JmeDIf0V8",
+      "client": "Cartier",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
         ]
       ]
     },
@@ -184,6 +273,34 @@
       ]
     },
     {
+      "slot": "after",
+      "title": "Portraits of HTA",
+      "category": "corporate",
+      "tags": [
+        "corporate",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/portraits-hta.png",
+      "video": "https://youtu.be/m2RVVT-VFZ4",
+      "client": "Home Team Academy (HTA)",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "videos": [
+        "https://youtu.be/9IJpjz0rtU8",
+        "https://youtu.be/_JmdVs15Yb8",
+        "https://youtu.be/rf8l1mZX-II",
+        "https://youtu.be/wrJFlspDcv4"
+      ]
+    },
+    {
       "slot": "before",
       "title": "Kia x Discovery",
       "category": "tvc",
@@ -226,28 +343,6 @@
         [
           "Production",
           "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "before",
-      "title": "Eugene + Annabelle",
-      "category": "weddings",
-      "tags": [
-        "weddings",
-        "event coverage"
-      ],
-      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
-      "video": "https://youtu.be/aN7I7F1gPnI",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
         ]
       ]
     },
@@ -299,19 +394,19 @@
     },
     {
       "slot": "after",
-      "title": "Beautés du Monde",
+      "title": "Macallan House Launch",
       "category": "events",
       "tags": [
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/beautes-du-monde-cartier.jpg",
-      "video": "https://youtu.be/x5JmeDIf0V8",
-      "client": "Cartier",
+      "thumb": "assets/thumbs/macallan-house-launch.jpg",
+      "video": "https://youtu.be/mW5OixOzaN8",
+      "client": "The Macallan",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Producer"
+          "1st Videographer | Producer"
         ],
         [
           "Production",
@@ -327,7 +422,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.jpg",
+      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
       "video": "https://youtu.be/w7In-QMwguo",
       "client": "The Macallan",
       "credits": [
@@ -338,6 +433,27 @@
         [
           "Production",
           "Optical Films"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Nianhua + Debbie",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/nianhua-debbie.jpg",
+      "video": "https://youtu.be/5ESVAnAJjDY",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
         ]
       ]
     },
@@ -416,7 +532,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/ivan-jocelyn.jpg",
+      "thumb": "assets/thumbs/53006978956_594f0c2b31_b.jpg",
       "video": "https://youtu.be/7YCSG7n4Q3s",
       "client": "AndroidsinBoots",
       "credits": [
@@ -461,7 +577,7 @@
         "weddings",
         "event coverage"
       ],
-      "thumb": "assets/thumbs/yichang-clara.jpg",
+      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
       "video": "https://youtu.be/pcUNC46vu-s",
       "client": "AndroidsinBoots",
       "credits": [
@@ -610,27 +726,6 @@
     },
     {
       "slot": "after",
-      "title": "Nianhua + Debbie",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/nianhua-debbie.jpg",
-      "video": "https://youtu.be/5ESVAnAJjDY",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Subway Everyday Value",
       "category": "tvc",
       "tags": [
@@ -727,57 +822,13 @@
     },
     {
       "slot": "after",
-      "title": "Mel + Jadey",
-      "category": "weddings",
-      "tags": [
-        "weddings",
-        "event coverage"
-      ],
-      "thumb": "assets/thumbs/me-jadey.jpg",
-      "video": "https://youtu.be/OoNk_WGmhW8",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Macallan House Launch",
-      "category": "events",
-      "tags": [
-        "events",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/macallan-house-launch.jpg",
-      "video": "https://youtu.be/mW5OixOzaN8",
-      "client": "The Macallan",
-      "credits": [
-        [
-          "Work",
-          "1st Videographer | Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
       "title": "The Reach VIP Launch",
       "category": "events",
       "tags": [
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/wedding-03.jpg",
+      "thumb": "assets/thumbs/screenshot-2026-04-05-at-12.30.31pm.png",
       "video": "https://youtu.be/euCEtPWfARM",
       "client": "The Macallan",
       "credits": [
@@ -824,56 +875,6 @@
       "thumb": "assets/thumbs/web3-wedding-vice.jpg",
       "video": "https://youtu.be/78rS5DGiOJc",
       "client": "VICE",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Portraits of HTA",
-      "category": "corporate",
-      "tags": [
-        "corporate",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/portraits-hta.png",
-      "video": "https://youtu.be/m2RVVT-VFZ4",
-      "client": "Home Team Academy (HTA)",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "videos": [
-        "https://youtu.be/9IJpjz0rtU8",
-        "https://youtu.be/_JmdVs15Yb8",
-        "https://youtu.be/rf8l1mZX-II",
-        "https://youtu.be/wrJFlspDcv4"
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Ubin Kakis",
-      "category": "corporate",
-      "tags": [
-        "corporate",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
-      "video": "https://youtu.be/Z_xkK-XQdoY",
-      "client": "Singapore Management University (SMU)",
       "credits": [
         [
           "Work",
