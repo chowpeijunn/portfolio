@@ -435,23 +435,24 @@
     },
     {
       "slot": "before",
-      "title": "Foodflix",
-      "category": "corporate",
+      "title": "Thai Curry",
+      "category": "tvc",
       "tags": [
-        "corporate",
+        "tvc",
+        "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/foodflix-sats.jpg",
-      "video": "https://youtu.be/Cw0QIlILnzY",
-      "client": "SATS",
+      "thumb": "assets/thumbs/thai-curry-pizzahut.jpg",
+      "video": "https://youtu.be/ydrXW5J84RI",
+      "client": "Pizza Hut",
       "credits": [
         [
           "Work",
-          "Assistant Producer"
+          "Online | Screen Replacements | Cleanups"
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ]
     },
@@ -523,24 +524,23 @@
     },
     {
       "slot": "after",
-      "title": "Thai Curry",
-      "category": "tvc",
+      "title": "Foodflix",
+      "category": "corporate",
       "tags": [
-        "tvc",
-        "ads",
+        "corporate",
         "branded content"
       ],
-      "thumb": "assets/thumbs/thai-curry-pizzahut.jpg",
-      "video": "https://youtu.be/ydrXW5J84RI",
-      "client": "Pizza Hut",
+      "thumb": "assets/thumbs/foodflix-sats.jpg",
+      "video": "https://youtu.be/Cw0QIlILnzY",
+      "client": "SATS",
       "credits": [
         [
           "Work",
-          "Online | Screen Replacements | Cleanups"
+          "Assistant Producer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "Optical Films"
         ]
       ]
     },
@@ -612,6 +612,27 @@
     },
     {
       "slot": "after",
+      "title": "Wilson + Chelsea",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/wilson-chelsea.jpg",
+      "video": "https://youtu.be/eOdWUo2DBm4",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
       "title": "Progressive Wages",
       "category": "tvc",
       "tags": [
@@ -629,27 +650,6 @@
         [
           "Production",
           "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Wilson + Chelsea",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/wilson-chelsea.jpg",
-      "video": "https://youtu.be/eOdWUo2DBm4",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
         ]
       ]
     },
@@ -721,28 +721,6 @@
     },
     {
       "slot": "after",
-      "title": "Ritz Carlton Wedding Showcase",
-      "category": "events",
-      "tags": [
-        "events",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
-      "video": "https://youtu.be/qSGJ6Qo-NdA",
-      "client": "Heaven's Gift",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Producer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Xmas",
       "category": "tvc",
       "tags": [
@@ -761,6 +739,28 @@
         [
           "Production",
           "Abundant Productions"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Ritz Carlton Wedding Showcase",
+      "category": "events",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
+      "video": "https://youtu.be/qSGJ6Qo-NdA",
+      "client": "Heaven's Gift",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
         ]
       ]
     },
@@ -833,6 +833,27 @@
     },
     {
       "slot": "after",
+      "title": "Weilun + Sandy",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
+      "video": "https://youtu.be/If-L6E2CqMg",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
       "title": "Shopee 9.9",
       "category": "tvc",
       "tags": [
@@ -851,27 +872,6 @@
         [
           "Production",
           "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Weilun + Sandy",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
-      "video": "https://youtu.be/If-L6E2CqMg",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
         ]
       ]
     }
