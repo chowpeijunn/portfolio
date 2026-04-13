@@ -803,17 +803,12 @@ function initFilter() {
     return 2;
   }
 
-  // Place hub in the centre column for the current grid
+  // Only span 2 on 2-col (fills the row nicely); all other sizes let hub
+  // flow naturally in DOM order — explicit column numbers break auto-placement
   function updateHubSpan() {
     const hub = document.getElementById('centerHub');
     if (!hub) return;
-    const cols = getGridCols();
-    if (cols <= 2) {
-      hub.style.gridColumn = 'span 2';
-    } else {
-      // 3→col2, 4→col2, 5→col3
-      hub.style.gridColumn = String(Math.ceil(cols / 2));
-    }
+    hub.style.gridColumn = getGridCols() <= 2 ? 'span 2' : '';
     setTimeout(() => centerOnHub(false), 0);
   }
 
