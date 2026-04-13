@@ -429,17 +429,38 @@ a { color: inherit; text-decoration: none; }
 /* ============================================
    HUB CARD
    ============================================ */
+/* Hub card outer — normally just a grid cell */
 .hub-card {
   min-width: 0;
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+
+/* Hub card inner — carries all the visual styling */
+.hub-inner {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 20px 16px;
-  position: relative;
   border-radius: 3px;
+}
+
+/* 4-col: hub outer is a transparent 2-col wrapper; inner is 1-card wide */
+.hub-card.hub-span-2 {
+  aspect-ratio: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hub-card.hub-span-2 .hub-inner {
+  /* 1 card width = half of 2-col span minus half the 14px gap */
+  width: calc(50% - 7px);
   aspect-ratio: 16 / 10;
+  height: auto;
 }
 
 
@@ -1028,6 +1049,11 @@ a { color: inherit; text-decoration: none; }
 
   .hub-card {
     grid-column: 1 / -1; /* full width on mobile */
+    aspect-ratio: unset;
+  }
+  .hub-card .hub-inner {
+    aspect-ratio: 16 / 10;
+    width: 100%;
   }
 
   .detail-overlay {

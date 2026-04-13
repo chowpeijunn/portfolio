@@ -803,13 +803,15 @@ function initFilter() {
     return 2;
   }
 
-  // Only span 2 on 2-col (fills the row nicely); all other sizes let hub
-  // flow naturally in DOM order — explicit column numbers break auto-placement
+  // 2-col: span 2 full-width. 4-col: span 2 wrapper, inner stays 1-card wide.
+  // 3 & 5-col: natural flow, 1 card wide.
   function updateHubSpan() {
     const hub = document.getElementById('centerHub');
     if (!hub) return;
     const cols = getGridCols();
-    hub.style.gridColumn = (cols === 2 || cols === 4) ? 'span 2' : '';
+    const span2 = cols === 2 || cols === 4;
+    hub.style.gridColumn = span2 ? 'span 2' : '';
+    hub.classList.toggle('hub-span-2', cols === 4); // inner shrinks to 1-card at 4-col
     setTimeout(() => centerOnHub(false), 0);
   }
 
