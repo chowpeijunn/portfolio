@@ -58,6 +58,9 @@ function renderCards(projects) {
       `</div></div></a>`;
   }
 
+  // Record original split so updateHubSpan can restore when column count changes
+  window._originalBeforeCount = projects.filter(p => p.slot === 'before').length;
+
   const beforeHTML = projects.filter(p => p.slot === 'before').map(makeCard).join('\n      ');
   const afterHTML  = projects.filter(p => p.slot === 'after').map(makeCard).join('\n      ');
 
@@ -806,7 +809,8 @@ function initFilter() {
   }
 
   // 2-col: span 2 full-width. 4-col: span 2 wrapper, inner stays 1-card wide.
-  // 3 & 5-col: natural flow, 1 card wide — spacers inserted to centre hub.
+  // 3 & 5-col: natural flow, 1 card wide. Cards are moved to fill the cell
+  // immediately left of the hub so there's never an empty gap.
   function updateHubSpan() {
     const hub = document.getElementById('centerHub');
     const inner = document.getElementById('canvasInner');
@@ -814,26 +818,39 @@ function initFilter() {
     const cols = getGridCols();
     const span2 = cols === 2 || cols === 4;
 
-    // Remove any existing spacers first
-    inner.querySelectorAll('.hub-spacer').forEach(s => s.remove());
-
     hub.style.gridColumn = span2 ? 'span 2' : '';
     hub.classList.toggle('hub-span-2', cols === 4);
 
-    if (!span2) {
-      // Count cards that come before the hub in DOM order
-      let beforeCount = 0;
-      for (const el of inner.children) {
-        if (el === hub) break;
-        beforeCount++;
+    // Compute how many before-cards are needed so hub lands on the centre column
+    const originalBefore = window._originalBeforeCount || 0;
+    let targetBefore = originalBefore;
+    if (!span2 && originalBefore > 0) {
+      const remainder = originalBefore % cols;
+      const center    = Math.floor((cols - 1) / 2);
+      const shift     = (center - remainder + cols) % cols;
+      targetBefore    = originalBefore + shift;
+    }
+
+    // Split current children into before/after relative to hub
+    const beforeCards = [], afterCards = [];
+    let past = false;
+    for (const el of inner.children) {
+      if (el === hub) { past = true; continue; }
+      if (!el.classList.contains('project-card')) continue;
+      (past ? afterCards : beforeCards).push(el);
+    }
+
+    const delta = targetBefore - beforeCards.length;
+    if (delta > 0) {
+      // Pull first `delta` after-cards to immediately before hub
+      for (let i = 0; i < delta && afterCards[i]; i++) {
+        inner.insertBefore(afterCards[i], hub);
       }
-      const currentCol  = beforeCount % cols;
-      const targetCol   = Math.floor((cols - 1) / 2);
-      const spacersNeeded = (targetCol - currentCol + cols) % cols;
-      for (let i = 0; i < spacersNeeded; i++) {
-        const spacer = document.createElement('div');
-        spacer.className = 'hub-spacer';
-        hub.parentNode.insertBefore(spacer, hub);
+    } else if (delta < 0) {
+      // Push last `|delta|` before-cards to immediately after hub
+      const insertRef = hub.nextSibling;
+      for (let i = beforeCards.length + delta; i < beforeCards.length; i++) {
+        if (beforeCards[i]) inner.insertBefore(beforeCards[i], insertRef);
       }
     }
 
