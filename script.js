@@ -808,7 +808,8 @@ function initFilter() {
   function updateHubSpan() {
     const hub = document.getElementById('centerHub');
     if (!hub) return;
-    hub.style.gridColumn = getGridCols() <= 2 ? 'span 2' : '';
+    const cols = getGridCols();
+    hub.style.gridColumn = (cols === 2 || cols === 4) ? 'span 2' : '';
     setTimeout(() => centerOnHub(false), 0);
   }
 
