@@ -429,6 +429,14 @@ a { color: inherit; text-decoration: none; }
 /* ============================================
    HUB CARD
    ============================================ */
+/* Invisible spacer injected by JS to centre hub in odd-column layouts */
+.hub-spacer {
+  aspect-ratio: 16 / 10;
+  visibility: hidden;
+  pointer-events: none;
+  min-width: 0;
+}
+
 /* Hub card outer — normally just a grid cell */
 .hub-card {
   min-width: 0;

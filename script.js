@@ -804,14 +804,37 @@ function initFilter() {
   }
 
   // 2-col: span 2 full-width. 4-col: span 2 wrapper, inner stays 1-card wide.
-  // 3 & 5-col: natural flow, 1 card wide.
+  // 3 & 5-col: natural flow, 1 card wide — spacers inserted to centre hub.
   function updateHubSpan() {
     const hub = document.getElementById('centerHub');
-    if (!hub) return;
+    const inner = document.getElementById('canvasInner');
+    if (!hub || !inner) return;
     const cols = getGridCols();
     const span2 = cols === 2 || cols === 4;
+
+    // Remove any existing spacers first
+    inner.querySelectorAll('.hub-spacer').forEach(s => s.remove());
+
     hub.style.gridColumn = span2 ? 'span 2' : '';
-    hub.classList.toggle('hub-span-2', cols === 4); // inner shrinks to 1-card at 4-col
+    hub.classList.toggle('hub-span-2', cols === 4);
+
+    if (!span2) {
+      // Count cards that come before the hub in DOM order
+      let beforeCount = 0;
+      for (const el of inner.children) {
+        if (el === hub) break;
+        beforeCount++;
+      }
+      const currentCol  = beforeCount % cols;
+      const targetCol   = Math.floor((cols - 1) / 2);
+      const spacersNeeded = (targetCol - currentCol + cols) % cols;
+      for (let i = 0; i < spacersNeeded; i++) {
+        const spacer = document.createElement('div');
+        spacer.className = 'hub-spacer';
+        hub.parentNode.insertBefore(spacer, hub);
+      }
+    }
+
     setTimeout(() => centerOnHub(false), 0);
   }
 
