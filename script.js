@@ -70,6 +70,8 @@ const _dataReady = fetch('data.json')
   .then(r => r.json())
   .then(data => {
     renderCards(data.projects);
+    // Cards are now in the DOM — safe to compute hub centering
+    if (window._updateHubSpan) window._updateHubSpan();
     initHoverToPlay();
     initFilter();
     return data;
@@ -838,7 +840,8 @@ function initFilter() {
     setTimeout(() => centerOnHub(false), 0);
   }
 
-  updateHubSpan();
+  // Expose so the data-loader can call updateHubSpan AFTER cards are in the DOM
+  window._updateHubSpan = updateHubSpan;
 
   // Only re-run when the column count actually crosses a breakpoint
   let activeCols = getGridCols();
