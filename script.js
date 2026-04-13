@@ -749,7 +749,6 @@ function initFilter() {
   const inner = document.getElementById('canvasInner');
   if (!inner) return;
 
-  let resizeRAF = null;
   let prevPositions = new Map();
 
   function capturePositions() {
