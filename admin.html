@@ -399,13 +399,21 @@ let thumbGridVisible = false;
 let dragSrcIdx = null;
 let filterQuery = '';
 
+function getAdminSecret() {
+  return localStorage.getItem('adminSecret') || '';
+}
+
 async function init() {
+  const secret = getAdminSecret();
   const [dataRes, thumbRes] = await Promise.all([
-    fetch('/api/data').then(r => r.json()),
-    fetch('/api/thumbs').then(r => r.json())
+    fetch('/data.json').then(r => r.json()),
+    fetch('/api/thumbs', { headers: { 'x-admin-secret': secret } }).then(async r => {
+      if (r.status === 401) throw Object.assign(new Error('Unauthorized'), { status: 401 });
+      return r.json();
+    })
   ]);
   data = dataRes;
-  thumbFiles = thumbRes;
+  thumbFiles = Array.isArray(thumbRes) ? thumbRes : [];
   renderList();
   updateCount();
 }
@@ -826,18 +834,18 @@ async function saveAll() {
   msg.textContent = 'Saving…';
   msg.className = 'status-msg';
   try {
-    const res = await fetch('/api/save', {
+    const res = await fetch('/api/publish', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-admin-secret': getAdminSecret() },
       body: JSON.stringify(data, null, 2)
     });
     const json = await res.json();
     if (json.ok) {
       dirty.clear();
       renderList();
-      msg.textContent = 'Saved ✓';
+      msg.textContent = '✓ Saved & published';
       msg.className = 'status-msg ok';
-      setTimeout(() => { msg.textContent = ''; msg.className = 'status-msg'; }, 3000);
+      setTimeout(() => { msg.textContent = ''; msg.className = 'status-msg'; }, 4000);
     } else throw new Error(json.error);
   } catch (e) {
     msg.textContent = 'Error: ' + e.message;
@@ -1046,11 +1054,21 @@ async function handleUploadFile(file) {
   const progress = document.getElementById('uploadProgress');
   if (progress) { progress.textContent = 'Uploading…'; progress.classList.add('visible'); }
 
-  const formData = new FormData();
-  formData.append('file', file);
+  // Read as base64 for GitHub API upload
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+  const uploadFilename = file.name;
 
   try {
-    const res = await fetch('/api/upload-thumb', { method: 'POST', body: formData });
+    const res = await fetch('/api/upload-thumb', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-secret': getAdminSecret() },
+      body: JSON.stringify({ filename: uploadFilename, content: base64 })
+    });
     const json = await res.json();
     if (!json.ok) throw new Error(json.error);
 
@@ -1071,44 +1089,7 @@ async function handleUploadFile(file) {
 // ── SAVE & PUBLISH ────────────────────────────────────────
 
 async function saveAndPublish() {
-  const msg = document.getElementById('statusMsg');
-  msg.textContent = 'Saving…';
-  msg.className = 'status-msg';
-
-  // 1. Save data.json
-  try {
-    const res = await fetch('/api/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data, null, 2)
-    });
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
-  } catch (e) {
-    msg.textContent = 'Save failed: ' + e.message;
-    msg.className = 'status-msg err';
-    return;
-  }
-
-  // 2. Git commit + push
-  msg.textContent = 'Publishing…';
-  try {
-    const res = await fetch('/api/publish', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'Admin: update content' })
-    });
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
-    dirty.clear();
-    renderList();
-    msg.textContent = '✓ ' + json.message;
-    msg.className = 'status-msg ok';
-    setTimeout(() => { msg.textContent = ''; msg.className = 'status-msg'; }, 6000);
-  } catch (e) {
-    msg.textContent = 'Publish failed: ' + e.message;
-    msg.className = 'status-msg err';
-  }
+  await saveAll();
 }
 
 // ── UTILS ─────────────────────────────────────────────────
@@ -1122,15 +1103,61 @@ document.addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); saveAll(); }
 });
 
-init().catch(err => {
-  document.getElementById('editor').innerHTML = `
-    <div style="padding:40px;color:#e05252;font-size:14px;line-height:1.8;">
-      <strong>Cannot connect to admin server.</strong><br><br>
-      Run this in Terminal from your portfolio folder:<br><br>
-      <code style="background:#1a1a1a;padding:8px 14px;border-radius:6px;display:inline-block;">npm install && npm run admin</code><br><br>
-      Then open <a href="http://localhost:3333/admin.html" style="color:#4f8ef7;">http://localhost:3333/admin.html</a>
-    </div>`;
+// ── PASSWORD GATE ─────────────────────────────────────────
+function showPasswordGate(errMsg) {
+  document.getElementById('passwordGate').style.display = 'flex';
+  if (errMsg) document.getElementById('passwordErr').textContent = errMsg;
+}
+
+document.getElementById('passwordSubmit').addEventListener('click', async () => {
+  const val = document.getElementById('passwordInput').value.trim();
+  if (!val) return;
+  localStorage.setItem('adminSecret', val);
+  document.getElementById('passwordGate').style.display = 'none';
+  try {
+    await init();
+  } catch (e) {
+    if (e.status === 401) {
+      localStorage.removeItem('adminSecret');
+      showPasswordGate('Wrong password — try again');
+    } else {
+      document.getElementById('editor').innerHTML =
+        `<div style="padding:40px;color:#e05252;font-size:14px;">Error: ${e.message}</div>`;
+    }
+  }
 });
+
+document.getElementById('passwordInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('passwordSubmit').click();
+});
+
+// Start up
+if (getAdminSecret()) {
+  init().catch(e => {
+    if (e.status === 401) {
+      localStorage.removeItem('adminSecret');
+      showPasswordGate('Session expired — please log in again');
+    } else {
+      document.getElementById('editor').innerHTML =
+        `<div style="padding:40px;color:#e05252;font-size:14px;">Error: ${e.message}</div>`;
+    }
+  });
+} else {
+  showPasswordGate();
+}
 </script>
+
+<!-- Password gate overlay -->
+<div id="passwordGate" style="display:none;position:fixed;inset:0;background:#0d0d0d;z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
+  <div style="font-size:20px;font-weight:700;color:#e0e0e0;">Portfolio Admin</div>
+  <div style="font-size:13px;color:#666;">Enter your admin password to continue</div>
+  <input id="passwordInput" type="password" placeholder="Password"
+    style="background:#1e1e1e;border:1px solid #333;border-radius:8px;padding:10px 16px;color:#e0e0e0;font-size:14px;outline:none;width:260px;margin-top:6px;" />
+  <button id="passwordSubmit"
+    style="background:#4f8ef7;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">
+    Continue
+  </button>
+  <div id="passwordErr" style="color:#e05252;font-size:12px;min-height:16px;"></div>
+</div>
 </body>
 </html>

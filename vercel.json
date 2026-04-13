@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/publish.js": { "maxDuration": 30 },
+    "api/upload-thumb.js": { "maxDuration": 30 }
+  }
+}
