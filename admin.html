@@ -369,6 +369,14 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
     <div class="sidebar-header">
       <input class="sidebar-search" type="text" placeholder="Search projects…" oninput="filterList(this.value)">
     </div>
+    <div style="padding:8px 12px;border-bottom:1px solid var(--border);">
+      <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">Showreel</div>
+      <input id="showreelUrlInput" type="text" placeholder="YouTube URL…"
+        style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:12px;outline:none;"
+        oninput="data.showreel = this.value;"
+        onfocus="this.style.borderColor='var(--accent)'"
+        onblur="this.style.borderColor='var(--border)'" />
+    </div>
     <div class="project-list" id="projectList"></div>
     <div class="add-btn-row">
       <button class="btn btn-ghost" style="width:100%" onclick="addProject()">+ New Project</button>
@@ -414,6 +422,8 @@ async function init() {
   ]);
   data = dataRes;
   thumbFiles = Array.isArray(thumbRes) ? thumbRes : [];
+  const showreelInput = document.getElementById('showreelUrlInput');
+  if (showreelInput) showreelInput.value = data.showreel || '';
   renderList();
   updateCount();
 }
