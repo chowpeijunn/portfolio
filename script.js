@@ -141,6 +141,8 @@ const _dataReady = fetch('data.json')
     canvasEl.getBoundingClientRect(); // force layout so transition fires from opacity:0
     canvasEl.classList.add('visible');
     nav.classList.add('visible');
+    bottomBar.style.display = 'flex';
+    bottomBar.getBoundingClientRect();
     bottomBar.classList.add('visible');
     centerOnHub();
     // Always show return button
@@ -604,14 +606,16 @@ function initShowreel() {
     const url = btn.dataset.video || '';
     const id  = getYouTubeId(url);
     if (id) {
-      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
     }
+    overlay.style.display = 'flex';
+    overlay.getBoundingClientRect();
     overlay.classList.add('open');
   }
 
   function closeShowreel() {
     overlay.classList.remove('open');
-    setTimeout(() => { wrap.innerHTML = ''; }, 380);
+    setTimeout(() => { overlay.style.display = 'none'; wrap.innerHTML = ''; }, 380);
   }
 
   btn.addEventListener('click', (e) => { e.preventDefault(); openShowreel(); });
@@ -718,8 +722,11 @@ initShowreel();
       }
     }
 
-    // Reset scroll, open
+    // Reset scroll, open — set display:flex before transition so backdrop-filter
+    // doesn't exist in the rendering tree until the overlay is actually needed
     overlay.scrollTop = 0;
+    overlay.style.display = 'flex';
+    overlay.getBoundingClientRect();
     overlay.classList.add('open');
     bottomBar.classList.add('detail-mode');
     bottomBar.style.animation = 'none';
@@ -729,6 +736,7 @@ initShowreel();
 
   function closeDetail() {
     overlay.classList.remove('open');
+    setTimeout(() => { overlay.style.display = 'none'; }, 420);
     // Destroy iframes to stop playback
     const videoSection = document.querySelector('.detail-video-section');
     if (videoSection) videoSection.innerHTML = '';

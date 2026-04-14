@@ -585,52 +585,45 @@ a { color: inherit; text-decoration: none; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.25);
 }
 
-/* Showreel CTA button — primary action on hub */
+/* Showreel button — sits alongside filter pills, same visual style */
 .hub-showreel-btn {
-  width: 100%;
-  padding: 9px 14px;
-  margin-top: 14px;
-  background: var(--text);
-  color: var(--bg);
-  border: none;
-  border-radius: 4px;
-  font-family: var(--font-heading);
-  font-size: 0.8125rem;
-  letter-spacing: 0.1em;
+  font-family: var(--font-body);
+  font-size: 0.5625rem;
+  font-weight: 500;
   text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 4px 9px;
+  border-radius: 80px;
+  border: 1px solid rgba(232, 230, 223, 0.2);
+  background: transparent;
+  color: rgba(232, 230, 223, 0.55);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  transition: opacity 0.2s ease, transform 0.15s ease;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 .hub-showreel-btn:hover {
-  opacity: 0.82;
-  transform: translateY(-1px);
+  background: rgba(232, 230, 223, 0.1);
+  color: rgba(232, 230, 223, 0.9);
+  border-color: rgba(232, 230, 223, 0.35);
 }
-.hub-showreel-btn:active { transform: translateY(0); }
 
 /* Showreel overlay — near-full-screen video */
 .showreel-overlay {
+  display: none; /* revealed via JS to prevent backdrop-filter bleed-through */
   position: fixed;
   inset: 0;
   z-index: 6000;
   background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(16px) saturate(120%);
   -webkit-backdrop-filter: blur(16px) saturate(120%);
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
+  transition: opacity 0.35s ease;
 }
 .showreel-overlay.open {
   opacity: 1;
-  visibility: visible;
 }
 
 /* Panel width: constrained by viewport width OR height (maintains 16:9) */
@@ -674,21 +667,23 @@ a { color: inherit; text-decoration: none; }
 
 .showreel-close {
   flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
   background: none;
-  border: 1px solid rgba(232, 230, 223, 0.2);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  color: rgba(232, 230, 223, 0.55);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  color: rgba(232, 230, 223, 0.55);
-  transition: border-color 0.2s ease, color 0.2s ease;
+  border-radius: 100px;
+  overflow: hidden;
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 .showreel-close:hover {
-  border-color: rgba(232, 230, 223, 0.55);
-  color: var(--text);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(232, 230, 223, 0.95);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================
@@ -700,7 +695,7 @@ a { color: inherit; text-decoration: none; }
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  display: flex;
+  display: none; /* revealed via JS to prevent backdrop-filter bleed-through */
   align-items: center;
   gap: 1px;
   background: rgba(255, 255, 255, 0.07);
@@ -941,10 +936,10 @@ a { color: inherit; text-decoration: none; }
 
 /* Overlay = blurred scrim layer, centres the panel */
 .detail-overlay {
+  display: none; /* revealed via JS to prevent backdrop-filter bleed-through */
   position: fixed;
   inset: 0;
   z-index: 3000;
-  display: flex;
   align-items: flex-start;
   justify-content: center;
   overflow-y: auto;
@@ -955,17 +950,14 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
   transform: translateY(20px) scale(0.985);
   transition: opacity 0.36s ease,
-              visibility 0.36s ease,
               transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .detail-overlay.open {
   opacity: 1;
-  visibility: visible;
   pointer-events: auto;
   transform: translateY(0) scale(1);
 }
