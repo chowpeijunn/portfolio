@@ -606,7 +606,7 @@ function initShowreel() {
     const url = btn.dataset.video || '';
     const id  = getYouTubeId(url);
     if (id) {
-      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
     }
     overlay.style.display = 'flex';
     overlay.getBoundingClientRect();
@@ -651,7 +651,7 @@ initShowreel();
     // controls=0 on autoplay = no YouTube UI on first play (title bar, control bar hidden)
     // modestbranding=1 = minimal YouTube logo; iv_load_policy=3 = no annotations
     const params = ['rel=0', 'modestbranding=1', 'iv_load_policy=3'];
-    if (autoplay) { params.push('autoplay=1', 'controls=0'); }
+    if (autoplay) { params.push('autoplay=1'); }
     return `https://www.youtube-nocookie.com/embed/${id}?${params.join('&')}`;
   }
 
