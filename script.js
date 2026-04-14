@@ -608,7 +608,11 @@ function initFilter() {
   function youtubeEmbedUrl(url, autoplay = false) {
     const id = getYouTubeId(url);
     if (!id) return '';
-    return `https://www.youtube.com/embed/${id}?rel=0${autoplay ? '&autoplay=1' : ''}`;
+    // controls=0 on autoplay = no YouTube UI on first play (title bar, control bar hidden)
+    // modestbranding=1 = minimal YouTube logo; iv_load_policy=3 = no annotations
+    const params = ['rel=0', 'modestbranding=1', 'iv_load_policy=3'];
+    if (autoplay) { params.push('autoplay=1', 'controls=0'); }
+    return `https://www.youtube-nocookie.com/embed/${id}?${params.join('&')}`;
   }
 
   function makeVideoEl(src) {

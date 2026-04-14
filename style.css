@@ -253,10 +253,11 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   overflow: hidden;
   opacity: 0;
+  visibility: hidden;
   transition: opacity 0.8s ease;
 }
 
-.canvas.visible { opacity: 1; }
+.canvas.visible { opacity: 1; visibility: visible; }
 
 .canvas-inner {
   position: absolute;
