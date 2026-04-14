@@ -1098,18 +1098,39 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// Keyboard shortcut: Cmd+S to save
+/// Keyboard shortcut: Cmd+S to save
 document.addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); saveAll(); }
 });
 
-// ── PASSWORD GATE ─────────────────────────────────────────
+// ── PASSWORD GATE (built dynamically so script order doesn't matter) ──────
 function showPasswordGate(errMsg) {
-  document.getElementById('passwordGate').style.display = 'flex';
+  let gate = document.getElementById('passwordGate');
+  if (!gate) {
+    gate = document.createElement('div');
+    gate.id = 'passwordGate';
+    gate.style.cssText = 'position:fixed;inset:0;background:#0d0d0d;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;';
+    gate.innerHTML = `
+      <div style="font-size:20px;font-weight:700;color:#e0e0e0;">Portfolio Admin</div>
+      <div style="font-size:13px;color:#666;">Enter your admin password to continue</div>
+      <input id="passwordInput" type="password" placeholder="Password"
+        style="background:#1e1e1e;border:1px solid #333;border-radius:8px;padding:10px 16px;color:#e0e0e0;font-size:14px;outline:none;width:260px;margin-top:6px;" />
+      <button id="passwordSubmit"
+        style="background:#4f8ef7;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">
+        Continue
+      </button>
+      <div id="passwordErr" style="color:#e05252;font-size:12px;min-height:16px;"></div>`;
+    document.body.appendChild(gate);
+    document.getElementById('passwordSubmit').addEventListener('click', submitSecret);
+    document.getElementById('passwordInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitSecret();
+    });
+  }
+  gate.style.display = 'flex';
   if (errMsg) document.getElementById('passwordErr').textContent = errMsg;
 }
 
-document.getElementById('passwordSubmit').addEventListener('click', async () => {
+async function submitSecret() {
   const val = document.getElementById('passwordInput').value.trim();
   if (!val) return;
   localStorage.setItem('adminSecret', val);
@@ -1125,11 +1146,7 @@ document.getElementById('passwordSubmit').addEventListener('click', async () => 
         `<div style="padding:40px;color:#e05252;font-size:14px;">Error: ${e.message}</div>`;
     }
   }
-});
-
-document.getElementById('passwordInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('passwordSubmit').click();
-});
+}
 
 // Start up
 if (getAdminSecret()) {
@@ -1146,18 +1163,5 @@ if (getAdminSecret()) {
   showPasswordGate();
 }
 </script>
-
-<!-- Password gate overlay -->
-<div id="passwordGate" style="display:none;position:fixed;inset:0;background:#0d0d0d;z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
-  <div style="font-size:20px;font-weight:700;color:#e0e0e0;">Portfolio Admin</div>
-  <div style="font-size:13px;color:#666;">Enter your admin password to continue</div>
-  <input id="passwordInput" type="password" placeholder="Password"
-    style="background:#1e1e1e;border:1px solid #333;border-radius:8px;padding:10px 16px;color:#e0e0e0;font-size:14px;outline:none;width:260px;margin-top:6px;" />
-  <button id="passwordSubmit"
-    style="background:#4f8ef7;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">
-    Continue
-  </button>
-  <div id="passwordErr" style="color:#e05252;font-size:12px;min-height:16px;"></div>
-</div>
 </body>
 </html>
