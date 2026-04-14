@@ -131,17 +131,22 @@ const _dataReady = fetch('data.json')
   async function revealSite() {
     await _dataReady;
     loader.classList.add('done');
-    canvasEl.classList.add('visible');
-    nav.classList.add('visible');
-    bottomBar.classList.add('visible');
-    centerOnHub();
-    // Always show return button
-    const returnBtn = document.getElementById('returnBtn');
-    if (returnBtn) returnBtn.classList.add('visible');
-    // Small delay so loader fade starts before letters animate
-    setTimeout(animateHubLetters, 80);
-    // Warm up YouTube player API so first hover loads faster
-    setTimeout(warmYouTubeAPI, 1500);
+    // Wait for the loader's 0.5s fade to finish before revealing the canvas.
+    // Revealing them simultaneously caused the card grid to show through the
+    // semi-transparent loader as a grey band around the counter.
+    setTimeout(() => {
+      canvasEl.classList.add('visible');
+      nav.classList.add('visible');
+      bottomBar.classList.add('visible');
+      centerOnHub();
+      // Always show return button
+      const returnBtn = document.getElementById('returnBtn');
+      if (returnBtn) returnBtn.classList.add('visible');
+      // Small delay so canvas starts appearing before letters animate
+      setTimeout(animateHubLetters, 80);
+      // Warm up YouTube player API so first hover loads faster
+      setTimeout(warmYouTubeAPI, 1500);
+    }, 520); // slightly longer than loader's 0.5s transition
   }
 
   function warmYouTubeAPI() {
