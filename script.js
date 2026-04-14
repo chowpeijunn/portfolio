@@ -73,6 +73,9 @@ const _dataReady = fetch('data.json')
   .then(r => r.json())
   .then(data => {
     renderCards(data.projects);
+    // Propagate showreel URL to the button
+    const showreelBtn = document.getElementById('showreelBtn');
+    if (showreelBtn && data.showreel) showreelBtn.dataset.video = data.showreel;
     // Cards are now in the DOM — safe to compute hub centering
     if (window._updateHubSpan) window._updateHubSpan();
     initHoverToPlay();
@@ -131,22 +134,22 @@ const _dataReady = fetch('data.json')
   async function revealSite() {
     await _dataReady;
     loader.classList.add('done');
-    // Wait for the loader's 0.5s fade to finish before revealing the canvas.
-    // Revealing them simultaneously caused the card grid to show through the
-    // semi-transparent loader as a grey band around the counter.
-    setTimeout(() => {
-      canvasEl.classList.add('visible');
-      nav.classList.add('visible');
-      bottomBar.classList.add('visible');
-      centerOnHub();
-      // Always show return button
-      const returnBtn = document.getElementById('returnBtn');
-      if (returnBtn) returnBtn.classList.add('visible');
-      // Small delay so canvas starts appearing before letters animate
-      setTimeout(animateHubLetters, 80);
-      // Warm up YouTube player API so first hover loads faster
-      setTimeout(warmYouTubeAPI, 1500);
-    }, 520); // slightly longer than loader's 0.5s transition
+    // Put canvas in rendering tree (opacity still 0) then transition in.
+    // Using display:none during loading prevents the GPU-composited canvas-inner
+    // from bleeding through the opaque loader as a grey band.
+    canvasEl.style.display = 'block';
+    canvasEl.getBoundingClientRect(); // force layout so transition fires from opacity:0
+    canvasEl.classList.add('visible');
+    nav.classList.add('visible');
+    bottomBar.classList.add('visible');
+    centerOnHub();
+    // Always show return button
+    const returnBtn = document.getElementById('returnBtn');
+    if (returnBtn) returnBtn.classList.add('visible');
+    // Small delay so loader fade starts before letters animate
+    setTimeout(animateHubLetters, 80);
+    // Warm up YouTube player API so first hover loads faster
+    setTimeout(warmYouTubeAPI, 1500);
   }
 
   function warmYouTubeAPI() {
@@ -586,6 +589,39 @@ function initFilter() {
     if (e.key === 'Escape') resetFilter();
   });
 }
+
+/* ============================================
+   SHOWREEL OVERLAY
+   ============================================ */
+function initShowreel() {
+  const btn     = document.getElementById('showreelBtn');
+  const overlay = document.getElementById('showreelOverlay');
+  const wrap    = document.getElementById('showreelVideoWrap');
+  const closeBtn = document.getElementById('showreelClose');
+  if (!btn || !overlay) return;
+
+  function openShowreel() {
+    const url = btn.dataset.video || '';
+    const id  = getYouTubeId(url);
+    if (id) {
+      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    }
+    overlay.classList.add('open');
+  }
+
+  function closeShowreel() {
+    overlay.classList.remove('open');
+    setTimeout(() => { wrap.innerHTML = ''; }, 380);
+  }
+
+  btn.addEventListener('click', (e) => { e.preventDefault(); openShowreel(); });
+  if (closeBtn) closeBtn.addEventListener('click', closeShowreel);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeShowreel(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeShowreel();
+  });
+}
+initShowreel();
 
 /* ============================================
    PROJECT DETAIL OVERLAY

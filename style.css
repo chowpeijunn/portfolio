@@ -252,12 +252,12 @@ a { color: inherit; text-decoration: none; }
   position: fixed;
   inset: 0;
   overflow: hidden;
+  display: none;
   opacity: 0;
-  visibility: hidden;
   transition: opacity 0.8s ease;
 }
 
-.canvas.visible { opacity: 1; visibility: visible; }
+.canvas.visible { opacity: 1; }
 
 .canvas-inner {
   position: absolute;
@@ -583,6 +583,112 @@ a { color: inherit; text-decoration: none; }
   color: rgba(12, 14, 26, 0.9);
   border-color: rgba(232, 230, 223, 0.5);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.25);
+}
+
+/* Showreel CTA button — primary action on hub */
+.hub-showreel-btn {
+  width: 100%;
+  padding: 9px 14px;
+  margin-top: 14px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+.hub-showreel-btn:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
+}
+.hub-showreel-btn:active { transform: translateY(0); }
+
+/* Showreel overlay — near-full-screen video */
+.showreel-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.showreel-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Panel width: constrained by viewport width OR height (maintains 16:9) */
+.showreel-panel {
+  width: min(92vw, calc(88vh * 16 / 9));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.showreel-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.showreel-video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.showreel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.showreel-copy {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  color: rgba(232, 230, 223, 0.45);
+  letter-spacing: 0.02em;
+}
+
+.showreel-close {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid rgba(232, 230, 223, 0.2);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(232, 230, 223, 0.55);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.showreel-close:hover {
+  border-color: rgba(232, 230, 223, 0.55);
+  color: var(--text);
 }
 
 /* ============================================
