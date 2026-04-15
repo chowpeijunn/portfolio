@@ -133,12 +133,11 @@ const _dataReady = fetch('data.json')
 
   async function revealSite() {
     await _dataReady;
+    // Instantly remove loader (display:none) — never semi-transparent, never a grey band.
     loader.classList.add('done');
-    // Put canvas in rendering tree (opacity still 0) then transition in.
-    // Using display:none during loading prevents the GPU-composited canvas-inner
-    // from bleeding through the opaque loader as a grey band.
+    // Put canvas in rendering tree then fade it in.
     canvasEl.style.display = 'block';
-    canvasEl.getBoundingClientRect(); // force layout so transition fires from opacity:0
+    canvasEl.getBoundingClientRect(); // force layout so opacity transition fires from 0
     canvasEl.classList.add('visible');
     nav.classList.add('visible');
     bottomBar.style.display = 'flex';
@@ -391,6 +390,7 @@ window.addEventListener('resize', () => {
     lastMoveTime = performance.now();
     velocityX = 0;
     velocityY = 0;
+    inner.style.willChange = 'transform';
     inner.classList.add('no-transition');
     e.preventDefault();
   });
@@ -417,6 +417,7 @@ window.addEventListener('resize', () => {
       isDragging = false;
       document.body.classList.remove('dragging');
       inner.classList.remove('no-transition');
+      inner.style.willChange = 'auto';
       // Apply momentum
       if (Math.abs(velocityX) > 1 || Math.abs(velocityY) > 1) {
         momentumRAF = requestAnimationFrame(applyMomentum);
@@ -441,6 +442,7 @@ window.addEventListener('resize', () => {
     lastMoveTime = performance.now();
     velocityX = 0;
     velocityY = 0;
+    inner.style.willChange = 'transform';
     inner.classList.add('no-transition');
   }, { passive: true });
 
@@ -466,6 +468,7 @@ window.addEventListener('resize', () => {
     if (isDragging) {
       isDragging = false;
       inner.classList.remove('no-transition');
+      inner.style.willChange = 'auto';
       if (Math.abs(velocityX) > 1 || Math.abs(velocityY) > 1) {
         momentumRAF = requestAnimationFrame(applyMomentum);
       }
