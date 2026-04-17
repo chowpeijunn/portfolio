@@ -858,6 +858,27 @@
     },
     {
       "slot": "after",
+      "title": " Meiyume Singapore Showcase ",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
+      "video": "https://youtu.be/iM_y1T0M3cA",
+      "client": "Meiyume",
+      "credits": [
+        [
+          "Work",
+          "Producer | 1st Videographer "
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
+    },
+    {
+      "slot": "after",
       "title": "Shopee 9.9",
       "category": "tvc",
       "tags": [
@@ -923,27 +944,6 @@
       "videos": [
         "https://youtu.be/sAOndV48mY4",
         "https://youtu.be/NLXX-hBEUPE"
-      ]
-    },
-    {
-      "slot": "after",
-      "title": " Meiyume Singapore Showcase ",
-      "category": "events",
-      "tags": [
-        "events"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
-      "video": "https://youtu.be/iM_y1T0M3cA",
-      "client": "Meiyume",
-      "credits": [
-        [
-          "Work",
-          "Producer | 1st Videographer "
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
       ]
     }
   ],
