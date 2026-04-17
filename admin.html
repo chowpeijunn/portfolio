@@ -553,19 +553,11 @@ function renderEditor() {
           <input type="text" value="${esc(p.client || '')}" oninput="update('client', this.value)">
         </div>
       </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Category</label>
-          <select onchange="update('category', this.value)">
-            ${CATEGORIES.map(c => `<option value="${c}" ${p.category===c?'selected':''}>${c}</option>`).join('')}
-          </select>
-        </div>
-        <div class="field">
-          <label>Position in grid</label>
-          <div style="display:flex;align-items:center;gap:8px;height:38px;">
-            <span style="font-size:12px;color:var(--muted);">${p.slot === 'before' ? 'Before hub card' : 'After hub card'}</span>
-            <button class="btn btn-ghost btn-sm" onclick="openGridView()" style="font-size:11px;">⊞ Change in Arrange view</button>
-          </div>
+      <div class="field">
+        <label>Position in grid</label>
+        <div style="display:flex;align-items:center;gap:8px;height:38px;">
+          <span style="font-size:12px;color:var(--muted);">${p.slot === 'before' ? 'Before hub card' : 'After hub card'}</span>
+          <button class="btn btn-ghost btn-sm" onclick="openGridView()" style="font-size:11px;">⊞ Change in Arrange view</button>
         </div>
       </div>
       <div class="field">
@@ -695,6 +687,9 @@ function toggleTag(tag, checked) {
   if (!p.tags) p.tags = [];
   if (checked) { if (!p.tags.includes(tag)) p.tags.push(tag); }
   else { p.tags = p.tags.filter(t => t !== tag); }
+  // Keep category in sync: use first matching category tag, fallback to current
+  const catTag = p.tags.find(t => CATEGORIES.includes(t));
+  if (catTag) p.category = catTag;
   markDirty();
   // Re-render tags row so active state updates visually
   const tagsRow = document.querySelector('.tags-row');
