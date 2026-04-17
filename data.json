@@ -899,6 +899,31 @@
           "Optical Films"
         ]
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Token 2049",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.49-am.jpg",
+      "video": "https://youtu.be/cqDVmKocdrA",
+      "client": "Token 2049",
+      "credits": [
+        [
+          "Work",
+          "Producer | 2nd Videographer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "videos": [
+        "https://youtu.be/sAOndV48mY4",
+        "https://youtu.be/NLXX-hBEUPE"
+      ]
     }
   ],
   "categoryDefaults": {
