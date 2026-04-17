@@ -827,16 +827,10 @@ async function pickVideoFile(vi) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
-      const res = await fetch('/api/upload-video', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-secret': getAdminSecret() },
-        body: JSON.stringify({ filename: file.name, content: base64 })
-      });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error);
+      const uploadPath = await githubPut(`assets/videos/${file.name}`, base64, file.name);
       if (inputEl) {
-        inputEl.value = json.path;
-        updateVideo(vi, json.path);
+        inputEl.value = uploadPath;
+        updateVideo(vi, uploadPath);
       }
     } catch (err) {
       alert('Upload failed: ' + err.message);
@@ -1150,22 +1144,12 @@ async function handleUploadFile(file) {
   });
 
   try {
-    const res = await fetch('/api/upload-thumb', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-secret': getAdminSecret() },
-      body: JSON.stringify({ filename: uploadFilename, content: base64 })
-    });
+    const uploadPath = `assets/thumbs/${uploadFilename}`;
+    await githubPut(uploadPath, base64, uploadFilename);
 
-    // Read body as text first so we always get a readable error
-    const text = await res.text();
-    let json;
-    try { json = JSON.parse(text); }
-    catch { throw new Error(`HTTP ${res.status}: ${text.slice(0, 150)}`); }
-    if (!json.ok) throw new Error(json.error || JSON.stringify(json));
-
-    const filename = json.path.replace('assets/thumbs/', '');
+    const filename = uploadFilename;
     if (!thumbFiles.includes(filename)) thumbFiles.unshift(filename);
-    pickThumb(json.path);
+    pickThumb(uploadPath);
 
     showProgress(`✓ Uploaded: ${filename}`);
     setTimeout(() => { if (progress) progress.classList.remove('visible'); }, 3000);
@@ -1191,6 +1175,30 @@ document.addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); saveAll(); }
 });
 
+function getGhToken() { return localStorage.getItem('adminGhToken') || ''; }
+
+async function githubPut(path, content, filename) {
+  const token = getGhToken();
+  if (!token) throw new Error('No GitHub token — log out and enter your token to enable uploads.');
+  const api = `https://api.github.com/repos/chowpeijunn/portfolio/contents/${path}`;
+  const headers = {
+    Authorization: `token ${token}`,
+    Accept: 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json',
+    'User-Agent': 'portfolio-admin'
+  };
+  // Get SHA if file already exists (required for overwrite)
+  let sha;
+  const existRes = await fetch(api, { headers });
+  if (existRes.ok) { sha = (await existRes.json()).sha; }
+  const body = { message: `Admin: upload ${filename}`, content };
+  if (sha) body.sha = sha;
+  const putRes = await fetch(api, { method: 'PUT', headers, body: JSON.stringify(body) });
+  const putData = await putRes.json();
+  if (!putRes.ok) throw new Error(putData.message || `GitHub ${putRes.status}`);
+  return path;
+}
+
 // ── PASSWORD GATE (built dynamically so script order doesn't matter) ──────
 function showPasswordGate(errMsg) {
   let gate = document.getElementById('passwordGate');
@@ -1200,14 +1208,17 @@ function showPasswordGate(errMsg) {
     gate.style.cssText = 'position:fixed;inset:0;background:#0d0d0d;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;';
     gate.innerHTML = `
       <div style="font-size:20px;font-weight:700;color:#e0e0e0;">Portfolio Admin</div>
-      <div style="font-size:13px;color:#666;">Enter your admin password to continue</div>
-      <input id="passwordInput" type="password" placeholder="Password"
+      <div style="font-size:13px;color:#666;text-align:center;max-width:280px;">Enter your admin password.<br>Add a GitHub token to enable image uploads.</div>
+      <input id="passwordInput" type="password" placeholder="Admin password"
         style="background:#1e1e1e;border:1px solid #333;border-radius:8px;padding:10px 16px;color:#e0e0e0;font-size:14px;outline:none;width:260px;margin-top:6px;" />
+      <input id="ghTokenInput" type="password" placeholder="GitHub token (for uploads) — optional"
+        style="background:#1e1e1e;border:1px solid #333;border-radius:8px;padding:10px 16px;color:#e0e0e0;font-size:14px;outline:none;width:260px;" />
       <button id="passwordSubmit"
         style="background:#4f8ef7;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">
         Continue
       </button>
-      <div id="passwordErr" style="color:#e05252;font-size:12px;min-height:16px;"></div>`;
+      <div id="passwordErr" style="color:#e05252;font-size:12px;min-height:16px;"></div>
+      <div style="font-size:11px;color:#444;max-width:280px;text-align:center;line-height:1.5;">Token needs <strong style="color:#555">Contents: Read &amp; Write</strong> on the portfolio repo. Generated at GitHub → Settings → Developer Settings → Fine-grained tokens.</div>`;
     document.body.appendChild(gate);
     document.getElementById('passwordSubmit').addEventListener('click', submitSecret);
     document.getElementById('passwordInput').addEventListener('keydown', e => {
@@ -1221,7 +1232,9 @@ function showPasswordGate(errMsg) {
 async function submitSecret() {
   const val = document.getElementById('passwordInput').value.trim();
   if (!val) return;
+  const ghToken = document.getElementById('ghTokenInput').value.trim();
   localStorage.setItem('adminSecret', val);
+  if (ghToken) localStorage.setItem('adminGhToken', ghToken);
   document.getElementById('passwordGate').style.display = 'none';
   try {
     await init();
