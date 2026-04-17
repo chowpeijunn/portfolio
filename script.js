@@ -670,6 +670,9 @@ initShowreel();
     if (isYouTube(src)) {
       return `<div class="detail-video-wrap"><iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>`;
     }
+    if (/\.gif$/i.test(src)) {
+      return `<div class="detail-video-wrap"><img class="detail-gif" src="${src}" alt="" loading="lazy"></div>`;
+    }
     return `<video class="detail-video-player" controls preload="metadata" src="${src}"></video>`;
   }
 

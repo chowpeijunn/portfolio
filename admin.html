@@ -177,6 +177,8 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .videos-list { display: flex; flex-direction: column; gap: 6px; }
 .video-row { display: flex; gap: 6px; align-items: center; }
 .video-row input { flex: 1; }
+.video-upload-btn { flex-shrink: 0; }
+.video-upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Delete zone */
 .danger-zone { border: 1px solid #3a1a1a; border-radius: var(--radius); padding: 16px; background: #1a0e0e; }
@@ -580,7 +582,7 @@ function renderEditor() {
         <input type="text" value="${esc(p.video || '')}" placeholder="https://youtu.be/..." oninput="update('video', this.value)">
       </div>
       <div class="field">
-        <label>Extra videos (shown in project detail)</label>
+        <label>Extra videos — YouTube URL, direct video, or GIF</label>
         <div class="videos-list" id="videosList">${videosHtml}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addVideo()">+ Add video</button>
       </div>
@@ -655,7 +657,8 @@ function creditRowHtml([key, val], ci) {
 
 function videoRowHtml(url, vi) {
   return `<div class="video-row" id="video-${vi}">
-    <input type="text" value="${esc(url)}" placeholder="https://youtu.be/..." oninput="updateVideo(${vi}, this.value)">
+    <input type="text" value="${esc(url)}" placeholder="https://youtu.be/… or upload ↓" oninput="updateVideo(${vi}, this.value)">
+    <button class="btn btn-ghost btn-sm video-upload-btn" onclick="pickVideoFile(${vi})" title="Upload video or GIF">↑ Upload</button>
     <button class="credit-remove" onclick="removeVideo(${vi})">×</button>
   </div>`;
 }
@@ -804,6 +807,49 @@ function removeVideo(vi) {
   if (data.projects[selectedIdx].videos.length === 0) delete data.projects[selectedIdx].videos;
   markDirty();
   renderEditor();
+}
+
+async function pickVideoFile(vi) {
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.accept = 'video/*,.gif,image/gif';
+  picker.onchange = async () => {
+    const file = picker.files[0];
+    if (!file) return;
+    const MAX_MB = 50;
+    if (file.size > MAX_MB * 1024 * 1024) {
+      alert(`File too large (max ${MAX_MB} MB). For larger videos, use a YouTube link.`);
+      return;
+    }
+    const row = document.getElementById(`video-${vi}`);
+    const inputEl = row ? row.querySelector('input[type=text]') : null;
+    const btn = row ? row.querySelector('.video-upload-btn') : null;
+    if (btn) { btn.disabled = true; btn.textContent = 'Uploading…'; }
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const res = await fetch('/api/upload-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-secret': getAdminSecret() },
+        body: JSON.stringify({ filename: file.name, content: base64 })
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error);
+      if (inputEl) {
+        inputEl.value = json.path;
+        updateVideo(vi, json.path);
+      }
+    } catch (err) {
+      alert('Upload failed: ' + err.message);
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = '↑ Upload'; }
+    }
+  };
+  picker.click();
 }
 
 function addProject() {

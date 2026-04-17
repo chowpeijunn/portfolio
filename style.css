@@ -1146,6 +1146,15 @@ a { color: inherit; text-decoration: none; }
   display: block;
 }
 
+.detail-video-wrap .detail-gif {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
