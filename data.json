@@ -945,6 +945,27 @@
         "https://youtu.be/sAOndV48mY4",
         "https://youtu.be/NLXX-hBEUPE"
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Bytedance 12th anniversary celebration",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
+      "video": "https://youtu.be/LGDU2hlOIZI",
+      "client": "Bytedance",
+      "credits": [
+        [
+          "Work",
+          "Producer | 2nd Videographer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
