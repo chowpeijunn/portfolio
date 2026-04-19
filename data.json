@@ -412,6 +412,23 @@
           "Production",
           "Abundant Productions"
         ]
+      ],
+      "clips": [
+        {
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:16",
+          "end": "0:21"
+        },
+        {
+          "label": "Animation, Roto, Transition, 3D Cam tracking",
+          "start": "0:26",
+          "end": "0:35"
+        },
+        {
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:35",
+          "end": "0:44"
+        }
       ]
     },
     {
