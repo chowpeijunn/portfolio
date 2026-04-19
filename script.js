@@ -644,7 +644,6 @@ function initShowreel() {
   }
 
   function closeShowreel() {
-    if (ytMsgListener) { window.removeEventListener('message', ytMsgListener); ytMsgListener = null; }
     clearTimeout(fallbackTimer);
     overlay.classList.remove('open');
     setTimeout(() => { overlay.style.display = 'none'; wrap.innerHTML = ''; }, 380);
