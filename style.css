@@ -1012,24 +1012,6 @@ a { color: inherit; text-decoration: none; }
   flex-shrink: 0;
 }
 
-/* Transparent overlays that intercept clicks to YouTube redirect zones */
-.detail-video-section::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 64px; /* covers title + channel + top controls */
-  z-index: 2;
-  pointer-events: all;
-}
-.detail-video-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 180px;
-  height: 36px; /* covers YouTube logo */
-  z-index: 2;
-  pointer-events: all;
-}
 
 .detail-thumb {
   width: 100%;
@@ -1043,6 +1025,7 @@ a { color: inherit; text-decoration: none; }
   height: 100%;
   border: none;
   display: block;
+  pointer-events: none;
 }
 
 /* ── Content body ── */
