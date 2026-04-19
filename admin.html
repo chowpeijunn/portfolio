@@ -342,6 +342,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   <button class="btn btn-ghost" onclick="window.open('/', '_blank')">View Site</button>
   <button class="btn btn-primary" onclick="saveAll()">Save</button>
   <button class="btn" style="background:#22c55e;color:#fff" onclick="saveAndPublish()">Save &amp; Publish ↗</button>
+  <button class="btn btn-ghost" id="ghTokenBtn" onclick="promptGhToken()" title="Set GitHub token for uploads" style="font-size:11px;padding:6px 10px;">🔑 Token</button>
 </div>
 
 <!-- GRID VIEW OVERLAY -->
@@ -431,6 +432,7 @@ function getAdminSecret() {
 }
 
 async function init() {
+  updateTokenBtn(!!getGhToken());
   const secret = getAdminSecret();
   const [dataRes, thumbRes] = await Promise.all([
     fetch('/data.json').then(r => r.json()),
@@ -1197,6 +1199,30 @@ document.addEventListener('keydown', e => {
 });
 
 function getGhToken() { return localStorage.getItem('adminGhToken') || ''; }
+
+function promptGhToken() {
+  const current = getGhToken();
+  const token = prompt(
+    'Enter your GitHub Personal Access Token (Contents: Read & Write).\nLeave blank to clear.',
+    current
+  );
+  if (token === null) return; // cancelled
+  if (token.trim()) {
+    localStorage.setItem('adminGhToken', token.trim());
+    updateTokenBtn(true);
+    alert('Token saved. Uploads are now enabled.');
+  } else {
+    localStorage.removeItem('adminGhToken');
+    updateTokenBtn(false);
+  }
+}
+
+function updateTokenBtn(hasToken) {
+  const btn = document.getElementById('ghTokenBtn');
+  if (!btn) return;
+  btn.textContent = hasToken ? '🔑 Token ✓' : '🔑 Token';
+  btn.style.color = hasToken ? 'var(--success)' : '';
+}
 
 async function githubPut(path, content, filename) {
   const token = getGhToken();
