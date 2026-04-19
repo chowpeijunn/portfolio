@@ -1171,7 +1171,7 @@ a { color: inherit; text-decoration: none; }
   display: block;
 }
 
-/* Clip cards — hover-to-play GIF-like clips */
+/* Clip cards — autoplay GIF-like clips */
 .detail-clips {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -1183,7 +1183,6 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: 5px;
-  cursor: pointer;
 }
 
 .detail-clip-inner {
@@ -1195,40 +1194,28 @@ a { color: inherit; text-decoration: none; }
   background: #000;
 }
 
-.detail-clip-thumb {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.2s ease;
-}
-
 .detail-clip-inner iframe {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
-.detail-clip-inner.playing iframe { opacity: 1; }
-.detail-clip-inner.playing .detail-clip-thumb { opacity: 0; }
-
-.detail-clip-play {
+/* Thumbnail sits above iframe, fades out once video loads */
+.detail-clip-thumb {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.25);
-  transition: opacity 0.2s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  animation: clipThumbFade 1s ease 1.5s forwards;
 }
-.detail-clip-play svg { filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5)); }
-.detail-clip-inner.playing .detail-clip-play { opacity: 0; }
+
+@keyframes clipThumbFade {
+  to { opacity: 0; pointer-events: none; }
+}
 
 .detail-clip-label {
   font-family: var(--font-body);
