@@ -1204,7 +1204,7 @@ a { color: inherit; text-decoration: none; }
   border: none;
 }
 
-/* Thumbnail sits above iframe — JS removes .visible once playing */
+/* Thumbnail sits above iframe — stays until 3s after PLAYING, then fades */
 .detail-clip-thumb {
   position: absolute;
   inset: 0;
@@ -1212,10 +1212,23 @@ a { color: inherit; text-decoration: none; }
   height: 100%;
   object-fit: cover;
   z-index: 2;
-  transition: opacity 0.4s ease;
 }
 .detail-clip-thumb.hide {
   opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease 3s; /* 3s delay = title overlay has auto-hidden */
+}
+
+/* Permanent cover for the YouTube logo watermark (bottom-right) */
+.detail-clip-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  height: 22px;
+  background: #000;
+  z-index: 3;
   pointer-events: none;
 }
 
