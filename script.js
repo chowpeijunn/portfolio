@@ -611,7 +611,7 @@ function initShowreel() {
     const url = btn.dataset.video || '';
     const id  = getYouTubeId(url);
     if (id) {
-      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0" allow="autoplay; encrypted-media"></iframe>`;
     }
     overlay.style.display = 'flex';
     overlay.getBoundingClientRect();
