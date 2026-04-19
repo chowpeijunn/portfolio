@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -172,7 +172,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia \u00d7 Discovery Channel",
+      "client": "Kia × Discovery Channel",
       "credits": [
         [
           "Work",
@@ -372,7 +372,7 @@
     },
     {
       "slot": "before",
-      "title": "Beaut\u00e9s du Monde",
+      "title": "Beautés du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -415,19 +415,19 @@
       ],
       "clips": [
         {
-          "label": "Online / Transitions",
-          "start": "0:05",
-          "end": "0:20"
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:16",
+          "end": "0:21"
         },
         {
-          "label": "3D Tracking",
-          "start": "0:25",
-          "end": "0:45"
+          "label": "Animation, Roto, Transition, 3D Cam tracking",
+          "start": "0:26",
+          "end": "0:35"
         },
         {
-          "label": "Cleanups",
-          "start": "0:50",
-          "end": "1:05"
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:35",
+          "end": "0:44"
         }
       ]
     },
@@ -798,7 +798,7 @@
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue \u00d7 Marina Bay Sands",
+      "client": "Vogue × Marina Bay Sands",
       "credits": [
         [
           "Work",
@@ -852,6 +852,23 @@
           "Production",
           "Abundant Productions"
         ]
+      ],
+      "clips": [
+        {
+          "label": "Screen Replacement",
+          "start": "0:20",
+          "end": "0:22"
+        },
+        {
+          "label": "Confetti Comp",
+          "start": "0:04",
+          "end": "0:08"
+        },
+        {
+          "label": "Speedlines / God Ray Comp",
+          "start": "0:14",
+          "end": "0:20"
+        }
       ]
     },
     {
