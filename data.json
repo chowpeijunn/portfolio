@@ -382,6 +382,18 @@
           "Production",
           "Abundant Productions"
         ]
+      ],
+      "clips": [
+        {
+          "label": "Stabilise, Cleanup",
+          "start": "0:20",
+          "end": "0:27"
+        },
+        {
+          "label": "Skin Retouch",
+          "start": "0:13",
+          "end": "0:15"
+        }
       ]
     },
     {
@@ -488,6 +500,18 @@
           "Production",
           "Abundant Productions"
         ]
+      ],
+      "clips": [
+        {
+          "label": "Screen Replacement",
+          "start": "0:03",
+          "end": "0:05"
+        },
+        {
+          "label": "Cleanup",
+          "start": "0:24",
+          "end": "0:26"
+        }
       ]
     },
     {
