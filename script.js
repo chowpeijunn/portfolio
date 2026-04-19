@@ -602,32 +602,54 @@ function initFilter() {
    SHOWREEL OVERLAY
    ============================================ */
 function initShowreel() {
-  const btn     = document.getElementById('showreelBtn');
-  const overlay = document.getElementById('showreelOverlay');
-  const wrap    = document.getElementById('showreelVideoWrap');
+  const btn      = document.getElementById('showreelBtn');
+  const overlay  = document.getElementById('showreelOverlay');
+  const wrap     = document.getElementById('showreelVideoWrap');
   const closeBtn = document.getElementById('showreelClose');
   if (!btn || !overlay) return;
+
+  let ytMsgListener = null;
+  let fallbackTimer  = null;
+
+  function revealVideo() {
+    clearTimeout(fallbackTimer);
+    const mask = document.getElementById('showreelMask');
+    if (mask) { mask.classList.add('fade'); setTimeout(() => mask.remove(), 520); }
+    if (ytMsgListener) { window.removeEventListener('message', ytMsgListener); ytMsgListener = null; }
+  }
 
   function openShowreel() {
     const directSrc = btn.dataset.directVideo || '';
     const url       = btn.dataset.video || '';
     const id        = getYouTubeId(url);
+
     if (directSrc) {
-      // Native <video> — no YouTube UI at all
       wrap.innerHTML = `<video class="showreel-native" src="${directSrc}" autoplay playsinline loop muted></video>`;
-      // Unmute after first user interaction resolved by autoplay
       const v = wrap.querySelector('video');
       v.muted = false;
       v.play().catch(() => { v.muted = true; v.play(); });
     } else if (id) {
-      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0" allow="autoplay; encrypted-media"></iframe>`;
+      // Mask hides YouTube spinner/logo until video actually plays
+      wrap.innerHTML = `
+        <div class="showreel-mask" id="showreelMask"></div>
+        <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1" allow="autoplay; encrypted-media"></iframe>`;
+
+      ytMsgListener = e => {
+        if (!e.origin.includes('youtube')) return;
+        try { if (JSON.parse(e.data).info === 1) revealVideo(); } catch {}
+      };
+      window.addEventListener('message', ytMsgListener);
+      fallbackTimer = setTimeout(revealVideo, 3500); // reveal anyway after 3.5s
     }
+
     overlay.style.display = 'flex';
     overlay.getBoundingClientRect();
     overlay.classList.add('open');
   }
 
   function closeShowreel() {
+    if (ytMsgListener) { window.removeEventListener('message', ytMsgListener); ytMsgListener = null; }
+    clearTimeout(fallbackTimer);
     overlay.classList.remove('open');
     setTimeout(() => { overlay.style.display = 'none'; wrap.innerHTML = ''; }, 380);
   }
