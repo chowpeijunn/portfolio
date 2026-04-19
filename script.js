@@ -76,6 +76,8 @@ const _dataReady = fetch('data.json')
     // Propagate showreel URL to the button
     const showreelBtn = document.getElementById('showreelBtn');
     if (showreelBtn && data.showreel) showreelBtn.dataset.video = data.showreel;
+    const showreelCopyEl = document.getElementById('showreelCopy');
+    if (showreelCopyEl && data.showreelCopy) showreelCopyEl.textContent = data.showreelCopy;
     // Cards are now in the DOM — safe to compute hub centering
     if (window._updateHubSpan) window._updateHubSpan();
     initHoverToPlay();

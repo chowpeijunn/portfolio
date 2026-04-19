@@ -378,6 +378,12 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
         oninput="data.showreel = this.value;"
         onfocus="this.style.borderColor='var(--accent)'"
         onblur="this.style.borderColor='var(--border)'" />
+      <div style="font-size:10px;color:var(--muted);margin:6px 0 4px;">Caption</div>
+      <input id="showreelCopyInput" type="text" placeholder="Weddings | Corporate | …"
+        style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:12px;outline:none;"
+        oninput="data.showreelCopy = this.value;"
+        onfocus="this.style.borderColor='var(--accent)'"
+        onblur="this.style.borderColor='var(--border)'" />
     </div>
     <div class="project-list" id="projectList"></div>
     <div class="add-btn-row">
@@ -426,6 +432,8 @@ async function init() {
   thumbFiles = Array.isArray(thumbRes) ? thumbRes : [];
   const showreelInput = document.getElementById('showreelUrlInput');
   if (showreelInput) showreelInput.value = data.showreel || '';
+  const showreelCopyInput = document.getElementById('showreelCopyInput');
+  if (showreelCopyInput) showreelCopyInput.value = data.showreelCopy || '';
   renderList();
   updateCount();
 }
