@@ -608,14 +608,12 @@ function initShowreel() {
   const closeBtn = document.getElementById('showreelClose');
   if (!btn || !overlay) return;
 
-  let ytMsgListener = null;
-  let fallbackTimer  = null;
+  let fallbackTimer = null;
 
   function revealVideo() {
     clearTimeout(fallbackTimer);
     const mask = document.getElementById('showreelMask');
     if (mask) { mask.classList.add('fade'); setTimeout(() => mask.remove(), 520); }
-    if (ytMsgListener) { window.removeEventListener('message', ytMsgListener); ytMsgListener = null; }
   }
 
   function openShowreel() {
@@ -629,17 +627,15 @@ function initShowreel() {
       v.muted = false;
       v.play().catch(() => { v.muted = true; v.play(); });
     } else if (id) {
-      // Mask hides YouTube spinner/logo until video actually plays
       wrap.innerHTML = `
         <div class="showreel-mask" id="showreelMask"></div>
-        <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1" allow="autoplay; encrypted-media"></iframe>`;
+        <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=1&rel=0&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
 
-      ytMsgListener = e => {
-        if (!e.origin.includes('youtube')) return;
-        try { if (JSON.parse(e.data).info === 1) revealVideo(); } catch {}
-      };
-      window.addEventListener('message', ytMsgListener);
-      fallbackTimer = setTimeout(revealVideo, 3500); // reveal anyway after 3.5s
+      // Lift the mask once the iframe has loaded and autoplay begun
+      const iframe = wrap.querySelector('iframe');
+      iframe.addEventListener('load', () => { fallbackTimer = setTimeout(revealVideo, 700); });
+      // Hard fallback in case load event is slow
+      setTimeout(revealVideo, 4000);
     }
 
     overlay.style.display = 'flex';
@@ -696,6 +692,36 @@ initShowreel();
       return `<iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
     }
     return `<video class="detail-video-player" controls preload="metadata" src="${src}"></video>`;
+  }
+
+  function parseTimecode(val) {
+    if (typeof val === 'number') return Math.round(val);
+    if (typeof val === 'string') {
+      const parts = val.split(':').map(Number);
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      return parseInt(val) || 0;
+    }
+    return 0;
+  }
+
+  function makeClipEl(clip, videoUrl) {
+    const id = getYouTubeId(videoUrl);
+    if (!id) return '';
+    const start = parseTimecode(clip.start || 0);
+    const end   = parseTimecode(clip.end   || 0);
+    const thumb = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+    const embedSrc = `https://www.youtube-nocookie.com/embed/${id}?start=${start}&end=${end}&autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&rel=0&modestbranding=1`;
+    const label = clip.label ? `<span class="detail-clip-label">${escapeHtml(clip.label)}</span>` : '';
+    return `<div class="detail-clip">
+      <div class="detail-clip-inner" data-src="${escapeHtml(embedSrc)}">
+        <img class="detail-clip-thumb" src="${thumb}" alt="${escapeHtml(clip.label || '')}">
+        <div class="detail-clip-play">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+      </div>
+      ${label}
+    </div>`;
   }
 
   // For extra videos: wrapped in 16:9 container
@@ -761,6 +787,35 @@ initShowreel();
       }
     }
 
+    // Clips — hover-to-play GIF-like segments from the main video
+    const detailClipsEl = document.getElementById('detailClips');
+    if (detailClipsEl) {
+      const clips = project.clips;
+      const mainVideoUrl = project.video || '';
+      if (clips && clips.length > 0 && getYouTubeId(mainVideoUrl)) {
+        detailClipsEl.innerHTML = clips.map(c => makeClipEl(c, mainVideoUrl)).join('');
+        detailClipsEl.style.display = 'grid';
+        detailClipsEl.querySelectorAll('.detail-clip-inner').forEach(inner => {
+          inner.addEventListener('mouseenter', () => {
+            if (inner.classList.contains('playing')) return;
+            const src = inner.dataset.src;
+            const iframe = document.createElement('iframe');
+            iframe.src = src;
+            iframe.allow = 'autoplay; encrypted-media';
+            inner.appendChild(iframe);
+            inner.classList.add('playing');
+          });
+          inner.addEventListener('mouseleave', () => {
+            inner.classList.remove('playing');
+            inner.querySelectorAll('iframe').forEach(f => f.remove());
+          });
+        });
+      } else {
+        detailClipsEl.innerHTML = '';
+        detailClipsEl.style.display = 'none';
+      }
+    }
+
     // Reset scroll, open — set display:flex before transition so backdrop-filter
     // doesn't exist in the rendering tree until the overlay is actually needed
     overlay.scrollTop = 0;
@@ -783,6 +838,13 @@ initShowreel();
     if (detailVideosEl) {
       detailVideosEl.querySelectorAll('video').forEach(v => v.pause());
       detailVideosEl.querySelectorAll('iframe').forEach(f => { f.src = ''; });
+    }
+    const detailClipsEl = document.getElementById('detailClips');
+    if (detailClipsEl) {
+      detailClipsEl.querySelectorAll('.detail-clip-inner').forEach(inner => {
+        inner.classList.remove('playing');
+        inner.querySelectorAll('iframe').forEach(f => f.remove());
+      });
     }
     bottomBar.classList.remove('detail-mode');
     bottomBar.style.animation = 'none';

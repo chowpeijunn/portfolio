@@ -181,6 +181,13 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .video-upload-btn { flex-shrink: 0; }
 .video-upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* Clips */
+.clips-list { display: flex; flex-direction: column; gap: 6px; }
+.clip-row { display: flex; gap: 6px; align-items: center; }
+.clip-row .clip-label { flex: 1.2; }
+.clip-row .clip-time { flex: 0.7; }
+.clip-hint { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
 /* Delete zone */
 .danger-zone { border: 1px solid #3a1a1a; border-radius: var(--radius); padding: 16px; background: #1a0e0e; }
 .danger-zone p { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
@@ -601,6 +608,12 @@ function renderEditor() {
         <div class="videos-list" id="videosList">${videosHtml}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addVideo()">+ Add video</button>
       </div>
+      <div class="field">
+        <label>Clips — mark your contributions as hover-to-play segments</label>
+        <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
+        <div class="clip-hint">Timecodes in MM:SS (e.g. 0:30). On the site, hovering plays that segment from the main video.</div>
+      </div>
     </div>
 
     <!-- THUMBNAIL -->
@@ -675,6 +688,15 @@ function videoRowHtml(url, vi) {
     <input type="text" value="${esc(url)}" placeholder="https://youtu.be/… or upload ↓" oninput="updateVideo(${vi}, this.value)">
     <button class="btn btn-ghost btn-sm video-upload-btn" onclick="pickVideoFile(${vi})" title="Upload video or GIF">↑ Upload</button>
     <button class="credit-remove" onclick="removeVideo(${vi})">×</button>
+  </div>`;
+}
+
+function clipRowHtml(clip, ci) {
+  return `<div class="clip-row" id="clip-${ci}">
+    <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
+    <input class="clip-time" type="text" value="${esc(clip.start || '')}" placeholder="Start 0:30" oninput="updateClip(${ci}, 'start', this.value)">
+    <input class="clip-time" type="text" value="${esc(clip.end || '')}" placeholder="End 1:45" oninput="updateClip(${ci}, 'end', this.value)">
+    <button class="credit-remove" onclick="removeClip(${ci})">×</button>
   </div>`;
 }
 
@@ -823,6 +845,36 @@ function addVideo() {
 function removeVideo(vi) {
   data.projects[selectedIdx].videos.splice(vi, 1);
   if (data.projects[selectedIdx].videos.length === 0) delete data.projects[selectedIdx].videos;
+  markDirty();
+  renderEditor();
+}
+
+function updateClip(ci, field, val) {
+  const p = data.projects[selectedIdx];
+  if (!p.clips) p.clips = [];
+  if (!p.clips[ci]) p.clips[ci] = { label: '', start: '', end: '' };
+  p.clips[ci][field] = val;
+  markDirty();
+}
+
+function addClip() {
+  const p = data.projects[selectedIdx];
+  if (!p.clips) p.clips = [];
+  p.clips.push({ label: '', start: '', end: '' });
+  markDirty();
+  const list = document.getElementById('clipsList');
+  if (list) {
+    const ci = p.clips.length - 1;
+    const div = document.createElement('div');
+    div.innerHTML = clipRowHtml({ label: '', start: '', end: '' }, ci);
+    list.appendChild(div.firstElementChild);
+  }
+}
+
+function removeClip(ci) {
+  const p = data.projects[selectedIdx];
+  if (p.clips) p.clips.splice(ci, 1);
+  if (p.clips && p.clips.length === 0) delete p.clips;
   markDirty();
   renderEditor();
 }
