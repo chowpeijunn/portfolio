@@ -1202,6 +1202,7 @@ a { color: inherit; text-decoration: none; }
   width: 100%;
   height: 100%;
   border: none;
+  pointer-events: none;
 }
 
 /* Thumbnail sits above iframe — stays until 3s after PLAYING, then fades */
