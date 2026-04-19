@@ -748,6 +748,10 @@ initShowreel();
       ensureYTApi(() => {
         const divId = `clip-yt-${i}`;
         if (!document.getElementById(divId)) return;
+        const thumb = document.getElementById(divId)
+          ?.closest('.detail-clip-inner')
+          ?.querySelector('.detail-clip-thumb');
+
         const p = new YT.Player(divId, {
           videoId: ytId,
           playerVars: {
@@ -756,7 +760,10 @@ initShowreel();
           },
           events: {
             onStateChange(e) {
-              // On ended (0): loop back to start
+              if (e.data === YT.PlayerState.PLAYING) {
+                // Video is actually playing — now safe to hide the thumbnail
+                if (thumb) thumb.classList.add('hide');
+              }
               if (e.data === YT.PlayerState.ENDED) {
                 e.target.seekTo(start, true);
                 e.target.playVideo();

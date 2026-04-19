@@ -1204,7 +1204,7 @@ a { color: inherit; text-decoration: none; }
   border: none;
 }
 
-/* Thumbnail sits above iframe, fades out once video loads */
+/* Thumbnail sits above iframe — JS removes .visible once playing */
 .detail-clip-thumb {
   position: absolute;
   inset: 0;
@@ -1212,11 +1212,11 @@ a { color: inherit; text-decoration: none; }
   height: 100%;
   object-fit: cover;
   z-index: 2;
-  animation: clipThumbFade 1s ease 1.5s forwards;
+  transition: opacity 0.4s ease;
 }
-
-@keyframes clipThumbFade {
-  to { opacity: 0; pointer-events: none; }
+.detail-clip-thumb.hide {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .detail-clip-label {
