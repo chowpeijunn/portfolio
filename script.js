@@ -96,7 +96,7 @@ const _dataReady = fetch('data.json')
   const nav       = document.getElementById('nav');
   const bottomBar = document.getElementById('bottomBar');
 
-  const LETTER_DELAY    = 52;   // ms between each letter
+  const LETTER_DELAY    = 55;   // ms between each letter
   const LETTER_DURATION = 440;  // ms per letter animation (matches CSS)
   const HOLD_AFTER      = 400;  // ms to hold after last letter lands
   const COUNTER_DUR     = 2000; // ms to count 0→100
@@ -150,7 +150,7 @@ const _dataReady = fetch('data.json')
     const returnBtn = document.getElementById('returnBtn');
     if (returnBtn) returnBtn.classList.add('visible');
     // Small delay so loader fade starts before letters animate
-    setTimeout(animateHubLetters, 80);
+    setTimeout(animateHubLetters, 500);
     // Warm up YouTube player API so first hover loads faster
     setTimeout(warmYouTubeAPI, 1500);
   }

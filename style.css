@@ -473,7 +473,7 @@ a { color: inherit; text-decoration: none; }
   font-family: 'Bebas Neue', sans-serif;
   font-weight: 400;
   font-size: 1.5rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   line-height: 1.1;
   text-transform: uppercase;
   margin-bottom: 4px;
@@ -482,10 +482,9 @@ a { color: inherit; text-decoration: none; }
   align-items: baseline;
 }
 
-/* Per-letter clip wrapper */
+/* Per-letter wrapper — no clip needed for slide+fade from right */
 .hub-letter-wrap {
   display: inline-block;
-  overflow: hidden;
   vertical-align: top;
   line-height: inherit;
 }
@@ -494,9 +493,9 @@ a { color: inherit; text-decoration: none; }
   width: 0.3em;
 }
 
-@keyframes hubLetterRise {
-  0%   { opacity: 0; transform: translateY(105%); }
-  100% { opacity: 1; transform: translateY(0); }
+@keyframes hubLetterReveal {
+  0%   { opacity: 0; transform: translateX(14px); }
+  100% { opacity: 1; transform: translateX(0); }
 }
 
 .hub-letter {
@@ -505,7 +504,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hub-letter.animate {
-  animation: hubLetterRise 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hubLetterReveal 0.28s cubic-bezier(0.87, 0, 0.13, 1) both;
 }
 
 .hub-email {
