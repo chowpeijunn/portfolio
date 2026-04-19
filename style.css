@@ -645,13 +645,19 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 
-.showreel-video-wrap iframe {
+.showreel-video-wrap iframe,
+.showreel-native {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: none;
-  pointer-events: none; /* prevent clicking through to YouTube */
+  pointer-events: none;
+}
+
+.showreel-native {
+  object-fit: cover;
+  background: #000;
 }
 
 /* Mask the YouTube watermark (bottom-right corner) */

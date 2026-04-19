@@ -385,6 +385,16 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
         oninput="data.showreelCopy = this.value;"
         onfocus="this.style.borderColor='var(--accent)'"
         onblur="this.style.borderColor='var(--border)'" />
+      <div style="font-size:10px;color:var(--muted);margin:6px 0 4px;">Direct video file <span style="opacity:0.5">(overrides YouTube embed)</span></div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <input id="showreelVideoInput" type="text" placeholder="assets/videos/showreel.mp4"
+          style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:11px;font-family:monospace;outline:none;"
+          oninput="data.showreelVideo = this.value;"
+          onfocus="this.style.borderColor='var(--accent)'"
+          onblur="this.style.borderColor='var(--border)'" />
+        <button class="btn btn-ghost btn-sm" onclick="pickShowreelVideo()" style="flex-shrink:0;font-size:11px;">↑ Upload</button>
+      </div>
+      <div id="showreelVideoProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
     </div>
     <div class="project-list" id="projectList"></div>
     <div class="add-btn-row">
@@ -435,6 +445,8 @@ async function init() {
   if (showreelInput) showreelInput.value = data.showreel || '';
   const showreelCopyInput = document.getElementById('showreelCopyInput');
   if (showreelCopyInput) showreelCopyInput.value = data.showreelCopy || '';
+  const showreelVideoInput = document.getElementById('showreelVideoInput');
+  if (showreelVideoInput) showreelVideoInput.value = data.showreelVideo || '';
   renderList();
   updateCount();
 }
@@ -1206,6 +1218,39 @@ async function githubPut(path, content, filename) {
   const putData = await putRes.json();
   if (!putRes.ok) throw new Error(putData.message || `GitHub ${putRes.status}`);
   return path;
+}
+
+async function pickShowreelVideo() {
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.accept = 'video/*';
+  picker.onchange = async () => {
+    const file = picker.files[0];
+    if (!file) return;
+    if (file.size > 500 * 1024 * 1024) { alert('File too large (max 500 MB). Upload a compressed version.'); return; }
+    const progress = document.getElementById('showreelVideoProgress');
+    const btn = document.querySelector('[onclick="pickShowreelVideo()"]');
+    if (progress) { progress.textContent = 'Uploading…'; progress.style.display = 'block'; progress.style.color = 'var(--accent)'; }
+    if (btn) { btn.disabled = true; btn.textContent = '…'; }
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const uploadPath = await githubPut(`assets/videos/${file.name}`, base64, file.name);
+      data.showreelVideo = uploadPath;
+      const input = document.getElementById('showreelVideoInput');
+      if (input) input.value = uploadPath;
+      if (progress) { progress.textContent = `✓ ${uploadPath}`; setTimeout(() => { progress.style.display = 'none'; }, 4000); }
+    } catch (err) {
+      if (progress) { progress.textContent = 'Upload failed: ' + err.message; progress.style.color = 'var(--danger)'; }
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = '↑ Upload'; }
+    }
+  };
+  picker.click();
 }
 
 // ── PASSWORD GATE (built dynamically so script order doesn't matter) ──────

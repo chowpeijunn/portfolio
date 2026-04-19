@@ -76,6 +76,7 @@ const _dataReady = fetch('data.json')
     // Propagate showreel URL to the button
     const showreelBtn = document.getElementById('showreelBtn');
     if (showreelBtn && data.showreel) showreelBtn.dataset.video = data.showreel;
+    if (showreelBtn && data.showreelVideo) showreelBtn.dataset.directVideo = data.showreelVideo;
     const showreelCopyEl = document.getElementById('showreelCopy');
     if (showreelCopyEl && data.showreelCopy) showreelCopyEl.textContent = data.showreelCopy;
     // Cards are now in the DOM — safe to compute hub centering
@@ -608,9 +609,17 @@ function initShowreel() {
   if (!btn || !overlay) return;
 
   function openShowreel() {
-    const url = btn.dataset.video || '';
-    const id  = getYouTubeId(url);
-    if (id) {
+    const directSrc = btn.dataset.directVideo || '';
+    const url       = btn.dataset.video || '';
+    const id        = getYouTubeId(url);
+    if (directSrc) {
+      // Native <video> — no YouTube UI at all
+      wrap.innerHTML = `<video class="showreel-native" src="${directSrc}" autoplay playsinline loop muted></video>`;
+      // Unmute after first user interaction resolved by autoplay
+      const v = wrap.querySelector('video');
+      v.muted = false;
+      v.play().catch(() => { v.muted = true; v.play(); });
+    } else if (id) {
       wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0" allow="autoplay; encrypted-media"></iframe>`;
     }
     overlay.style.display = 'flex';
