@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -172,7 +172,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia × Discovery Channel",
+      "client": "Kia \u00d7 Discovery Channel",
       "credits": [
         [
           "Work",
@@ -372,7 +372,7 @@
     },
     {
       "slot": "before",
-      "title": "Beautés du Monde",
+      "title": "Beaut\u00e9s du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -415,19 +415,19 @@
       ],
       "clips": [
         {
-          "label": "Animation, 3D Cam tracking",
-          "start": "0:16",
-          "end": "0:21"
+          "label": "Online / Transitions",
+          "start": "0:05",
+          "end": "0:20"
         },
         {
-          "label": "Animation, Roto, Transition, 3D Cam tracking",
-          "start": "0:26",
-          "end": "0:35"
+          "label": "3D Tracking",
+          "start": "0:25",
+          "end": "0:45"
         },
         {
-          "label": "Animation, 3D Cam tracking",
-          "start": "0:35",
-          "end": "0:44"
+          "label": "Cleanups",
+          "start": "0:50",
+          "end": "1:05"
         }
       ]
     },
@@ -798,7 +798,7 @@
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
+      "client": "Vogue \u00d7 Marina Bay Sands",
       "credits": [
         [
           "Work",
