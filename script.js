@@ -783,7 +783,8 @@ initShowreel();
   // For extra videos: wrapped in 16:9 container
   function makeExtraVideoEl(src) {
     if (isYouTube(src)) {
-      return `<div class="detail-video-wrap"><iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>`;
+      const thumb = `https://img.youtube.com/vi/${getYouTubeId(src)}/mqdefault.jpg`;
+      return `<div class="detail-video-wrap"><iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe><div class="detail-video-cover" style="background-image:url('${thumb}')"></div></div>`;
     }
     if (/\.gif$/i.test(src)) {
       return `<div class="detail-video-wrap"><img class="detail-gif" src="${src}" alt="" loading="lazy"></div>`;
@@ -807,7 +808,8 @@ initShowreel();
     const videoSection = document.querySelector('.detail-video-section');
     const mainSrc = project.video || '';
     if (isYouTube(mainSrc)) {
-      videoSection.innerHTML = `<iframe class="detail-iframe" src="${youtubeEmbedUrl(mainSrc, true)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
+      const coverBg = thumbSrc ? `url('${escapeHtml(thumbSrc)}')` : '';
+      videoSection.innerHTML = `<iframe class="detail-iframe" src="${youtubeEmbedUrl(mainSrc, true)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe><div class="detail-video-cover" style="background-image:${coverBg}"></div>`;
     } else {
       videoSection.innerHTML = `<img class="detail-thumb" id="detailThumb" alt="${escapeHtml(title)}" src="${thumbSrc}">`;
     }
