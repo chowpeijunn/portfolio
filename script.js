@@ -761,10 +761,11 @@ initShowreel();
           events: {
             onStateChange(e) {
               if (e.data === YT.PlayerState.PLAYING) {
-                // Video is actually playing — now safe to hide the thumbnail
                 if (thumb) thumb.classList.add('hide');
               }
               if (e.data === YT.PlayerState.ENDED) {
+                // Re-show thumbnail to cover YouTube title overlay on loop
+                if (thumb) thumb.classList.remove('hide');
                 e.target.seekTo(start, true);
                 e.target.playVideo();
               }
@@ -783,8 +784,7 @@ initShowreel();
   // For extra videos: wrapped in 16:9 container
   function makeExtraVideoEl(src) {
     if (isYouTube(src)) {
-      const thumb = `https://img.youtube.com/vi/${getYouTubeId(src)}/mqdefault.jpg`;
-      return `<div class="detail-video-wrap"><iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe><div class="detail-video-cover" style="background-image:url('${thumb}')"></div></div>`;
+      return `<div class="detail-video-wrap"><iframe class="detail-iframe" src="${youtubeEmbedUrl(src)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>`;
     }
     if (/\.gif$/i.test(src)) {
       return `<div class="detail-video-wrap"><img class="detail-gif" src="${src}" alt="" loading="lazy"></div>`;
@@ -808,8 +808,7 @@ initShowreel();
     const videoSection = document.querySelector('.detail-video-section');
     const mainSrc = project.video || '';
     if (isYouTube(mainSrc)) {
-      const coverBg = thumbSrc ? `url('${escapeHtml(thumbSrc)}')` : '';
-      videoSection.innerHTML = `<iframe class="detail-iframe" src="${youtubeEmbedUrl(mainSrc, true)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe><div class="detail-video-cover" style="background-image:${coverBg}"></div>`;
+      videoSection.innerHTML = `<iframe class="detail-iframe" src="${youtubeEmbedUrl(mainSrc, true)}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
     } else {
       videoSection.innerHTML = `<img class="detail-thumb" id="detailThumb" alt="${escapeHtml(title)}" src="${thumbSrc}">`;
     }
