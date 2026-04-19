@@ -705,21 +705,72 @@ initShowreel();
     return 0;
   }
 
-  function makeClipEl(clip, videoUrl) {
-    const id = getYouTubeId(videoUrl);
-    if (!id) return '';
-    const start = parseTimecode(clip.start || 0);
-    const end   = parseTimecode(clip.end   || 0);
+  // YouTube IFrame API — loaded once on demand
+  const _clipYTPlayers = [];
+  function ensureYTApi(cb) {
+    if (window.YT && window.YT.Player) { cb(); return; }
+    if (!window._ytApiCallbacks) {
+      window._ytApiCallbacks = [];
+      const s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+      window.onYouTubeIframeAPIReady = () => {
+        window._ytApiCallbacks.forEach(fn => fn());
+        window._ytApiCallbacks = [];
+      };
+    }
+    window._ytApiCallbacks.push(cb);
+  }
+
+  function makeClipEl(clip, i) {
+    const id = clip._ytId;
+    const start = clip._start;
     const thumb = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
-    const embedSrc = `https://www.youtube-nocookie.com/embed/${id}?start=${start}&end=${end}&autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&rel=0&modestbranding=1&iv_load_policy=3`;
     const label = clip.label ? `<span class="detail-clip-label">${escapeHtml(clip.label)}</span>` : '';
     return `<div class="detail-clip">
       <div class="detail-clip-inner">
-        <iframe src="${escapeHtml(embedSrc)}" allow="autoplay; encrypted-media"></iframe>
+        <div class="clip-yt-target" id="clip-yt-${i}"></div>
         <img class="detail-clip-thumb" src="${thumb}" alt="${escapeHtml(clip.label || '')}">
       </div>
       ${label}
     </div>`;
+  }
+
+  function initClipPlayers(clips, videoUrl) {
+    // Destroy any existing players
+    _clipYTPlayers.forEach(p => { try { p.destroy(); } catch(e){} });
+    _clipYTPlayers.length = 0;
+
+    const ytId = getYouTubeId(videoUrl);
+    clips.forEach((clip, i) => {
+      const start = parseTimecode(clip.start || 0);
+      const end   = parseTimecode(clip.end   || 0);
+      ensureYTApi(() => {
+        const divId = `clip-yt-${i}`;
+        if (!document.getElementById(divId)) return;
+        const p = new YT.Player(divId, {
+          videoId: ytId,
+          playerVars: {
+            autoplay: 1, mute: 1, controls: 0, rel: 0, playsinline: 1,
+            modestbranding: 1, iv_load_policy: 3, start, end
+          },
+          events: {
+            onStateChange(e) {
+              // On ended (0): loop back to start
+              if (e.data === YT.PlayerState.ENDED) {
+                e.target.seekTo(start, true);
+                e.target.playVideo();
+              }
+            },
+            onReady(e) {
+              e.target.seekTo(start, true);
+              e.target.playVideo();
+            }
+          }
+        });
+        _clipYTPlayers.push(p);
+      });
+    });
   }
 
   // For extra videos: wrapped in 16:9 container
@@ -790,9 +841,18 @@ initShowreel();
     if (detailClipsEl) {
       const clips = project.clips;
       const mainVideoUrl = project.video || '';
-      if (clips && clips.length > 0 && getYouTubeId(mainVideoUrl)) {
-        detailClipsEl.innerHTML = clips.map(c => makeClipEl(c, mainVideoUrl)).join('');
+      const ytId = getYouTubeId(mainVideoUrl);
+      if (clips && clips.length > 0 && ytId) {
+        // Annotate clips with resolved values for makeClipEl
+        const resolved = clips.map(c => ({
+          ...c,
+          _ytId: ytId,
+          _start: parseTimecode(c.start || 0),
+          _end:   parseTimecode(c.end   || 0)
+        }));
+        detailClipsEl.innerHTML = resolved.map((c, i) => makeClipEl(c, i)).join('');
         detailClipsEl.style.display = 'grid';
+        initClipPlayers(resolved, mainVideoUrl);
       } else {
         detailClipsEl.innerHTML = '';
         detailClipsEl.style.display = 'none';
@@ -822,6 +882,8 @@ initShowreel();
       detailVideosEl.querySelectorAll('video').forEach(v => v.pause());
       detailVideosEl.querySelectorAll('iframe').forEach(f => { f.src = ''; });
     }
+    _clipYTPlayers.forEach(p => { try { p.destroy(); } catch(e){} });
+    _clipYTPlayers.length = 0;
     const detailClipsEl = document.getElementById('detailClips');
     if (detailClipsEl) detailClipsEl.innerHTML = '';
     bottomBar.classList.remove('detail-mode');
