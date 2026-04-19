@@ -723,10 +723,16 @@ initShowreel();
   }
 
   function makeClipEl(clip, i) {
-    const id = clip._ytId;
-    const start = clip._start;
-    const thumb = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
     const label = clip.label ? `<span class="detail-clip-label">${escapeHtml(clip.label)}</span>` : '';
+    if (clip.clipFile) {
+      return `<div class="detail-clip">
+        <div class="detail-clip-inner">
+          <video autoplay muted loop playsinline src="${escapeHtml(clip.clipFile)}"></video>
+        </div>
+        ${label}
+      </div>`;
+    }
+    const thumb = `https://img.youtube.com/vi/${clip._ytId}/mqdefault.jpg`;
     return `<div class="detail-clip">
       <div class="detail-clip-inner">
         <div class="clip-yt-target" id="clip-yt-${i}"></div>
@@ -743,6 +749,7 @@ initShowreel();
 
     const ytId = getYouTubeId(videoUrl);
     clips.forEach((clip, i) => {
+      if (clip.clipFile) return; // native video — no YT player needed
       const start = parseTimecode(clip.start || 0);
       const end   = parseTimecode(clip.end   || 0);
       ensureYTApi(() => {

@@ -673,7 +673,9 @@ function renderEditor() {
         <label>Clips — mark your contributions as hover-to-play segments</label>
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
-        <div class="clip-hint">Hit ⏱ to open the video — play to any moment, then click Set Start / Set End. On the site, hovering a clip plays that segment.</div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="processClips()" id="processClipsBtn">⬇ Download &amp; embed clips</button>
+        <div class="clip-hint">Hit ⏱ to set times, then ⬇ Download to extract each clip as a real video file — no YouTube UI, perfect loops.</div>
+        <div id="clipsProcessStatus" style="font-size:11px;margin-top:6px;min-height:16px;"></div>
       </div>
     </div>
 
@@ -940,6 +942,45 @@ function removeClip(ci) {
   if (p.clips && p.clips.length === 0) delete p.clips;
   markDirty();
   renderEditor();
+}
+
+async function processClips() {
+  const p = data.projects[selectedIdx];
+  const token = getGhToken();
+  const statusEl = document.getElementById('clipsProcessStatus');
+  const btn = document.getElementById('processClipsBtn');
+  if (!token) { alert('Set your GitHub token (🔑 Token) first.'); return; }
+  if (!p.video) { alert('No YouTube video URL set for this project.'); return; }
+  if (!p.clips || !p.clips.length) { alert('Add at least one clip with start/end times first.'); return; }
+  btn.disabled = true;
+  statusEl.textContent = 'Queuing workflow…';
+  statusEl.style.color = '';
+  try {
+    const res = await fetch('https://api.github.com/repos/chowpeijunn/portfolio/dispatches', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        event_type: 'process-clips',
+        client_payload: { project_title: p.title, youtube_url: p.video, clips: p.clips }
+      })
+    });
+    if (res.status === 204) {
+      statusEl.textContent = '✓ Processing started — clips download & trim takes ~2–3 min. Reload the admin after to see them embedded.';
+      statusEl.style.color = 'var(--success)';
+    } else {
+      const j = await res.json().catch(() => ({}));
+      throw new Error(j.message || `HTTP ${res.status}`);
+    }
+  } catch(e) {
+    statusEl.textContent = 'Error: ' + e.message;
+    statusEl.style.color = 'var(--danger)';
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 // ── CLIP SCRUB PREVIEW ─────────────────────────────────────

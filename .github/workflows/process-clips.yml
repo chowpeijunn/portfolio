@@ -1,0 +1,87 @@
+name: Process Video Clips
+on:
+  repository_dispatch:
+    types: [process-clips]
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          pip install yt-dlp
+          sudo apt-get install -y ffmpeg
+
+      - name: Download and trim clips
+        env:
+          PROJECT_TITLE: ${{ github.event.client_payload.project_title }}
+          YOUTUBE_URL: ${{ github.event.client_payload.youtube_url }}
+          CLIPS_JSON: ${{ toJson(github.event.client_payload.clips) }}
+        run: |
+          python3 - << 'PYEOF'
+          import json, os, re, subprocess, sys
+
+          title  = os.environ['PROJECT_TITLE']
+          yt_url = os.environ['YOUTUBE_URL']
+          clips  = json.loads(os.environ['CLIPS_JSON'])
+
+          os.makedirs('assets/clips', exist_ok=True)
+          slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+          src  = '/tmp/source.mp4'
+
+          print(f'Downloading: {yt_url}')
+          r = subprocess.run([
+            'yt-dlp', '-f',
+            'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]',
+            '--merge-output-format', 'mp4', '-o', src, yt_url
+          ])
+          if r.returncode != 0:
+            print('Download failed'); sys.exit(1)
+
+          def to_sec(tc):
+            parts = str(tc).split(':')
+            if len(parts) == 2: return int(parts[0]) * 60 + int(parts[1])
+            if len(parts) == 3: return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+            return int(tc)
+
+          for i, clip in enumerate(clips):
+            start = to_sec(clip.get('start', 0))
+            end   = to_sec(clip.get('end',   0))
+            out   = f'assets/clips/{slug}-{i}.mp4'
+            print(f'Trimming clip {i}: {start}s → {end}s → {out}')
+            r = subprocess.run([
+              'ffmpeg', '-y', '-i', src,
+              '-ss', str(start), '-to', str(end),
+              '-c:v', 'libx264', '-crf', '28', '-preset', 'fast',
+              '-pix_fmt', 'yuv420p', '-vf', 'scale=-2:min(480\\,ih)',
+              '-an', '-movflags', '+faststart', out
+            ])
+            if r.returncode == 0:
+              clip['clipFile'] = out
+              print(f'  OK: {out}')
+            else:
+              print(f'  FAILED clip {i}')
+
+          with open('data.json') as f:
+            data = json.load(f)
+          for p in data['projects']:
+            if p.get('title') == title:
+              p['clips'] = clips
+              break
+          with open('data.json', 'w') as f:
+            json.dump(data, f, indent=2)
+          print('data.json updated')
+          PYEOF
+
+      - name: Commit clip files
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git pull --rebase
+          git add assets/clips/ data.json
+          git diff --staged --quiet || git commit -m "Embed clips: ${{ github.event.client_payload.project_title }}"
+          git push
