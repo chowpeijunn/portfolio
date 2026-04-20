@@ -735,20 +735,24 @@ initShowreel();
     return `<div class="detail-clip">
       <div class="detail-clip-inner">
         <div class="clip-yt-target" id="clip-yt-${i}"></div>
+        <div class="clip-yt-corner-mask"></div>
         <img class="detail-clip-thumb" src="${thumb}" alt="${escapeHtml(clip.label || '')}">
       </div>
       ${label}
     </div>`;
   }
 
+  const _clipLoopTimers = [];
+
   function initClipPlayers(clips, videoUrl) {
-    // Destroy any existing players
     _clipYTPlayers.forEach(p => { try { p.destroy(); } catch(e){} });
     _clipYTPlayers.length = 0;
+    _clipLoopTimers.forEach(t => clearInterval(t));
+    _clipLoopTimers.length = 0;
 
     const ytId = getYouTubeId(videoUrl);
     clips.forEach((clip, i) => {
-      if (clip.clipFile) return; // native video — no YT player needed
+      if (clip.clipFile) return;
       const start = parseTimecode(clip.start || 0);
       const end   = parseTimecode(clip.end   || 0);
       ensureYTApi(() => {
@@ -762,23 +766,29 @@ initShowreel();
           videoId: ytId,
           playerVars: {
             autoplay: 1, mute: 1, controls: 0, rel: 0, playsinline: 1,
-            modestbranding: 1, iv_load_policy: 3, start, end
+            modestbranding: 1, iv_load_policy: 3, disablekb: 1,
+            start: Math.floor(start)
           },
           events: {
             onStateChange(e) {
               if (e.data === YT.PlayerState.PLAYING) {
                 if (thumb) thumb.classList.add('hide');
               }
-              if (e.data === YT.PlayerState.ENDED) {
-                // Re-show thumbnail to cover YouTube title overlay on loop
-                if (thumb) thumb.classList.remove('hide');
-                e.target.seekTo(start, true);
-                e.target.playVideo();
-              }
             },
             onReady(e) {
               e.target.seekTo(start, true);
               e.target.playVideo();
+              // Virtual loop — poll currentTime, seek before ENDED fires
+              // This prevents the end screen / "Watch on YouTube" from ever appearing
+              const iv = setInterval(() => {
+                try {
+                  if (e.target.getPlayerState() !== YT.PlayerState.PLAYING) return;
+                  if (e.target.getCurrentTime() >= end - 0.4) {
+                    e.target.seekTo(start, true);
+                  }
+                } catch(_) {}
+              }, 250);
+              _clipLoopTimers.push(iv);
             }
           }
         });
@@ -896,6 +906,8 @@ initShowreel();
       detailVideosEl.querySelectorAll('video').forEach(v => v.pause());
       detailVideosEl.querySelectorAll('iframe').forEach(f => { f.src = ''; });
     }
+    _clipLoopTimers.forEach(t => clearInterval(t));
+    _clipLoopTimers.length = 0;
     _clipYTPlayers.forEach(p => { try { p.destroy(); } catch(e){} });
     _clipYTPlayers.length = 0;
     const detailClipsEl = document.getElementById('detailClips');
@@ -952,6 +964,16 @@ initShowreel();
     e.preventDefault();
     openDetail(card);
   });
+
+  // Preload YT API on first card hover so it's ready when detail opens
+  canvasInner.addEventListener('mouseover', (e) => {
+    const card = e.target.closest('.project-card');
+    if (!card) return;
+    const project = (window._projectMap || {})[card.dataset.title] || {};
+    if (project.clips && project.clips.length && project.video && getYouTubeId(project.video)) {
+      ensureYTApi(() => {});
+    }
+  }, { passive: true, once: true });
 })();
 
 /* ============================================
