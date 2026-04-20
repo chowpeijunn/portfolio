@@ -726,7 +726,7 @@ initShowreel();
     if (clip.clipFile) {
       return `<div class="detail-clip">
         <div class="detail-clip-inner">
-          <video autoplay muted loop playsinline src="${escapeHtml(clip.clipFile)}"></video>
+          <video autoplay muted loop playsinline preload="auto" src="${escapeHtml(clip.clipFile)}"></video>
         </div>
         ${label}
       </div>`;
