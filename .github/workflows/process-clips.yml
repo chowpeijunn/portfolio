@@ -21,7 +21,12 @@ jobs:
           PROJECT_TITLE: ${{ github.event.client_payload.project_title }}
           YOUTUBE_URL: ${{ github.event.client_payload.youtube_url }}
           CLIPS_JSON: ${{ toJson(github.event.client_payload.clips) }}
+          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
         run: |
+          if [ -n "$YOUTUBE_COOKIES" ]; then
+            printf '%s' "$YOUTUBE_COOKIES" > /tmp/cookies.txt
+            echo "Using YouTube cookies from secret"
+          fi
           python3 - << 'PYEOF'
           import json, os, re, subprocess, sys
 
@@ -34,7 +39,7 @@ jobs:
           src  = '/tmp/source.mp4'
 
           print(f'Downloading: {yt_url}')
-          r = subprocess.run([
+          cmd = [
             'yt-dlp', '-f',
             'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]',
             '--merge-output-format', 'mp4',
@@ -43,8 +48,11 @@ jobs:
             '--retries', '5',
             '--fragment-retries', '10',
             '--no-check-certificate',
-            '-o', src, yt_url
-          ])
+          ]
+          if os.path.exists('/tmp/cookies.txt'):
+            cmd += ['--cookies', '/tmp/cookies.txt']
+          cmd += ['-o', src, yt_url]
+          r = subprocess.run(cmd)
           if r.returncode != 0:
             print('Download failed'); sys.exit(1)
 
