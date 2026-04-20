@@ -13,7 +13,7 @@ jobs:
 
       - name: Install tools
         run: |
-          pip install yt-dlp
+          pip install -U yt-dlp
           sudo apt-get install -y ffmpeg
 
       - name: Download and trim clips
@@ -37,7 +37,13 @@ jobs:
           r = subprocess.run([
             'yt-dlp', '-f',
             'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]',
-            '--merge-output-format', 'mp4', '-o', src, yt_url
+            '--merge-output-format', 'mp4',
+            '--extractor-args', 'youtube:player_client=android,web',
+            '--user-agent', 'Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.91 Mobile Safari/537.36',
+            '--retries', '5',
+            '--fragment-retries', '10',
+            '--no-check-certificate',
+            '-o', src, yt_url
           ])
           if r.returncode != 0:
             print('Download failed'); sys.exit(1)
