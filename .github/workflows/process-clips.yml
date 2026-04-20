@@ -12,81 +12,99 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install tools
-        run: |
-          pip install -U yt-dlp
-          sudo apt-get install -y ffmpeg nodejs
+        run: sudo apt-get install -y ffmpeg
 
-      - name: Download and trim clips
+      - name: Fetch via Cobalt + trim clips
         env:
           PROJECT_TITLE: ${{ github.event.client_payload.project_title }}
           YOUTUBE_URL: ${{ github.event.client_payload.youtube_url }}
           CLIPS_JSON: ${{ toJson(github.event.client_payload.clips) }}
-          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
+          COBALT_API_URL: ${{ secrets.COBALT_API_URL }}
+          COBALT_API_KEY: ${{ secrets.COBALT_API_KEY }}
         run: |
-          if [ -n "$YOUTUBE_COOKIES" ]; then
-            printf '%s' "$YOUTUBE_COOKIES" > /tmp/cookies.txt
-            echo "Using YouTube cookies from secret"
-          fi
           python3 - << 'PYEOF'
-          import json, os, re, subprocess, sys
+          import json, os, re, subprocess, sys, urllib.request, urllib.error
 
           title  = os.environ['PROJECT_TITLE']
           yt_url = os.environ['YOUTUBE_URL']
           clips  = json.loads(os.environ['CLIPS_JSON'])
+          api    = os.environ.get('COBALT_API_URL') or 'https://api.cobalt.tools/'
+          key    = os.environ.get('COBALT_API_KEY', '')
 
           os.makedirs('assets/clips', exist_ok=True)
           slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
           src  = '/tmp/source.mp4'
 
-          print(f'Downloading: {yt_url}')
-          cmd = [
-            'yt-dlp', '-f',
-            'bestvideo[height<=720]+bestaudio/best[height<=720]/best',
-            '--merge-output-format', 'mp4',
-            '--extractor-args', 'youtube:player_client=ios,mweb,web_safari',
-            '--retries', '5',
-            '--fragment-retries', '10',
-            '--no-check-certificate',
-          ]
-          if os.path.exists('/tmp/cookies.txt'):
-            cmd += ['--cookies', '/tmp/cookies.txt']
-          cmd += ['-o', src, yt_url]
-          r = subprocess.run(cmd)
-          if r.returncode != 0:
-            print('Download failed'); sys.exit(1)
+          print(f'Requesting via Cobalt: {api}')
+          headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+          if key:
+              headers['Authorization'] = f'Api-Key {key}'
+          payload = json.dumps({
+              'url': yt_url,
+              'videoQuality': '720',
+              'downloadMode': 'auto',
+              'filenameStyle': 'basic',
+              'youtubeVideoCodec': 'h264'
+          }).encode('utf-8')
+          req = urllib.request.Request(api, data=payload, headers=headers, method='POST')
+          try:
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  data = json.loads(r.read())
+          except urllib.error.HTTPError as e:
+              print(f'Cobalt HTTP {e.code}: {e.read().decode()}'); sys.exit(1)
+          except Exception as e:
+              print(f'Cobalt error: {e}'); sys.exit(1)
+
+          print(f'Cobalt response status: {data.get("status")}')
+          if data.get('status') not in ('tunnel', 'redirect'):
+              print(f'Cobalt failed: {data}'); sys.exit(1)
+
+          dl_url = data['url']
+          print(f'Downloading from tunnel...')
+          try:
+              with urllib.request.urlopen(dl_url, timeout=300) as r:
+                  with open(src, 'wb') as f:
+                      while True:
+                          chunk = r.read(1024 * 1024)
+                          if not chunk: break
+                          f.write(chunk)
+          except Exception as e:
+              print(f'Download failed: {e}'); sys.exit(1)
+
+          print(f'Downloaded {os.path.getsize(src)} bytes')
 
           def to_sec(tc):
-            parts = str(tc).split(':')
-            if len(parts) == 2: return int(parts[0]) * 60 + int(parts[1])
-            if len(parts) == 3: return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
-            return int(tc)
+              parts = str(tc).split(':')
+              if len(parts) == 2: return int(parts[0]) * 60 + int(parts[1])
+              if len(parts) == 3: return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+              return int(tc)
 
           for i, clip in enumerate(clips):
-            start = to_sec(clip.get('start', 0))
-            end   = to_sec(clip.get('end',   0))
-            out   = f'assets/clips/{slug}-{i}.mp4'
-            print(f'Trimming clip {i}: {start}s → {end}s → {out}')
-            r = subprocess.run([
-              'ffmpeg', '-y', '-i', src,
-              '-ss', str(start), '-to', str(end),
-              '-c:v', 'libx264', '-crf', '28', '-preset', 'fast',
-              '-pix_fmt', 'yuv420p', '-vf', 'scale=-2:min(480\\,ih)',
-              '-an', '-movflags', '+faststart', out
-            ])
-            if r.returncode == 0:
-              clip['clipFile'] = out
-              print(f'  OK: {out}')
-            else:
-              print(f'  FAILED clip {i}')
+              start = to_sec(clip.get('start', 0))
+              end   = to_sec(clip.get('end',   0))
+              out   = f'assets/clips/{slug}-{i}.mp4'
+              print(f'Trimming clip {i}: {start}s → {end}s → {out}')
+              r = subprocess.run([
+                  'ffmpeg', '-y', '-i', src,
+                  '-ss', str(start), '-to', str(end),
+                  '-c:v', 'libx264', '-crf', '28', '-preset', 'fast',
+                  '-pix_fmt', 'yuv420p', '-vf', 'scale=-2:min(480\\,ih)',
+                  '-an', '-movflags', '+faststart', out
+              ])
+              if r.returncode == 0:
+                  clip['clipFile'] = out
+                  print(f'  OK: {out}')
+              else:
+                  print(f'  FAILED clip {i}')
 
           with open('data.json') as f:
-            data = json.load(f)
-          for p in data['projects']:
-            if p.get('title') == title:
-              p['clips'] = clips
-              break
+              data_json = json.load(f)
+          for p in data_json['projects']:
+              if p.get('title') == title:
+                  p['clips'] = clips
+                  break
           with open('data.json', 'w') as f:
-            json.dump(data, f, indent=2)
+              json.dump(data_json, f, indent=2)
           print('data.json updated')
           PYEOF
 
