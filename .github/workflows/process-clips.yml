@@ -81,7 +81,20 @@ jobs:
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git pull --rebase
           git add assets/clips/ data.json
-          git diff --staged --quiet || git commit -m "Embed clips: ${{ github.event.client_payload.project_title }}"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Embed clips: ${{ github.event.client_payload.project_title }}"
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            fi
+            echo "Push failed, rebasing and retrying (attempt $attempt)"
+            git pull --rebase origin main || exit 1
+            sleep 2
+          done
+          echo "Push failed after 5 attempts"
+          exit 1

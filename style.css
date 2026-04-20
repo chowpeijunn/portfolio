@@ -1211,6 +1211,11 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
+.detail-clip-inner video {
+  object-fit: cover;
+  background: #000;
+}
+
 /* Thumbnail sits above iframe — stays until 3s after PLAYING, then fades */
 .detail-clip-thumb {
   position: absolute;
