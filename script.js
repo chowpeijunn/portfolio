@@ -735,7 +735,6 @@ initShowreel();
     return `<div class="detail-clip">
       <div class="detail-clip-inner">
         <div class="clip-yt-target" id="clip-yt-${i}"></div>
-        <div class="clip-yt-corner-mask"></div>
         <img class="detail-clip-thumb" src="${thumb}" alt="${escapeHtml(clip.label || '')}">
       </div>
       ${label}
