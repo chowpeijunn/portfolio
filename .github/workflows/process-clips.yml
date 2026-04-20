@@ -14,13 +14,11 @@ jobs:
       - name: Install tools
         run: sudo apt-get install -y ffmpeg
 
-      - name: Fetch via Cobalt + trim clips
+      - name: Fetch via Piped + trim clips
         env:
           PROJECT_TITLE: ${{ github.event.client_payload.project_title }}
           YOUTUBE_URL: ${{ github.event.client_payload.youtube_url }}
           CLIPS_JSON: ${{ toJson(github.event.client_payload.clips) }}
-          COBALT_API_URL: ${{ secrets.COBALT_API_URL }}
-          COBALT_API_KEY: ${{ secrets.COBALT_API_KEY }}
         run: |
           python3 - << 'PYEOF'
           import json, os, re, subprocess, sys, urllib.request, urllib.error
@@ -28,50 +26,72 @@ jobs:
           title  = os.environ['PROJECT_TITLE']
           yt_url = os.environ['YOUTUBE_URL']
           clips  = json.loads(os.environ['CLIPS_JSON'])
-          api    = os.environ.get('COBALT_API_URL') or 'https://api.cobalt.tools/'
-          key    = os.environ.get('COBALT_API_KEY', '')
 
           os.makedirs('assets/clips', exist_ok=True)
           slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
           src  = '/tmp/source.mp4'
 
-          print(f'Requesting via Cobalt: {api}')
-          headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-          if key:
-              headers['Authorization'] = f'Api-Key {key}'
-          payload = json.dumps({
-              'url': yt_url,
-              'videoQuality': '720',
-              'downloadMode': 'auto',
-              'filenameStyle': 'basic',
-              'youtubeVideoCodec': 'h264'
-          }).encode('utf-8')
-          req = urllib.request.Request(api, data=payload, headers=headers, method='POST')
-          try:
-              with urllib.request.urlopen(req, timeout=60) as r:
-                  data = json.loads(r.read())
-          except urllib.error.HTTPError as e:
-              print(f'Cobalt HTTP {e.code}: {e.read().decode()}'); sys.exit(1)
-          except Exception as e:
-              print(f'Cobalt error: {e}'); sys.exit(1)
+          # Extract YouTube video ID
+          m = re.search(r'(?:v=|youtu\.be/|/embed/)([a-zA-Z0-9_-]{11})', yt_url)
+          if not m:
+              print(f'Could not parse video ID from: {yt_url}'); sys.exit(1)
+          vid_id = m.group(1)
+          print(f'Video ID: {vid_id}')
 
-          print(f'Cobalt response status: {data.get("status")}')
-          if data.get('status') not in ('tunnel', 'redirect'):
-              print(f'Cobalt failed: {data}'); sys.exit(1)
+          # Try public Piped instances to get stream URLs
+          PIPED_INSTANCES = [
+              'https://pipedapi.kavin.rocks',
+              'https://pipedapi.tokhmi.xyz',
+              'https://api.piped.yt',
+              'https://pipedapi.moomoo.me',
+          ]
+          streams = None
+          for instance in PIPED_INSTANCES:
+              url = f'{instance}/streams/{vid_id}'
+              print(f'Trying {url}')
+              try:
+                  req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      streams = json.loads(r.read())
+                  print(f'  OK')
+                  break
+              except Exception as e:
+                  print(f'  Failed: {e}')
 
-          dl_url = data['url']
-          print(f'Downloading from tunnel...')
-          try:
-              with urllib.request.urlopen(dl_url, timeout=300) as r:
-                  with open(src, 'wb') as f:
-                      while True:
-                          chunk = r.read(1024 * 1024)
-                          if not chunk: break
-                          f.write(chunk)
-          except Exception as e:
-              print(f'Download failed: {e}'); sys.exit(1)
+          if not streams:
+              print('All Piped instances failed'); sys.exit(1)
 
-          print(f'Downloaded {os.path.getsize(src)} bytes')
+          # Pick best video stream (mp4 preferred, ≤720p)
+          vs = [s for s in streams.get('videoStreams', [])
+                if s.get('videoOnly') and re.match(r'\d+p', s.get('quality',''))]
+          vs_mp4 = [s for s in vs if 'mp4' in s.get('mimeType','')]
+          pool = vs_mp4 if vs_mp4 else vs
+          pool_720 = [s for s in pool if int(s['quality'].rstrip('p')) <= 720]
+          pool_720.sort(key=lambda s: int(s['quality'].rstrip('p')), reverse=True)
+          v_stream = pool_720[0] if pool_720 else None
+
+          # Pick best audio stream
+          as_ = streams.get('audioStreams', [])
+          as_.sort(key=lambda s: s.get('bitrate', 0), reverse=True)
+          a_stream = as_[0] if as_ else None
+
+          if not v_stream:
+              print('No suitable video stream found'); sys.exit(1)
+
+          print(f'Downloading video stream: {v_stream["quality"]} {v_stream.get("mimeType","")}')
+          v_tmp = '/tmp/v_stream'
+          a_tmp = '/tmp/a_stream'
+          subprocess.run(['curl', '-sL', '--max-time', '300', '-o', v_tmp, v_stream['url']], check=True)
+
+          if a_stream:
+              print(f'Downloading audio stream: {a_stream.get("quality","?")} {a_stream.get("mimeType","")}')
+              subprocess.run(['curl', '-sL', '--max-time', '120', '-o', a_tmp, a_stream['url']], check=True)
+              print('Muxing video + audio')
+              subprocess.run(['ffmpeg', '-y', '-i', v_tmp, '-i', a_tmp, '-c', 'copy', src], check=True)
+          else:
+              os.rename(v_tmp, src)
+
+          print(f'Source ready: {os.path.getsize(src)} bytes')
 
           def to_sec(tc):
               parts = str(tc).split(':')
