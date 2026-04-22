@@ -777,6 +777,7 @@ initShowreel();
             onReady(e) {
               e.target.seekTo(start, true);
               e.target.playVideo();
+              if (thumb) thumb.classList.add('hide');
               // Virtual loop — poll currentTime, seek before ENDED fires
               // This prevents the end screen / "Watch on YouTube" from ever appearing
               const iv = setInterval(() => {
