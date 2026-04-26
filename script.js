@@ -451,6 +451,8 @@ window.addEventListener('resize', () => {
 
   window.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
+    // Clear any mobile video previews when the user starts panning
+    document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
     e.preventDefault(); // stop browser scroll while canvas is being dragged
     const now = performance.now();
     const dt = now - lastMoveTime;
@@ -960,8 +962,41 @@ initShowreel();
   canvasInner.addEventListener('click', (e) => {
     if (_wasDragged || _touchDragged) return;
     const card = e.target.closest('.project-card');
-    if (!card) return;
+
+    // Tapping off a card clears any active mobile preview
+    if (!card) {
+      document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
+      return;
+    }
+
     e.preventDefault();
+
+    // On touch devices: first tap → video preview, second tap → open detail
+    if ('ontouchstart' in window) {
+      const ytId = getYouTubeId(card.dataset.video || '');
+      if (ytId) {
+        const existingFrame = card.querySelector('.card-hover-iframe');
+        if (!existingFrame) {
+          // First tap — clear any other previews and show this one
+          document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
+          const media = card.querySelector('.card-media');
+          if (media) {
+            const iframe = document.createElement('iframe');
+            iframe.className = 'card-hover-iframe';
+            iframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&rel=0&playsinline=1`;
+            iframe.allow = 'autoplay; encrypted-media';
+            iframe.setAttribute('frameborder', '0');
+            media.appendChild(iframe);
+            return; // don't open detail yet
+          }
+        } else {
+          // Second tap — remove preview and fall through to openDetail
+          existingFrame.src = '';
+          existingFrame.remove();
+        }
+      }
+    }
+
     openDetail(card);
   });
 
