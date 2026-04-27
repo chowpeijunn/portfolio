@@ -680,6 +680,14 @@ function renderEditor() {
         <input type="text" value="${esc(p.video || '')}" placeholder="https://youtu.be/..." oninput="update('video', this.value)">
       </div>
       <div class="field">
+        <label>Card hover preview <span style="opacity:0.5;font-size:10px;">(GIF — shown instead of YouTube on hover/tap)</span></label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input type="text" id="previewGifInput" value="${esc(p.preview || '')}" placeholder="assets/previews/project.gif" oninput="update('preview', this.value)" style="flex:1">
+          <button class="btn btn-ghost btn-sm" onclick="pickPreviewGif()" style="flex-shrink:0;">↑ Upload GIF</button>
+        </div>
+        <div id="previewGifProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
+      </div>
+      <div class="field">
         <label>Extra videos — YouTube URL, direct video, or GIF</label>
         <div class="videos-list" id="videosList">${videosHtml}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addVideo()">+ Add video</button>
@@ -1243,6 +1251,42 @@ async function pickVideoFile(vi) {
       alert('Upload failed: ' + err.message);
     } finally {
       if (btn) { btn.disabled = false; btn.textContent = '↑ Upload'; }
+    }
+  };
+  picker.click();
+}
+
+async function pickPreviewGif() {
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.accept = 'image/gif,.gif';
+  picker.onchange = async () => {
+    const file = picker.files[0];
+    if (!file) return;
+    const MAX_MB = 20;
+    if (file.size > MAX_MB * 1024 * 1024) {
+      alert(`GIF too large (max ${MAX_MB} MB). Try compressing it first.`);
+      return;
+    }
+    const inputEl = document.getElementById('previewGifInput');
+    const progress = document.getElementById('previewGifProgress');
+    if (progress) { progress.style.display = 'block'; progress.textContent = 'Uploading…'; }
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const uploadPath = await githubPut(`assets/previews/${file.name}`, base64, file.name);
+      if (inputEl) {
+        inputEl.value = uploadPath;
+        update('preview', uploadPath);
+      }
+      if (progress) progress.textContent = '✓ Uploaded';
+    } catch (err) {
+      if (progress) progress.textContent = '';
+      alert('Upload failed: ' + err.message);
     }
   };
   picker.click();

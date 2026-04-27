@@ -36,9 +36,13 @@ function renderCards(projects) {
     const thumbSrc = p.thumb || '';
     const ytFallback = getYouTubeThumbnail(p.video || '');
     const isYT = (p.video || '').includes('youtu');
-    // Only include <video> for local (non-YouTube) sources
+    // Local video element (non-YouTube only)
     const videoEl = (!isYT && p.video)
       ? `<video class="card-video" muted loop playsinline preload="none" src="${escapeHtml(p.video)}"></video>`
+      : '';
+    // GIF/preview — lazy loaded via data-src, shown on hover/tap (no YouTube UI)
+    const gifEl = p.preview
+      ? `<img class="card-gif" data-src="${escapeHtml(p.preview)}" alt="">`
       : '';
     const onerrorAttr = ytFallback
       ? ` onerror="this.onerror=null;this.src='${ytFallback}'"`
@@ -52,6 +56,7 @@ function renderCards(projects) {
       `<div class="card-media">` +
       `<img class="card-thumb" src="${thumbSrc}" alt="${escapeHtml(p.title)}" loading="lazy"${onerrorAttr}>` +
       videoEl +
+      gifEl +
       `<div class="card-info">` +
       `<span class="card-info-title">${escapeHtml(p.title)}</span>` +
       `<span class="card-info-cat">${catDisplay}</span>` +
@@ -451,8 +456,12 @@ window.addEventListener('resize', () => {
 
   window.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
-    // Clear any mobile video previews when the user starts panning
+    // Clear any mobile previews (iframes + GIFs) when the user starts panning
     document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
+    document.querySelectorAll('.project-card.gif-active').forEach(c => {
+      c.classList.remove('gif-active');
+      const g = c.querySelector('.card-gif'); if (g) g.style.opacity = '0';
+    });
     e.preventDefault(); // stop browser scroll while canvas is being dragged
     const now = performance.now();
     const dt = now - lastMoveTime;
@@ -512,18 +521,31 @@ window.addEventListener('resize', () => {
 })();
 
 /* ============================================
-   HOVER-TO-PLAY VIDEO
+   HOVER-TO-PLAY VIDEO / GIF
    ============================================ */
 function initHoverToPlay() {
   document.querySelectorAll('.project-card').forEach((card) => {
     const media = card.querySelector('.card-media');
+    const gif   = card.querySelector('.card-gif');
+
+    if (gif) {
+      // GIF preview — lazy-load src on first hover, CSS opacity transition handles the rest
+      card.addEventListener('mouseenter', () => {
+        if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src;
+        gif.style.opacity = '1';
+      });
+      card.addEventListener('mouseleave', () => {
+        gif.style.opacity = '0';
+      });
+      return; // GIF takes priority — skip YouTube iframe for this card
+    }
+
     const videoUrl = card.dataset.video || '';
     const ytId = getYouTubeId(videoUrl);
 
     if (ytId) {
-      // YouTube: inject muted autoplay iframe on hover
+      // Fallback: YouTube iframe (for cards without a GIF preview)
       let hoverIframe = null;
-
       card.addEventListener('mouseenter', () => {
         if (hoverIframe) return;
         hoverIframe = document.createElement('iframe');
@@ -533,16 +555,11 @@ function initHoverToPlay() {
         hoverIframe.setAttribute('frameborder', '0');
         media.appendChild(hoverIframe);
       });
-
       card.addEventListener('mouseleave', () => {
-        if (hoverIframe) {
-          hoverIframe.src = '';
-          hoverIframe.remove();
-          hoverIframe = null;
-        }
+        if (hoverIframe) { hoverIframe.src = ''; hoverIframe.remove(); hoverIframe = null; }
       });
     } else {
-      // Local video
+      // Local video element
       const video = card.querySelector('.card-video');
       if (!video || !video.getAttribute('src')) return;
       card.addEventListener('mouseenter', () => video.play().catch(() => {}));
@@ -966,33 +983,57 @@ initShowreel();
     // Tapping off a card clears any active mobile preview
     if (!card) {
       document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
+      document.querySelectorAll('.project-card.gif-active').forEach(c => {
+        c.classList.remove('gif-active');
+        const g = c.querySelector('.card-gif'); if (g) g.style.opacity = '0';
+      });
       return;
     }
 
     e.preventDefault();
 
-    // On touch devices: first tap → video preview, second tap → open detail
+    // On touch devices: first tap → preview, second tap → open detail
     if ('ontouchstart' in window) {
-      const ytId = getYouTubeId(card.dataset.video || '');
-      if (ytId) {
-        const existingFrame = card.querySelector('.card-hover-iframe');
-        if (!existingFrame) {
-          // First tap — clear any other previews and show this one
-          document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
-          const media = card.querySelector('.card-media');
-          if (media) {
-            const iframe = document.createElement('iframe');
-            iframe.className = 'card-hover-iframe';
-            iframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&rel=0&playsinline=1`;
-            iframe.allow = 'autoplay; encrypted-media';
-            iframe.setAttribute('frameborder', '0');
-            media.appendChild(iframe);
-            return; // don't open detail yet
+      const gif = card.querySelector('.card-gif');
+      if (gif && gif.dataset.src) {
+        // GIF preview path
+        const isActive = card.classList.contains('gif-active');
+        // Clear all other GIF previews
+        document.querySelectorAll('.project-card.gif-active').forEach(c => {
+          c.classList.remove('gif-active');
+          const g = c.querySelector('.card-gif'); if (g) g.style.opacity = '0';
+        });
+        if (!isActive) {
+          // First tap — show GIF
+          if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src;
+          gif.style.opacity = '1';
+          card.classList.add('gif-active');
+          return; // don't open detail yet
+        }
+        // Second tap — GIF was active, clear it and fall through to openDetail
+      } else {
+        // YouTube iframe fallback
+        const ytId = getYouTubeId(card.dataset.video || '');
+        if (ytId) {
+          const existingFrame = card.querySelector('.card-hover-iframe');
+          if (!existingFrame) {
+            // First tap — clear any other previews and show this one
+            document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
+            const media = card.querySelector('.card-media');
+            if (media) {
+              const iframe = document.createElement('iframe');
+              iframe.className = 'card-hover-iframe';
+              iframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&rel=0&playsinline=1`;
+              iframe.allow = 'autoplay; encrypted-media';
+              iframe.setAttribute('frameborder', '0');
+              media.appendChild(iframe);
+              return; // don't open detail yet
+            }
+          } else {
+            // Second tap — remove preview and fall through to openDetail
+            existingFrame.src = '';
+            existingFrame.remove();
           }
-        } else {
-          // Second tap — remove preview and fall through to openDetail
-          existingFrame.src = '';
-          existingFrame.remove();
         }
       }
     }
