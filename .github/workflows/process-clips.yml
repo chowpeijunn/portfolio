@@ -14,8 +14,10 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y ffmpeg nodejs
           python3 -m pip install --upgrade yt-dlp
+          yt-dlp --version
+          node --version
 
       - name: Download & trim clips
         env:
@@ -40,20 +42,37 @@ jobs:
               if len(parts) == 3: return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
               return int(tc)
 
-          # Download full source video with yt-dlp (best ≤720p, mp4 preferred)
+          # Download full source video. YouTube blocks naive requests from
+          # cloud IPs ("Sign in to confirm you're not a bot"), so try a series
+          # of player clients — newer ones (tv_simply, web_safari) tend to
+          # bypass the bot check.
           print(f'Downloading from {yt_url}')
-          dl = subprocess.run([
-              'yt-dlp',
-              '-f', 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]/best[height<=720]',
-              '--merge-output-format', 'mp4',
-              '--no-playlist',
-              '--retries', '5',
-              '--fragment-retries', '5',
-              '-o', src,
-              yt_url
-          ])
-          if dl.returncode != 0:
-              print('yt-dlp failed'); sys.exit(1)
+          CLIENTS_TO_TRY = ['tv_simply', 'web_safari', 'mweb', 'android_vr', 'ios']
+          dl = None
+          for client in CLIENTS_TO_TRY:
+              print(f'--- Trying player_client={client} ---')
+              if os.path.exists(src):
+                  os.remove(src)
+              dl = subprocess.run([
+                  'yt-dlp',
+                  '--extractor-args', f'youtube:player_client={client}',
+                  '-f', 'bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]/best[height<=720]',
+                  '--merge-output-format', 'mp4',
+                  '--no-playlist',
+                  '--retries', '3',
+                  '--fragment-retries', '3',
+                  '-o', src,
+                  yt_url
+              ])
+              if dl.returncode == 0 and os.path.exists(src):
+                  print(f'  SUCCESS with {client}')
+                  break
+              print(f'  Failed with {client}, trying next…')
+          if not dl or dl.returncode != 0 or not os.path.exists(src):
+              print('All yt-dlp clients failed — YouTube is blocking this runner.')
+              print('Workaround: upload the source MP4 manually to assets/videos/'
+                    ' and use that path as the project video URL.')
+              sys.exit(1)
           print(f'Source ready: {os.path.getsize(src)} bytes')
 
           # Trim each clip into a silent, looping mp4
