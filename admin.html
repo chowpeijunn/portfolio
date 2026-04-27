@@ -1020,9 +1020,9 @@ async function processClips() {
 
     const POLL_URL = 'https://api.github.com/repos/chowpeijunn/portfolio/actions/workflows/process-clips.yml/runs?event=repository_dispatch&per_page=1';
     const STEP_MAP = [
-      { pattern: /install tools/i,   pct: 25, label: 'Installing ffmpeg…' },
-      { pattern: /cobalt|trim/i,     pct: 70, label: 'Fetching via Cobalt & trimming…' },
-      { pattern: /commit/i,          pct: 90, label: 'Committing clip files…' }
+      { pattern: /install tools/i,        pct: 25, label: 'Installing yt-dlp & ffmpeg…' },
+      { pattern: /download.*trim|trim/i,  pct: 70, label: 'Downloading source & trimming clips…' },
+      { pattern: /commit/i,               pct: 90, label: 'Committing clip files…' }
     ];
 
     let done = false;
