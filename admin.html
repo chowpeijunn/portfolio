@@ -190,21 +190,6 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .clip-scrub-btn { flex-shrink: 0; font-size: 13px; padding: 4px 8px; }
 .clip-scrub-btn.active { background: #1c2840; border-color: var(--accent); color: var(--accent); }
 
-/* Clip download progress */
-.clips-progress { display: none; margin-top: 10px; }
-.clips-progress.visible { display: block; }
-.clips-progress-track {
-  height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px;
-}
-.clips-progress-fill {
-  height: 100%; width: 0%; border-radius: 2px;
-  background: var(--accent);
-  transition: width 0.7s ease, background 0.3s;
-}
-.clips-progress-fill.success { background: var(--success); }
-.clips-progress-fill.error   { background: var(--danger); }
-.clips-progress-label { font-size: 10px; color: var(--muted); }
-
 /* Inline clip preview player */
 .clip-preview {
   margin: -2px 0 4px;
@@ -696,12 +681,7 @@ function renderEditor() {
         <label>Clips — mark your contributions as hover-to-play segments</label>
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
-        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="processClips()" id="processClipsBtn">⬇ Download &amp; embed clips</button>
-        <div class="clip-hint">Hit ⏱ to set times, then ⬇ Download to extract each clip as a real video file — no YouTube UI, perfect loops.</div>
-        <div class="clips-progress" id="clipsProgress">
-          <div class="clips-progress-track"><div class="clips-progress-fill" id="clipsProgressFill"></div></div>
-          <div class="clips-progress-label" id="clipsProgressLabel"></div>
-        </div>
+        <div class="clip-hint">Hit ⏱ to set times, then save. Run <code>python3 tools/extract_clips.py</code> locally to trim the source MP4 into <code>assets/clips/</code>, then commit &amp; push.</div>
       </div>
     </div>
 
@@ -968,132 +948,6 @@ function removeClip(ci) {
   if (p.clips && p.clips.length === 0) delete p.clips;
   markDirty();
   renderEditor();
-}
-
-async function processClips() {
-  const p = data.projects[selectedIdx];
-  const token = getGhToken();
-  const progressEl = document.getElementById('clipsProgress');
-  const fillEl     = document.getElementById('clipsProgressFill');
-  const labelEl    = document.getElementById('clipsProgressLabel');
-  const btn        = document.getElementById('processClipsBtn');
-
-  if (!token) { alert('Set your GitHub token (🔑 Token) first.'); return; }
-  if (!p.video) { alert('No YouTube video URL set for this project.'); return; }
-  if (!p.clips || !p.clips.length) { alert('Add at least one clip with start/end times first.'); return; }
-
-  const GH_HEADERS = {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github.v3+json',
-    'Content-Type': 'application/json'
-  };
-
-  function setProgress(pct, label, state) {
-    progressEl.classList.add('visible');
-    fillEl.style.width = pct + '%';
-    fillEl.classList.toggle('success', state === 'success');
-    fillEl.classList.toggle('error',   state === 'error');
-    labelEl.textContent = label;
-  }
-
-  btn.disabled = true;
-  setProgress(0, 'Queuing workflow…', '');
-
-  try {
-    const dispatchRes = await fetch('https://api.github.com/repos/chowpeijunn/portfolio/dispatches', {
-      method: 'POST',
-      headers: GH_HEADERS,
-      body: JSON.stringify({
-        event_type: 'process-clips',
-        client_payload: { project_title: p.title, youtube_url: p.video, clips: p.clips }
-      })
-    });
-    if (dispatchRes.status !== 204) {
-      const j = await dispatchRes.json().catch(() => ({}));
-      throw new Error(j.message || `HTTP ${dispatchRes.status}`);
-    }
-
-    setProgress(5, 'Workflow queued — waiting for runner…', '');
-
-    // Poll for the run
-    await new Promise(r => setTimeout(r, 6000));
-
-    const POLL_URL = 'https://api.github.com/repos/chowpeijunn/portfolio/actions/workflows/process-clips.yml/runs?event=repository_dispatch&per_page=1';
-    const STEP_MAP = [
-      { pattern: /install tools/i,        pct: 25, label: 'Installing yt-dlp & ffmpeg…' },
-      { pattern: /download.*trim|trim/i,  pct: 70, label: 'Downloading source & trimming clips…' },
-      { pattern: /commit/i,               pct: 90, label: 'Committing clip files…' }
-    ];
-
-    let done = false;
-    let attempts = 0;
-    const MAX_ATTEMPTS = 60; // 5 min
-
-    while (!done && attempts < MAX_ATTEMPTS) {
-      await new Promise(r => setTimeout(r, 5000));
-      attempts++;
-
-      let runsData;
-      try {
-        const runsRes = await fetch(POLL_URL, { headers: GH_HEADERS });
-        runsData = await runsRes.json();
-      } catch { continue; }
-
-      const run = runsData.workflow_runs && runsData.workflow_runs[0];
-      if (!run) { setProgress(5, 'Waiting for runner…', ''); continue; }
-
-      const { status, conclusion } = run;
-
-      if (status === 'queued') {
-        setProgress(8, 'Runner queued…', '');
-        continue;
-      }
-
-      if (status === 'in_progress') {
-        // Fetch steps
-        let stepsData;
-        try {
-          const jobsRes = await fetch(run.jobs_url, { headers: GH_HEADERS });
-          stepsData = await jobsRes.json();
-        } catch { setProgress(20, 'Running…', ''); continue; }
-
-        const job = stepsData.jobs && stepsData.jobs[0];
-        if (!job) { setProgress(20, 'Running…', ''); continue; }
-
-        const steps = job.steps || [];
-        let bestPct = 20, bestLabel = 'Running…';
-        for (const step of steps) {
-          if (step.status === 'in_progress' || step.status === 'completed') {
-            for (const m of STEP_MAP) {
-              if (m.pattern.test(step.name) && m.pct > bestPct) {
-                bestPct   = m.pct;
-                bestLabel = m.label;
-              }
-            }
-          }
-        }
-        setProgress(bestPct, bestLabel, '');
-        continue;
-      }
-
-      if (status === 'completed') {
-        if (conclusion === 'success') {
-          setProgress(100, 'Clips processed! Reload to see them embedded.', 'success');
-        } else {
-          setProgress(100, `Workflow ${conclusion}. Check GitHub Actions for details.`, 'error');
-        }
-        done = true;
-      }
-    }
-
-    if (!done) {
-      setProgress(90, 'Taking longer than expected — check GitHub Actions.', '');
-    }
-  } catch(e) {
-    setProgress(100, 'Error: ' + e.message, 'error');
-  } finally {
-    btn.disabled = false;
-  }
 }
 
 // ── CLIP SCRUB PREVIEW ─────────────────────────────────────
