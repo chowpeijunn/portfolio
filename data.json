@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -99,39 +99,46 @@
       ],
       "clips": [
         {
+          "end": "0:29",
           "label": "Particular / Stock Particle Comp",
           "start": "0:27",
-          "end": "0:29"
+          "clipFile": "assets/clips/phc-2026-0.mp4"
         },
         {
+          "end": "0:35",
           "label": "Particular / Stock Particle Comp",
           "start": "0:33",
-          "end": "0:35"
+          "clipFile": "assets/clips/phc-2026-1.mp4"
         },
         {
+          "end": "0:37",
           "label": "Particular / Stock Particle Comp",
           "start": "0:36",
-          "end": "0:37"
+          "clipFile": "assets/clips/phc-2026-2.mp4"
         },
         {
+          "end": "0:57",
           "label": "Particular / Stock Particle Comp",
           "start": "0:50",
-          "end": "0:57"
+          "clipFile": "assets/clips/phc-2026-3.mp4"
         },
         {
+          "end": "1:09",
           "label": "Particular / Stock Particle Comp",
           "start": "1:07",
-          "end": "1:09"
+          "clipFile": "assets/clips/phc-2026-4.mp4"
         },
         {
+          "end": "1:14",
           "label": "Transition + Particular / Stock Particle Comp",
           "start": "1:11",
-          "end": "1:14"
+          "clipFile": "assets/clips/phc-2026-5.mp4"
         },
         {
+          "end": "1:30",
           "label": "Particular / Stock Particle Comp",
           "start": "1:22",
-          "end": "1:30"
+          "clipFile": "assets/clips/phc-2026-6.mp4"
         }
       ],
       "sourceVideo": "assets/sources/phc-2026.mp4"
@@ -218,7 +225,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia × Discovery Channel",
+      "client": "Kia \u00d7 Discovery Channel",
       "credits": [
         [
           "Work",
@@ -433,7 +440,7 @@
     },
     {
       "slot": "before",
-      "title": "Beautés du Monde",
+      "title": "Beaut\u00e9s du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -918,7 +925,7 @@
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
+      "client": "Vogue \u00d7 Marina Bay Sands",
       "credits": [
         [
           "Work",
