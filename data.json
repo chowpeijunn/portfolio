@@ -681,16 +681,16 @@
       ],
       "clips": [
         {
-          "label": "Timestop transition",
-          "start": "0:00",
+          "clipFile": "assets/clips/solo-sliders-0.mp4",
           "end": "0:04",
-          "clipFile": "assets/clips/solo-sliders-0.mp4"
+          "label": "Timestop transition",
+          "start": "0:00"
         },
         {
-          "label": "Background Slide + MatchCut Transition",
-          "start": "0:11",
+          "clipFile": "assets/clips/solo-sliders-1.mp4",
           "end": "0:14",
-          "clipFile": "assets/clips/solo-sliders-1.mp4"
+          "label": "Background Slide + MatchCut Transition",
+          "start": "0:11"
         }
       ],
       "sourceVideo": "assets/sources/solo-sliders.mp4"
