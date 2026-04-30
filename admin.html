@@ -214,6 +214,20 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 #extractToast .extract-fill.error   { background: var(--danger); }
 #extractToast .extract-label { font-size: 11px; color: var(--dim); word-break: break-word; }
 #extractToast .extract-label a { color: var(--accent); text-decoration: underline; }
+
+/* Inline source-video upload progress (under the Source video field) */
+.src-progress { margin-top: 6px; }
+.src-progress-track {
+  height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 4px;
+}
+.src-progress-fill {
+  height: 100%; width: 0%; border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.4s ease, background 0.3s;
+}
+.src-progress-fill.success { background: var(--success); }
+.src-progress-fill.error   { background: var(--danger); }
+.src-progress-label { font-size: 11px; color: var(--accent); }
 .btn-save-extract {
   margin-top: 8px;
   font-weight: 600;
@@ -712,7 +726,10 @@ function renderEditor() {
           <input type="text" id="sourceVideoInput" value="${esc(p.sourceVideo || '')}" placeholder="assets/sources/project.mp4" oninput="update('sourceVideo', this.value)" style="flex:1">
           <button class="btn btn-ghost btn-sm" onclick="pickSourceVideo()" style="flex-shrink:0;">↑ Upload source</button>
         </div>
-        <div id="sourceVideoProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
+        <div id="sourceVideoProgress" class="src-progress" style="display:none;">
+          <div class="src-progress-track"><div class="src-progress-fill" id="sourceVideoProgressFill"></div></div>
+          <div class="src-progress-label" id="sourceVideoProgressLabel"></div>
+        </div>
       </div>
       <div class="field">
         <label>Extra videos — YouTube URL, direct video, or GIF</label>
@@ -1428,7 +1445,17 @@ async function pickSourceVideo() {
 
     const inputEl  = document.getElementById('sourceVideoInput');
     const progress = document.getElementById('sourceVideoProgress');
+    const fillEl   = document.getElementById('sourceVideoProgressFill');
+    const labelEl  = document.getElementById('sourceVideoProgressLabel');
     if (progress) progress.style.display = 'block';
+
+    function setSrcProgress(pct, label, state) {
+      if (!progress) return;
+      fillEl.style.width = Math.max(0, Math.min(100, pct)) + '%';
+      fillEl.classList.toggle('success', state === 'success');
+      fillEl.classList.toggle('error',   state === 'error');
+      labelEl.textContent = label;
+    }
 
     let uploadFile = file;
     const origMb = (file.size / 1024 / 1024).toFixed(0);
@@ -1437,22 +1464,23 @@ async function pickSourceVideo() {
     // For tiny files (already small), this is still fast and predictable.
     try {
       if (file.size > UPLOAD_MAX_MB * 1024 * 1024 || /\.(mov|avi|mkv|wmv)$/i.test(file.name) || file.size > 20 * 1024 * 1024) {
+        // Compression covers 0% → 90% of the bar; upload covers 90% → 100%.
         const compressed = await compressVideoInBrowser(file, (pct, label) => {
-          if (progress) progress.textContent = `${origMb} MB → ${label}`;
+          setSrcProgress(pct * 0.9, `${origMb} MB → ${label}`, '');
         });
         const compMb = (compressed.size / 1024 / 1024).toFixed(1);
         if (compressed.size > UPLOAD_MAX_MB * 1024 * 1024) {
-          if (progress) progress.textContent = '';
+          setSrcProgress(100, `Compressed file still ${compMb} MB (max ${UPLOAD_MAX_MB} MB) — trim shorter`, 'error');
           alert(`Even after compression the file is ${compMb} MB (max ${UPLOAD_MAX_MB} MB). Source is probably very long — trim it shorter and try again.`);
           return;
         }
         uploadFile = new File([compressed], file.name.replace(/\.[^.]+$/i, '') + '.mp4', { type: 'video/mp4' });
-        if (progress) progress.textContent = `Compressed ${origMb} MB → ${compMb} MB. Uploading…`;
+        setSrcProgress(90, `Compressed ${origMb} MB → ${compMb} MB. Uploading…`, '');
       } else {
-        if (progress) progress.textContent = `Uploading ${origMb} MB…`;
+        setSrcProgress(20, `Uploading ${origMb} MB…`, '');
       }
     } catch (err) {
-      if (progress) progress.textContent = '';
+      setSrcProgress(100, 'Compression failed', 'error');
       alert('Compression failed: ' + (err.message || err) + '\n\nIf the file is very long or huge, try trimming it first.');
       return;
     }
@@ -1469,9 +1497,9 @@ async function pickSourceVideo() {
         inputEl.value = uploadPath;
         update('sourceVideo', uploadPath);
       }
-      if (progress) progress.textContent = `✓ Uploaded ${(uploadFile.size/1024/1024).toFixed(1)} MB`;
+      setSrcProgress(100, `✓ Uploaded ${(uploadFile.size/1024/1024).toFixed(1)} MB`, 'success');
     } catch (err) {
-      if (progress) progress.textContent = '';
+      setSrcProgress(100, 'Upload failed', 'error');
       alert('Upload failed: ' + err.message);
     }
   };
