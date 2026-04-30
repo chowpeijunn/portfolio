@@ -707,7 +707,7 @@ function renderEditor() {
         <div id="previewGifProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
       </div>
       <div class="field">
-        <label>Source video <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — upload a 720p mp4 once per project)</span></label>
+        <label>Source video <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — any size mp4/mov; auto-compressed to 720p in browser)</span></label>
         <div style="display:flex;gap:6px;align-items:center;">
           <input type="text" id="sourceVideoInput" value="${esc(p.sourceVideo || '')}" placeholder="assets/sources/project.mp4" oninput="update('sourceVideo', this.value)" style="flex:1">
           <button class="btn btn-ghost btn-sm" onclick="pickSourceVideo()" style="flex-shrink:0;">↑ Upload source</button>
@@ -1348,6 +1348,61 @@ async function pickPreviewGif() {
   picker.click();
 }
 
+// Lazy-load ffmpeg.wasm and cache the instance
+let _ffmpegPromise = null;
+async function getFFmpeg(onLog) {
+  if (_ffmpegPromise) return _ffmpegPromise;
+  _ffmpegPromise = (async () => {
+    const FFMPEG_VERSION = '0.12.10';
+    const UTIL_VERSION   = '0.12.1';
+    const CORE_VERSION   = '0.12.6';
+    if (onLog) onLog('Loading compressor (~30 MB, one-time download)…');
+    const { FFmpeg }              = await import(`https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@${FFMPEG_VERSION}/dist/esm/index.js`);
+    const { fetchFile, toBlobURL } = await import(`https://cdn.jsdelivr.net/npm/@ffmpeg/util@${UTIL_VERSION}/dist/esm/index.js`);
+    const baseURL = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${CORE_VERSION}/dist/umd`;
+    const ffmpeg = new FFmpeg();
+    await ffmpeg.load({
+      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`,  'text/javascript'),
+      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`,'application/wasm'),
+    });
+    return { ffmpeg, fetchFile };
+  })();
+  return _ffmpegPromise;
+}
+
+// Compress any-size video to a 720p, audio-stripped mp4 ready for the workflow.
+async function compressVideoInBrowser(file, onProgress) {
+  const { ffmpeg, fetchFile } = await getFFmpeg(msg => onProgress(0, msg));
+  // Reset listeners (re-running on the same instance otherwise stacks them)
+  ffmpeg.off?.('progress');
+  ffmpeg.on('progress', ({ progress }) => {
+    const pct = Math.max(0, Math.min(100, Math.round((progress || 0) * 100)));
+    onProgress(pct, `Compressing… ${pct}%`);
+  });
+
+  const ext = (file.name.match(/\.[^.]+$/) || ['.mp4'])[0];
+  const inputName = `input${ext}`;
+  const outputName = 'output.mp4';
+
+  onProgress(0, 'Preparing file…');
+  await ffmpeg.writeFile(inputName, await fetchFile(file));
+
+  onProgress(0, 'Compressing… 0%');
+  await ffmpeg.exec([
+    '-i', inputName,
+    '-c:v', 'libx264', '-crf', '26', '-preset', 'medium',
+    '-pix_fmt', 'yuv420p', '-vf', 'scale=-2:min(720\\,ih)',
+    '-an', '-movflags', '+faststart',
+    outputName
+  ]);
+
+  const data = await ffmpeg.readFile(outputName);
+  // Free wasm memory
+  try { await ffmpeg.deleteFile(inputName); } catch {}
+  try { await ffmpeg.deleteFile(outputName); } catch {}
+  return new Blob([data.buffer], { type: 'video/mp4' });
+}
+
 async function pickSourceVideo() {
   const picker = document.createElement('input');
   picker.type = 'file';
@@ -1355,27 +1410,59 @@ async function pickSourceVideo() {
   picker.onchange = async () => {
     const file = picker.files[0];
     if (!file) return;
-    const MAX_MB = 80;
-    if (file.size > MAX_MB * 1024 * 1024) {
-      alert(`Source too large (max ${MAX_MB} MB). Compress to 720p first — see tools/compress_source.py.`);
+
+    const HARD_MAX_MB   = 1024;  // Above this, the browser tab will likely OOM
+    const UPLOAD_MAX_MB = 80;    // GitHub API hard ceiling is 100; 80 leaves margin
+
+    if (file.size > HARD_MAX_MB * 1024 * 1024) {
+      alert(`File is ${(file.size/1024/1024).toFixed(0)} MB — too large for browser-based compression (max ${HARD_MAX_MB} MB). Trim or pre-compress in your video editor and try again.`);
       return;
     }
-    const inputEl = document.getElementById('sourceVideoInput');
+
+    const inputEl  = document.getElementById('sourceVideoInput');
     const progress = document.getElementById('sourceVideoProgress');
-    if (progress) { progress.style.display = 'block'; progress.textContent = 'Uploading…'; }
+    if (progress) progress.style.display = 'block';
+
+    let uploadFile = file;
+    const origMb = (file.size / 1024 / 1024).toFixed(0);
+
+    // Always compress — keeps repo small and the file under upload limits.
+    // For tiny files (already small), this is still fast and predictable.
+    try {
+      if (file.size > UPLOAD_MAX_MB * 1024 * 1024 || /\.(mov|avi|mkv|wmv)$/i.test(file.name) || file.size > 20 * 1024 * 1024) {
+        const compressed = await compressVideoInBrowser(file, (pct, label) => {
+          if (progress) progress.textContent = `${origMb} MB → ${label}`;
+        });
+        const compMb = (compressed.size / 1024 / 1024).toFixed(1);
+        if (compressed.size > UPLOAD_MAX_MB * 1024 * 1024) {
+          if (progress) progress.textContent = '';
+          alert(`Even after compression the file is ${compMb} MB (max ${UPLOAD_MAX_MB} MB). Source is probably very long — trim it shorter and try again.`);
+          return;
+        }
+        uploadFile = new File([compressed], file.name.replace(/\.[^.]+$/i, '') + '.mp4', { type: 'video/mp4' });
+        if (progress) progress.textContent = `Compressed ${origMb} MB → ${compMb} MB. Uploading…`;
+      } else {
+        if (progress) progress.textContent = `Uploading ${origMb} MB…`;
+      }
+    } catch (err) {
+      if (progress) progress.textContent = '';
+      alert('Compression failed: ' + (err.message || err) + '\n\nIf the file is very long or huge, try trimming it first.');
+      return;
+    }
+
     try {
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = e => resolve(e.target.result.split(',')[1]);
         reader.onerror = reject;
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(uploadFile);
       });
-      const uploadPath = await githubPut(`assets/sources/${file.name}`, base64, file.name);
+      const uploadPath = await githubPut(`assets/sources/${uploadFile.name}`, base64, uploadFile.name);
       if (inputEl) {
         inputEl.value = uploadPath;
         update('sourceVideo', uploadPath);
       }
-      if (progress) progress.textContent = '✓ Uploaded';
+      if (progress) progress.textContent = `✓ Uploaded ${(uploadFile.size/1024/1024).toFixed(1)} MB`;
     } catch (err) {
       if (progress) progress.textContent = '';
       alert('Upload failed: ' + err.message);
