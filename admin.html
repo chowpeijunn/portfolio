@@ -697,6 +697,14 @@ function renderEditor() {
         <div id="previewGifProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
       </div>
       <div class="field">
+        <label>Source video <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — upload a 720p mp4 once per project)</span></label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input type="text" id="sourceVideoInput" value="${esc(p.sourceVideo || '')}" placeholder="assets/sources/project.mp4" oninput="update('sourceVideo', this.value)" style="flex:1">
+          <button class="btn btn-ghost btn-sm" onclick="pickSourceVideo()" style="flex-shrink:0;">↑ Upload source</button>
+        </div>
+        <div id="sourceVideoProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
+      </div>
+      <div class="field">
         <label>Extra videos — YouTube URL, direct video, or GIF</label>
         <div class="videos-list" id="videosList">${videosHtml}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addVideo()">+ Add video</button>
@@ -706,7 +714,7 @@ function renderEditor() {
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
         <button class="btn btn-sm btn-save-extract" id="processClipsBtn" onclick="processClips()">💾 Save &amp; extract clips</button>
-        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims your YouTube source and embeds each clip as a local mp4.</div>
+        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4.</div>
         <div class="clips-progress" id="clipsProgress">
           <div class="clips-progress-track"><div class="clips-progress-fill" id="clipsProgressFill"></div></div>
           <div class="clips-progress-label" id="clipsProgressLabel"></div>
@@ -983,7 +991,7 @@ async function processClips() {
   const btn        = document.getElementById('processClipsBtn');
 
   if (!token)              { alert('Set your GitHub token (🔑 Token) first.'); return; }
-  if (!p.video)            { alert('No YouTube video URL set for this project.'); return; }
+  if (!p.sourceVideo)      { alert('Upload a Source video for this project first (above the Clips section).'); return; }
   if (!p.clips || !p.clips.length) { alert('Add at least one clip with start/end times first.'); return; }
   const invalid = p.clips.filter(c => !c.start || !c.end);
   if (invalid.length) { alert(`${invalid.length} clip(s) missing start/end. Set times first.`); return; }
@@ -1014,7 +1022,7 @@ async function processClips() {
       headers: GH_HEADERS,
       body: JSON.stringify({
         event_type: 'process-clips',
-        client_payload: { project_title: p.title, youtube_url: p.video, clips: p.clips }
+        client_payload: { project_title: p.title, source_video: p.sourceVideo, clips: p.clips }
       })
     });
     if (dispatchRes.status !== 204) {
@@ -1028,10 +1036,9 @@ async function processClips() {
     // 3) Poll for the run
     const POLL_URL = 'https://api.github.com/repos/chowpeijunn/portfolio/actions/workflows/process-clips.yml/runs?event=repository_dispatch&per_page=1';
     const STEP_MAP = [
-      { pattern: /install tools/i,       pct: 20, label: 'Installing yt-dlp & ffmpeg…' },
-      { pattern: /cookies/i,             pct: 30, label: 'Loading YouTube cookies…' },
-      { pattern: /download.*trim|trim/i, pct: 70, label: 'Downloading source & trimming clips…' },
-      { pattern: /commit/i,              pct: 90, label: 'Committing clip files…' }
+      { pattern: /install ffmpeg/i, pct: 30, label: 'Installing ffmpeg…' },
+      { pattern: /trim clips/i,     pct: 70, label: 'Trimming clips from source…' },
+      { pattern: /commit/i,         pct: 90, label: 'Committing clip files…' }
     ];
 
     const startedAt = Date.now();
@@ -1284,6 +1291,42 @@ async function pickPreviewGif() {
       if (inputEl) {
         inputEl.value = uploadPath;
         update('preview', uploadPath);
+      }
+      if (progress) progress.textContent = '✓ Uploaded';
+    } catch (err) {
+      if (progress) progress.textContent = '';
+      alert('Upload failed: ' + err.message);
+    }
+  };
+  picker.click();
+}
+
+async function pickSourceVideo() {
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.accept = 'video/mp4,video/*';
+  picker.onchange = async () => {
+    const file = picker.files[0];
+    if (!file) return;
+    const MAX_MB = 80;
+    if (file.size > MAX_MB * 1024 * 1024) {
+      alert(`Source too large (max ${MAX_MB} MB). Compress to 720p first — see tools/compress_source.py.`);
+      return;
+    }
+    const inputEl = document.getElementById('sourceVideoInput');
+    const progress = document.getElementById('sourceVideoProgress');
+    if (progress) { progress.style.display = 'block'; progress.textContent = 'Uploading…'; }
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const uploadPath = await githubPut(`assets/sources/${file.name}`, base64, file.name);
+      if (inputEl) {
+        inputEl.value = uploadPath;
+        update('sourceVideo', uploadPath);
       }
       if (progress) progress.textContent = '✓ Uploaded';
     } catch (err) {

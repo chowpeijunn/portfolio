@@ -52,7 +52,8 @@
           "start": "",
           "end": ""
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/kfc-brand-video.mp4"
     },
     {
       "slot": "before",
@@ -102,7 +103,8 @@
           "start": "",
           "end": ""
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/phc-2026.mp4"
     },
     {
       "slot": "before",
@@ -396,7 +398,8 @@
           "end": "0:15",
           "clipFile": "assets/clips/samyang-buldak-carbonara-1.mp4"
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/samyang-buldak-carbonara.mp4"
     },
     {
       "slot": "before",
@@ -460,7 +463,8 @@
           "end": "0:44",
           "clipFile": "assets/clips/thrive-bt-2.mp4"
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/thrive-bt.mp4"
     },
     {
       "slot": "before",
@@ -519,7 +523,8 @@
           "end": "0:26",
           "clipFile": "assets/clips/thai-curry-1.mp4"
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/thai-curry.mp4"
     },
     {
       "slot": "before",
@@ -687,7 +692,8 @@
           "end": "0:14",
           "clipFile": "assets/clips/solo-sliders-1.mp4"
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/solo-sliders.mp4"
     },
     {
       "slot": "after",
@@ -789,7 +795,8 @@
           "end": "0:20",
           "clipFile": "assets/clips/shopee-3-3-1.mp4"
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/shopee-3-3.mp4"
     },
     {
       "slot": "after",
@@ -942,7 +949,8 @@
           "end": "0:20",
           "clipFile": "assets/clips/shopee-vip-2.mp4"
         }
-      ]
+      ],
+      "sourceVideo": "assets/sources/shopee-vip.mp4"
     },
     {
       "slot": "after",
