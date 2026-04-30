@@ -190,20 +190,30 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .clip-scrub-btn { flex-shrink: 0; font-size: 13px; padding: 4px 8px; }
 .clip-scrub-btn.active { background: #1c2840; border-color: var(--accent); color: var(--accent); }
 
-/* Save & extract progress */
-.clips-progress { display: none; margin-top: 10px; }
-.clips-progress.visible { display: block; }
-.clips-progress-track {
-  height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px;
+/* Save & extract progress — fixed banner that persists across project switches */
+#extractToast {
+  position: fixed; bottom: 16px; right: 16px; z-index: 9000;
+  width: 320px; padding: 12px 14px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  font-size: 12px; color: var(--text);
+  display: none;
 }
-.clips-progress-fill {
+#extractToast.visible { display: block; }
+#extractToast .extract-title { font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+#extractToast .extract-title-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#extractToast .extract-close { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 16px; padding: 0 4px; line-height: 1; }
+#extractToast .extract-close:hover { color: var(--text); }
+#extractToast .extract-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+#extractToast .extract-fill {
   height: 100%; width: 0%; border-radius: 2px;
   background: var(--accent);
   transition: width 0.7s ease, background 0.3s;
 }
-.clips-progress-fill.success { background: var(--success); }
-.clips-progress-fill.error   { background: var(--danger); }
-.clips-progress-label { font-size: 10px; color: var(--muted); }
+#extractToast .extract-fill.success { background: var(--success); }
+#extractToast .extract-fill.error   { background: var(--danger); }
+#extractToast .extract-label { font-size: 11px; color: var(--dim); word-break: break-word; }
+#extractToast .extract-label a { color: var(--accent); text-decoration: underline; }
 .btn-save-extract {
   margin-top: 8px;
   font-weight: 600;
@@ -714,11 +724,7 @@ function renderEditor() {
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
         <button class="btn btn-sm btn-save-extract" id="processClipsBtn" onclick="processClips()">💾 Save &amp; extract clips</button>
-        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4.</div>
-        <div class="clips-progress" id="clipsProgress">
-          <div class="clips-progress-track"><div class="clips-progress-fill" id="clipsProgressFill"></div></div>
-          <div class="clips-progress-label" id="clipsProgressLabel"></div>
-        </div>
+        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4. Progress shows in the bottom-right corner — safe to switch projects while it runs.</div>
       </div>
     </div>
 
@@ -767,6 +773,12 @@ function renderEditor() {
       </div>
     </div>
   `;
+
+  // If a clip extraction is currently running, keep the new button disabled too
+  if (typeof _extractInFlight !== 'undefined' && _extractInFlight) {
+    const b = document.getElementById('processClipsBtn');
+    if (b) b.disabled = true;
+  }
 }
 
 function renderThumbGrid(currentThumb) {
@@ -980,15 +992,35 @@ function addClip() {
 
 // ── SAVE & EXTRACT CLIPS ──────────────────────────────────
 // Saves the current data, then triggers the GitHub Actions workflow that
-// downloads the YouTube source via yt-dlp (with cookies stored in the
-// YOUTUBE_COOKIES repo secret) and trims each clip to a local mp4.
+// trims the uploaded Source video into local mp4 clips. Progress is shown
+// in a persistent toast (bottom-right) so it survives switching projects.
+
+let _extractInFlight = false;
+
+function ensureExtractToast() {
+  let toast = document.getElementById('extractToast');
+  if (toast) return toast;
+  toast = document.createElement('div');
+  toast.id = 'extractToast';
+  toast.innerHTML = `
+    <div class="extract-title">
+      <span class="extract-title-text" id="extractToastTitle">Extracting…</span>
+      <button class="extract-close" id="extractToastClose" title="Dismiss" style="display:none">×</button>
+    </div>
+    <div class="extract-track"><div class="extract-fill" id="extractToastFill"></div></div>
+    <div class="extract-label" id="extractToastLabel"></div>`;
+  document.body.appendChild(toast);
+  toast.querySelector('#extractToastClose').onclick = () => toast.classList.remove('visible');
+  return toast;
+}
+
 async function processClips() {
+  if (_extractInFlight) {
+    alert('A clip extraction is already running. Wait for it to finish, or dismiss the progress card first.');
+    return;
+  }
   const p = data.projects[selectedIdx];
   const token = getGhToken();
-  const progressEl = document.getElementById('clipsProgress');
-  const fillEl     = document.getElementById('clipsProgressFill');
-  const labelEl    = document.getElementById('clipsProgressLabel');
-  const btn        = document.getElementById('processClipsBtn');
 
   if (!token)              { alert('Set your GitHub token (🔑 Token) first.'); return; }
   if (!p.sourceVideo)      { alert('Upload a Source video for this project first (above the Clips section).'); return; }
@@ -996,15 +1028,28 @@ async function processClips() {
   const invalid = p.clips.filter(c => !c.start || !c.end);
   if (invalid.length) { alert(`${invalid.length} clip(s) missing start/end. Set times first.`); return; }
 
+  const toast      = ensureExtractToast();
+  const fillEl     = toast.querySelector('#extractToastFill');
+  const labelEl    = toast.querySelector('#extractToastLabel');
+  const titleEl    = toast.querySelector('#extractToastTitle');
+  const closeEl    = toast.querySelector('#extractToastClose');
+  titleEl.textContent = `Extracting: ${p.title}`;
+  closeEl.style.display = 'none';
+  toast.classList.add('visible');
+
   function setProgress(pct, label, state) {
-    progressEl.classList.add('visible');
     fillEl.style.width = pct + '%';
     fillEl.classList.toggle('success', state === 'success');
     fillEl.classList.toggle('error',   state === 'error');
-    labelEl.textContent = label;
+    labelEl.innerHTML = label;
   }
 
-  btn.disabled = true;
+  // Disable the in-flight project's button if it's currently rendered
+  const btnNow = () => document.getElementById('processClipsBtn');
+  const updateBtn = (disabled) => { const b = btnNow(); if (b) b.disabled = disabled; };
+
+  _extractInFlight = true;
+  updateBtn(true);
   try {
     // 1) Save current data first (so any time-code edits aren't lost on conflict)
     setProgress(2, 'Saving project…', '');
@@ -1083,7 +1128,7 @@ async function processClips() {
           setProgress(100, '✓ Clips embedded! Reload the public site to see them.', 'success');
         } else {
           const url = `https://github.com/chowpeijunn/portfolio/actions/runs/${runId}`;
-          setProgress(100, `Workflow ${run.conclusion}. Check logs: ${url}`, 'error');
+          setProgress(100, `Workflow ${run.conclusion}. <a href="${url}" target="_blank">Check logs ↗</a>`, 'error');
         }
         done = true;
       }
@@ -1092,7 +1137,9 @@ async function processClips() {
   } catch (e) {
     setProgress(100, 'Error: ' + e.message, 'error');
   } finally {
-    btn.disabled = false;
+    _extractInFlight = false;
+    updateBtn(false);
+    closeEl.style.display = '';
   }
 }
 
