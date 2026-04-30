@@ -220,6 +220,20 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .op-toast .op-fill.error   { background: var(--danger); }
 .op-toast .op-label { font-size: 11px; color: var(--dim); word-break: break-word; }
 .op-toast .op-label a { color: var(--accent); text-decoration: underline; }
+
+/* Status pill for the Source video field */
+.field-status {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+.field-status.ok      { background: rgba(76, 175, 130, 0.18); color: var(--success); }
+.field-status.missing { background: rgba(255, 87, 87, 0.18);  color: var(--danger);  }
 .btn-save-extract {
   margin-top: 8px;
   font-weight: 600;
@@ -713,9 +727,13 @@ function renderEditor() {
         <div id="previewGifProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
       </div>
       <div class="field">
-        <label>Source video <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — any size mp4/mov; auto-compressed to 720p in browser)</span></label>
+        <label>
+          Source video
+          <span class="field-status ${p.sourceVideo ? 'ok' : 'missing'}" id="sourceVideoStatus">${p.sourceVideo ? '✓ Uploaded' : '○ Not uploaded'}</span>
+          <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — any size mp4/mov; auto-compressed to 720p in browser)</span>
+        </label>
         <div style="display:flex;gap:6px;align-items:center;">
-          <input type="text" id="sourceVideoInput" value="${esc(p.sourceVideo || '')}" placeholder="assets/sources/project.mp4" oninput="update('sourceVideo', this.value)" style="flex:1">
+          <input type="text" id="sourceVideoInput" value="${esc(p.sourceVideo || '')}" placeholder="assets/sources/project.mp4" oninput="update('sourceVideo', this.value); refreshSourceStatus(this.value);" style="flex:1">
           <button class="btn btn-ghost btn-sm" onclick="pickSourceVideo()" style="flex-shrink:0;">↑ Upload source</button>
         </div>
       </div>
@@ -1439,6 +1457,20 @@ async function compressVideoInBrowser(file, onProgress) {
   return new Blob([data.buffer], { type: 'video/mp4' });
 }
 
+function refreshSourceStatus(value) {
+  const el = document.getElementById('sourceVideoStatus');
+  if (!el) return;
+  if (value && value.trim()) {
+    el.classList.remove('missing');
+    el.classList.add('ok');
+    el.textContent = '✓ Uploaded';
+  } else {
+    el.classList.remove('ok');
+    el.classList.add('missing');
+    el.textContent = '○ Not uploaded';
+  }
+}
+
 async function pickSourceVideo() {
   if (_uploadInFlight) {
     alert('A source upload is already running. Wait for it to finish or dismiss the progress card first.');
@@ -1508,14 +1540,19 @@ async function pickSourceVideo() {
       if (projectAtStart) {
         projectAtStart.sourceVideo = uploadPath;
       }
-      // If the upload's project is still the one being viewed, refresh the input field too.
+      // If the upload's project is still the one being viewed, refresh the input field
+      // and the status pill in-place (no full re-render needed).
       if (selectedIdx === projectIdxAtStart) {
-        const inputEl = document.getElementById('sourceVideoInput');
+        const inputEl  = document.getElementById('sourceVideoInput');
         if (inputEl) inputEl.value = uploadPath;
-        markDirty();
-      } else {
-        markDirty();
+        const statusEl = document.getElementById('sourceVideoStatus');
+        if (statusEl) {
+          statusEl.classList.remove('missing');
+          statusEl.classList.add('ok');
+          statusEl.textContent = '✓ Uploaded';
+        }
       }
+      markDirty();
       setSrcProgress(100, `✓ Uploaded ${(uploadFile.size/1024/1024).toFixed(1)} MB`, 'success');
     } catch (err) {
       setSrcProgress(100, 'Upload failed', 'error');
