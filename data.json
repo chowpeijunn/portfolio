@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -225,7 +225,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia \u00d7 Discovery Channel",
+      "client": "Kia × Discovery Channel",
       "credits": [
         [
           "Work",
@@ -236,7 +236,44 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/kia-x-discovery.mp4"
+      "sourceVideo": "assets/sources/kia-x-discovery.mp4",
+      "clips": [
+        {
+          "label": "Binocular Look",
+          "start": "0:04",
+          "end": "0:07"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "0:08",
+          "end": "0:13"
+        },
+        {
+          "label": "License Plate Replacement + Car Clean Up",
+          "start": "0:25",
+          "end": "0:38"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "0:45",
+          "end": "0:50"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "0:59",
+          "end": "1:02"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "1:09",
+          "end": "1:12"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "1:18",
+          "end": "1:23"
+        }
+      ]
     },
     {
       "slot": "before",
@@ -444,7 +481,7 @@
     },
     {
       "slot": "before",
-      "title": "Beaut\u00e9s du Monde",
+      "title": "Beautés du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -932,7 +969,7 @@
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue \u00d7 Marina Bay Sands",
+      "client": "Vogue × Marina Bay Sands",
       "credits": [
         [
           "Work",
