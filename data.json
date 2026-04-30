@@ -784,16 +784,16 @@
       ],
       "clips": [
         {
-          "label": "Lightning Comp",
-          "start": "0:00",
+          "clipFile": "assets/clips/shopee-3-3-0.mp4",
           "end": "0:01",
-          "clipFile": "assets/clips/shopee-3-3-0.mp4"
+          "label": "Lightning Comp",
+          "start": "0:00"
         },
         {
-          "label": "Roto, Screen Replacement",
-          "start": "0:18",
+          "clipFile": "assets/clips/shopee-3-3-1.mp4",
           "end": "0:20",
-          "clipFile": "assets/clips/shopee-3-3-1.mp4"
+          "label": "Roto, Screen Replacement",
+          "start": "0:18"
         }
       ],
       "sourceVideo": "assets/sources/shopee-3-3.mp4"
