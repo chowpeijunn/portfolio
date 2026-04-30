@@ -235,7 +235,8 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideo": "assets/sources/kia-x-discovery.mp4"
     },
     {
       "slot": "before",
@@ -282,7 +283,8 @@
       "videos": [
         "https://youtu.be/UxCR6cett0c",
         "https://youtu.be/L82k7Wq_4LI"
-      ]
+      ],
+      "sourceVideo": "assets/sources/age-strong.mp4"
     },
     {
       "slot": "before",
@@ -326,7 +328,8 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideo": "assets/sources/shopee-10-10.mp4"
     },
     {
       "slot": "before",
@@ -377,7 +380,8 @@
         "https://youtu.be/gpHyY3bNluA",
         "https://youtu.be/Qfl1X_e0Tg0",
         "https://youtu.be/ctTDm78mtb0"
-      ]
+      ],
+      "sourceVideo": "assets/sources/subway-everyday-value.mp4"
     },
     {
       "slot": "before",
@@ -684,7 +688,8 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideo": "assets/sources/gobusiness.mp4"
     },
     {
       "slot": "after",
@@ -786,7 +791,8 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideo": "assets/sources/progressive-wages.mp4"
     },
     {
       "slot": "after",
@@ -890,7 +896,8 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideo": "assets/sources/xmas.mp4"
     },
     {
       "slot": "after",
@@ -935,7 +942,8 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideo": "assets/sources/vogue-x-mbs.mp4"
     },
     {
       "slot": "after",
@@ -1065,7 +1073,8 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideo": "assets/sources/shopee-9-9.mp4"
     },
     {
       "slot": "after",
