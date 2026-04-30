@@ -190,6 +190,30 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .clip-scrub-btn { flex-shrink: 0; font-size: 13px; padding: 4px 8px; }
 .clip-scrub-btn.active { background: #1c2840; border-color: var(--accent); color: var(--accent); }
 
+/* Save & extract progress */
+.clips-progress { display: none; margin-top: 10px; }
+.clips-progress.visible { display: block; }
+.clips-progress-track {
+  height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px;
+}
+.clips-progress-fill {
+  height: 100%; width: 0%; border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.7s ease, background 0.3s;
+}
+.clips-progress-fill.success { background: var(--success); }
+.clips-progress-fill.error   { background: var(--danger); }
+.clips-progress-label { font-size: 10px; color: var(--muted); }
+.btn-save-extract {
+  margin-top: 8px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn-save-extract:hover:not(:disabled) { background: var(--accent-h); border-color: var(--accent-h); }
+.btn-save-extract:disabled { opacity: 0.5; cursor: not-allowed; }
+
 /* Inline clip preview player */
 .clip-preview {
   margin: -2px 0 4px;
@@ -681,7 +705,12 @@ function renderEditor() {
         <label>Clips — mark your contributions as hover-to-play segments</label>
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
-        <div class="clip-hint">Hit ⏱ to set times, then save. Run <code>python3 tools/extract_clips.py</code> locally to trim the source MP4 into <code>assets/clips/</code>, then commit &amp; push.</div>
+        <button class="btn btn-sm btn-save-extract" id="processClipsBtn" onclick="processClips()">💾 Save &amp; extract clips</button>
+        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims your YouTube source and embeds each clip as a local mp4.</div>
+        <div class="clips-progress" id="clipsProgress">
+          <div class="clips-progress-track"><div class="clips-progress-fill" id="clipsProgressFill"></div></div>
+          <div class="clips-progress-label" id="clipsProgressLabel"></div>
+        </div>
       </div>
     </div>
 
@@ -938,6 +967,125 @@ function addClip() {
     const div = document.createElement('div');
     div.innerHTML = clipRowHtml({ label: '', start: '', end: '' }, ci);
     list.appendChild(div.firstElementChild);
+  }
+}
+
+// ── SAVE & EXTRACT CLIPS ──────────────────────────────────
+// Saves the current data, then triggers the GitHub Actions workflow that
+// downloads the YouTube source via yt-dlp (with cookies stored in the
+// YOUTUBE_COOKIES repo secret) and trims each clip to a local mp4.
+async function processClips() {
+  const p = data.projects[selectedIdx];
+  const token = getGhToken();
+  const progressEl = document.getElementById('clipsProgress');
+  const fillEl     = document.getElementById('clipsProgressFill');
+  const labelEl    = document.getElementById('clipsProgressLabel');
+  const btn        = document.getElementById('processClipsBtn');
+
+  if (!token)              { alert('Set your GitHub token (🔑 Token) first.'); return; }
+  if (!p.video)            { alert('No YouTube video URL set for this project.'); return; }
+  if (!p.clips || !p.clips.length) { alert('Add at least one clip with start/end times first.'); return; }
+  const invalid = p.clips.filter(c => !c.start || !c.end);
+  if (invalid.length) { alert(`${invalid.length} clip(s) missing start/end. Set times first.`); return; }
+
+  function setProgress(pct, label, state) {
+    progressEl.classList.add('visible');
+    fillEl.style.width = pct + '%';
+    fillEl.classList.toggle('success', state === 'success');
+    fillEl.classList.toggle('error',   state === 'error');
+    labelEl.textContent = label;
+  }
+
+  btn.disabled = true;
+  try {
+    // 1) Save current data first (so any time-code edits aren't lost on conflict)
+    setProgress(2, 'Saving project…', '');
+    await saveAll();
+
+    // 2) Dispatch workflow
+    setProgress(5, 'Queuing workflow…', '');
+    const GH_HEADERS = {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+    const dispatchRes = await fetch('https://api.github.com/repos/chowpeijunn/portfolio/dispatches', {
+      method: 'POST',
+      headers: GH_HEADERS,
+      body: JSON.stringify({
+        event_type: 'process-clips',
+        client_payload: { project_title: p.title, youtube_url: p.video, clips: p.clips }
+      })
+    });
+    if (dispatchRes.status !== 204) {
+      const j = await dispatchRes.json().catch(() => ({}));
+      throw new Error(j.message || `HTTP ${dispatchRes.status}`);
+    }
+
+    setProgress(8, 'Workflow queued — waiting for runner…', '');
+    await new Promise(r => setTimeout(r, 6000));
+
+    // 3) Poll for the run
+    const POLL_URL = 'https://api.github.com/repos/chowpeijunn/portfolio/actions/workflows/process-clips.yml/runs?event=repository_dispatch&per_page=1';
+    const STEP_MAP = [
+      { pattern: /install tools/i,       pct: 20, label: 'Installing yt-dlp & ffmpeg…' },
+      { pattern: /cookies/i,             pct: 30, label: 'Loading YouTube cookies…' },
+      { pattern: /download.*trim|trim/i, pct: 70, label: 'Downloading source & trimming clips…' },
+      { pattern: /commit/i,              pct: 90, label: 'Committing clip files…' }
+    ];
+
+    const startedAt = Date.now();
+    const TIMEOUT_MS = 5 * 60 * 1000;
+    let done = false;
+    let runId = null;
+
+    while (!done && Date.now() - startedAt < TIMEOUT_MS) {
+      await new Promise(r => setTimeout(r, 5000));
+
+      let run;
+      try {
+        const res = await fetch(POLL_URL, { headers: GH_HEADERS });
+        const j = await res.json();
+        run = j.workflow_runs && j.workflow_runs[0];
+      } catch { continue; }
+      if (!run) { setProgress(8, 'Waiting for runner…', ''); continue; }
+      runId = run.id;
+
+      if (run.status === 'queued')      { setProgress(12, 'Runner queued…', ''); continue; }
+      if (run.status === 'in_progress') {
+        let job;
+        try {
+          const jr = await fetch(run.jobs_url, { headers: GH_HEADERS });
+          job = (await jr.json()).jobs?.[0];
+        } catch { setProgress(20, 'Running…', ''); continue; }
+        let bestPct = 20, bestLabel = 'Running…';
+        for (const step of (job?.steps || [])) {
+          if (step.status === 'in_progress' || step.status === 'completed') {
+            for (const m of STEP_MAP) {
+              if (m.pattern.test(step.name) && m.pct > bestPct) {
+                bestPct = m.pct; bestLabel = m.label;
+              }
+            }
+          }
+        }
+        setProgress(bestPct, bestLabel, '');
+        continue;
+      }
+      if (run.status === 'completed') {
+        if (run.conclusion === 'success') {
+          setProgress(100, '✓ Clips embedded! Reload the public site to see them.', 'success');
+        } else {
+          const url = `https://github.com/chowpeijunn/portfolio/actions/runs/${runId}`;
+          setProgress(100, `Workflow ${run.conclusion}. Check logs: ${url}`, 'error');
+        }
+        done = true;
+      }
+    }
+    if (!done) setProgress(95, 'Taking longer than expected — check GitHub Actions tab.', '');
+  } catch (e) {
+    setProgress(100, 'Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
   }
 }
 
