@@ -1357,14 +1357,21 @@ async function getFFmpeg(onLog) {
     const UTIL_VERSION   = '0.12.1';
     const CORE_VERSION   = '0.12.6';
     if (onLog) onLog('Loading compressor (~30 MB, one-time download)…');
-    const { FFmpeg }              = await import(`https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@${FFMPEG_VERSION}/dist/esm/index.js`);
-    const { fetchFile, toBlobURL } = await import(`https://cdn.jsdelivr.net/npm/@ffmpeg/util@${UTIL_VERSION}/dist/esm/index.js`);
-    const baseURL = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${CORE_VERSION}/dist/umd`;
+    const ffmpegBase = `https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@${FFMPEG_VERSION}/dist/esm`;
+    const utilBase   = `https://cdn.jsdelivr.net/npm/@ffmpeg/util@${UTIL_VERSION}/dist/esm`;
+    const coreBase   = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${CORE_VERSION}/dist/umd`;
+    const { FFmpeg }               = await import(`${ffmpegBase}/index.js`);
+    const { fetchFile, toBlobURL } = await import(`${utilBase}/index.js`);
+    // Fetch worker + core scripts as same-origin blob URLs to avoid cross-origin
+    // Worker construction errors. Without classWorkerURL the FFmpeg class spawns
+    // a Worker with the CDN URL directly, which browsers block.
+    const [classWorkerURL, coreURL, wasmURL] = await Promise.all([
+      toBlobURL(`${ffmpegBase}/worker.js`,        'text/javascript'),
+      toBlobURL(`${coreBase}/ffmpeg-core.js`,     'text/javascript'),
+      toBlobURL(`${coreBase}/ffmpeg-core.wasm`,   'application/wasm'),
+    ]);
     const ffmpeg = new FFmpeg();
-    await ffmpeg.load({
-      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`,  'text/javascript'),
-      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`,'application/wasm'),
-    });
+    await ffmpeg.load({ classWorkerURL, coreURL, wasmURL });
     return { ffmpeg, fetchFile };
   })();
   return _ffmpegPromise;
