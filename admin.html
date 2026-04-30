@@ -190,44 +190,36 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .clip-scrub-btn { flex-shrink: 0; font-size: 13px; padding: 4px 8px; }
 .clip-scrub-btn.active { background: #1c2840; border-color: var(--accent); color: var(--accent); }
 
-/* Save & extract progress — fixed banner that persists across project switches */
-#extractToast {
+/* Persistent operation toasts (bottom-right) — survive project switches.
+   Used by Save & extract clips and by Source video upload/compression. */
+.op-toast-stack {
   position: fixed; bottom: 16px; right: 16px; z-index: 9000;
+  display: flex; flex-direction: column-reverse; gap: 8px;
+  pointer-events: none;
+}
+.op-toast {
+  pointer-events: auto;
   width: 320px; padding: 12px 14px;
   background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
   box-shadow: 0 12px 32px rgba(0,0,0,0.5);
   font-size: 12px; color: var(--text);
   display: none;
 }
-#extractToast.visible { display: block; }
-#extractToast .extract-title { font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
-#extractToast .extract-title-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#extractToast .extract-close { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 16px; padding: 0 4px; line-height: 1; }
-#extractToast .extract-close:hover { color: var(--text); }
-#extractToast .extract-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
-#extractToast .extract-fill {
-  height: 100%; width: 0%; border-radius: 2px;
-  background: var(--accent);
-  transition: width 0.7s ease, background 0.3s;
-}
-#extractToast .extract-fill.success { background: var(--success); }
-#extractToast .extract-fill.error   { background: var(--danger); }
-#extractToast .extract-label { font-size: 11px; color: var(--dim); word-break: break-word; }
-#extractToast .extract-label a { color: var(--accent); text-decoration: underline; }
-
-/* Inline source-video upload progress (under the Source video field) */
-.src-progress { margin-top: 6px; }
-.src-progress-track {
-  height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 4px;
-}
-.src-progress-fill {
+.op-toast.visible { display: block; }
+.op-toast .op-title { font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.op-toast .op-title-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.op-toast .op-close { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 16px; padding: 0 4px; line-height: 1; }
+.op-toast .op-close:hover { color: var(--text); }
+.op-toast .op-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+.op-toast .op-fill {
   height: 100%; width: 0%; border-radius: 2px;
   background: var(--accent);
   transition: width 0.4s ease, background 0.3s;
 }
-.src-progress-fill.success { background: var(--success); }
-.src-progress-fill.error   { background: var(--danger); }
-.src-progress-label { font-size: 11px; color: var(--accent); }
+.op-toast .op-fill.success { background: var(--success); }
+.op-toast .op-fill.error   { background: var(--danger); }
+.op-toast .op-label { font-size: 11px; color: var(--dim); word-break: break-word; }
+.op-toast .op-label a { color: var(--accent); text-decoration: underline; }
 .btn-save-extract {
   margin-top: 8px;
   font-weight: 600;
@@ -726,10 +718,6 @@ function renderEditor() {
           <input type="text" id="sourceVideoInput" value="${esc(p.sourceVideo || '')}" placeholder="assets/sources/project.mp4" oninput="update('sourceVideo', this.value)" style="flex:1">
           <button class="btn btn-ghost btn-sm" onclick="pickSourceVideo()" style="flex-shrink:0;">↑ Upload source</button>
         </div>
-        <div id="sourceVideoProgress" class="src-progress" style="display:none;">
-          <div class="src-progress-track"><div class="src-progress-fill" id="sourceVideoProgressFill"></div></div>
-          <div class="src-progress-label" id="sourceVideoProgressLabel"></div>
-        </div>
       </div>
       <div class="field">
         <label>Extra videos — YouTube URL, direct video, or GIF</label>
@@ -1013,22 +1001,59 @@ function addClip() {
 // in a persistent toast (bottom-right) so it survives switching projects.
 
 let _extractInFlight = false;
+let _uploadInFlight  = false;
 
-function ensureExtractToast() {
-  let toast = document.getElementById('extractToast');
-  if (toast) return toast;
-  toast = document.createElement('div');
-  toast.id = 'extractToast';
-  toast.innerHTML = `
-    <div class="extract-title">
-      <span class="extract-title-text" id="extractToastTitle">Extracting…</span>
-      <button class="extract-close" id="extractToastClose" title="Dismiss" style="display:none">×</button>
-    </div>
-    <div class="extract-track"><div class="extract-fill" id="extractToastFill"></div></div>
-    <div class="extract-label" id="extractToastLabel"></div>`;
-  document.body.appendChild(toast);
-  toast.querySelector('#extractToastClose').onclick = () => toast.classList.remove('visible');
-  return toast;
+// Generic stackable toast — used by Save & extract and Source upload.
+// Returns { setProgress(pct, label, state), setTitle(text), allowDismiss(), close() }.
+function ensureToastStack() {
+  let stack = document.getElementById('opToastStack');
+  if (!stack) {
+    stack = document.createElement('div');
+    stack.id = 'opToastStack';
+    stack.className = 'op-toast-stack';
+    document.body.appendChild(stack);
+  }
+  return stack;
+}
+
+function makeOpToast(id, initialTitle) {
+  const stack = ensureToastStack();
+  let toast = document.getElementById(id);
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = id;
+    toast.className = 'op-toast';
+    toast.innerHTML = `
+      <div class="op-title">
+        <span class="op-title-text"></span>
+        <button class="op-close" title="Dismiss" style="display:none">×</button>
+      </div>
+      <div class="op-track"><div class="op-fill"></div></div>
+      <div class="op-label"></div>`;
+    stack.appendChild(toast);
+  }
+  const fill   = toast.querySelector('.op-fill');
+  const label  = toast.querySelector('.op-label');
+  const title  = toast.querySelector('.op-title-text');
+  const close  = toast.querySelector('.op-close');
+  close.onclick = () => toast.classList.remove('visible');
+  title.textContent = initialTitle;
+  close.style.display = 'none';
+  fill.style.width = '0%';
+  fill.classList.remove('success','error');
+  label.textContent = '';
+  toast.classList.add('visible');
+  return {
+    setProgress(pct, lbl, state) {
+      fill.style.width = Math.max(0, Math.min(100, pct)) + '%';
+      fill.classList.toggle('success', state === 'success');
+      fill.classList.toggle('error',   state === 'error');
+      label.innerHTML = lbl;
+    },
+    setTitle(t) { title.textContent = t; },
+    allowDismiss() { close.style.display = ''; },
+    close() { toast.classList.remove('visible'); }
+  };
 }
 
 async function processClips() {
@@ -1045,21 +1070,8 @@ async function processClips() {
   const invalid = p.clips.filter(c => !c.start || !c.end);
   if (invalid.length) { alert(`${invalid.length} clip(s) missing start/end. Set times first.`); return; }
 
-  const toast      = ensureExtractToast();
-  const fillEl     = toast.querySelector('#extractToastFill');
-  const labelEl    = toast.querySelector('#extractToastLabel');
-  const titleEl    = toast.querySelector('#extractToastTitle');
-  const closeEl    = toast.querySelector('#extractToastClose');
-  titleEl.textContent = `Extracting: ${p.title}`;
-  closeEl.style.display = 'none';
-  toast.classList.add('visible');
-
-  function setProgress(pct, label, state) {
-    fillEl.style.width = pct + '%';
-    fillEl.classList.toggle('success', state === 'success');
-    fillEl.classList.toggle('error',   state === 'error');
-    labelEl.innerHTML = label;
-  }
+  const toast = makeOpToast('extractToast', `Extracting: ${p.title}`);
+  const setProgress = (pct, label, state) => toast.setProgress(pct, label, state);
 
   // Disable the in-flight project's button if it's currently rendered
   const btnNow = () => document.getElementById('processClipsBtn');
@@ -1156,7 +1168,7 @@ async function processClips() {
   } finally {
     _extractInFlight = false;
     updateBtn(false);
-    closeEl.style.display = '';
+    toast.allowDismiss();
   }
 }
 
@@ -1428,6 +1440,15 @@ async function compressVideoInBrowser(file, onProgress) {
 }
 
 async function pickSourceVideo() {
+  if (_uploadInFlight) {
+    alert('A source upload is already running. Wait for it to finish or dismiss the progress card first.');
+    return;
+  }
+  // Capture which project is being uploaded to — selectedIdx may change later.
+  const projectIdxAtStart = selectedIdx;
+  const projectAtStart    = data.projects[projectIdxAtStart];
+  const projectTitleAtStart = projectAtStart?.title || 'project';
+
   const picker = document.createElement('input');
   picker.type = 'file';
   picker.accept = 'video/mp4,video/*';
@@ -1443,28 +1464,16 @@ async function pickSourceVideo() {
       return;
     }
 
-    const inputEl  = document.getElementById('sourceVideoInput');
-    const progress = document.getElementById('sourceVideoProgress');
-    const fillEl   = document.getElementById('sourceVideoProgressFill');
-    const labelEl  = document.getElementById('sourceVideoProgressLabel');
-    if (progress) progress.style.display = 'block';
-
-    function setSrcProgress(pct, label, state) {
-      if (!progress) return;
-      fillEl.style.width = Math.max(0, Math.min(100, pct)) + '%';
-      fillEl.classList.toggle('success', state === 'success');
-      fillEl.classList.toggle('error',   state === 'error');
-      labelEl.textContent = label;
-    }
+    _uploadInFlight = true;
+    const toast = makeOpToast('uploadToast', `Uploading source: ${projectTitleAtStart}`);
+    const setSrcProgress = (pct, label, state) => toast.setProgress(pct, label, state);
 
     let uploadFile = file;
     const origMb = (file.size / 1024 / 1024).toFixed(0);
 
-    // Always compress — keeps repo small and the file under upload limits.
-    // For tiny files (already small), this is still fast and predictable.
     try {
+      // Compression covers 0→90% of the bar; upload covers 90→100%.
       if (file.size > UPLOAD_MAX_MB * 1024 * 1024 || /\.(mov|avi|mkv|wmv)$/i.test(file.name) || file.size > 20 * 1024 * 1024) {
-        // Compression covers 0% → 90% of the bar; upload covers 90% → 100%.
         const compressed = await compressVideoInBrowser(file, (pct, label) => {
           setSrcProgress(pct * 0.9, `${origMb} MB → ${label}`, '');
         });
@@ -1481,6 +1490,8 @@ async function pickSourceVideo() {
       }
     } catch (err) {
       setSrcProgress(100, 'Compression failed', 'error');
+      toast.allowDismiss();
+      _uploadInFlight = false;
       alert('Compression failed: ' + (err.message || err) + '\n\nIf the file is very long or huge, try trimming it first.');
       return;
     }
@@ -1493,14 +1504,25 @@ async function pickSourceVideo() {
         reader.readAsDataURL(uploadFile);
       });
       const uploadPath = await githubPut(`assets/sources/${uploadFile.name}`, base64, uploadFile.name);
-      if (inputEl) {
-        inputEl.value = uploadPath;
-        update('sourceVideo', uploadPath);
+      // Update the project that was selected when upload started, even if user has navigated.
+      if (projectAtStart) {
+        projectAtStart.sourceVideo = uploadPath;
+      }
+      // If the upload's project is still the one being viewed, refresh the input field too.
+      if (selectedIdx === projectIdxAtStart) {
+        const inputEl = document.getElementById('sourceVideoInput');
+        if (inputEl) inputEl.value = uploadPath;
+        markDirty();
+      } else {
+        markDirty();
       }
       setSrcProgress(100, `✓ Uploaded ${(uploadFile.size/1024/1024).toFixed(1)} MB`, 'success');
     } catch (err) {
       setSrcProgress(100, 'Upload failed', 'error');
       alert('Upload failed: ' + err.message);
+    } finally {
+      toast.allowDismiss();
+      _uploadInFlight = false;
     }
   };
   picker.click();
