@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -218,7 +218,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia \u00d7 Discovery Channel",
+      "client": "Kia × Discovery Channel",
       "credits": [
         [
           "Work",
@@ -494,7 +494,7 @@
     },
     {
       "slot": "before",
-      "title": "Beaut\u00e9s du Monde",
+      "title": "Beautés du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -990,7 +990,7 @@
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue \u00d7 Marina Bay Sands",
+      "client": "Vogue × Marina Bay Sands",
       "credits": [
         [
           "Work",
@@ -1135,28 +1135,24 @@
       "sourceVideo": "assets/sources/shopee-9-9.mp4",
       "clips": [
         {
-          "end": "0:42",
           "label": "Floor Replacement",
           "start": "0:38",
-          "clipFile": "assets/clips/shopee-9-9-0.mp4"
+          "end": "0:42"
         },
         {
-          "end": "0:32",
           "label": "Environment Clean Up",
           "start": "0:31",
-          "clipFile": "assets/clips/shopee-9-9-1.mp4"
+          "end": "0:32"
         },
         {
-          "end": "0:08",
           "label": "Teeth Clean Up",
           "start": "0:00",
-          "clipFile": "assets/clips/shopee-9-9-2.mp4"
+          "end": "0:08"
         },
         {
-          "end": "0:08",
           "label": "Partial Roto / Key",
           "start": "0:05",
-          "clipFile": "assets/clips/shopee-9-9-3.mp4"
+          "end": "0:08"
         }
       ]
     },
