@@ -368,12 +368,12 @@
         },
         {
           "label": "Key + Compositing",
-          "start": "0:16",
+          "start": "0:17",
           "end": "0:19"
         },
         {
           "label": "3D Tracking + Key + Compositing",
-          "start": "0:19",
+          "start": "0:20",
           "end": "0:23"
         }
       ]
