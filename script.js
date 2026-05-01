@@ -40,14 +40,17 @@ function renderCards(projects) {
     const videoEl = (!isYT && p.video)
       ? `<video class="card-video" muted loop playsinline preload="none" src="${escapeHtml(p.video)}"></video>`
       : '';
-    // GIF/preview — lazy loaded via data-src, shown on hover/tap (no YouTube UI).
-    // Renders a <video> for mp4/webm/mov sources so we can use the project's
-    // source video directly as the card preview.
-    const isPreviewVideo = /\.(mp4|webm|mov)$/i.test(p.preview || '');
-    const gifEl = p.preview
+    // Hover preview — lazy loaded via data-src, shown on hover/tap (no YouTube UI).
+    // Source priority: explicit p.preview override → first sourceVideos[] entry → legacy p.sourceVideo.
+    const previewSrc = p.preview
+      || (Array.isArray(p.sourceVideos) && p.sourceVideos[0])
+      || p.sourceVideo
+      || '';
+    const isPreviewVideo = /\.(mp4|webm|mov)$/i.test(previewSrc);
+    const gifEl = previewSrc
       ? (isPreviewVideo
-          ? `<video class="card-gif" data-src="${escapeHtml(p.preview)}" muted loop playsinline preload="none"></video>`
-          : `<img class="card-gif" data-src="${escapeHtml(p.preview)}" alt="">`)
+          ? `<video class="card-gif" data-src="${escapeHtml(previewSrc)}" muted loop playsinline preload="none"></video>`
+          : `<img class="card-gif" data-src="${escapeHtml(previewSrc)}" alt="">`)
       : '';
     const onerrorAttr = ytFallback
       ? ` onerror="this.onerror=null;this.src='${ytFallback}'"`
