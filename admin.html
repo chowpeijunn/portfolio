@@ -719,9 +719,13 @@ function renderEditor() {
         <input type="text" value="${esc(p.video || '')}" placeholder="https://youtu.be/..." oninput="update('video', this.value)">
       </div>
       <div class="field">
-        <label>Card hover preview <span style="opacity:0.5;font-size:10px;">(GIF — shown instead of YouTube on hover/tap)</span></label>
+        <label>
+          Card hover preview
+          <span class="field-status ${p.preview ? 'ok' : 'missing'}" id="previewGifStatus">${p.preview ? '✓ Uploaded' : '○ Not uploaded'}</span>
+          <span style="opacity:0.5;font-size:10px;">(GIF — shown instead of YouTube on hover/tap)</span>
+        </label>
         <div style="display:flex;gap:6px;align-items:center;">
-          <input type="text" id="previewGifInput" value="${esc(p.preview || '')}" placeholder="assets/previews/project.gif" oninput="update('preview', this.value)" style="flex:1">
+          <input type="text" id="previewGifInput" value="${esc(p.preview || '')}" placeholder="assets/previews/project.gif" oninput="update('preview', this.value); refreshPreviewStatus(this.value);" style="flex:1">
           <button class="btn btn-ghost btn-sm" onclick="pickPreviewGif()" style="flex-shrink:0;">↑ Upload GIF</button>
         </div>
         <div id="previewGifProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
@@ -1386,6 +1390,7 @@ async function pickPreviewGif() {
         inputEl.value = uploadPath;
         update('preview', uploadPath);
       }
+      refreshPreviewStatus(uploadPath);
       if (progress) progress.textContent = '✓ Uploaded';
     } catch (err) {
       if (progress) progress.textContent = '';
@@ -1457,19 +1462,16 @@ async function compressVideoInBrowser(file, onProgress) {
   return new Blob([data.buffer], { type: 'video/mp4' });
 }
 
-function refreshSourceStatus(value) {
-  const el = document.getElementById('sourceVideoStatus');
+function refreshFieldStatus(elId, value) {
+  const el = document.getElementById(elId);
   if (!el) return;
-  if (value && value.trim()) {
-    el.classList.remove('missing');
-    el.classList.add('ok');
-    el.textContent = '✓ Uploaded';
-  } else {
-    el.classList.remove('ok');
-    el.classList.add('missing');
-    el.textContent = '○ Not uploaded';
-  }
+  const has = value && value.trim();
+  el.classList.toggle('ok',      !!has);
+  el.classList.toggle('missing', !has);
+  el.textContent = has ? '✓ Uploaded' : '○ Not uploaded';
 }
+function refreshSourceStatus(value)  { refreshFieldStatus('sourceVideoStatus', value); }
+function refreshPreviewStatus(value) { refreshFieldStatus('previewGifStatus',  value); }
 
 async function pickSourceVideo() {
   if (_uploadInFlight) {
