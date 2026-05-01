@@ -517,27 +517,28 @@
       ],
       "clips": [
         {
-          "label": "Animation, 3D Cam tracking",
-          "start": "0:16",
+          "clipFile": "assets/clips/thrive-bt-0.mp4",
           "end": "0:21",
-          "clipFile": "assets/clips/thrive-bt-0.mp4"
-        },
-        {
-          "label": "Animation, Roto, Transition, 3D Cam tracking",
-          "start": "0:26",
-          "end": "0:35",
-          "clipFile": "assets/clips/thrive-bt-1.mp4"
-        },
-        {
           "label": "Animation, 3D Cam tracking",
-          "start": "0:35",
-          "end": "0:44",
-          "clipFile": "assets/clips/thrive-bt-2.mp4"
+          "start": "0:16"
         },
         {
+          "clipFile": "assets/clips/thrive-bt-1.mp4",
+          "end": "0:35",
+          "label": "Animation, Roto, Transition, 3D Cam tracking",
+          "start": "0:26"
+        },
+        {
+          "clipFile": "assets/clips/thrive-bt-2.mp4",
+          "end": "0:44",
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:35"
+        },
+        {
+          "end": "0:46",
           "label": "Screen Clean Up",
           "start": "0:45",
-          "end": "0:46"
+          "clipFile": "assets/clips/thrive-bt-3.mp4"
         }
       ],
       "sourceVideo": "assets/sources/thrive-bt.mp4"
@@ -1111,7 +1112,29 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/shopee-9-9.mp4"
+      "sourceVideo": "assets/sources/shopee-9-9.mp4",
+      "clips": [
+        {
+          "label": "Floor Replacement",
+          "start": "0:38",
+          "end": "0:42"
+        },
+        {
+          "label": "Environment Clean Up",
+          "start": "0:31",
+          "end": "0:32"
+        },
+        {
+          "label": "Teeth Clean Up",
+          "start": "0:00",
+          "end": "0:08"
+        },
+        {
+          "label": "Partial Roto / Key",
+          "start": "0:05",
+          "end": "0:08"
+        }
+      ]
     },
     {
       "slot": "after",
