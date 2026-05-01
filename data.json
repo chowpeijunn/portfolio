@@ -362,19 +362,22 @@
       "sourceVideo": "assets/sources/shopee-10-10.mp4",
       "clips": [
         {
+          "end": "0:03",
           "label": "Screen Replacement + Compositing",
           "start": "0:00",
-          "end": "0:03"
+          "clipFile": "assets/clips/shopee-10-10-0.mp4"
         },
         {
+          "end": "0:19",
           "label": "Key + Compositing",
           "start": "0:17",
-          "end": "0:19"
+          "clipFile": "assets/clips/shopee-10-10-1.mp4"
         },
         {
+          "end": "0:23",
           "label": "3D Tracking + Key + Compositing",
           "start": "0:20",
-          "end": "0:23"
+          "clipFile": "assets/clips/shopee-10-10-2.mp4"
         }
       ]
     },
