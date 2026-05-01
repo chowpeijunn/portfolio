@@ -20,23 +20,28 @@ jobs:
         env:
           PROJECT_TITLE: ${{ github.event.client_payload.project_title }}
           CLIPS_JSON:    ${{ toJson(github.event.client_payload.clips) }}
+          SOURCES_JSON:  ${{ toJson(github.event.client_payload.sources) }}
           SOURCE_VIDEO:  ${{ github.event.client_payload.source_video }}
         run: |
           python3 - << 'PYEOF'
           import json, os, re, subprocess, sys
 
-          title  = os.environ['PROJECT_TITLE']
-          clips  = json.loads(os.environ['CLIPS_JSON'])
-          src    = os.environ['SOURCE_VIDEO']
-
-          if not src or not os.path.exists(src):
-              print(f'::error::Source video not found: {src}')
-              print('Upload the source via admin (Source video field) and save before extracting.')
+          title    = os.environ['PROJECT_TITLE']
+          clips    = json.loads(os.environ['CLIPS_JSON'])
+          # `sources` is the new array; fall back to legacy single source_video.
+          try:    sources = json.loads(os.environ.get('SOURCES_JSON') or 'null') or []
+          except: sources = []
+          legacy_src = os.environ.get('SOURCE_VIDEO') or ''
+          if not sources and legacy_src:
+              sources = [legacy_src]
+          if not sources:
+              print('::error::No source videos provided')
               sys.exit(1)
+          default_src = sources[0]
 
           os.makedirs('assets/clips', exist_ok=True)
           slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
-          print(f'Trimming clips for {title!r} from {src} ({os.path.getsize(src)} bytes)')
+          print(f'Trimming clips for {title!r} ({len(sources)} source(s)). Default: {default_src}')
 
           def to_sec(tc):
               s = str(tc).strip()
@@ -53,10 +58,18 @@ jobs:
               start, end = to_sec(clip.get('start', 0)), to_sec(clip.get('end', 0))
               if end <= start:
                   print(f'Skip clip {i}: invalid range {start}-{end}'); continue
+              # Per-clip source override; must be one of the project's sources.
+              clip_src = clip.get('sourceVideo') or default_src
+              if clip_src not in sources:
+                  print(f'  Clip {i} requested source {clip_src!r} not in project sources — falling back to default')
+                  clip_src = default_src
+              if not os.path.exists(clip_src):
+                  print(f'::error::Source not found: {clip_src}')
+                  sys.exit(1)
               out = f'assets/clips/{slug}-{i}.mp4'
-              print(f'Trim clip {i}: {start}s → {end}s → {out}')
+              print(f'Trim clip {i}: {start}s → {end}s  src={clip_src} → {out}')
               r = subprocess.run([
-                  'ffmpeg','-y','-loglevel','error','-i', src,
+                  'ffmpeg','-y','-loglevel','error','-i', clip_src,
                   '-ss', str(start), '-to', str(end),
                   '-c:v','libx264','-crf','28','-preset','fast',
                   '-pix_fmt','yuv420p','-vf','scale=-2:min(480\\,ih)',

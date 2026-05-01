@@ -186,6 +186,13 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .clip-row { display: flex; gap: 6px; align-items: center; }
 .clip-row .clip-label { flex: 1.2; }
 .clip-row .clip-time { flex: 0.7; min-width: 0; }
+.clip-row .clip-source {
+  flex: 1; min-width: 80px; max-width: 160px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: 4px 6px; font-size: 11px;
+}
+.sources-list { display: flex; flex-direction: column; gap: 6px; }
 .clip-hint { font-size: 10px; color: var(--muted); margin-top: 4px; }
 .clip-scrub-btn { flex-shrink: 0; font-size: 13px; padding: 4px 8px; }
 .clip-scrub-btn.active { background: #1c2840; border-color: var(--accent); color: var(--accent); }
@@ -721,25 +728,23 @@ function renderEditor() {
       <div class="field">
         <label>
           Card hover preview
-          <span class="field-status ${p.preview ? 'ok' : 'missing'}" id="previewGifStatus">${p.preview ? '✓ Uploaded' : '○ Not uploaded'}</span>
-          <span style="opacity:0.5;font-size:10px;">(GIF — shown instead of YouTube on hover/tap)</span>
+          <span class="field-status ${p.preview ? 'ok' : 'missing'}" id="previewGifStatus">${p.preview ? (p.preview === (getAllSources(p)[0] || p.sourceVideo) ? '✓ Using Source video' : '✓ Custom uploaded') : '○ Not set'}</span>
+          <span style="opacity:0.5;font-size:10px;">(auto-uses Source video; override below only if you want a custom GIF/clip on hover)</span>
         </label>
         <div style="display:flex;gap:6px;align-items:center;">
-          <input type="text" id="previewGifInput" value="${esc(p.preview || '')}" placeholder="assets/previews/project.gif" oninput="update('preview', this.value); refreshPreviewStatus(this.value);" style="flex:1">
-          <button class="btn btn-ghost btn-sm" onclick="pickPreviewGif()" style="flex-shrink:0;">↑ Upload GIF</button>
+          <input type="text" id="previewGifInput" value="${esc(p.preview || '')}" placeholder="(empty = use Source video)" oninput="update('preview', this.value); refreshPreviewStatus(this.value);" style="flex:1">
+          <button class="btn btn-ghost btn-sm" onclick="pickPreviewGif()" style="flex-shrink:0;" title="Upload a separate GIF for hover preview">↑ Override</button>
         </div>
         <div id="previewGifProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
       </div>
       <div class="field">
         <label>
-          Source video
-          <span class="field-status ${p.sourceVideo ? 'ok' : 'missing'}" id="sourceVideoStatus">${p.sourceVideo ? '✓ Uploaded' : '○ Not uploaded'}</span>
-          <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — any size mp4/mov; auto-compressed to 720p in browser)</span>
+          Source video${(getAllSources(p).length > 1) ? 's' : ''}
+          <span class="field-status ${getAllSources(p).length ? 'ok' : 'missing'}" id="sourceVideoStatus">${getAllSources(p).length ? `✓ ${getAllSources(p).length} uploaded` : '○ Not uploaded'}</span>
+          <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — any size mp4/mov; auto-compressed to 720p in browser. Add multiple if a project has multiple films.)</span>
         </label>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <input type="text" id="sourceVideoInput" value="${esc(p.sourceVideo || '')}" placeholder="assets/sources/project.mp4" oninput="update('sourceVideo', this.value); refreshSourceStatus(this.value);" style="flex:1">
-          <button class="btn btn-ghost btn-sm" onclick="pickSourceVideo()" style="flex-shrink:0;">↑ Upload source</button>
-        </div>
+        <div class="sources-list" id="sourcesList">${sourcesHtml(p)}</div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="pickSourceVideo()">+ Upload source</button>
       </div>
       <div class="field">
         <label>Extra videos — YouTube URL, direct video, or GIF</label>
@@ -836,18 +841,87 @@ function videoRowHtml(url, vi) {
   </div>`;
 }
 
+// Returns the project's source list, supporting both the legacy single
+// `sourceVideo` and the newer `sourceVideos` array. Always returns an array.
+function getAllSources(p) {
+  if (Array.isArray(p.sourceVideos) && p.sourceVideos.length) return p.sourceVideos.filter(Boolean);
+  if (p.sourceVideo) return [p.sourceVideo];
+  return [];
+}
+
+function sourcesHtml(p) {
+  const sources = getAllSources(p);
+  if (!sources.length) {
+    return `<div style="font-size:11px;color:var(--dim);padding:4px 0">No sources yet — upload one below.</div>`;
+  }
+  return sources.map((src, si) => `
+    <div class="video-row" id="source-${si}">
+      <input type="text" value="${esc(src)}" placeholder="assets/sources/project.mp4" oninput="updateSource(${si}, this.value)">
+      <button class="credit-remove" onclick="removeSource(${si})" title="Remove this source">×</button>
+    </div>`).join('');
+}
+
 function clipRowHtml(clip, ci) {
   const extracted = !!clip.clipFile;
   const statusCls = extracted ? 'ok' : 'missing';
   const statusTxt = extracted ? '✓ Extracted' : '○ Not extracted';
+  const project = data.projects[selectedIdx];
+  const sources = project ? getAllSources(project) : [];
+  // Per-clip source picker — only render when there are 2+ sources.
+  const sourcePicker = sources.length > 1 ? `
+    <select class="clip-source" oninput="updateClip(${ci}, 'sourceVideo', this.value)" title="Pick which source to extract this clip from">
+      ${sources.map((s, si) => {
+        const fname = s.split('/').pop() || s;
+        const sel = ((!clip.sourceVideo && si === 0) || clip.sourceVideo === s) ? 'selected' : '';
+        return `<option value="${esc(s)}" ${sel}>${esc(fname)}</option>`;
+      }).join('')}
+    </select>` : '';
   return `<div class="clip-row" id="clip-${ci}">
     <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
     <input class="clip-time" type="text" value="${esc(clip.start || '')}" placeholder="Start" oninput="updateClip(${ci}, 'start', this.value)" id="clip-start-${ci}">
     <input class="clip-time" type="text" value="${esc(clip.end || '')}" placeholder="End" oninput="updateClip(${ci}, 'end', this.value)" id="clip-end-${ci}">
+    ${sourcePicker}
     <span class="field-status ${statusCls}" id="clip-status-${ci}" title="${extracted ? esc(clip.clipFile) : 'Run Save & extract to generate'}">${statusTxt}</span>
     <button class="btn btn-ghost btn-sm clip-scrub-btn" id="clip-scrub-btn-${ci}" onclick="toggleClipPreview(${ci})" title="Scrub video to set times">⏱</button>
     <button class="credit-remove" onclick="removeClip(${ci})">×</button>
   </div>`;
+}
+
+function updateSource(si, value) {
+  const p = data.projects[selectedIdx];
+  if (!Array.isArray(p.sourceVideos)) p.sourceVideos = getAllSources(p);
+  p.sourceVideos[si] = value;
+  // Keep legacy field synced to first source for backward compat
+  p.sourceVideo = p.sourceVideos[0] || '';
+  markDirty();
+  refreshSourcesStatus();
+}
+
+function removeSource(si) {
+  const p = data.projects[selectedIdx];
+  if (!Array.isArray(p.sourceVideos)) p.sourceVideos = getAllSources(p);
+  p.sourceVideos.splice(si, 1);
+  p.sourceVideo = p.sourceVideos[0] || '';
+  // Drop any clip.sourceVideo that pointed at the removed file (will fall back to default)
+  (p.clips || []).forEach(c => {
+    if (c.sourceVideo && !p.sourceVideos.includes(c.sourceVideo)) delete c.sourceVideo;
+  });
+  markDirty();
+  renderEditor(); // Re-render so list + clip pickers update
+}
+
+function refreshSourcesStatus() {
+  const p = data.projects[selectedIdx];
+  const sources = getAllSources(p);
+  const el = document.getElementById('sourceVideoStatus');
+  if (!el) return;
+  if (sources.length) {
+    el.classList.remove('missing'); el.classList.add('ok');
+    el.textContent = `✓ ${sources.length} uploaded`;
+  } else {
+    el.classList.remove('ok'); el.classList.add('missing');
+    el.textContent = '○ Not uploaded';
+  }
 }
 
 // ── FIELD UPDATES ──────────────────────────────────────────
@@ -1117,12 +1191,20 @@ async function processClips() {
       Accept: 'application/vnd.github.v3+json',
       'Content-Type': 'application/json'
     };
+    // Send sources array; each clip can pick which source via clip.sourceVideo.
+    // Workflow falls back to first source when clip.sourceVideo is unset.
+    const sources = getAllSources(p);
     const dispatchRes = await fetch('https://api.github.com/repos/chowpeijunn/portfolio/dispatches', {
       method: 'POST',
       headers: GH_HEADERS,
       body: JSON.stringify({
         event_type: 'process-clips',
-        client_payload: { project_title: p.title, source_video: p.sourceVideo, clips: p.clips }
+        client_payload: {
+          project_title: p.title,
+          sources: sources,
+          source_video: sources[0] || '',  // legacy default for older workflow runs
+          clips: p.clips
+        }
       })
     });
     if (dispatchRes.status !== 204) {
@@ -1475,7 +1557,17 @@ function refreshFieldStatus(elId, value) {
   el.textContent = has ? '✓ Uploaded' : '○ Not uploaded';
 }
 function refreshSourceStatus(value)  { refreshFieldStatus('sourceVideoStatus', value); }
-function refreshPreviewStatus(value) { refreshFieldStatus('previewGifStatus',  value); }
+function refreshPreviewStatus(value) {
+  const el = document.getElementById('previewGifStatus');
+  if (!el) return;
+  const p = data.projects[selectedIdx];
+  const has = value && value.trim();
+  const sources = p ? getAllSources(p) : [];
+  const isSource = has && sources.includes(value);
+  el.classList.toggle('ok',      !!has);
+  el.classList.toggle('missing', !has);
+  el.textContent = !has ? '○ Not set' : (isSource ? '✓ Using Source video' : '✓ Custom uploaded');
+}
 
 async function pickSourceVideo() {
   if (_uploadInFlight) {
@@ -1542,28 +1634,26 @@ async function pickSourceVideo() {
         reader.readAsDataURL(uploadFile);
       });
       const uploadPath = await githubPut(`assets/sources/${uploadFile.name}`, base64, uploadFile.name);
-      // Update the project that was selected when upload started, even if user has navigated.
+      // Append to the project's sourceVideos array (creating it from legacy single field if needed).
       if (projectAtStart) {
-        projectAtStart.sourceVideo = uploadPath;
-        // Auto-tie: if there's no Card hover preview yet, point it at the source.
-        // The public site renders mp4 previews via <video> on hover, so this
-        // gives the project an instant card preview without a separate upload.
+        if (!Array.isArray(projectAtStart.sourceVideos)) {
+          projectAtStart.sourceVideos = projectAtStart.sourceVideo ? [projectAtStart.sourceVideo] : [];
+        }
+        // Avoid duplicates
+        if (!projectAtStart.sourceVideos.includes(uploadPath)) {
+          projectAtStart.sourceVideos.push(uploadPath);
+        }
+        // Keep legacy field synced to the first source for backward compat
+        projectAtStart.sourceVideo = projectAtStart.sourceVideos[0];
+        // Auto-tie: if no Card hover preview is set yet, use the first source.
         if (!projectAtStart.preview) {
-          projectAtStart.preview = uploadPath;
+          projectAtStart.preview = projectAtStart.sourceVideos[0];
         }
       }
-      // If the upload's project is still the one being viewed, refresh the input field
-      // and the status pill in-place (no full re-render needed).
+      // If still viewing the same project, re-render the editor so the new
+      // source appears in the list and the per-clip pickers update.
       if (selectedIdx === projectIdxAtStart) {
-        const srcInput  = document.getElementById('sourceVideoInput');
-        if (srcInput) srcInput.value = uploadPath;
-        refreshSourceStatus(uploadPath);
-        // Also reflect the auto-linked preview, if any
-        const prevInput = document.getElementById('previewGifInput');
-        if (prevInput && projectAtStart && projectAtStart.preview === uploadPath) {
-          prevInput.value = uploadPath;
-          refreshPreviewStatus(uploadPath);
-        }
+        renderEditor();
       }
       markDirty();
       setSrcProgress(100, `✓ Uploaded ${(uploadFile.size/1024/1024).toFixed(1)} MB`, 'success');
