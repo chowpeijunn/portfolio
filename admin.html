@@ -837,10 +837,14 @@ function videoRowHtml(url, vi) {
 }
 
 function clipRowHtml(clip, ci) {
+  const extracted = !!clip.clipFile;
+  const statusCls = extracted ? 'ok' : 'missing';
+  const statusTxt = extracted ? '✓ Extracted' : '○ Not extracted';
   return `<div class="clip-row" id="clip-${ci}">
     <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
     <input class="clip-time" type="text" value="${esc(clip.start || '')}" placeholder="Start" oninput="updateClip(${ci}, 'start', this.value)" id="clip-start-${ci}">
     <input class="clip-time" type="text" value="${esc(clip.end || '')}" placeholder="End" oninput="updateClip(${ci}, 'end', this.value)" id="clip-end-${ci}">
+    <span class="field-status ${statusCls}" id="clip-status-${ci}" title="${extracted ? esc(clip.clipFile) : 'Run Save & extract to generate'}">${statusTxt}</span>
     <button class="btn btn-ghost btn-sm clip-scrub-btn" id="clip-scrub-btn-${ci}" onclick="toggleClipPreview(${ci})" title="Scrub video to set times">⏱</button>
     <button class="credit-remove" onclick="removeClip(${ci})">×</button>
   </div>`;
