@@ -650,14 +650,16 @@
       "sourceVideo": "assets/sources/fas.mp4",
       "clips": [
         {
+          "end": "0:18",
           "label": "Screen Replacements",
           "start": "0:08",
-          "end": "0:18"
+          "clipFile": "assets/clips/fas-0.mp4"
         },
         {
+          "end": "0:36",
           "label": "Screen Replacements",
           "start": "0:31",
-          "end": "0:36"
+          "clipFile": "assets/clips/fas-1.mp4"
         }
       ]
     },
