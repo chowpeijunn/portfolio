@@ -1541,17 +1541,24 @@ async function pickSourceVideo() {
       // Update the project that was selected when upload started, even if user has navigated.
       if (projectAtStart) {
         projectAtStart.sourceVideo = uploadPath;
+        // Auto-tie: if there's no Card hover preview yet, point it at the source.
+        // The public site renders mp4 previews via <video> on hover, so this
+        // gives the project an instant card preview without a separate upload.
+        if (!projectAtStart.preview) {
+          projectAtStart.preview = uploadPath;
+        }
       }
       // If the upload's project is still the one being viewed, refresh the input field
       // and the status pill in-place (no full re-render needed).
       if (selectedIdx === projectIdxAtStart) {
-        const inputEl  = document.getElementById('sourceVideoInput');
-        if (inputEl) inputEl.value = uploadPath;
-        const statusEl = document.getElementById('sourceVideoStatus');
-        if (statusEl) {
-          statusEl.classList.remove('missing');
-          statusEl.classList.add('ok');
-          statusEl.textContent = '✓ Uploaded';
+        const srcInput  = document.getElementById('sourceVideoInput');
+        if (srcInput) srcInput.value = uploadPath;
+        refreshSourceStatus(uploadPath);
+        // Also reflect the auto-linked preview, if any
+        const prevInput = document.getElementById('previewGifInput');
+        if (prevInput && projectAtStart && projectAtStart.preview === uploadPath) {
+          prevInput.value = uploadPath;
+          refreshPreviewStatus(uploadPath);
         }
       }
       markDirty();

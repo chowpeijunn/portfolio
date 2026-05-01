@@ -40,9 +40,14 @@ function renderCards(projects) {
     const videoEl = (!isYT && p.video)
       ? `<video class="card-video" muted loop playsinline preload="none" src="${escapeHtml(p.video)}"></video>`
       : '';
-    // GIF/preview — lazy loaded via data-src, shown on hover/tap (no YouTube UI)
+    // GIF/preview — lazy loaded via data-src, shown on hover/tap (no YouTube UI).
+    // Renders a <video> for mp4/webm/mov sources so we can use the project's
+    // source video directly as the card preview.
+    const isPreviewVideo = /\.(mp4|webm|mov)$/i.test(p.preview || '');
     const gifEl = p.preview
-      ? `<img class="card-gif" data-src="${escapeHtml(p.preview)}" alt="">`
+      ? (isPreviewVideo
+          ? `<video class="card-gif" data-src="${escapeHtml(p.preview)}" muted loop playsinline preload="none"></video>`
+          : `<img class="card-gif" data-src="${escapeHtml(p.preview)}" alt="">`)
       : '';
     const onerrorAttr = ytFallback
       ? ` onerror="this.onerror=null;this.src='${ytFallback}'"`
@@ -460,7 +465,8 @@ window.addEventListener('resize', () => {
     document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
     document.querySelectorAll('.project-card.gif-active').forEach(c => {
       c.classList.remove('gif-active');
-      const g = c.querySelector('.card-gif'); if (g) g.style.opacity = '0';
+      const g = c.querySelector('.card-gif');
+      if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
     });
     e.preventDefault(); // stop browser scroll while canvas is being dragged
     const now = performance.now();
@@ -529,15 +535,19 @@ function initHoverToPlay() {
     const gif   = card.querySelector('.card-gif');
 
     if (gif) {
-      // GIF preview — lazy-load src on first hover, CSS opacity transition handles the rest
+      // GIF/video preview — lazy-load src on first hover, opacity transition handles the rest.
+      // For <video> previews we also play/pause to keep the loop tight.
+      const isVideo = gif.tagName === 'VIDEO';
       card.addEventListener('mouseenter', () => {
         if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src;
         gif.style.opacity = '1';
+        if (isVideo) gif.play().catch(() => {});
       });
       card.addEventListener('mouseleave', () => {
         gif.style.opacity = '0';
+        if (isVideo) gif.pause();
       });
-      return; // GIF takes priority — skip YouTube iframe for this card
+      return; // Preview takes priority — skip YouTube iframe for this card
     }
 
     const videoUrl = card.dataset.video || '';
@@ -985,7 +995,8 @@ initShowreel();
       document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
       document.querySelectorAll('.project-card.gif-active').forEach(c => {
         c.classList.remove('gif-active');
-        const g = c.querySelector('.card-gif'); if (g) g.style.opacity = '0';
+        const g = c.querySelector('.card-gif');
+        if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
       });
       return;
     }
@@ -996,17 +1007,20 @@ initShowreel();
     if ('ontouchstart' in window) {
       const gif = card.querySelector('.card-gif');
       if (gif && gif.dataset.src) {
-        // GIF preview path
+        // Preview path — works for both <img> (gif) and <video> (mp4)
         const isActive = card.classList.contains('gif-active');
-        // Clear all other GIF previews
+        const isVideo = gif.tagName === 'VIDEO';
+        // Clear all other previews
         document.querySelectorAll('.project-card.gif-active').forEach(c => {
           c.classList.remove('gif-active');
-          const g = c.querySelector('.card-gif'); if (g) g.style.opacity = '0';
+          const g = c.querySelector('.card-gif');
+          if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
         });
         if (!isActive) {
-          // First tap — show GIF
+          // First tap — show preview
           if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src;
           gif.style.opacity = '1';
+          if (isVideo) gif.play().catch(() => {});
           card.classList.add('gif-active');
           return; // don't open detail yet
         }

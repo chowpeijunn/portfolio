@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -53,7 +53,8 @@
           "end": ""
         }
       ],
-      "sourceVideo": "assets/sources/kfc-brand-video.mp4"
+      "sourceVideo": "assets/sources/kfc-brand-video.mp4",
+      "preview": "assets/sources/kfc-brand-video.mp4"
     },
     {
       "slot": "before",
@@ -141,7 +142,8 @@
           "clipFile": "assets/clips/phc-2026-6.mp4"
         }
       ],
-      "sourceVideo": "assets/sources/phc-2026.mp4"
+      "sourceVideo": "assets/sources/phc-2026.mp4",
+      "preview": "assets/sources/phc-2026.mp4"
     },
     {
       "slot": "before",
@@ -225,7 +227,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia × Discovery Channel",
+      "client": "Kia \u00d7 Discovery Channel",
       "credits": [
         [
           "Work",
@@ -273,7 +275,8 @@
           "start": "1:18",
           "end": "1:23"
         }
-      ]
+      ],
+      "preview": "assets/sources/kia-x-discovery.mp4"
     },
     {
       "slot": "before",
@@ -321,7 +324,8 @@
         "https://youtu.be/UxCR6cett0c",
         "https://youtu.be/L82k7Wq_4LI"
       ],
-      "sourceVideo": "assets/sources/age-strong.mp4"
+      "sourceVideo": "assets/sources/age-strong.mp4",
+      "preview": "assets/sources/age-strong.mp4"
     },
     {
       "slot": "before",
@@ -366,7 +370,8 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/shopee-10-10.mp4"
+      "sourceVideo": "assets/sources/shopee-10-10.mp4",
+      "preview": "assets/sources/shopee-10-10.mp4"
     },
     {
       "slot": "before",
@@ -418,7 +423,8 @@
         "https://youtu.be/Qfl1X_e0Tg0",
         "https://youtu.be/ctTDm78mtb0"
       ],
-      "sourceVideo": "assets/sources/subway-everyday-value.mp4"
+      "sourceVideo": "assets/sources/subway-everyday-value.mp4",
+      "preview": "assets/sources/subway-everyday-value.mp4"
     },
     {
       "slot": "before",
@@ -477,11 +483,12 @@
           "start": "0:13"
         }
       ],
-      "sourceVideo": "assets/sources/samyang-buldak-carbonara.mp4"
+      "sourceVideo": "assets/sources/samyang-buldak-carbonara.mp4",
+      "preview": "assets/sources/samyang-buldak-carbonara.mp4"
     },
     {
       "slot": "before",
-      "title": "Beautés du Monde",
+      "title": "Beaut\u00e9s du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -542,7 +549,8 @@
           "clipFile": "assets/clips/thrive-bt-2.mp4"
         }
       ],
-      "sourceVideo": "assets/sources/thrive-bt.mp4"
+      "sourceVideo": "assets/sources/thrive-bt.mp4",
+      "preview": "assets/sources/thrive-bt.mp4"
     },
     {
       "slot": "before",
@@ -602,7 +610,8 @@
           "clipFile": "assets/clips/thai-curry-1.mp4"
         }
       ],
-      "sourceVideo": "assets/sources/thai-curry.mp4"
+      "sourceVideo": "assets/sources/thai-curry.mp4",
+      "preview": "assets/sources/thai-curry.mp4"
     },
     {
       "slot": "before",
@@ -659,7 +668,8 @@
           "start": "0:31",
           "end": "0:36"
         }
-      ]
+      ],
+      "preview": "assets/sources/fas.mp4"
     },
     {
       "slot": "after",
@@ -726,7 +736,8 @@
           "Optical Films"
         ]
       ],
-      "sourceVideo": "assets/sources/gobusiness.mp4"
+      "sourceVideo": "assets/sources/gobusiness.mp4",
+      "preview": "assets/sources/gobusiness.mp4"
     },
     {
       "slot": "after",
@@ -785,7 +796,8 @@
           "clipFile": "assets/clips/solo-sliders-1.mp4"
         }
       ],
-      "sourceVideo": "assets/sources/solo-sliders.mp4"
+      "sourceVideo": "assets/sources/solo-sliders.mp4",
+      "preview": "assets/sources/solo-sliders.mp4"
     },
     {
       "slot": "after",
@@ -829,7 +841,8 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/progressive-wages.mp4"
+      "sourceVideo": "assets/sources/progressive-wages.mp4",
+      "preview": "assets/sources/progressive-wages.mp4"
     },
     {
       "slot": "after",
@@ -889,7 +902,8 @@
           "clipFile": "assets/clips/shopee-3-3-1.mp4"
         }
       ],
-      "sourceVideo": "assets/sources/shopee-3-3.mp4"
+      "sourceVideo": "assets/sources/shopee-3-3.mp4",
+      "preview": "assets/sources/shopee-3-3.mp4"
     },
     {
       "slot": "after",
@@ -934,7 +948,8 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/xmas.mp4"
+      "sourceVideo": "assets/sources/xmas.mp4",
+      "preview": "assets/sources/xmas.mp4"
     },
     {
       "slot": "after",
@@ -969,7 +984,7 @@
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
+      "client": "Vogue \u00d7 Marina Bay Sands",
       "credits": [
         [
           "Work",
@@ -980,7 +995,8 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/vogue-x-mbs.mp4"
+      "sourceVideo": "assets/sources/vogue-x-mbs.mp4",
+      "preview": "assets/sources/vogue-x-mbs.mp4"
     },
     {
       "slot": "after",
@@ -1045,7 +1061,8 @@
           "clipFile": "assets/clips/shopee-vip-2.mp4"
         }
       ],
-      "sourceVideo": "assets/sources/shopee-vip.mp4"
+      "sourceVideo": "assets/sources/shopee-vip.mp4",
+      "preview": "assets/sources/shopee-vip.mp4"
     },
     {
       "slot": "after",
@@ -1111,7 +1128,8 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/shopee-9-9.mp4"
+      "sourceVideo": "assets/sources/shopee-9-9.mp4",
+      "preview": "assets/sources/shopee-9-9.mp4"
     },
     {
       "slot": "after",
