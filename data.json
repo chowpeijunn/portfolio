@@ -26,29 +26,49 @@
     },
     {
       "slot": "before",
-      "title": "KFC Brand Video",
+      "title": "Shopee 10.10",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/brand-video-kfc.jpg",
-      "video": "https://youtu.be/GvBZ33dIgSg",
-      "client": "KFC",
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
+      "video": "https://youtu.be/1VhaWAZnVWc",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Skin retouching"
+          "Online | Cleanups | Key & Rotoscoping | Set extensions"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/kfc-brand-video.mp4",
+      "sourceVideo": "assets/sources/shopee-10-10.mp4",
+      "clips": [
+        {
+          "end": "0:03",
+          "label": "Screen Replacement + Compositing",
+          "start": "0:00",
+          "clipFile": "assets/clips/shopee-10-10-0.mp4"
+        },
+        {
+          "end": "0:19",
+          "label": "Key + Compositing",
+          "start": "0:17",
+          "clipFile": "assets/clips/shopee-10-10-1.mp4"
+        },
+        {
+          "end": "0:23",
+          "label": "3D Tracking + Key + Compositing",
+          "start": "0:20",
+          "clipFile": "assets/clips/shopee-10-10-2.mp4"
+        }
+      ],
       "sourceVideos": [
-        "assets/sources/kfc-brand-video.mp4"
+        "assets/sources/shopee-10-10.mp4"
       ]
     },
     {
@@ -215,66 +235,29 @@
     },
     {
       "slot": "before",
-      "title": "Kia x Discovery",
+      "title": "Xmas Pizza",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
-      "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia × Discovery Channel",
+      "thumb": "assets/thumbs/xmas-pizzahut.jpg",
+      "video": "https://youtu.be/WDgh_YVAl-o",
+      "client": "Pizza Hut",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Licence Plate Replacements | Partial Rotoscoping"
+          "Online | Cleanups | Skin retouching"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/kia-x-discovery.mp4",
-      "clips": [
-        {
-          "label": "Binocular Look",
-          "start": "0:04",
-          "end": "0:07"
-        },
-        {
-          "label": "License Plate Replacement",
-          "start": "0:08",
-          "end": "0:13"
-        },
-        {
-          "label": "License Plate Replacement + Car Clean Up",
-          "start": "0:25",
-          "end": "0:38"
-        },
-        {
-          "label": "License Plate Replacement",
-          "start": "0:45",
-          "end": "0:50"
-        },
-        {
-          "label": "License Plate Replacement",
-          "start": "0:59",
-          "end": "1:02"
-        },
-        {
-          "label": "License Plate Replacement",
-          "start": "1:09",
-          "end": "1:12"
-        },
-        {
-          "label": "License Plate Replacement",
-          "start": "1:18",
-          "end": "1:23"
-        }
-      ],
+      "sourceVideo": "assets/sources/xmas.mp4",
       "sourceVideos": [
-        "assets/sources/kia-x-discovery.mp4"
+        "assets/sources/xmas.mp4"
       ]
     },
     {
@@ -351,49 +334,29 @@
     },
     {
       "slot": "before",
-      "title": "Shopee 10.10",
+      "title": "KFC Brand Video",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
-      "video": "https://youtu.be/1VhaWAZnVWc",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/brand-video-kfc.jpg",
+      "video": "https://youtu.be/GvBZ33dIgSg",
+      "client": "KFC",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Key & Rotoscoping | Set extensions"
+          "Online | Cleanups | Skin retouching"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/shopee-10-10.mp4",
-      "clips": [
-        {
-          "end": "0:03",
-          "label": "Screen Replacement + Compositing",
-          "start": "0:00",
-          "clipFile": "assets/clips/shopee-10-10-0.mp4"
-        },
-        {
-          "end": "0:19",
-          "label": "Key + Compositing",
-          "start": "0:17",
-          "clipFile": "assets/clips/shopee-10-10-1.mp4"
-        },
-        {
-          "end": "0:23",
-          "label": "3D Tracking + Key + Compositing",
-          "start": "0:20",
-          "clipFile": "assets/clips/shopee-10-10-2.mp4"
-        }
-      ],
+      "sourceVideo": "assets/sources/kfc-brand-video.mp4",
       "sourceVideos": [
-        "assets/sources/shopee-10-10.mp4"
+        "assets/sources/kfc-brand-video.mp4"
       ]
     },
     {
@@ -672,44 +635,46 @@
       ]
     },
     {
-      "slot": "after",
-      "title": "FAS",
+      "slot": "before",
+      "title": "Pizza Hut 45th Anniversary Brand Video",
       "category": "tvc",
       "tags": [
-        "tvc",
-        "ads",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/fas-shopee.jpg",
-      "video": "https://youtu.be/l3nxMXH5CLE",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
+      "video": "https://youtu.be/UaCZbSBDrNU",
+      "client": "Pizza Hut",
       "credits": [
         [
           "Work",
-          "Online | Screen Replacements | Set Extension"
+          "Online | Transitions | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/fas.mp4",
       "clips": [
         {
-          "end": "0:18",
-          "label": "Screen Replacements",
-          "start": "0:08",
-          "clipFile": "assets/clips/fas-0.mp4"
+          "label": "Roto + Comp",
+          "start": "0:03",
+          "end": "0:07"
         },
         {
-          "end": "0:36",
-          "label": "Screen Replacements",
-          "start": "0:31",
-          "clipFile": "assets/clips/fas-1.mp4"
+          "label": "Lift Button Animation, Match Cut Treatment",
+          "start": "0:01",
+          "end": "0:03"
+        },
+        {
+          "label": "Super 8 Treatment + Comp",
+          "start": "0:10",
+          "end": "0:13"
+        },
+        {
+          "label": "Rewind Treatment + Comp",
+          "start": "0:07",
+          "end": "0:08"
         }
-      ],
-      "sourceVideos": [
-        "assets/sources/fas.mp4"
       ]
     },
     {
@@ -758,28 +723,43 @@
     },
     {
       "slot": "after",
-      "title": "GoBusiness",
+      "title": "FAS",
       "category": "tvc",
       "tags": [
-        "branded content",
-        "tvc"
+        "tvc",
+        "ads",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
-      "video": "https://youtu.be/xoIFNObpu6M",
-      "client": "GovTech",
+      "thumb": "assets/thumbs/fas-shopee.jpg",
+      "video": "https://youtu.be/l3nxMXH5CLE",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Assistant Producer"
+          "Online | Screen Replacements | Set Extension"
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/gobusiness.mp4",
+      "sourceVideo": "assets/sources/fas.mp4",
+      "clips": [
+        {
+          "end": "0:18",
+          "label": "Screen Replacements",
+          "start": "0:08",
+          "clipFile": "assets/clips/fas-0.mp4"
+        },
+        {
+          "end": "0:36",
+          "label": "Screen Replacements",
+          "start": "0:31",
+          "clipFile": "assets/clips/fas-1.mp4"
+        }
+      ],
       "sourceVideos": [
-        "assets/sources/gobusiness.mp4"
+        "assets/sources/fas.mp4"
       ]
     },
     {
@@ -805,43 +785,66 @@
     },
     {
       "slot": "after",
-      "title": "Solo Sliders",
+      "title": "Kia x Discovery",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/solo-sliders-pizzahut.jpg",
-      "video": "https://youtu.be/xzOrhTuTamU",
-      "client": "Pizza Hut",
+      "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
+      "video": "https://youtu.be/ykw1c318hOY",
+      "client": "Kia × Discovery Channel",
       "credits": [
         [
           "Work",
-          "Online | Transitions | Tracking & Rotoscoping | Cleanups"
+          "Online | Cleanups | Licence Plate Replacements | Partial Rotoscoping"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
+      "sourceVideo": "assets/sources/kia-x-discovery.mp4",
       "clips": [
         {
-          "label": "Timestop transition",
-          "start": "0:00",
-          "end": "0:04",
-          "clipFile": "assets/clips/solo-sliders-0.mp4"
+          "label": "Binocular Look",
+          "start": "0:04",
+          "end": "0:07"
         },
         {
-          "label": "Background Slide + MatchCut Transition",
-          "start": "0:11",
-          "end": "0:14",
-          "clipFile": "assets/clips/solo-sliders-1.mp4"
+          "label": "License Plate Replacement",
+          "start": "0:08",
+          "end": "0:13"
+        },
+        {
+          "label": "License Plate Replacement + Car Clean Up",
+          "start": "0:25",
+          "end": "0:38"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "0:45",
+          "end": "0:50"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "0:59",
+          "end": "1:02"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "1:09",
+          "end": "1:12"
+        },
+        {
+          "label": "License Plate Replacement",
+          "start": "1:18",
+          "end": "1:23"
         }
       ],
-      "sourceVideo": "assets/sources/solo-sliders.mp4",
       "sourceVideos": [
-        "assets/sources/solo-sliders.mp4"
+        "assets/sources/kia-x-discovery.mp4"
       ]
     },
     {
@@ -977,29 +980,43 @@
     },
     {
       "slot": "after",
-      "title": "Xmas",
+      "title": "Solo Sliders",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/xmas-pizzahut.jpg",
-      "video": "https://youtu.be/WDgh_YVAl-o",
+      "thumb": "assets/thumbs/solo-sliders-pizzahut.jpg",
+      "video": "https://youtu.be/xzOrhTuTamU",
       "client": "Pizza Hut",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Skin retouching"
+          "Online | Transitions | Tracking & Rotoscoping | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/xmas.mp4",
+      "clips": [
+        {
+          "label": "Timestop transition",
+          "start": "0:00",
+          "end": "0:04",
+          "clipFile": "assets/clips/solo-sliders-0.mp4"
+        },
+        {
+          "label": "Background Slide + MatchCut Transition",
+          "start": "0:11",
+          "end": "0:14",
+          "clipFile": "assets/clips/solo-sliders-1.mp4"
+        }
+      ],
+      "sourceVideo": "assets/sources/solo-sliders.mp4",
       "sourceVideos": [
-        "assets/sources/xmas.mp4"
+        "assets/sources/solo-sliders.mp4"
       ]
     },
     {
@@ -1283,45 +1300,28 @@
     },
     {
       "slot": "after",
-      "title": "Pizza Hut 45th Anniversary Project",
+      "title": "GoBusiness",
       "category": "tvc",
       "tags": [
+        "branded content",
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
-      "video": "https://youtu.be/UaCZbSBDrNU",
-      "client": "Pizza Hut",
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
+      "video": "https://youtu.be/xoIFNObpu6M",
+      "client": "GovTech",
       "credits": [
         [
           "Work",
-          "Online | Transitions | Cleanups"
+          "Assistant Producer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "Optical Films"
         ]
       ],
-      "clips": [
-        {
-          "label": "Roto + Comping",
-          "start": "0:03",
-          "end": "0:07"
-        },
-        {
-          "label": "Lift Button Animation and Match Cut",
-          "start": "0:01",
-          "end": "0:03"
-        },
-        {
-          "label": "Super 8 Treatment + Comp",
-          "start": "0:10",
-          "end": "0:13"
-        },
-        {
-          "label": "Rewind Treatment + Comp",
-          "start": "0:07",
-          "end": "0:08"
-        }
+      "sourceVideo": "assets/sources/gobusiness.mp4",
+      "sourceVideos": [
+        "assets/sources/gobusiness.mp4"
       ]
     }
   ],
