@@ -1300,6 +1300,28 @@
           "Production",
           "Abundant Productions"
         ]
+      ],
+      "clips": [
+        {
+          "label": "Roto + Comping",
+          "start": "0:03",
+          "end": "0:07"
+        },
+        {
+          "label": "Lift Button Animation and Match Cut",
+          "start": "0:01",
+          "end": "0:03"
+        },
+        {
+          "label": "Super 8 Treatment + Comp",
+          "start": "0:10",
+          "end": "0:13"
+        },
+        {
+          "label": "Rewind Treatment + Comp",
+          "start": "0:07",
+          "end": "0:08"
+        }
       ]
     }
   ],
