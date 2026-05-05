@@ -1471,7 +1471,7 @@ async function pickSourceVideo() {
     if (!file) return;
 
     const HARD_MAX_MB   = 1024;  // Above this, the browser tab will likely OOM
-    const UPLOAD_MAX_MB = 80;    // GitHub API hard ceiling is 100; 80 leaves margin
+    const UPLOAD_MAX_MB = 60;    // base64 inflates ~33%; 60 MB → ~80 MB payload, safely under GitHub/CF 100 MB limit
 
     if (file.size > HARD_MAX_MB * 1024 * 1024) {
       alert(`File is ${(file.size/1024/1024).toFixed(0)} MB — too large for browser-based compression (max ${HARD_MAX_MB} MB). Trim or pre-compress in your video editor and try again.`);
@@ -1493,8 +1493,8 @@ async function pickSourceVideo() {
         });
         const compMb = (compressed.size / 1024 / 1024).toFixed(1);
         if (compressed.size > UPLOAD_MAX_MB * 1024 * 1024) {
-          setSrcProgress(100, `Compressed file still ${compMb} MB (max ${UPLOAD_MAX_MB} MB) — trim shorter`, 'error');
-          alert(`Even after compression the file is ${compMb} MB (max ${UPLOAD_MAX_MB} MB). Source is probably very long — trim it shorter and try again.`);
+          setSrcProgress(100, `Compressed file still ${compMb} MB (max ${UPLOAD_MAX_MB} MB) — trim shorter in your editor`, 'error');
+          alert(`Even after compression the file is ${compMb} MB (max ${UPLOAD_MAX_MB} MB). Trim it shorter in your video editor and try again.`);
           return;
         }
         uploadFile = new File([compressed], sanitizeFilename(file.name.replace(/\.[^.]+$/i, '') + '.mp4'), { type: 'video/mp4' });
@@ -1937,8 +1937,9 @@ async function githubPut(path, content, filename) {
   const body = { message: `Admin: upload ${filename}`, content };
   if (sha) body.sha = sha;
   const putRes = await fetch(api, { method: 'PUT', headers, body: JSON.stringify(body) });
-  const putData = await putRes.json();
-  if (!putRes.ok) throw new Error(putData.message || `GitHub ${putRes.status}`);
+  let putData;
+  try { putData = await putRes.json(); } catch { putData = {}; }
+  if (!putRes.ok) throw new Error(putData.message || `GitHub error ${putRes.status} — file may be too large`);
   return path;
 }
 
