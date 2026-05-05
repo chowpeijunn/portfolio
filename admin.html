@@ -1423,7 +1423,7 @@ async function pickVideoFile(vi) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
-      const uploadPath = await githubPut(`assets/videos/${file.name}`, base64, file.name);
+      const uploadPath = await githubPut(`assets/videos/${sanitizeFilename(file.name)}`, base64, file.name);
       if (inputEl) {
         inputEl.value = uploadPath;
         updateVideo(vi, uploadPath);
@@ -1965,6 +1965,13 @@ function updateTokenBtn(hasToken) {
   btn.style.color = hasToken ? 'var(--success)' : '';
 }
 
+function sanitizeFilename(name) {
+  const ext = name.substring(name.lastIndexOf('.')).toLowerCase();
+  const base = name.substring(0, name.lastIndexOf('.'))
+    .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '');
+  return base + ext;
+}
+
 async function githubPut(path, content, filename) {
   const token = getGhToken();
   if (!token) throw new Error('No GitHub token — log out and enter your token to enable uploads.');
@@ -2006,7 +2013,7 @@ async function pickShowreelVideo() {
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
-      const uploadPath = await githubPut(`assets/videos/${file.name}`, base64, file.name);
+      const uploadPath = await githubPut(`assets/videos/${sanitizeFilename(file.name)}`, base64, file.name);
       data.showreelVideo = uploadPath;
       const input = document.getElementById('showreelVideoInput');
       if (input) input.value = uploadPath;

@@ -77,16 +77,19 @@ app.post('/api/upload-thumb', upload.single('file'), (req, res) => {
   res.json({ ok: true, path: `assets/thumbs/${req.file.filename}` });
 });
 
-// Publish: git add + commit + push
+// Publish: write data.json, commit, pull --rebase, push
 app.post('/api/publish', (req, res) => {
   try {
     const msg = (req.body && req.body.message) || 'Admin: update content';
     const opts = { cwd: __dirname };
-    execSync('git add -A', opts);
-    // Check if there's actually anything to commit
+    // Write the posted data directly so it's always in sync
+    fs.writeFileSync(DATA_FILE, JSON.stringify(req.body, null, 2));
+    execSync('git add data.json', opts);
     const status = execSync('git status --porcelain', opts).toString().trim();
     if (!status) return res.json({ ok: true, message: 'Nothing new to publish — already up to date.' });
     execSync(`git commit -m "${msg.replace(/"/g, "'")}"`, opts);
+    // Pull rebase before push to avoid stale-branch rejections
+    try { execSync('git pull --rebase origin main', opts); } catch (_) {}
     execSync('git push', opts);
     res.json({ ok: true, message: 'Published! Vercel is deploying now (~30 seconds).' });
   } catch (e) {
