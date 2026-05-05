@@ -7,7 +7,11 @@ const multer = require('multer');
 const app = express();
 const PORT = 3333;
 const DATA_FILE = path.join(__dirname, 'data.json');
-const THUMBS_DIR = path.join(__dirname, 'assets', 'thumbs');
+const THUMBS_DIR   = path.join(__dirname, 'assets', 'thumbs');
+const SOURCES_DIR  = path.join(__dirname, 'assets', 'sources');
+
+// Ensure upload dirs exist
+[THUMBS_DIR, SOURCES_DIR].forEach(d => { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); });
 
 // Multer: save uploads to assets/thumbs/ keeping original filename
 const storage = multer.diskStorage({
@@ -75,6 +79,43 @@ app.get('/api/thumbs', (req, res) => {
 app.post('/api/upload-thumb', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file received' });
   res.json({ ok: true, path: `assets/thumbs/${req.file.filename}` });
+});
+
+// Source video multer (no compression limit — raw file accepted up to 500 MB)
+const sourcesStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, SOURCES_DIR),
+  filename: (req, file, cb) => {
+    const ext  = path.extname(file.originalname).toLowerCase();
+    const base = path.basename(file.originalname, ext)
+      .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '');
+    let name = base + ext;
+    if (fs.existsSync(path.join(SOURCES_DIR, name))) name = base + '-' + Date.now() + ext;
+    cb(null, name);
+  }
+});
+const uploadSource = multer({ storage: sourcesStorage, limits: { fileSize: 500 * 1024 * 1024 } });
+
+// Upload source video: save locally, return immediately, push to git in background
+app.post('/api/upload-source', uploadSource.single('file'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file received' });
+  const relativePath = `assets/sources/${req.file.filename}`;
+  res.json({ ok: true, path: relativePath });
+
+  // Non-blocking git push — user can navigate away now
+  setImmediate(() => {
+    try {
+      const opts = { cwd: __dirname };
+      execSync(`git add "${relativePath}"`, opts);
+      const status = execSync('git status --porcelain', opts).toString().trim();
+      if (!status) return;
+      execSync(`git commit -m "Admin: upload source ${req.file.filename}"`, opts);
+      try { execSync('git pull --rebase origin main', opts); } catch (_) {}
+      execSync('git push', opts);
+      console.log(`[upload-source] pushed ${relativePath}`);
+    } catch (e) {
+      console.error(`[upload-source] git push failed: ${e.message}`);
+    }
+  });
 });
 
 // Publish: write data.json, commit, pull --rebase, push
