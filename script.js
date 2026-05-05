@@ -307,6 +307,9 @@ window.addEventListener('resize', () => {
   let lastMoveX = 0, lastMoveY = 0;
   let lastMoveTime = 0;
   let momentumRAF = null;
+  // Rolling velocity: keep last N pointer samples for a stable average
+  const VEL_SAMPLES = 5;
+  let velSamples = [];
 
   // Hub center position (computed once after centerOnHub runs)
   let hubCenterTx = null, hubCenterTy = null;
@@ -334,7 +337,7 @@ window.addEventListener('resize', () => {
     };
   }
 
-  function setTranslate(x, y, smooth) {
+  function setTranslate(x, y, smooth, skipSideEffects) {
     const clamped = clamp(x, y);
     inner._tx = clamped.x;
     inner._ty = clamped.y;
@@ -343,12 +346,14 @@ window.addEventListener('resize', () => {
     } else {
       inner.classList.add('no-transition');
     }
-    inner.style.transform = `translate(${clamped.x}px, ${clamped.y}px)`;
+    inner.style.transform = `translate3d(${clamped.x}px, ${clamped.y}px, 0)`;
     if (!smooth) {
       requestAnimationFrame(() => inner.classList.remove('no-transition'));
     }
-    updateReturnButton();
-    checkFooterVisibility();
+    if (!skipSideEffects) {
+      updateReturnButton();
+      checkFooterVisibility();
+    }
   }
 
   // Check if we're near center hub and toggle return button
@@ -375,17 +380,20 @@ window.addEventListener('resize', () => {
   }
 
   function applyMomentum() {
-    const friction = 0.988;
+    const friction = 0.96;
     velocityX *= friction;
     velocityY *= friction;
 
-    if (Math.abs(velocityX) < 0.3 && Math.abs(velocityY) < 0.3) {
+    if (Math.abs(velocityX) < 0.25 && Math.abs(velocityY) < 0.25) {
       momentumRAF = null;
+      inner.style.willChange = 'auto';
+      updateReturnButton();
+      checkFooterVisibility();
       return;
     }
 
     const pos = getTranslate();
-    setTranslate(pos.x + velocityX, pos.y + velocityY);
+    setTranslate(pos.x + velocityX, pos.y + velocityY, false, true);
     momentumRAF = requestAnimationFrame(applyMomentum);
   }
 
@@ -406,6 +414,7 @@ window.addEventListener('resize', () => {
     lastMoveTime = performance.now();
     velocityX = 0;
     velocityY = 0;
+    velSamples = [];
     inner.style.willChange = 'transform';
     inner.classList.add('no-transition');
     e.preventDefault();
@@ -416,8 +425,8 @@ window.addEventListener('resize', () => {
     const now = performance.now();
     const dt = now - lastMoveTime;
     if (dt > 0) {
-      velocityX = (e.clientX - lastMoveX) * (16 / dt);
-      velocityY = (e.clientY - lastMoveY) * (16 / dt);
+      velSamples.push({ vx: (e.clientX - lastMoveX) / dt, vy: (e.clientY - lastMoveY) / dt, t: now });
+      if (velSamples.length > VEL_SAMPLES) velSamples.shift();
     }
     lastMoveX = e.clientX;
     lastMoveY = e.clientY;
@@ -425,7 +434,7 @@ window.addEventListener('resize', () => {
 
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
-    setTranslate(currentX + dx, currentY + dy);
+    setTranslate(currentX + dx, currentY + dy, false, true);
   });
 
   window.addEventListener('mouseup', () => {
@@ -433,10 +442,17 @@ window.addEventListener('resize', () => {
       isDragging = false;
       document.body.classList.remove('dragging');
       inner.classList.remove('no-transition');
-      inner.style.willChange = 'auto';
-      // Apply momentum
-      if (Math.abs(velocityX) > 1 || Math.abs(velocityY) > 1) {
+      // Average recent samples, scale to ~60fps frame unit
+      const recent = velSamples.filter(s => performance.now() - s.t < 80);
+      if (recent.length) {
+        velocityX = recent.reduce((a, s) => a + s.vx, 0) / recent.length * 16;
+        velocityY = recent.reduce((a, s) => a + s.vy, 0) / recent.length * 16;
+      }
+      velSamples = [];
+      if (Math.abs(velocityX) > 0.5 || Math.abs(velocityY) > 0.5) {
         momentumRAF = requestAnimationFrame(applyMomentum);
+      } else {
+        inner.style.willChange = 'auto';
       }
     }
   });
@@ -458,42 +474,48 @@ window.addEventListener('resize', () => {
     lastMoveTime = performance.now();
     velocityX = 0;
     velocityY = 0;
+    velSamples = [];
     inner.style.willChange = 'transform';
     inner.classList.add('no-transition');
   }, { passive: true });
 
   window.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
-    // Clear any mobile previews (iframes + GIFs) when the user starts panning
     document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
     document.querySelectorAll('.project-card.gif-active').forEach(c => {
       c.classList.remove('gif-active');
       const g = c.querySelector('.card-gif');
       if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
     });
-    e.preventDefault(); // stop browser scroll while canvas is being dragged
+    e.preventDefault();
     const now = performance.now();
     const dt = now - lastMoveTime;
+    const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
     if (dt > 0) {
-      velocityX = (e.touches[0].clientX - lastMoveX) * (16 / dt);
-      velocityY = (e.touches[0].clientY - lastMoveY) * (16 / dt);
+      velSamples.push({ vx: (tx - lastMoveX) / dt, vy: (ty - lastMoveY) / dt, t: now });
+      if (velSamples.length > VEL_SAMPLES) velSamples.shift();
     }
-    lastMoveX = e.touches[0].clientX;
-    lastMoveY = e.touches[0].clientY;
+    lastMoveX = tx;
+    lastMoveY = ty;
     lastMoveTime = now;
 
-    const dx = e.touches[0].clientX - startX;
-    const dy = e.touches[0].clientY - startY;
-    setTranslate(currentX + dx, currentY + dy);
+    setTranslate(currentX + (tx - startX), currentY + (ty - startY), false, true);
   }, { passive: false });
 
   window.addEventListener('touchend', () => {
     if (isDragging) {
       isDragging = false;
       inner.classList.remove('no-transition');
-      inner.style.willChange = 'auto';
-      if (Math.abs(velocityX) > 1 || Math.abs(velocityY) > 1) {
+      const recent = velSamples.filter(s => performance.now() - s.t < 80);
+      if (recent.length) {
+        velocityX = recent.reduce((a, s) => a + s.vx, 0) / recent.length * 16;
+        velocityY = recent.reduce((a, s) => a + s.vy, 0) / recent.length * 16;
+      }
+      velSamples = [];
+      if (Math.abs(velocityX) > 0.5 || Math.abs(velocityY) > 0.5) {
         momentumRAF = requestAnimationFrame(applyMomentum);
+      } else {
+        inner.style.willChange = 'auto';
       }
     }
   });
