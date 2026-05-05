@@ -238,7 +238,7 @@ function centerOnHub(smooth) {
   } else {
     inner.classList.add('no-transition');
   }
-  inner.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+  inner.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
   inner._tx = offsetX;
   inner._ty = offsetY;
 
@@ -1169,7 +1169,12 @@ initShowreel();
     // Compute how many before-cards are needed so hub lands on the centre column
     const originalBefore = window._originalBeforeCount || 0;
     let targetBefore = originalBefore;
-    if (!span2 && originalBefore > 0) {
+    if (cols === 4) {
+      // Hub spans 2 cols — centre it at cols 2-3 (need targetBefore%4 === 1)
+      let shift4 = (1 - originalBefore % 4 + 4) % 4;
+      if (shift4 > 2) shift4 -= 4; // prefer fewer card moves
+      targetBefore = originalBefore + shift4;
+    } else if (!span2 && originalBefore > 0) {
       const remainder = originalBefore % cols;
       const center    = Math.floor((cols - 1) / 2);
       const shift     = (center - remainder + cols) % cols;
