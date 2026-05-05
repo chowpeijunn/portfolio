@@ -1553,7 +1553,7 @@ async function pickSourceVideo() {
           alert(`Even after compression the file is ${compMb} MB (max ${UPLOAD_MAX_MB} MB). Source is probably very long — trim it shorter and try again.`);
           return;
         }
-        uploadFile = new File([compressed], file.name.replace(/\.[^.]+$/i, '') + '.mp4', { type: 'video/mp4' });
+        uploadFile = new File([compressed], sanitizeFilename(file.name.replace(/\.[^.]+$/i, '') + '.mp4'), { type: 'video/mp4' });
         setSrcProgress(90, `Compressed ${origMb} MB → ${compMb} MB. Uploading…`, '');
       } else {
         setSrcProgress(20, `Uploading ${origMb} MB…`, '');
@@ -1573,7 +1573,8 @@ async function pickSourceVideo() {
         reader.onerror = reject;
         reader.readAsDataURL(uploadFile);
       });
-      const uploadPath = await githubPut(`assets/sources/${uploadFile.name}`, base64, uploadFile.name);
+      const safeName = sanitizeFilename(uploadFile.name);
+      const uploadPath = await githubPut(`assets/sources/${safeName}`, base64, uploadFile.name);
       // Append to the project's sourceVideos array (creating it from legacy single field if needed).
       // The card hover preview reads sourceVideos[0] directly — no separate preview field needed.
       if (projectAtStart) {
@@ -1593,7 +1594,10 @@ async function pickSourceVideo() {
         renderEditor();
       }
       markDirty();
-      setSrcProgress(100, `✓ Uploaded ${(uploadFile.size/1024/1024).toFixed(1)} MB`, 'success');
+      // Auto-save so the sourceVideo path is in data.json before processClips runs
+      setSrcProgress(98, 'Saving…', '');
+      await saveAll().catch(() => {});
+      setSrcProgress(100, `✓ Uploaded & saved ${(uploadFile.size/1024/1024).toFixed(1)} MB`, 'success');
     } catch (err) {
       setSrcProgress(100, 'Upload failed', 'error');
       alert('Upload failed: ' + err.message);
