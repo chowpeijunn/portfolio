@@ -1323,6 +1323,27 @@
       "sourceVideos": [
         "assets/sources/gobusiness.mp4"
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Paragon Indent",
+      "category": "corporate",
+      "tags": [
+        "corporate"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/USlC968YdlU",
+      "client": "Paragon",
+      "credits": [
+        [
+          "Work",
+          "Online | Ai Gen *this video contains only Ai generation"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
