@@ -1494,8 +1494,14 @@ async function pickSourceVideo() {
         headers: { 'x-github-token': token },
         body: formData
       });
-      const json = await res.json();
-      if (!res.ok || !json.ok) throw new Error(json.error || `HTTP ${res.status}`);
+      let json;
+      try { json = await res.json(); } catch { json = {}; }
+      if (!res.ok || !json.ok) {
+        const hint = res.status === 404
+          ? 'Server endpoint not found — restart node server.js and run npm install'
+          : (json.error || `HTTP ${res.status}`);
+        throw new Error(hint);
+      }
 
       const uploadPath = json.path;
       if (projectAtStart) {
