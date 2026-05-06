@@ -1458,93 +1458,60 @@ async function pickSourceVideo() {
     alert('A source upload is already running. Wait for it to finish or dismiss the progress card first.');
     return;
   }
-  // Capture which project is being uploaded to — selectedIdx may change later.
-  const projectIdxAtStart = selectedIdx;
-  const projectAtStart    = data.projects[projectIdxAtStart];
+  const projectIdxAtStart   = selectedIdx;
+  const projectAtStart      = data.projects[projectIdxAtStart];
   const projectTitleAtStart = projectAtStart?.title || 'project';
 
   const picker = document.createElement('input');
   picker.type = 'file';
-  picker.accept = 'video/mp4,video/*';
+  picker.accept = 'video/*';
   picker.onchange = async () => {
     const file = picker.files[0];
     if (!file) return;
 
-    const HARD_MAX_MB   = 1024;  // Above this, the browser tab will likely OOM
-    const UPLOAD_MAX_MB = 60;    // base64 inflates ~33%; 60 MB → ~80 MB payload, safely under GitHub/CF 100 MB limit
-
+    const HARD_MAX_MB = 500;
     if (file.size > HARD_MAX_MB * 1024 * 1024) {
-      alert(`File is ${(file.size/1024/1024).toFixed(0)} MB — too large for browser-based compression (max ${HARD_MAX_MB} MB). Trim or pre-compress in your video editor and try again.`);
+      alert(`File is ${(file.size/1024/1024).toFixed(0)} MB — max is 500 MB. Compress or trim it first.`);
       return;
     }
+    if (file.size > 60 * 1024 * 1024) {
+      if (!confirm(`File is ${(file.size/1024/1024).toFixed(0)} MB. GitHub has a ~80 MB upload limit. Large files may fail — continue?`)) return;
+    }
+
+    const token = getGhToken();
+    if (!token) { alert('Set your GitHub token (🔑 Token) first.'); return; }
 
     _uploadInFlight = true;
     const toast = makeOpToast('uploadToast', `Uploading source: ${projectTitleAtStart}`);
     const setSrcProgress = (pct, label, state) => toast.setProgress(pct, label, state);
 
-    let uploadFile = file;
-    const origMb = (file.size / 1024 / 1024).toFixed(0);
-
+    setSrcProgress(20, `Sending ${(file.size/1024/1024).toFixed(1)} MB to server…`, '');
     try {
-      // Compression covers 0→90% of the bar; upload covers 90→100%.
-      if (file.size > UPLOAD_MAX_MB * 1024 * 1024 || /\.(mov|avi|mkv|wmv)$/i.test(file.name) || file.size > 20 * 1024 * 1024) {
-        const compressed = await compressVideoInBrowser(file, (pct, label) => {
-          setSrcProgress(pct * 0.9, `${origMb} MB → ${label}`, '');
-        });
-        const compMb = (compressed.size / 1024 / 1024).toFixed(1);
-        if (compressed.size > UPLOAD_MAX_MB * 1024 * 1024) {
-          setSrcProgress(100, `Compressed file still ${compMb} MB (max ${UPLOAD_MAX_MB} MB) — trim shorter in your editor`, 'error');
-          alert(`Even after compression the file is ${compMb} MB (max ${UPLOAD_MAX_MB} MB). Trim it shorter in your video editor and try again.`);
-          return;
-        }
-        uploadFile = new File([compressed], sanitizeFilename(file.name.replace(/\.[^.]+$/i, '') + '.mp4'), { type: 'video/mp4' });
-        setSrcProgress(90, `Compressed ${origMb} MB → ${compMb} MB. Uploading…`, '');
-      } else {
-        setSrcProgress(20, `Uploading ${origMb} MB…`, '');
-      }
-    } catch (err) {
-      setSrcProgress(100, 'Compression failed', 'error');
-      toast.allowDismiss();
-      _uploadInFlight = false;
-      alert('Compression failed: ' + (err.message || err) + '\n\nIf the file is very long or huge, try trimming it first.');
-      return;
-    }
-
-    try {
-      const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result.split(',')[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(uploadFile);
+      const formData = new FormData();
+      formData.append('file', file);
+      const res  = await fetch('/api/upload-source', {
+        method: 'POST',
+        headers: { 'x-github-token': token },
+        body: formData
       });
-      const safeName = sanitizeFilename(uploadFile.name);
-      const uploadPath = await githubPut(`assets/sources/${safeName}`, base64, uploadFile.name);
-      // Append to the project's sourceVideos array (creating it from legacy single field if needed).
-      // The card hover preview reads sourceVideos[0] directly — no separate preview field needed.
+      const json = await res.json();
+      if (!res.ok || !json.ok) throw new Error(json.error || `HTTP ${res.status}`);
+
+      const uploadPath = json.path;
       if (projectAtStart) {
         if (!Array.isArray(projectAtStart.sourceVideos)) {
           projectAtStart.sourceVideos = projectAtStart.sourceVideo ? [projectAtStart.sourceVideo] : [];
         }
-        // Avoid duplicates
-        if (!projectAtStart.sourceVideos.includes(uploadPath)) {
-          projectAtStart.sourceVideos.push(uploadPath);
-        }
-        // Keep legacy field synced to the first source for backward compat
+        if (!projectAtStart.sourceVideos.includes(uploadPath)) projectAtStart.sourceVideos.push(uploadPath);
         projectAtStart.sourceVideo = projectAtStart.sourceVideos[0];
       }
-      // If still viewing the same project, re-render the editor so the new
-      // source appears in the list and the per-clip pickers update.
-      if (selectedIdx === projectIdxAtStart) {
-        renderEditor();
-      }
+      if (selectedIdx === projectIdxAtStart) renderEditor();
       markDirty();
-      // Auto-save so the sourceVideo path is in data.json before processClips runs
-      setSrcProgress(98, 'Saving…', '');
+      setSrcProgress(80, 'Saving project…', '');
       await saveAll().catch(() => {});
-      setSrcProgress(100, `✓ Uploaded & saved ${(uploadFile.size/1024/1024).toFixed(1)} MB`, 'success');
+      setSrcProgress(100, `✓ ${(file.size/1024/1024).toFixed(1)} MB — pushing to GitHub in background. You can leave this page.`, 'success');
     } catch (err) {
-      setSrcProgress(100, 'Upload failed', 'error');
-      alert('Upload failed: ' + err.message);
+      setSrcProgress(100, 'Upload failed: ' + err.message, 'error');
     } finally {
       toast.allowDismiss();
       _uploadInFlight = false;

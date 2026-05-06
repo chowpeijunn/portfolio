@@ -77,6 +77,70 @@ app.post('/api/upload-thumb', upload.single('file'), (req, res) => {
   res.json({ ok: true, path: `assets/thumbs/${req.file.filename}` });
 });
 
+// Source video upload — file held in RAM only (never written to disk).
+// Server responds immediately then uploads to GitHub in the background.
+const uploadSourceMem = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 500 * 1024 * 1024 }
+});
+
+function sanitizeFilename(name) {
+  const ext  = path.extname(name).toLowerCase();
+  const base = path.basename(name, path.extname(name))
+    .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '');
+  return base + ext;
+}
+
+app.post('/api/upload-source', uploadSourceMem.single('file'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file received' });
+  const token    = req.headers['x-github-token'];
+  if (!token)    return res.status(400).json({ error: 'No GitHub token provided' });
+
+  const safeName    = sanitizeFilename(req.file.originalname);
+  const repoPath    = `assets/sources/${safeName}`;
+  const fileBuffer  = req.file.buffer; // RAM only — freed after upload completes
+
+  // Respond immediately so the browser (and user) can move on
+  res.json({ ok: true, path: repoPath });
+
+  // Push to GitHub in background — no files touched on disk
+  (async () => {
+    const REPO    = 'chowpeijunn/portfolio';
+    const BRANCH  = 'main';
+    const api     = `https://api.github.com/repos/${REPO}/contents/${repoPath}?ref=${BRANCH}`;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+      'User-Agent': 'portfolio-admin'
+    };
+
+    try {
+      let sha;
+      const existRes = await fetch(api, { headers });
+      if (existRes.ok) { sha = (await existRes.json()).sha; }
+
+      const base64 = fileBuffer.toString('base64');
+      const body   = { message: `Admin: upload source ${safeName}`, content: base64, branch: BRANCH };
+      if (sha) body.sha = sha;
+
+      const putRes  = await fetch(`https://api.github.com/repos/${REPO}/contents/${repoPath}`, {
+        method: 'PUT', headers, body: JSON.stringify(body)
+      });
+      let putData;
+      try { putData = await putRes.json(); } catch { putData = {}; }
+
+      if (!putRes.ok) {
+        console.error(`[upload-source] GitHub error ${putRes.status}: ${putData.message || 'unknown'}`);
+      } else {
+        console.log(`[upload-source] ✓ pushed ${repoPath}`);
+      }
+    } catch (e) {
+      console.error(`[upload-source] failed: ${e.message}`);
+    }
+  })();
+});
+
 
 // Publish: write data.json, commit, pull --rebase, push
 app.post('/api/publish', (req, res) => {
