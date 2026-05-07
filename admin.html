@@ -1469,13 +1469,10 @@ async function pickSourceVideo() {
     const file = picker.files[0];
     if (!file) return;
 
-    const HARD_MAX_MB = 500;
+    const HARD_MAX_MB = 2000;
     if (file.size > HARD_MAX_MB * 1024 * 1024) {
-      alert(`File is ${(file.size/1024/1024).toFixed(0)} MB — max is 500 MB. Compress or trim it first.`);
+      alert(`File is ${(file.size/1024/1024).toFixed(0)} MB — that's unusually large. Please trim it first.`);
       return;
-    }
-    if (file.size > 60 * 1024 * 1024) {
-      if (!confirm(`File is ${(file.size/1024/1024).toFixed(0)} MB. GitHub has a ~80 MB upload limit. Large files may fail — continue?`)) return;
     }
 
     const token = getGhToken();
@@ -1485,24 +1482,44 @@ async function pickSourceVideo() {
     const toast = makeOpToast('uploadToast', `Uploading source: ${projectTitleAtStart}`);
     const setSrcProgress = (pct, label, state) => toast.setProgress(pct, label, state);
 
-    setSrcProgress(20, `Sending ${(file.size/1024/1024).toFixed(1)} MB to server…`, '');
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res  = await fetch('/api/upload-source', {
+      // Step 1: compress in-browser to 720p no-audio mp4
+      setSrcProgress(2, `Loading compressor… (one-time ~30 MB download)`, '');
+      let compressed;
+      try {
+        compressed = await compressVideoInBrowser(file, (pct, msg) => {
+          setSrcProgress(2 + Math.round(pct * 0.58), msg || `Compressing… ${pct}%`, '');
+        });
+      } catch (compErr) {
+        throw new Error('Compression failed: ' + compErr.message);
+      }
+      const compMB = (compressed.size / 1024 / 1024).toFixed(1);
+      setSrcProgress(62, `Compressed to ${compMB} MB — uploading…`, '');
+
+      // Step 2: read as base64
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload  = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(compressed);
+      });
+
+      setSrcProgress(68, `Sending ${compMB} MB to GitHub…`, '');
+
+      // Step 3: POST JSON to /api/upload-source  (same pattern as upload-thumb)
+      const baseName = file.name.replace(/\.[^.]+$/, '');
+      const res = await fetch('/api/upload-source', {
         method: 'POST',
-        headers: { 'x-github-token': token },
-        body: formData
+        headers: { 'Content-Type': 'application/json', 'x-github-token': token },
+        body: JSON.stringify({ filename: baseName + '.mp4', content: base64 })
       });
       let json;
       try { json = await res.json(); } catch { json = {}; }
       if (!res.ok || !json.ok) {
-        const hint = res.status === 404
-          ? 'Server endpoint not found — restart node server.js and run npm install'
-          : (json.error || `HTTP ${res.status}`);
-        throw new Error(hint);
+        throw new Error(json.error || `HTTP ${res.status}`);
       }
 
+      setSrcProgress(90, 'Saving project data…', '');
       const uploadPath = json.path;
       if (projectAtStart) {
         if (!Array.isArray(projectAtStart.sourceVideos)) {
@@ -1513,9 +1530,8 @@ async function pickSourceVideo() {
       }
       if (selectedIdx === projectIdxAtStart) renderEditor();
       markDirty();
-      setSrcProgress(80, 'Saving project…', '');
       await saveAll().catch(() => {});
-      setSrcProgress(100, `✓ ${(file.size/1024/1024).toFixed(1)} MB — pushing to GitHub in background. You can leave this page.`, 'success');
+      setSrcProgress(100, `✓ Done — ${compMB} MB pushed to GitHub`, 'success');
     } catch (err) {
       setSrcProgress(100, 'Upload failed: ' + err.message, 'error');
     } finally {
