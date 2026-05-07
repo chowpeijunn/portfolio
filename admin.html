@@ -1264,7 +1264,11 @@ function parseClipTime(val) {
 function closeClipPreview(ci) {
   clearInterval(_clipTimers[ci]);
   delete _clipTimers[ci];
-  if (_clipPlayers[ci]) { try { _clipPlayers[ci].destroy(); } catch(e){} delete _clipPlayers[ci]; }
+  if (_clipPlayers[ci]) {
+    // YT.Player has destroy(); <video> element does not
+    try { if (typeof _clipPlayers[ci].destroy === 'function') _clipPlayers[ci].destroy(); } catch(e){}
+    delete _clipPlayers[ci];
+  }
   const el = document.getElementById(`clip-preview-${ci}`);
   if (el) el.remove();
   const btn = document.getElementById(`clip-scrub-btn-${ci}`);
@@ -1275,8 +1279,14 @@ function toggleClipPreview(ci) {
   if (document.getElementById(`clip-preview-${ci}`)) { closeClipPreview(ci); return; }
 
   const p = data.projects[selectedIdx];
+  const sources = getAllSources(p);
+  const localSrc = sources[0] || '';
   const ytId = getYtVideoId(p.video || '');
-  if (!ytId) { alert('Set a YouTube video URL for this project first.'); return; }
+
+  if (!localSrc && !ytId) {
+    alert('Add a source video or YouTube URL for this project first.');
+    return;
+  }
 
   const btn = document.getElementById(`clip-scrub-btn-${ci}`);
   if (btn) btn.classList.add('active');
@@ -1285,8 +1295,8 @@ function toggleClipPreview(ci) {
   const preview = document.createElement('div');
   preview.id = `clip-preview-${ci}`;
   preview.className = 'clip-preview';
-  preview.innerHTML = `
-    <div class="clip-player-wrap"><div id="clip-yt-${ci}"></div></div>
+
+  const controlsHtml = `
     <div class="clip-controls">
       <span class="clip-current-time" id="clip-time-${ci}">0:00</span>
       <button class="btn btn-ghost btn-sm" onclick="setClipTime(${ci},'start')">Set Start</button>
@@ -1296,40 +1306,67 @@ function toggleClipPreview(ci) {
       <div class="clip-range-track"></div>
       <div class="clip-range-fill" id="clip-range-fill-${ci}"></div>
     </div>`;
-  row.insertAdjacentElement('afterend', preview);
 
-  loadYTApi();
-  function createPlayer() {
-    _clipPlayers[ci] = new YT.Player(`clip-yt-${ci}`, {
-      videoId: ytId,
-      playerVars: { controls: 1, rel: 0, modestbranding: 1, iv_load_policy: 3 },
-      events: {
-        onReady: () => {
-          _clipTimers[ci] = setInterval(() => {
-            if (!document.getElementById(`clip-preview-${ci}`)) { closeClipPreview(ci); return; }
-            const player = _clipPlayers[ci];
-            if (!player || typeof player.getCurrentTime !== 'function') return;
-            const t   = player.getCurrentTime() || 0;
-            const dur = player.getDuration()    || 0;
-            const timeEl = document.getElementById(`clip-time-${ci}`);
-            if (timeEl) timeEl.textContent = fmtTime(t);
-            if (dur > 0) updateClipRangeBar(ci, dur);
-          }, 200);
+  if (localSrc) {
+    // ── Local source video (preferred) ──────────────────────────────────
+    preview.innerHTML = `
+      <div class="clip-player-wrap">
+        <video id="clip-vid-${ci}" src="${esc(localSrc)}" controls preload="metadata"
+          style="width:100%;height:100%;background:#000;display:block;"></video>
+      </div>${controlsHtml}`;
+    row.insertAdjacentElement('afterend', preview);
+
+    const vid = document.getElementById(`clip-vid-${ci}`);
+    _clipPlayers[ci] = vid;   // store reference (duck-typed below)
+    _clipTimers[ci] = setInterval(() => {
+      if (!document.getElementById(`clip-preview-${ci}`)) { closeClipPreview(ci); return; }
+      const timeEl = document.getElementById(`clip-time-${ci}`);
+      if (timeEl) timeEl.textContent = fmtTime(vid.currentTime || 0);
+      if (vid.duration > 0) updateClipRangeBar(ci, vid.duration);
+    }, 200);
+
+  } else {
+    // ── YouTube fallback ────────────────────────────────────────────────
+    preview.innerHTML = `
+      <div class="clip-player-wrap"><div id="clip-yt-${ci}"></div></div>${controlsHtml}`;
+    row.insertAdjacentElement('afterend', preview);
+
+    loadYTApi();
+    function createPlayer() {
+      _clipPlayers[ci] = new YT.Player(`clip-yt-${ci}`, {
+        videoId: ytId,
+        playerVars: { controls: 1, rel: 0, modestbranding: 1, iv_load_policy: 3 },
+        events: {
+          onReady: () => {
+            _clipTimers[ci] = setInterval(() => {
+              if (!document.getElementById(`clip-preview-${ci}`)) { closeClipPreview(ci); return; }
+              const player = _clipPlayers[ci];
+              if (!player || typeof player.getCurrentTime !== 'function') return;
+              const t   = player.getCurrentTime() || 0;
+              const dur = player.getDuration()    || 0;
+              const timeEl = document.getElementById(`clip-time-${ci}`);
+              if (timeEl) timeEl.textContent = fmtTime(t);
+              if (dur > 0) updateClipRangeBar(ci, dur);
+            }, 200);
+          }
         }
-      }
-    });
+      });
+    }
+    if (_ytApiReady) createPlayer(); else _ytPending.push(createPlayer);
   }
-  if (_ytApiReady) createPlayer(); else _ytPending.push(createPlayer);
 }
 
 function setClipTime(ci, field) {
   const player = _clipPlayers[ci];
-  if (!player || typeof player.getCurrentTime !== 'function') return;
-  const t = fmtTime(player.getCurrentTime());
+  if (!player) return;
+  // Works for both <video> element (currentTime property) and YT.Player (getCurrentTime method)
+  const t = fmtTime(typeof player.getCurrentTime === 'function'
+    ? player.getCurrentTime()
+    : (player.currentTime || 0));
   updateClip(ci, field, t);
   const input = document.getElementById(field === 'start' ? `clip-start-${ci}` : `clip-end-${ci}`);
   if (input) input.value = t;
-  const dur = player.getDuration() || 0;
+  const dur = typeof player.getDuration === 'function' ? player.getDuration() : (player.duration || 0);
   if (dur > 0) updateClipRangeBar(ci, dur);
 }
 
