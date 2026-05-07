@@ -1494,40 +1494,71 @@ async function pickSourceVideo() {
         reader.readAsDataURL(file);
       });
 
-      setSrcProgress(40, `Uploading ${fileMB} MB directly to GitHub…`, '');
+      setSrcProgress(40, `Uploading ${fileMB} MB to GitHub…`, '');
 
-      // Upload straight to GitHub API — bypasses Vercel's body size limit entirely
+      // GitHub Contents API only handles ~1 MB. For real video files we must use
+      // the Git Database API: blob → tree → commit → update ref.
       const REPO = 'chowpeijunn/portfolio';
       const baseName = file.name.replace(/\.[^.]+$/, '')
         .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '');
       const safe = baseName + '.mp4';
-      const apiUrl = `https://api.github.com/repos/${REPO}/contents/assets/sources/${safe}`;
+      const filePath = `assets/sources/${safe}`;
+      const apiBase = `https://api.github.com/repos/${REPO}`;
       const ghHeaders = {
         Authorization: `Bearer ${token}`,
         Accept: 'application/vnd.github.v3+json',
         'Content-Type': 'application/json',
         'User-Agent': 'portfolio-admin'
       };
+      const ghFetch = async (url, opts = {}) => {
+        const r = await fetch(url, { ...opts, headers: { ...ghHeaders, ...(opts.headers || {}) } });
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.message || `GitHub ${r.status} @ ${url}`);
+        return j;
+      };
 
-      // Check for existing file to get its SHA (needed to overwrite)
-      let sha;
-      const existRes = await fetch(apiUrl, { headers: ghHeaders });
-      if (existRes.ok) { sha = (await existRes.json()).sha; }
-
-      const putBody = { message: `Admin: upload source ${safe}`, content: base64 };
-      if (sha) putBody.sha = sha;
-
-      setSrcProgress(60, `Pushing to GitHub…`, '');
-      const putRes = await fetch(apiUrl, {
-        method: 'PUT',
-        headers: ghHeaders,
-        body: JSON.stringify(putBody)
+      // 1. Create blob (supports up to 100 MB decoded)
+      setSrcProgress(45, 'Creating blob…', '');
+      const { sha: blobSha } = await ghFetch(`${apiBase}/git/blobs`, {
+        method: 'POST',
+        body: JSON.stringify({ content: base64, encoding: 'base64' })
       });
-      const putData = await putRes.json();
-      if (!putRes.ok) throw new Error(putData.message || `GitHub ${putRes.status}`);
+
+      // 2. Get current HEAD commit + its tree
+      setSrcProgress(55, 'Fetching current tree…', '');
+      const { object: { sha: headSha } } = await ghFetch(`${apiBase}/git/refs/heads/main`);
+      const { tree: { sha: treeSha } }   = await ghFetch(`${apiBase}/git/commits/${headSha}`);
+
+      // 3. Create new tree with our blob
+      setSrcProgress(65, 'Building tree…', '');
+      const { sha: newTreeSha } = await ghFetch(`${apiBase}/git/trees`, {
+        method: 'POST',
+        body: JSON.stringify({
+          base_tree: treeSha,
+          tree: [{ path: filePath, mode: '100644', type: 'blob', sha: blobSha }]
+        })
+      });
+
+      // 4. Create commit
+      setSrcProgress(75, 'Committing…', '');
+      const { sha: newCommitSha } = await ghFetch(`${apiBase}/git/commits`, {
+        method: 'POST',
+        body: JSON.stringify({
+          message: `Admin: upload source ${safe}`,
+          tree: newTreeSha,
+          parents: [headSha]
+        })
+      });
+
+      // 5. Advance main branch
+      setSrcProgress(85, 'Updating branch…', '');
+      await ghFetch(`${apiBase}/git/refs/heads/main`, {
+        method: 'PATCH',
+        body: JSON.stringify({ sha: newCommitSha })
+      });
 
       setSrcProgress(90, 'Saving project data…', '');
-      const uploadPath = `assets/sources/${safe}`;
+      const uploadPath = filePath;
       if (projectAtStart) {
         if (!Array.isArray(projectAtStart.sourceVideos)) {
           projectAtStart.sourceVideos = projectAtStart.sourceVideo ? [projectAtStart.sourceVideo] : [];
