@@ -1469,9 +1469,9 @@ async function pickSourceVideo() {
     const file = picker.files[0];
     if (!file) return;
 
-    const HARD_MAX_MB = 2000;
-    if (file.size > HARD_MAX_MB * 1024 * 1024) {
-      alert(`File is ${(file.size/1024/1024).toFixed(0)} MB — that's unusually large. Please trim it first.`);
+    const fileMB = file.size / 1024 / 1024;
+    if (fileMB > 90) {
+      alert(`File is ${fileMB.toFixed(0)} MB — GitHub's limit is 90 MB.\n\nExport a smaller version first:\n• In Premiere: Export → H.264, 720p, lower bitrate\n• In HandBrake: H.264, 720p, RF 26\n\nAim for under 80 MB.`);
       return;
     }
 
@@ -1483,30 +1483,19 @@ async function pickSourceVideo() {
     const setSrcProgress = (pct, label, state) => toast.setProgress(pct, label, state);
 
     try {
-      // Step 1: compress in-browser to 720p no-audio mp4
-      setSrcProgress(2, `Loading compressor… (one-time ~30 MB download)`, '');
-      let compressed;
-      try {
-        compressed = await compressVideoInBrowser(file, (pct, msg) => {
-          setSrcProgress(2 + Math.round(pct * 0.58), msg || `Compressing… ${pct}%`, '');
-        });
-      } catch (compErr) {
-        throw new Error('Compression failed: ' + compErr.message);
-      }
-      const compMB = (compressed.size / 1024 / 1024).toFixed(1);
-      setSrcProgress(62, `Compressed to ${compMB} MB — uploading…`, '');
+      const fileMB = (file.size / 1024 / 1024).toFixed(1);
+      setSrcProgress(10, `Reading ${fileMB} MB…`, '');
 
-      // Step 2: read as base64
+      // Read file as base64 directly — no browser compression
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload  = () => resolve(reader.result.split(',')[1]);
         reader.onerror = reject;
-        reader.readAsDataURL(compressed);
+        reader.readAsDataURL(file);
       });
 
-      setSrcProgress(68, `Sending ${compMB} MB to GitHub…`, '');
+      setSrcProgress(50, `Uploading ${fileMB} MB to GitHub…`, '');
 
-      // Step 3: POST JSON to /api/upload-source  (same pattern as upload-thumb)
       const baseName = file.name.replace(/\.[^.]+$/, '');
       const res = await fetch('/api/upload-source', {
         method: 'POST',
@@ -1531,7 +1520,7 @@ async function pickSourceVideo() {
       if (selectedIdx === projectIdxAtStart) renderEditor();
       markDirty();
       await saveAll().catch(() => {});
-      setSrcProgress(100, `✓ Done — ${compMB} MB pushed to GitHub`, 'success');
+      setSrcProgress(100, `✓ Done — ${(file.size/1024/1024).toFixed(1)} MB pushed to GitHub`, 'success');
     } catch (err) {
       setSrcProgress(100, 'Upload failed: ' + err.message, 'error');
     } finally {
