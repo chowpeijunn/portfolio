@@ -469,6 +469,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   <button class="btn btn-primary" onclick="saveAll()">Save</button>
   <button class="btn" style="background:#22c55e;color:#fff" onclick="saveAndPublish()">Save &amp; Publish ↗</button>
   <button class="btn btn-ghost" id="ghTokenBtn" onclick="promptGhToken()" title="Set GitHub token for uploads" style="font-size:11px;padding:6px 10px;">🔑 Token</button>
+  <button class="btn btn-ghost" id="cloudinaryBtn" onclick="promptCloudinary()" title="Set Cloudinary credentials for video uploads" style="font-size:11px;padding:6px 10px;">☁ Cloudinary</button>
 </div>
 
 <!-- GRID VIEW OVERLAY -->
@@ -1484,81 +1485,48 @@ async function pickSourceVideo() {
 
     try {
       const fileMB = (file.size / 1024 / 1024).toFixed(1);
-      setSrcProgress(10, `Reading ${fileMB} MB…`, '');
 
-      // Read file as base64 directly
-      const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload  = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
+      // ── Cloudinary unsigned upload ──────────────────────────────────────
+      // No size limits from our side; Cloudinary handles the heavy lifting.
+      const cloudName   = localStorage.getItem('cloudinaryCloud') || '';
+      const uploadPreset = localStorage.getItem('cloudinaryPreset') || '';
+      if (!cloudName || !uploadPreset) {
+        throw new Error('Cloudinary not configured — click ☁ Cloudinary in the top bar to set your Cloud name and upload preset.');
+      }
 
-      setSrcProgress(40, `Uploading ${fileMB} MB to GitHub…`, '');
+      setSrcProgress(10, `Uploading ${fileMB} MB to Cloudinary…`, '');
 
-      // GitHub Contents API only handles ~1 MB. For real video files we must use
-      // the Git Database API: blob → tree → commit → update ref.
-      const REPO = 'chowpeijunn/portfolio';
-      const baseName = file.name.replace(/\.[^.]+$/, '')
-        .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '');
-      const safe = baseName + '.mp4';
-      const filePath = `assets/sources/${safe}`;
-      const apiBase = `https://api.github.com/repos/${REPO}`;
-      const ghHeaders = {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'portfolio-admin'
-      };
-      const ghFetch = async (url, opts = {}) => {
-        const r = await fetch(url, { ...opts, headers: { ...ghHeaders, ...(opts.headers || {}) } });
-        const j = await r.json();
-        if (!r.ok) throw new Error(j.message || `GitHub ${r.status} @ ${url}`);
-        return j;
-      };
+      // Use XHR so we get real upload progress
+      const uploadUrl = await new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
+        formData.append('resource_type', 'video');
 
-      // 1. Create blob (supports up to 100 MB decoded)
-      setSrcProgress(45, 'Creating blob…', '');
-      const { sha: blobSha } = await ghFetch(`${apiBase}/git/blobs`, {
-        method: 'POST',
-        body: JSON.stringify({ content: base64, encoding: 'base64' })
-      });
-
-      // 2. Get current HEAD commit + its tree
-      setSrcProgress(55, 'Fetching current tree…', '');
-      const { object: { sha: headSha } } = await ghFetch(`${apiBase}/git/refs/heads/main`);
-      const { tree: { sha: treeSha } }   = await ghFetch(`${apiBase}/git/commits/${headSha}`);
-
-      // 3. Create new tree with our blob
-      setSrcProgress(65, 'Building tree…', '');
-      const { sha: newTreeSha } = await ghFetch(`${apiBase}/git/trees`, {
-        method: 'POST',
-        body: JSON.stringify({
-          base_tree: treeSha,
-          tree: [{ path: filePath, mode: '100644', type: 'blob', sha: blobSha }]
-        })
-      });
-
-      // 4. Create commit
-      setSrcProgress(75, 'Committing…', '');
-      const { sha: newCommitSha } = await ghFetch(`${apiBase}/git/commits`, {
-        method: 'POST',
-        body: JSON.stringify({
-          message: `Admin: upload source ${safe}`,
-          tree: newTreeSha,
-          parents: [headSha]
-        })
-      });
-
-      // 5. Advance main branch
-      setSrcProgress(85, 'Updating branch…', '');
-      await ghFetch(`${apiBase}/git/refs/heads/main`, {
-        method: 'PATCH',
-        body: JSON.stringify({ sha: newCommitSha })
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`);
+        xhr.upload.onprogress = e => {
+          if (e.lengthComputable) {
+            const pct = Math.round((e.loaded / e.total) * 75);
+            setSrcProgress(10 + pct, `Uploading… ${Math.round(e.loaded/1024/1024)}/${fileMB} MB`, '');
+          }
+        };
+        xhr.onload = () => {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            if (xhr.status >= 400 || data.error) {
+              reject(new Error(data.error?.message || `Cloudinary ${xhr.status}`));
+            } else {
+              resolve(data.secure_url);
+            }
+          } catch { reject(new Error('Invalid Cloudinary response')); }
+        };
+        xhr.onerror = () => reject(new Error('Network error during upload'));
+        xhr.send(formData);
       });
 
       setSrcProgress(90, 'Saving project data…', '');
-      const uploadPath = filePath;
+      const uploadPath = uploadUrl;
       if (projectAtStart) {
         if (!Array.isArray(projectAtStart.sourceVideos)) {
           projectAtStart.sourceVideos = projectAtStart.sourceVideo ? [projectAtStart.sourceVideo] : [];

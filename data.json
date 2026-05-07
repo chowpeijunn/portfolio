@@ -1333,6 +1333,8 @@
       ],
       "thumb": "assets/thumbs/Paragon Indent_Thumbnail.jpg",
       "video": "https://youtu.be/USlC968YdlU",
+      "sourceVideos": ["assets/sources/paragon-indent.mp4"],
+      "sourceVideo": "assets/sources/paragon-indent.mp4",
       "client": "Paragon",
       "credits": [
         [
