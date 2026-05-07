@@ -1486,7 +1486,7 @@ async function pickSourceVideo() {
       const fileMB = (file.size / 1024 / 1024).toFixed(1);
       setSrcProgress(10, `Reading ${fileMB} MB…`, '');
 
-      // Read file as base64 directly — no browser compression
+      // Read file as base64 directly
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload  = () => resolve(reader.result.split(',')[1]);
@@ -1494,22 +1494,40 @@ async function pickSourceVideo() {
         reader.readAsDataURL(file);
       });
 
-      setSrcProgress(50, `Uploading ${fileMB} MB to GitHub…`, '');
+      setSrcProgress(40, `Uploading ${fileMB} MB directly to GitHub…`, '');
 
-      const baseName = file.name.replace(/\.[^.]+$/, '');
-      const res = await fetch('/api/upload-source', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-github-token': token },
-        body: JSON.stringify({ filename: baseName + '.mp4', content: base64 })
+      // Upload straight to GitHub API — bypasses Vercel's body size limit entirely
+      const REPO = 'chowpeijunn/portfolio';
+      const baseName = file.name.replace(/\.[^.]+$/, '')
+        .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '');
+      const safe = baseName + '.mp4';
+      const apiUrl = `https://api.github.com/repos/${REPO}/contents/assets/sources/${safe}`;
+      const ghHeaders = {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'portfolio-admin'
+      };
+
+      // Check for existing file to get its SHA (needed to overwrite)
+      let sha;
+      const existRes = await fetch(apiUrl, { headers: ghHeaders });
+      if (existRes.ok) { sha = (await existRes.json()).sha; }
+
+      const putBody = { message: `Admin: upload source ${safe}`, content: base64 };
+      if (sha) putBody.sha = sha;
+
+      setSrcProgress(60, `Pushing to GitHub…`, '');
+      const putRes = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: ghHeaders,
+        body: JSON.stringify(putBody)
       });
-      let json;
-      try { json = await res.json(); } catch { json = {}; }
-      if (!res.ok || !json.ok) {
-        throw new Error(json.error || `HTTP ${res.status}`);
-      }
+      const putData = await putRes.json();
+      if (!putRes.ok) throw new Error(putData.message || `GitHub ${putRes.status}`);
 
       setSrcProgress(90, 'Saving project data…', '');
-      const uploadPath = json.path;
+      const uploadPath = `assets/sources/${safe}`;
       if (projectAtStart) {
         if (!Array.isArray(projectAtStart.sourceVideos)) {
           projectAtStart.sourceVideos = projectAtStart.sourceVideo ? [projectAtStart.sourceVideo] : [];
