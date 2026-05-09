@@ -467,7 +467,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 3px;
 }
 
-/* 4-col: hub outer is a transparent 2-col wrapper; inner is 1-card wide */
+/* 4-col: hub spans 2 columns and fills the full width */
 .hub-card.hub-span-2 {
   aspect-ratio: unset;
   display: flex;
@@ -475,9 +475,8 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
 }
 .hub-card.hub-span-2 .hub-inner {
-  /* 1 card width = half of 2-col span minus half the 14px gap */
-  width: calc(50% - 7px);
-  aspect-ratio: 16 / 10;
+  width: 100%;
+  aspect-ratio: 32 / 10;
   height: auto;
 }
 
