@@ -22,7 +22,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/kenneth-natalie.mp4"
+      ],
+      "sourceVideo": "assets/sources/kenneth-natalie.mp4"
     },
     {
       "slot": "before",
@@ -90,7 +94,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/kyle-ysien.mp4"
+      ],
+      "sourceVideo": "assets/sources/kyle-ysien.mp4"
     },
     {
       "slot": "before",
@@ -182,7 +190,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/my-big-fat-web3-wedding.mp4"
+      ],
+      "sourceVideo": "assets/sources/my-big-fat-web3-wedding.mp4"
     },
     {
       "slot": "before",
@@ -210,7 +222,11 @@
         "https://youtu.be/_JmdVs15Yb8",
         "https://youtu.be/rf8l1mZX-II",
         "https://youtu.be/wrJFlspDcv4"
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/portraits-of-hta.mp4"
+      ],
+      "sourceVideo": "assets/sources/portraits-of-hta.mp4"
     },
     {
       "slot": "before",
@@ -231,7 +247,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/jeric-lydia.mp4"
+      ],
+      "sourceVideo": "assets/sources/jeric-lydia.mp4"
     },
     {
       "slot": "before",
@@ -279,7 +299,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/ryan-cheryl.mp4"
+      ],
+      "sourceVideo": "assets/sources/ryan-cheryl.mp4"
     },
     {
       "slot": "before",
@@ -330,7 +354,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/ivan-jocelyn.mp4"
+      ],
+      "sourceVideo": "assets/sources/ivan-jocelyn.mp4"
     },
     {
       "slot": "before",
@@ -379,7 +407,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/macallan-house-launch.mp4"
+      ],
+      "sourceVideo": "assets/sources/macallan-house-launch.mp4"
     },
     {
       "slot": "before",
@@ -433,7 +465,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/yi-chang-clara.mp4"
+      ],
+      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
     },
     {
       "slot": "before",
@@ -496,7 +532,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/beaut-s-du-monde.mp4"
+      ],
+      "sourceVideo": "assets/sources/beaut-s-du-monde.mp4"
     },
     {
       "slot": "before",
@@ -570,7 +610,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/ubin-kakis.mp4"
+      ],
+      "sourceVideo": "assets/sources/ubin-kakis.mp4"
     },
     {
       "slot": "before",
@@ -632,7 +676,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/mel-jadey.mp4"
+      ],
+      "sourceVideo": "assets/sources/mel-jadey.mp4"
     },
     {
       "slot": "before",
@@ -705,7 +753,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/heart-of-the-spirit.mp4"
+      ],
+      "sourceVideo": "assets/sources/heart-of-the-spirit.mp4"
     },
     {
       "slot": "after",
@@ -727,7 +779,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/foodflix.mp4"
+      ],
+      "sourceVideo": "assets/sources/foodflix.mp4"
     },
     {
       "slot": "after",
@@ -789,7 +845,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/eugene-annabelle.mp4"
+      ],
+      "sourceVideo": "assets/sources/eugene-annabelle.mp4"
     },
     {
       "slot": "after",
@@ -874,7 +934,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/wilson-chelsea.mp4"
+      ],
+      "sourceVideo": "assets/sources/wilson-chelsea.mp4"
     },
     {
       "slot": "after",
@@ -922,7 +986,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/the-reach-vip-launch.mp4"
+      ],
+      "sourceVideo": "assets/sources/the-reach-vip-launch.mp4"
     },
     {
       "slot": "after",
@@ -984,7 +1052,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/samuel-hui-qi.mp4"
+      ],
+      "sourceVideo": "assets/sources/samuel-hui-qi.mp4"
     },
     {
       "slot": "after",
@@ -1047,7 +1119,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/ritz-carlton-wedding-showcase.mp4"
+      ],
+      "sourceVideo": "assets/sources/ritz-carlton-wedding-showcase.mp4"
     },
     {
       "slot": "after",
@@ -1095,7 +1171,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/nianhua-debbie.mp4"
+      ],
+      "sourceVideo": "assets/sources/nianhua-debbie.mp4"
     },
     {
       "slot": "after",
@@ -1163,7 +1243,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/weilun-sandy.mp4"
+      ],
+      "sourceVideo": "assets/sources/weilun-sandy.mp4"
     },
     {
       "slot": "after",
@@ -1184,7 +1268,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/meiyume-singapore-showcase.mp4"
+      ],
+      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4"
     },
     {
       "slot": "after",
@@ -1258,7 +1346,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/trade-advocacy-programme.mp4"
+      ],
+      "sourceVideo": "assets/sources/trade-advocacy-programme.mp4"
     },
     {
       "slot": "after",
@@ -1283,7 +1375,11 @@
       "videos": [
         "https://youtu.be/sAOndV48mY4",
         "https://youtu.be/NLXX-hBEUPE"
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/token-2049.mp4"
+      ],
+      "sourceVideo": "assets/sources/token-2049.mp4"
     },
     {
       "slot": "after",
@@ -1304,7 +1400,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      ],
+      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
     },
     {
       "slot": "after",
