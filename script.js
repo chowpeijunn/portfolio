@@ -49,7 +49,7 @@ function renderCards(projects) {
     const isPreviewVideo = /\.(mp4|webm|mov)$/i.test(previewSrc);
     const gifEl = previewSrc
       ? (isPreviewVideo
-          ? `<video class="card-gif" data-src="${escapeHtml(previewSrc)}" muted loop playsinline preload="none"></video>`
+          ? `<video class="card-gif" data-src="${escapeHtml(previewSrc)}" muted loop playsinline preload="metadata"></video>`
           : `<img class="card-gif" data-src="${escapeHtml(previewSrc)}" alt="">`)
       : '';
     const onerrorAttr = ytFallback
@@ -555,16 +555,29 @@ window.addEventListener('resize', () => {
    HOVER-TO-PLAY VIDEO / GIF
    ============================================ */
 function initHoverToPlay() {
+  // Pre-load src+metadata for card-gif videos as they scroll into view,
+  // so the video is already buffered before the user hovers.
+  const preloadObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const gif = entry.target;
+      if (gif.dataset.src && !gif.src) gif.src = gif.dataset.src;
+      preloadObserver.unobserve(gif);
+    });
+  }, { rootMargin: '300px' }); // start loading 300px before card enters view
+
+  document.querySelectorAll('.card-gif[data-src]').forEach(gif => {
+    preloadObserver.observe(gif);
+  });
+
   document.querySelectorAll('.project-card').forEach((card) => {
     const media = card.querySelector('.card-media');
     const gif   = card.querySelector('.card-gif');
 
     if (gif) {
-      // GIF/video preview — lazy-load src on first hover, opacity transition handles the rest.
-      // For <video> previews we also play/pause to keep the loop tight.
       const isVideo = gif.tagName === 'VIDEO';
       card.addEventListener('mouseenter', () => {
-        if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src;
+        if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src; // fallback if not yet observed
         gif.style.opacity = '1';
         if (isVideo) gif.play().catch(() => {});
       });
@@ -572,7 +585,7 @@ function initHoverToPlay() {
         gif.style.opacity = '0';
         if (isVideo) gif.pause();
       });
-      return; // Preview takes priority — skip YouTube iframe for this card
+      return;
     }
 
     const videoUrl = card.dataset.video || '';
