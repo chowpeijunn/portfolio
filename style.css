@@ -269,7 +269,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Explicit column breakpoints — adaptive for all viewport widths */
-@media (max-width: 1499px) {
+@media (max-width: 1899px) {
   .canvas-inner { grid-template-columns: repeat(4, 1fr); }
 }
 @media (max-width: 1099px) {
