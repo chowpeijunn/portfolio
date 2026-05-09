@@ -49,7 +49,7 @@ function renderCards(projects) {
     const isPreviewVideo = /\.(mp4|webm|mov)$/i.test(previewSrc);
     const gifEl = previewSrc
       ? (isPreviewVideo
-          ? `<video class="card-gif" data-src="${escapeHtml(previewSrc)}" muted loop playsinline preload="metadata"></video>`
+          ? `<video class="card-gif" data-src="${escapeHtml(previewSrc)}" muted loop playsinline preload="none"></video>`
           : `<img class="card-gif" data-src="${escapeHtml(previewSrc)}" alt="">`)
       : '';
     const onerrorAttr = ytFallback
@@ -262,34 +262,28 @@ window.addEventListener('resize', () => {
   const progressBar = document.getElementById('scrollProgress');
   const inner = document.getElementById('canvasInner');
 
+  // Cache dimensions — only recalculate on resize, never during scroll
+  let cachedW = inner.scrollWidth, cachedH = inner.scrollHeight;
+  window.addEventListener('resize', () => {
+    cachedW = inner.scrollWidth;
+    cachedH = inner.scrollHeight;
+    updateProgress();
+  });
+
   function updateProgress() {
     if (!inner) return;
-    const innerW = inner.scrollWidth;
-    const innerH = inner.scrollHeight;
-    const viewW = window.innerWidth;
-    const viewH = window.innerHeight;
-
+    const maxScrollX = cachedW - window.innerWidth  + 28;
+    const maxScrollY = cachedH - window.innerHeight + 28;
     const tx = inner._tx || 0;
     const ty = inner._ty || 0;
-
-    // Calculate how far we've scrolled through the total scrollable area
-    const maxScrollX = innerW - viewW + 28;
-    const maxScrollY = innerH - viewH + 28;
-
     const scrolledX = maxScrollX > 0 ? (-tx + 14) / maxScrollX : 0;
     const scrolledY = maxScrollY > 0 ? (-ty + 14) / maxScrollY : 0;
-
-    // Use the average of both axes, clamped 0-1
     const progress = Math.max(0, Math.min(1, (scrolledX + scrolledY) / 2));
     progressBar.style.width = (progress * 100) + '%';
   }
 
-  // Observe transform changes via MutationObserver on style attribute
-  const observer = new MutationObserver(updateProgress);
-  observer.observe(inner, { attributes: true, attributeFilter: ['style'] });
-
-  // Also update on resize
-  window.addEventListener('resize', updateProgress);
+  // Expose so setTranslate can call directly — no MutationObserver needed
+  window._updateScrollProgress = updateProgress;
 })();
 
 /* ============================================
@@ -350,6 +344,7 @@ window.addEventListener('resize', () => {
     if (!smooth) {
       requestAnimationFrame(() => inner.classList.remove('no-transition'));
     }
+    if (window._updateScrollProgress) window._updateScrollProgress();
     if (!skipSideEffects) {
       updateReturnButton();
       checkFooterVisibility();
@@ -561,10 +556,13 @@ function initHoverToPlay() {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const gif = entry.target;
-      if (gif.dataset.src && !gif.src) gif.src = gif.dataset.src;
+      if (gif.dataset.src && !gif.src) {
+        gif.preload = 'metadata';
+        gif.src = gif.dataset.src;
+      }
       preloadObserver.unobserve(gif);
     });
-  }, { rootMargin: '300px' }); // start loading 300px before card enters view
+  }, { rootMargin: '200px' }); // start loading 300px before card enters view
 
   document.querySelectorAll('.card-gif[data-src]').forEach(gif => {
     preloadObserver.observe(gif);
