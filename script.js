@@ -1147,7 +1147,7 @@ initShowreel();
   // Mirror CSS breakpoints exactly
   function getGridCols() {
     const w = window.innerWidth;
-    if (w > 1499) return 5;
+    if (w > 1899) return 5;
     if (w > 1099) return 4;
     if (w > 799)  return 3;
     return 2;
