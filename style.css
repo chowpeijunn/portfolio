@@ -527,33 +527,38 @@ a { color: inherit; text-decoration: none; }
 
 .hub-links {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   justify-content: center;
+  align-items: center;
 }
 
 .hub-link {
-  font-family: var(--font-heading);
-  font-size: 0.6875rem;
-  font-weight: 500;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.25s ease;
-  position: relative;
 }
 
-.hub-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--text);
-  transition: width 0.25s ease;
+.hub-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.hub-link:hover { color: var(--text); }
-.hub-link:hover::after { width: 100%; }
+.hub-link-icon svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.hub-link-icon:hover {
+  color: var(--text);
+  border-color: rgba(255,255,255,0.4);
+}
 
 /* Wrapper: inline-block so its width = the 4-tags row width */
 .hub-action-group {
