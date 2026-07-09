@@ -1477,6 +1477,27 @@
           "Abundant Productions"
         ]
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Shopee Same Day Delivery",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/E4LH19gz3q4",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups Done with Abundant Productions"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
