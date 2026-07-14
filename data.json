@@ -1477,6 +1477,27 @@
           "Abundant Productions"
         ]
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 7.7",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
