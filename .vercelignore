@@ -1,0 +1,5 @@
+/videos/
+node_modules/
+.git/
+design_handoff_animated_logo/
+.DS_Store

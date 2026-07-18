@@ -4,12 +4,16 @@
     "api/upload-thumb.js": { "maxDuration": 30 },
     "api/upload-source.js":{ "maxDuration": 60 }
   },
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" }
+  ],
   "headers": [
     {
       "source": "/admin(.*)",
       "headers": [
         { "key": "Cross-Origin-Opener-Policy",   "value": "same-origin" },
-        { "key": "Cross-Origin-Embedder-Policy",  "value": "require-corp" }
+        { "key": "Cross-Origin-Embedder-Policy",  "value": "require-corp" },
+        { "key": "Cache-Control",                 "value": "no-store, must-revalidate" }
       ]
     }
   ]
