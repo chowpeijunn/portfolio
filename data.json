@@ -1587,19 +1587,22 @@
       ],
       "clips": [
         {
+          "end": "0:11",
           "label": "",
           "start": "0:06",
-          "end": "0:11"
+          "clipFile": "assets/clips/progressive-wages-0.mp4"
         },
         {
+          "end": "0:19",
           "label": "",
           "start": "0:13",
-          "end": "0:19"
+          "clipFile": "assets/clips/progressive-wages-1.mp4"
         },
         {
+          "end": "0:56",
           "label": "",
           "start": "0:50",
-          "end": "0:56"
+          "clipFile": "assets/clips/progressive-wages-2.mp4"
         }
       ]
     },
