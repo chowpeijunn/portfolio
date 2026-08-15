@@ -1505,6 +1505,52 @@ async function compressVideoInBrowser(file, onProgress) {
   try { await ffmpeg.deleteFile(outputName); } catch {}
   return new Blob([data.buffer], { type: 'video/mp4' });
 }
+// True when the mp4's moov atom precedes mdat. Exports that leave moov at the
+// end play fine off local disk but stall over HTTP, because the browser can't
+// read the duration without fetching to the end of the file.
+async function isFastStartMp4(file) {
+  const head = new Uint8Array(await file.slice(0, 256 * 1024).arrayBuffer());
+  const dv = new DataView(head.buffer);
+  let off = 0;
+  while (off + 8 <= head.length) {
+    let size = dv.getUint32(off);
+    const type = String.fromCharCode(head[off + 4], head[off + 5], head[off + 6], head[off + 7]);
+    let header = 8;
+    if (size === 1) {                       // 64-bit extended size
+      if (off + 16 > head.length) return false;
+      size = Number(dv.getBigUint64(off + 8));
+      header = 16;
+    }
+    if (type === 'moov') return true;
+    if (type === 'mdat') return false;      // media data first => moov is at the end
+    if (size < header) return false;        // malformed; let ffmpeg deal with it
+    off += size;
+  }
+  return false;                             // no moov within the window we read
+}
+
+// Move the moov atom to the front without touching the video streams. This is a
+// container rewrite, so it costs seconds rather than a full re-encode.
+async function remuxFastStart(file, onProgress) {
+  const { ffmpeg, fetchFile } = await getFFmpeg(msg => onProgress(0, msg));
+  ffmpeg.off?.('progress');
+  ffmpeg.on('progress', ({ progress }) => {
+    const pct = Math.max(0, Math.min(100, Math.round((progress || 0) * 100)));
+    onProgress(pct, `Rewriting index… ${pct}%`);
+  });
+
+  const inputName  = 'remux-in.mp4';
+  const outputName = 'remux-out.mp4';
+  onProgress(0, 'Preparing file…');
+  await ffmpeg.writeFile(inputName, await fetchFile(file));
+  await ffmpeg.exec(['-i', inputName, '-c', 'copy', '-movflags', '+faststart', outputName]);
+
+  const data = await ffmpeg.readFile(outputName);
+  try { await ffmpeg.deleteFile(inputName); } catch {}
+  try { await ffmpeg.deleteFile(outputName); } catch {}
+  return new Blob([data.buffer], { type: 'video/mp4' });
+}
+
 function refreshFieldStatus(elId, value) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -1545,14 +1591,18 @@ function pickSourceVideo() {
     _sourceUploadInFlight = true;
     try {
       // ffmpeg.wasm is software x264 — slow no matter how it's tuned. An mp4
-      // that already fits under the GitHub limit needs none of that work, so
-      // upload it as-is and skip straight to the commit.
-      const alreadyWebReady = /\.mp4$/i.test(file.name) && file.size <= SKIP_COMPRESS_MAX_MB * 1024 * 1024;
+      // that already fits under the GitHub limit needs none of that work. It
+      // does still need its moov atom up front, or the clip scrubber's
+      // <video preload="metadata"> can never read the duration.
+      const smallMp4 = /\.mp4$/i.test(file.name) && file.size <= SKIP_COMPRESS_MAX_MB * 1024 * 1024;
 
       let compressed;
-      if (alreadyWebReady) {
+      if (smallMp4 && await isFastStartMp4(file)) {
         toast.setProgress(60, `Already web-ready (${(file.size/1024/1024).toFixed(1)} MB) — skipping compression`);
         compressed = file;
+      } else if (smallMp4) {
+        // Stream copy, no re-encode — seconds rather than minutes.
+        compressed = await remuxFastStart(file, (pct, msg) => toast.setProgress(pct * 0.7, msg));
       } else {
         compressed = await compressVideoInBrowser(file, (pct, msg) =>
           toast.setProgress(pct * 0.7, msg)
