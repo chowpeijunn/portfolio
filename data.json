@@ -942,29 +942,45 @@
     },
     {
       "slot": "after",
-      "title": "Progressive Wages",
+      "title": "Cheezy 7",
       "category": "tvc",
       "tags": [
-        "tvc",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
-      "video": "https://youtu.be/Oaoh5YTyntQ",
-      "client": "Ministry of Manpower (MOM)",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20 PM.jpg",
+      "video": "https://youtu.be/Lqvd5-1DGSU",
+      "client": "Pizza hut",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
+          "Ai Gen + Green Screen Comp"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/progressive-wages.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:03",
+          "end": "0:05"
+        },
+        {
+          "label": "",
+          "start": "0:15",
+          "end": "0:19"
+        },
+        {
+          "label": "",
+          "start": "0:24",
+          "end": "0:25"
+        }
+      ],
       "sourceVideos": [
-        "assets/sources/progressive-wages.mp4"
-      ]
+        "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
     },
     {
       "slot": "after",
@@ -1501,45 +1517,29 @@
     },
     {
       "slot": "after",
-      "title": "Cheezy 7",
+      "title": "Progressive Wages",
       "category": "tvc",
       "tags": [
-        "tvc"
+        "tvc",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20 PM.jpg",
-      "video": "https://youtu.be/Lqvd5-1DGSU",
-      "client": "Pizza hut",
+      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
+      "video": "https://youtu.be/Oaoh5YTyntQ",
+      "client": "Ministry of Manpower (MOM)",
       "credits": [
         [
           "Work",
-          "Ai Gen + Green Screen Comp"
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "clips": [
-        {
-          "label": "",
-          "start": "0:03",
-          "end": "0:05"
-        },
-        {
-          "label": "",
-          "start": "0:15",
-          "end": "0:19"
-        },
-        {
-          "label": "",
-          "start": "0:24",
-          "end": "0:25"
-        }
-      ],
+      "sourceVideo": "assets/sources/progressive-wages.mp4",
       "sourceVideos": [
-        "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
-      ],
-      "sourceVideo": "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
+        "assets/sources/progressive-wages.mp4"
+      ]
     }
   ],
   "categoryDefaults": {
