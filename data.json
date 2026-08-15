@@ -1499,7 +1499,11 @@
           "start": "",
           "end": ""
         }
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
     },
     {
       "slot": "after",
