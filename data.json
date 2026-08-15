@@ -1496,8 +1496,18 @@
       "clips": [
         {
           "label": "",
-          "start": "",
-          "end": ""
+          "start": "0:06",
+          "end": "0:09"
+        },
+        {
+          "label": "",
+          "start": "0:12",
+          "end": "0:13"
+        },
+        {
+          "label": "",
+          "start": "0:17",
+          "end": "0:24"
         }
       ],
       "sourceVideos": [
