@@ -1495,6 +1495,10 @@ let _sourceUploadInFlight = false;
 
 // Upload a source video: compress to 720p in the browser, then PUT straight to
 // GitHub. Nothing routes through Vercel (4.5 MB body cap) or touches a disk.
+let _sourceUploadInFlight = false;
+
+// Upload a source video: compress to 720p in the browser, then commit straight
+// to GitHub. Nothing routes through Vercel (4.5 MB body cap) or touches a disk.
 function pickSourceVideo() {
   if (_sourceUploadInFlight) {
     alert('A source upload is already running. Wait for it to finish, or dismiss the progress card first.');
@@ -1525,9 +1529,13 @@ function pickSourceVideo() {
         throw new Error(`Compressed file is still ${outMB.toFixed(0)} MB — over GitHub's 100 MB limit. Trim the video first.`);
       }
 
-      toast.setProgress(75, `Uploading ${outMB.toFixed(1)} MB to GitHub…`);
       const name       = sanitizeFilename(file.name).replace(/\.[^.]+$/, '.mp4');
-      const uploadPath = await githubPut(`assets/sources/${name}`, await blobToBase64(compressed), name);
+      const uploadPath = await githubPutLarge(
+        `assets/sources/${name}`,
+        await blobToBase64(compressed),
+        name,
+        (pct, msg) => toast.setProgress(70 + pct * 0.2, msg)
+      );
 
       if (!Array.isArray(project.sourceVideos)) project.sourceVideos = getAllSources(project);
       if (!project.sourceVideos.includes(uploadPath)) project.sourceVideos.push(uploadPath);
@@ -1547,6 +1555,70 @@ function pickSourceVideo() {
     }
   };
   picker.click();
+}
+
+// Commit a file via the Git Database API (blob -> tree -> commit -> ref).
+// The Contents API used by githubPut() caps writes at ~1 MB and 413s on any
+// real video; this path supports up to 100 MB decoded.
+async function githubPutLarge(path, base64, filename, onStep) {
+  const token = getGhToken();
+  if (!token) throw new Error('No GitHub token — click 🔑 Token and enter one.');
+
+  const apiBase = 'https://api.github.com/repos/chowpeijunn/portfolio';
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json',
+    'User-Agent': 'portfolio-admin'
+  };
+  const gh = async (url, opts = {}) => {
+    const r = await fetch(url, { ...opts, headers });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.message || `GitHub ${r.status} @ ${url}`);
+    return j;
+  };
+
+  onStep(10, 'Creating blob…');
+  const { sha: blobSha } = await gh(`${apiBase}/git/blobs`, {
+    method: 'POST',
+    body: JSON.stringify({ content: base64, encoding: 'base64' })
+  });
+
+  onStep(40, 'Fetching current tree…');
+  const { object: { sha: headSha } } = await gh(`${apiBase}/git/refs/heads/main`);
+  const { tree: { sha: treeSha } }   = await gh(`${apiBase}/git/commits/${headSha}`);
+
+  onStep(60, 'Building tree…');
+  const { sha: newTreeSha } = await gh(`${apiBase}/git/trees`, {
+    method: 'POST',
+    body: JSON.stringify({
+      base_tree: treeSha,
+      tree: [{ path, mode: '100644', type: 'blob', sha: blobSha }]
+    })
+  });
+
+  onStep(80, 'Committing…');
+  const { sha: newCommitSha } = await gh(`${apiBase}/git/commits`, {
+    method: 'POST',
+    body: JSON.stringify({ message: `Admin: upload source ${filename}`, tree: newTreeSha, parents: [headSha] })
+  });
+
+  onStep(95, 'Updating branch…');
+  await gh(`${apiBase}/git/refs/heads/main`, {
+    method: 'PATCH',
+    body: JSON.stringify({ sha: newCommitSha })
+  });
+
+  return path;
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = e => resolve(e.target.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
 
 function blobToBase64(blob) {
