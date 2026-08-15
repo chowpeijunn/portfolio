@@ -1527,18 +1527,25 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20 PM.jpg",
       "video": "https://youtu.be/Lqvd5-1DGSU",
       "client": "Pizza hut",
       "credits": [
         [
           "Work",
-          ""
+          "Ai Gen + Green Screen Comp"
         ],
         [
           "Production",
-          ""
+          "Abundant Productions"
         ]
+      ],
+      "clips": [
+        {
+          "label": "",
+          "start": "",
+          "end": ""
+        }
       ]
     }
   ],
