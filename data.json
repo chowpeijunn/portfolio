@@ -1546,7 +1546,11 @@
           "start": "",
           "end": ""
         }
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
     }
   ],
   "categoryDefaults": {
