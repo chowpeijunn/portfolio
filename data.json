@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -514,7 +514,7 @@
     },
     {
       "slot": "before",
-      "title": "Beautés du Monde",
+      "title": "Beaut\u00e9s du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -689,7 +689,7 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53\u202fPM.jpg",
       "video": "https://youtu.be/UaCZbSBDrNU",
       "client": "Pizza Hut",
       "credits": [
@@ -862,7 +862,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia × Discovery Channel",
+      "client": "Kia \u00d7 Discovery Channel",
       "credits": [
         [
           "Work",
@@ -947,7 +947,7 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20 PM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20\u202fPM.jpg",
       "video": "https://youtu.be/Lqvd5-1DGSU",
       "client": "Pizza hut",
       "credits": [
@@ -989,7 +989,7 @@
       "tags": [
         "corporate"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46\u202fPM.jpg",
       "video": "https://youtu.be/7dKE9sv0RtA",
       "client": "Moomoo",
       "credits": [
@@ -1147,7 +1147,7 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02 PM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02\u202fPM.jpg",
       "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
       "client": "Shopee",
       "credits": [
@@ -1495,7 +1495,7 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26\u202fPM.jpg",
       "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
       "client": "Shopee",
       "credits": [
@@ -1514,19 +1514,22 @@
       "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
       "clips": [
         {
+          "end": "0:06",
           "label": "",
           "start": "0:05",
-          "end": "0:06"
+          "clipFile": "assets/clips/shopee-7-7-0.mp4"
         },
         {
+          "end": "0:11",
           "label": "",
           "start": "0:09",
-          "end": "0:11"
+          "clipFile": "assets/clips/shopee-7-7-1.mp4"
         },
         {
+          "end": "0:23",
           "label": "",
           "start": "0:20",
-          "end": "0:23"
+          "clipFile": "assets/clips/shopee-7-7-2.mp4"
         }
       ]
     },
@@ -1541,7 +1544,7 @@
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
+      "client": "Vogue \u00d7 Marina Bay Sands",
       "credits": [
         [
           "Work",
