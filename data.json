@@ -734,7 +734,7 @@
       "sourceVideo": "assets/sources/pizzahut-45th-anniversary.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Heart of the Spirit",
       "category": "events",
       "tags": [
@@ -760,7 +760,7 @@
       "sourceVideo": "assets/sources/heart-of-the-spirit.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Foodflix",
       "category": "corporate",
       "tags": [
@@ -786,7 +786,7 @@
       "sourceVideo": "assets/sources/foodflix.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "FAS",
       "category": "tvc",
       "tags": [
@@ -827,7 +827,7 @@
       ]
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Eugene + Annabelle",
       "category": "weddings",
       "tags": [
@@ -852,7 +852,7 @@
       "sourceVideo": "assets/sources/eugene-annabelle.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Kia x Discovery",
       "category": "tvc",
       "tags": [
@@ -984,29 +984,28 @@
     },
     {
       "slot": "after",
-      "title": "The Reach VIP Launch",
-      "category": "events",
+      "title": "Moomoo Testimonials",
+      "category": "corporate",
       "tags": [
-        "events",
-        "branded content"
+        "corporate"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-05-at-12.30.31pm.png",
-      "video": "https://youtu.be/euCEtPWfARM",
-      "client": "The Macallan",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
+      "video": "https://youtu.be/7dKE9sv0RtA",
+      "client": "Moomoo",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Producer"
+          "Online & Audio Mix | Ai Relight "
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/the-reach-vip-launch.mp4"
+        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
       ],
-      "sourceVideo": "assets/sources/the-reach-vip-launch.mp4"
+      "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
     },
     {
       "slot": "after",
@@ -1267,18 +1266,19 @@
     },
     {
       "slot": "after",
-      "title": " Meiyume Singapore Showcase ",
+      "title": "The Reach VIP Launch",
       "category": "events",
       "tags": [
-        "events"
+        "events",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
-      "video": "https://youtu.be/iM_y1T0M3cA",
-      "client": "Meiyume",
+      "thumb": "assets/thumbs/screenshot-2026-04-05-at-12.30.31pm.png",
+      "video": "https://youtu.be/euCEtPWfARM",
+      "client": "The Macallan",
       "credits": [
         [
           "Work",
-          "Producer | 1st Videographer "
+          "2nd Videographer | Producer"
         ],
         [
           "Production",
@@ -1286,9 +1286,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/meiyume-singapore-showcase.mp4"
+        "assets/sources/the-reach-vip-launch.mp4"
       ],
-      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4"
+      "sourceVideo": "assets/sources/the-reach-vip-launch.mp4"
     },
     {
       "slot": "after",
@@ -1399,18 +1399,18 @@
     },
     {
       "slot": "after",
-      "title": "Bytedance 12th anniversary celebration",
+      "title": " Meiyume Singapore Showcase ",
       "category": "events",
       "tags": [
         "events"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
-      "video": "https://youtu.be/LGDU2hlOIZI",
-      "client": "Bytedance",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
+      "video": "https://youtu.be/iM_y1T0M3cA",
+      "client": "Meiyume",
       "credits": [
         [
           "Work",
-          "Producer | 2nd Videographer"
+          "Producer | 1st Videographer "
         ],
         [
           "Production",
@@ -1418,9 +1418,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+        "assets/sources/meiyume-singapore-showcase.mp4"
       ],
-      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4"
     },
     {
       "slot": "after",
@@ -1575,28 +1575,28 @@
     },
     {
       "slot": "after",
-      "title": "Moomoo Testimonials",
-      "category": "corporate",
+      "title": "Bytedance 12th anniversary celebration",
+      "category": "events",
       "tags": [
-        "corporate"
+        "events"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
-      "video": "https://youtu.be/7dKE9sv0RtA",
-      "client": "Moomoo",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
+      "video": "https://youtu.be/LGDU2hlOIZI",
+      "client": "Bytedance",
       "credits": [
         [
           "Work",
-          "Online & Audio Mix | Ai Relight "
+          "Producer | 2nd Videographer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "Optical Films"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
+        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
       ],
-      "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
+      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
     }
   ],
   "categoryDefaults": {
