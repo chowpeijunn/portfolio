@@ -1501,27 +1501,6 @@
     },
     {
       "slot": "after",
-      "title": "Vitagen Less Sugar",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "",
-      "video": "",
-      "client": "",
-      "credits": [
-        [
-          "Work",
-          ""
-        ],
-        [
-          "Production",
-          ""
-        ]
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Cheezy 7",
       "category": "tvc",
       "tags": [
@@ -1543,8 +1522,18 @@
       "clips": [
         {
           "label": "",
-          "start": "",
-          "end": ""
+          "start": "0:03",
+          "end": "0:05"
+        },
+        {
+          "label": "",
+          "start": "0:15",
+          "end": "0:19"
+        },
+        {
+          "label": "",
+          "start": "0:24",
+          "end": "0:25"
         }
       ],
       "sourceVideos": [
