@@ -1491,8 +1491,71 @@ function refreshFieldStatus(elId, value) {
 }
 function refreshSourceStatus(value)  { refreshFieldStatus('sourceVideoStatus', value); }
 
+let _sourceUploadInFlight = false;
+
+// Upload a source video: compress to 720p in the browser, then PUT straight to
+// GitHub. Nothing routes through Vercel (4.5 MB body cap) or touches a disk.
 function pickSourceVideo() {
-  alert('This isn’t broken — source videos are added through Claude, not uploaded here (the files are too large for browser upload).\n\nTo add one:\n1. Put the video in your Dropbox\n2. Tell Claude the project name + where the file is\n\nClaude compresses it to 720p and pushes it automatically. It’ll appear in the list above once done.');
+  if (_sourceUploadInFlight) {
+    alert('A source upload is already running. Wait for it to finish, or dismiss the progress card first.');
+    return;
+  }
+  if (!getGhToken()) { alert('Set your GitHub token (🔑 Token) first.'); return; }
+
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.accept = 'video/*';
+  picker.onchange = async () => {
+    const file = picker.files[0];
+    if (!file) return;
+
+    // Pin the project now so switching projects mid-upload can't misfile it
+    const projectIdx = selectedIdx;
+    const project    = data.projects[projectIdx];
+    const toast = makeOpToast('sourceToast', `Uploading source: ${project.title}`);
+
+    _sourceUploadInFlight = true;
+    try {
+      const compressed = await compressVideoInBrowser(file, (pct, msg) =>
+        toast.setProgress(pct * 0.7, msg)
+      );
+
+      const outMB = compressed.size / 1024 / 1024;
+      if (outMB > 90) {
+        throw new Error(`Compressed file is still ${outMB.toFixed(0)} MB — over GitHub's 100 MB limit. Trim the video first.`);
+      }
+
+      toast.setProgress(75, `Uploading ${outMB.toFixed(1)} MB to GitHub…`);
+      const name       = sanitizeFilename(file.name).replace(/\.[^.]+$/, '.mp4');
+      const uploadPath = await githubPut(`assets/sources/${name}`, await blobToBase64(compressed), name);
+
+      if (!Array.isArray(project.sourceVideos)) project.sourceVideos = getAllSources(project);
+      if (!project.sourceVideos.includes(uploadPath)) project.sourceVideos.push(uploadPath);
+      project.sourceVideo = project.sourceVideos[0];
+
+      if (selectedIdx === projectIdx) renderEditor();
+      markDirty();
+
+      toast.setProgress(90, 'Saving project…');
+      await saveAll();
+      toast.setProgress(100, `✓ ${name} — ${outMB.toFixed(1)} MB`, 'success');
+    } catch (err) {
+      toast.setProgress(100, 'Upload failed: ' + err.message, 'error');
+    } finally {
+      toast.allowDismiss();
+      _sourceUploadInFlight = false;
+    }
+  };
+  picker.click();
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = e => resolve(e.target.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
 
 function addProject() {
