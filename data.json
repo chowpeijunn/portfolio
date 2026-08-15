@@ -1513,7 +1513,11 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
     },
     {
       "slot": "after",
