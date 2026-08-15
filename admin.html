@@ -1529,9 +1529,90 @@ async function isFastStartMp4(file) {
   return false;                             // no moov within the window we read
 }
 
-// Move the moov atom to the front without touching the video streams. This is a
-// container rewrite, so it costs seconds rather than a full re-encode.
+// Walk moov and shift every chunk offset, since moving the atom moves all the
+// media data that stco/co64 point at.
+function shiftChunkOffsets(buf, shift) {
+  const CONTAINERS = new Set(['moov', 'trak', 'mdia', 'minf', 'stbl', 'edts', 'udta']);
+  const dv = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+  (function walk(start, end) {
+    let off = start;
+    while (off + 8 <= end) {
+      let size = dv.getUint32(off);
+      const type = String.fromCharCode(buf[off + 4], buf[off + 5], buf[off + 6], buf[off + 7]);
+      let header = 8;
+      if (size === 1) { size = Number(dv.getBigUint64(off + 8)); header = 16; }
+      else if (size === 0) { size = end - off; }
+      if (size < header) return;
+      if (type === 'stco') {                       // 32-bit chunk offsets
+        const n = dv.getUint32(off + header + 4);  // after version+flags
+        let p = off + header + 8;
+        for (let i = 0; i < n; i++, p += 4) dv.setUint32(p, dv.getUint32(p) + shift);
+      } else if (type === 'co64') {                // 64-bit chunk offsets
+        const n = dv.getUint32(off + header + 4);
+        let p = off + header + 8;
+        for (let i = 0; i < n; i++, p += 8) dv.setBigUint64(p, dv.getBigUint64(p) + BigInt(shift));
+      } else if (CONTAINERS.has(type)) {
+        walk(off + header, off + size);
+      }
+      off += size;
+    }
+  })(0, buf.length);
+}
+
+// Rebuild the file with moov ahead of mdat. Pure container surgery — the media
+// bytes are copied verbatim, so this runs in milliseconds and needs no ffmpeg.
+function faststartRemuxBytes(bytes) {
+  const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const atoms = [];
+  let off = 0;
+  while (off + 8 <= bytes.length) {
+    let size = dv.getUint32(off);
+    const type = String.fromCharCode(bytes[off + 4], bytes[off + 5], bytes[off + 6], bytes[off + 7]);
+    let header = 8;
+    if (size === 1) { size = Number(dv.getBigUint64(off + 8)); header = 16; }
+    else if (size === 0) { size = bytes.length - off; }
+    if (size < header) throw new Error('malformed atom: ' + type);
+    atoms.push({ type, start: off, size });
+    off += size;
+  }
+  const moovIdx = atoms.findIndex(a => a.type === 'moov');
+  const mdatIdx = atoms.findIndex(a => a.type === 'mdat');
+  if (moovIdx < 0 || mdatIdx < 0) throw new Error('missing moov or mdat');
+  if (moovIdx < mdatIdx) return bytes;
+
+  const src  = atoms[moovIdx];
+  const moov = bytes.slice(src.start, src.start + src.size);
+  shiftChunkOffsets(moov, moov.length);
+
+  const parts = [];
+  for (let i = 0; i < atoms.length; i++) {
+    if (i === moovIdx) continue;
+    if (i === mdatIdx) parts.push(moov);
+    parts.push(bytes.subarray(atoms[i].start, atoms[i].start + atoms[i].size));
+  }
+  const out = new Uint8Array(parts.reduce((n, p) => n + p.length, 0));
+  let o = 0;
+  for (const p of parts) { out.set(p, o); o += p.length; }
+  return out;
+}
+
+// Move the moov atom to the front without touching the video streams.
 async function remuxFastStart(file, onProgress) {
+  // Fast path: rewrite the container in JS. Avoids the 30 MB ffmpeg download
+  // entirely, which was the whole cost of this step for a small mp4.
+  try {
+    onProgress(20, 'Rewriting index…');
+    const out = faststartRemuxBytes(new Uint8Array(await file.arrayBuffer()));
+    onProgress(100, 'Index rewritten');
+    return new Blob([out], { type: 'video/mp4' });
+  } catch (e) {
+    onProgress(0, 'Unusual container — using full remux…');
+  }
+  return remuxFastStartViaFfmpeg(file, onProgress);
+}
+
+// Fallback for containers the JS parser won't touch.
+async function remuxFastStartViaFfmpeg(file, onProgress) {
   const { ffmpeg, fetchFile } = await getFFmpeg(msg => onProgress(0, msg));
   ffmpeg.off?.('progress');
   ffmpeg.on('progress', ({ progress }) => {
