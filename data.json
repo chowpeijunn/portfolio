@@ -1517,7 +1517,24 @@
       "sourceVideos": [
         "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
       ],
-      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
+      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:05",
+          "end": "0:06"
+        },
+        {
+          "label": "",
+          "start": "0:09",
+          "end": "0:11"
+        },
+        {
+          "label": "",
+          "start": "0:20",
+          "end": "0:23"
+        }
+      ]
     },
     {
       "slot": "after",
