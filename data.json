@@ -962,19 +962,22 @@
       ],
       "clips": [
         {
+          "end": "0:05",
           "label": "",
           "start": "0:03",
-          "end": "0:05"
+          "clipFile": "assets/clips/cheezy-7-0.mp4"
         },
         {
+          "end": "0:19",
           "label": "",
           "start": "0:15",
-          "end": "0:19"
+          "clipFile": "assets/clips/cheezy-7-1.mp4"
         },
         {
+          "end": "0:25",
           "label": "",
           "start": "0:24",
-          "end": "0:25"
+          "clipFile": "assets/clips/cheezy-7-2.mp4"
         }
       ],
       "sourceVideos": [
