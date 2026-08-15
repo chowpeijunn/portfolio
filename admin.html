@@ -1427,30 +1427,52 @@ async function getFFmpeg(onLog) {
     const FFMPEG_VERSION = '0.12.10';
     const UTIL_VERSION   = '0.12.1';
     const CORE_VERSION   = '0.12.6';
-    if (onLog) onLog('Loading compressor (~30 MB, one-time download)…');
+    // The multithreaded core needs SharedArrayBuffer, which only exists when the
+    // page is cross-origin isolated (the COOP/COEP headers vercel.json sets on
+    // /admin). It is several times faster, so use it whenever it is available.
+    const mt = typeof crossOriginIsolated !== 'undefined' && crossOriginIsolated;
+    if (onLog) onLog(`Loading compressor (~30 MB, one-time download)${mt ? '' : ' — single-thread'}…`);
     const ffmpegBase = `https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@${FFMPEG_VERSION}/dist/esm`;
     const utilBase   = `https://cdn.jsdelivr.net/npm/@ffmpeg/util@${UTIL_VERSION}/dist/esm`;
-    const coreBase   = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${CORE_VERSION}/dist/umd`;
+    const coreBase   = `https://cdn.jsdelivr.net/npm/@ffmpeg/core${mt ? '-mt' : ''}@${CORE_VERSION}/dist/umd`;
     const { FFmpeg }               = await import(`${ffmpegBase}/index.js`);
     const { fetchFile, toBlobURL } = await import(`${utilBase}/index.js`);
     // Fetch worker + core scripts as same-origin blob URLs to avoid cross-origin
     // Worker construction errors. Without classWorkerURL the FFmpeg class spawns
     // a Worker with the CDN URL directly, which browsers block.
-    const [classWorkerURL, coreURL, wasmURL] = await Promise.all([
+    const urls = [
       toBlobURL(`${ffmpegBase}/worker.js`,        'text/javascript'),
       toBlobURL(`${coreBase}/ffmpeg-core.js`,     'text/javascript'),
       toBlobURL(`${coreBase}/ffmpeg-core.wasm`,   'application/wasm'),
-    ]);
+    ];
+    // The -mt core spawns its own pthread worker and needs it passed explicitly.
+    if (mt) urls.push(toBlobURL(`${coreBase}/ffmpeg-core.worker.js`, 'text/javascript'));
+    const [classWorkerURL, coreURL, wasmURL, workerURL] = await Promise.all(urls);
+
     const ffmpeg = new FFmpeg();
-    await ffmpeg.load({ classWorkerURL, coreURL, wasmURL });
-    return { ffmpeg, fetchFile };
+    try {
+      await ffmpeg.load(mt ? { classWorkerURL, coreURL, wasmURL, workerURL }
+                           : { classWorkerURL, coreURL, wasmURL });
+    } catch (e) {
+      // If the -mt core fails for any reason, don't leave the user stuck with a
+      // dead compressor — retry once on the single-threaded build.
+      if (!mt) throw e;
+      if (onLog) onLog('Multithread core failed, falling back…');
+      const [cw, cu, wu] = await Promise.all([
+        toBlobURL(`${ffmpegBase}/worker.js`, 'text/javascript'),
+        toBlobURL(`https://cdn.jsdelivr.net/npm/@ffmpeg/core@${CORE_VERSION}/dist/umd/ffmpeg-core.js`,   'text/javascript'),
+        toBlobURL(`https://cdn.jsdelivr.net/npm/@ffmpeg/core@${CORE_VERSION}/dist/umd/ffmpeg-core.wasm`, 'application/wasm'),
+      ]);
+      await ffmpeg.load({ classWorkerURL: cw, coreURL: cu, wasmURL: wu });
+    }
+    return { ffmpeg, fetchFile, mt };
   })();
   return _ffmpegPromise;
 }
 
 // Compress any-size video to a 720p, audio-stripped mp4 ready for the workflow.
 async function compressVideoInBrowser(file, onProgress) {
-  const { ffmpeg, fetchFile } = await getFFmpeg(msg => onProgress(0, msg));
+  const { ffmpeg, fetchFile, mt } = await getFFmpeg(msg => onProgress(0, msg));
   // Reset listeners (re-running on the same instance otherwise stacks them)
   ffmpeg.off?.('progress');
   ffmpeg.on('progress', ({ progress }) => {
@@ -1466,9 +1488,12 @@ async function compressVideoInBrowser(file, onProgress) {
   await ffmpeg.writeFile(inputName, await fetchFile(file));
 
   onProgress(0, 'Compressing… 0%');
+  // 'veryfast' is roughly 3-4x quicker than 'medium' for a few percent more
+  // bytes — worth it for a hover-preview clip. crf 27 claws that size back.
   await ffmpeg.exec([
+    '-threads', mt ? '0' : '1',
     '-i', inputName,
-    '-c:v', 'libx264', '-crf', '26', '-preset', 'medium',
+    '-c:v', 'libx264', '-crf', '27', '-preset', 'veryfast',
     '-pix_fmt', 'yuv420p', '-vf', 'scale=-2:min(720\\,ih)',
     '-an', '-movflags', '+faststart',
     outputName
@@ -1480,7 +1505,6 @@ async function compressVideoInBrowser(file, onProgress) {
   try { await ffmpeg.deleteFile(outputName); } catch {}
   return new Blob([data.buffer], { type: 'video/mp4' });
 }
-
 function refreshFieldStatus(elId, value) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -1491,10 +1515,6 @@ function refreshFieldStatus(elId, value) {
 }
 function refreshSourceStatus(value)  { refreshFieldStatus('sourceVideoStatus', value); }
 
-let _sourceUploadInFlight = false;
-
-// Upload a source video: compress to 720p in the browser, then PUT straight to
-// GitHub. Nothing routes through Vercel (4.5 MB body cap) or touches a disk.
 let _sourceUploadInFlight = false;
 
 // Upload a source video: compress to 720p in the browser, then commit straight
@@ -1610,15 +1630,6 @@ async function githubPutLarge(path, base64, filename, onStep) {
   });
 
   return path;
-}
-
-function blobToBase64(blob) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload  = e => resolve(e.target.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
 }
 
 function blobToBase64(blob) {
