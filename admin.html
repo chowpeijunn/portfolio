@@ -730,7 +730,7 @@ function renderEditor() {
         <label>
           Source video${(getAllSources(p).length > 1) ? 's' : ''}
           <span class="field-status ${getAllSources(p).length ? 'ok' : 'missing'}" id="sourceVideoStatus">${getAllSources(p).length ? `✓ ${getAllSources(p).length} uploaded` : '○ Not uploaded'}</span>
-          <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — any size mp4/mov; auto-compressed to 720p in browser. Add multiple if a project has multiple films.)</span>
+          <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — an mp4 under 80 MB uploads instantly; anything else is compressed to 720p first, which is slow. Add multiple if a project has multiple films.)</span>
         </label>
         <div class="sources-list" id="sourcesList">${sourcesHtml(p)}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="pickSourceVideo()">+ Upload source</button>
@@ -1517,6 +1517,10 @@ function refreshSourceStatus(value)  { refreshFieldStatus('sourceVideoStatus', v
 
 let _sourceUploadInFlight = false;
 
+// An mp4 at or under this size is committed untouched. GitHub's blob ceiling is
+// 100 MB, so this leaves headroom for base64 overhead in the request body.
+const SKIP_COMPRESS_MAX_MB = 80;
+
 // Upload a source video: compress to 720p in the browser, then commit straight
 // to GitHub. Nothing routes through Vercel (4.5 MB body cap) or touches a disk.
 function pickSourceVideo() {
@@ -1540,9 +1544,20 @@ function pickSourceVideo() {
 
     _sourceUploadInFlight = true;
     try {
-      const compressed = await compressVideoInBrowser(file, (pct, msg) =>
-        toast.setProgress(pct * 0.7, msg)
-      );
+      // ffmpeg.wasm is software x264 — slow no matter how it's tuned. An mp4
+      // that already fits under the GitHub limit needs none of that work, so
+      // upload it as-is and skip straight to the commit.
+      const alreadyWebReady = /\.mp4$/i.test(file.name) && file.size <= SKIP_COMPRESS_MAX_MB * 1024 * 1024;
+
+      let compressed;
+      if (alreadyWebReady) {
+        toast.setProgress(60, `Already web-ready (${(file.size/1024/1024).toFixed(1)} MB) — skipping compression`);
+        compressed = file;
+      } else {
+        compressed = await compressVideoInBrowser(file, (pct, msg) =>
+          toast.setProgress(pct * 0.7, msg)
+        );
+      }
 
       const outMB = compressed.size / 1024 / 1024;
       if (outMB > 90) {
