@@ -1,7 +1,7 @@
 {
   "showreel": "https://youtu.be/y5TYtNTGB7w",
   "showreelVideo": "",
-  "showreelCopy": "Weddings | Corporate | Events | TVC \u2014 Pre to Post production",
+  "showreelCopy": "Weddings | Corporate | Events | TVC — Pre to Post production",
   "projects": [
     {
       "slot": "before",
@@ -514,7 +514,7 @@
     },
     {
       "slot": "before",
-      "title": "Beaut\u00e9s du Monde",
+      "title": "Beautés du Monde",
       "category": "events",
       "tags": [
         "events",
@@ -689,7 +689,7 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53\u202fPM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
       "video": "https://youtu.be/UaCZbSBDrNU",
       "client": "Pizza Hut",
       "credits": [
@@ -862,7 +862,7 @@
       ],
       "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
-      "client": "Kia \u00d7 Discovery Channel",
+      "client": "Kia × Discovery Channel",
       "credits": [
         [
           "Work",
@@ -947,7 +947,7 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20\u202fPM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20 PM.jpg",
       "video": "https://youtu.be/Lqvd5-1DGSU",
       "client": "Pizza hut",
       "credits": [
@@ -962,22 +962,19 @@
       ],
       "clips": [
         {
-          "end": "0:05",
           "label": "",
           "start": "0:03",
-          "clipFile": "assets/clips/cheezy-7-0.mp4"
+          "end": "0:05"
         },
         {
-          "end": "0:19",
           "label": "",
           "start": "0:15",
-          "clipFile": "assets/clips/cheezy-7-1.mp4"
+          "end": "0:19"
         },
         {
-          "end": "0:25",
           "label": "",
           "start": "0:24",
-          "clipFile": "assets/clips/cheezy-7-2.mp4"
+          "end": "0:25"
         }
       ],
       "sourceVideos": [
@@ -992,7 +989,7 @@
       "tags": [
         "corporate"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46\u202fPM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
       "video": "https://youtu.be/7dKE9sv0RtA",
       "client": "Moomoo",
       "credits": [
@@ -1145,30 +1142,45 @@
     },
     {
       "slot": "after",
-      "title": "Vogue x MBS",
-      "category": "corporate",
+      "title": "Shopee Same Day Delivery",
+      "category": "tvc",
       "tags": [
-        "ads",
-        "branded content",
-        "corporate"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
-      "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue \u00d7 Marina Bay Sands",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02 PM.jpg",
+      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Cleanups"
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/vogue-x-mbs.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:06",
+          "end": "0:09"
+        },
+        {
+          "label": "",
+          "start": "0:12",
+          "end": "0:13"
+        },
+        {
+          "label": "",
+          "start": "0:17",
+          "end": "0:24"
+        }
+      ],
       "sourceVideos": [
-        "assets/sources/vogue-x-mbs.mp4"
-      ]
+        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
     },
     {
       "slot": "after",
@@ -1478,57 +1490,12 @@
     },
     {
       "slot": "after",
-      "title": "Shopee Same Day Delivery",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02\u202fPM.jpg",
-      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "clips": [
-        {
-          "end": "0:09",
-          "label": "",
-          "start": "0:06",
-          "clipFile": "assets/clips/shopee-same-day-delivery-0.mp4"
-        },
-        {
-          "end": "0:13",
-          "label": "",
-          "start": "0:12",
-          "clipFile": "assets/clips/shopee-same-day-delivery-1.mp4"
-        },
-        {
-          "end": "0:24",
-          "label": "",
-          "start": "0:17",
-          "clipFile": "assets/clips/shopee-same-day-delivery-2.mp4"
-        }
-      ],
-      "sourceVideos": [
-        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
-      ],
-      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
-    },
-    {
-      "slot": "after",
       "title": "Shopee 7.7",
       "category": "tvc",
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26\u202fPM.jpg",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
       "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
       "client": "Shopee",
       "credits": [
@@ -1565,6 +1532,33 @@
     },
     {
       "slot": "after",
+      "title": "Vogue x MBS",
+      "category": "corporate",
+      "tags": [
+        "ads",
+        "branded content",
+        "corporate"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
+      "video": "https://youtube.com/shorts/7phCcyXsNgo",
+      "client": "Vogue × Marina Bay Sands",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "sourceVideo": "assets/sources/vogue-x-mbs.mp4",
+      "sourceVideos": [
+        "assets/sources/vogue-x-mbs.mp4"
+      ]
+    },
+    {
+      "slot": "after",
       "title": "Progressive Wages",
       "category": "tvc",
       "tags": [
@@ -1590,22 +1584,19 @@
       ],
       "clips": [
         {
-          "end": "0:11",
           "label": "",
           "start": "0:06",
-          "clipFile": "assets/clips/progressive-wages-0.mp4"
+          "end": "0:11"
         },
         {
-          "end": "0:19",
           "label": "",
           "start": "0:13",
-          "clipFile": "assets/clips/progressive-wages-1.mp4"
+          "end": "0:19"
         },
         {
-          "end": "0:56",
           "label": "",
           "start": "0:50",
-          "clipFile": "assets/clips/progressive-wages-2.mp4"
+          "end": "0:56"
         }
       ]
     },
