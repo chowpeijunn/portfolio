@@ -1571,6 +1571,23 @@
       "sourceVideo": "assets/sources/progressive-wages.mp4",
       "sourceVideos": [
         "assets/sources/progressive-wages.mp4"
+      ],
+      "clips": [
+        {
+          "label": "",
+          "start": "0:06",
+          "end": "0:11"
+        },
+        {
+          "label": "",
+          "start": "0:13",
+          "end": "0:19"
+        },
+        {
+          "label": "",
+          "start": "0:50",
+          "end": "0:56"
+        }
       ]
     },
     {
