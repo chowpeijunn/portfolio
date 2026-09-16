@@ -734,7 +734,7 @@
       "sourceVideo": "assets/sources/pizzahut-45th-anniversary.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Heart of the Spirit",
       "category": "events",
       "tags": [
@@ -760,7 +760,7 @@
       "sourceVideo": "assets/sources/heart-of-the-spirit.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Foodflix",
       "category": "corporate",
       "tags": [
@@ -786,7 +786,7 @@
       "sourceVideo": "assets/sources/foodflix.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "FAS",
       "category": "tvc",
       "tags": [
@@ -827,7 +827,7 @@
       ]
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Eugene + Annabelle",
       "category": "weddings",
       "tags": [
@@ -852,7 +852,7 @@
       "sourceVideo": "assets/sources/eugene-annabelle.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Kia x Discovery",
       "category": "tvc",
       "tags": [
@@ -942,55 +942,70 @@
     },
     {
       "slot": "after",
-      "title": "Progressive Wages",
+      "title": "Cheezy 7",
       "category": "tvc",
       "tags": [
-        "tvc",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
-      "video": "https://youtu.be/Oaoh5YTyntQ",
-      "client": "Ministry of Manpower (MOM)",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20 PM.jpg",
+      "video": "https://youtu.be/Lqvd5-1DGSU",
+      "client": "Pizza hut",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
+          "Ai Gen + Green Screen Comp"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/progressive-wages.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:03",
+          "end": "0:05"
+        },
+        {
+          "label": "",
+          "start": "0:15",
+          "end": "0:19"
+        },
+        {
+          "label": "",
+          "start": "0:24",
+          "end": "0:25"
+        }
+      ],
       "sourceVideos": [
-        "assets/sources/progressive-wages.mp4"
-      ]
+        "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
     },
     {
       "slot": "after",
-      "title": "The Reach VIP Launch",
-      "category": "events",
+      "title": "Moomoo Testimonials",
+      "category": "corporate",
       "tags": [
-        "events",
-        "branded content"
+        "corporate"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-05-at-12.30.31pm.png",
-      "video": "https://youtu.be/euCEtPWfARM",
-      "client": "The Macallan",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
+      "video": "https://youtu.be/7dKE9sv0RtA",
+      "client": "Moomoo",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Producer"
+          "Online & Audio Mix | Ai Relight "
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/the-reach-vip-launch.mp4"
+        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
       ],
-      "sourceVideo": "assets/sources/the-reach-vip-launch.mp4"
+      "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
     },
     {
       "slot": "after",
@@ -1127,30 +1142,45 @@
     },
     {
       "slot": "after",
-      "title": "Vogue x MBS",
-      "category": "corporate",
+      "title": "Shopee Same Day Delivery",
+      "category": "tvc",
       "tags": [
-        "ads",
-        "branded content",
-        "corporate"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
-      "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02 PM.jpg",
+      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Cleanups"
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/vogue-x-mbs.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:06",
+          "end": "0:09"
+        },
+        {
+          "label": "",
+          "start": "0:12",
+          "end": "0:13"
+        },
+        {
+          "label": "",
+          "start": "0:17",
+          "end": "0:24"
+        }
+      ],
       "sourceVideos": [
-        "assets/sources/vogue-x-mbs.mp4"
-      ]
+        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
     },
     {
       "slot": "after",
@@ -1251,18 +1281,19 @@
     },
     {
       "slot": "after",
-      "title": " Meiyume Singapore Showcase ",
+      "title": "The Reach VIP Launch",
       "category": "events",
       "tags": [
-        "events"
+        "events",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
-      "video": "https://youtu.be/iM_y1T0M3cA",
-      "client": "Meiyume",
+      "thumb": "assets/thumbs/screenshot-2026-04-05-at-12.30.31pm.png",
+      "video": "https://youtu.be/euCEtPWfARM",
+      "client": "The Macallan",
       "credits": [
         [
           "Work",
-          "Producer | 1st Videographer "
+          "2nd Videographer | Producer"
         ],
         [
           "Production",
@@ -1270,9 +1301,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/meiyume-singapore-showcase.mp4"
+        "assets/sources/the-reach-vip-launch.mp4"
       ],
-      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4"
+      "sourceVideo": "assets/sources/the-reach-vip-launch.mp4"
     },
     {
       "slot": "after",
@@ -1383,18 +1414,18 @@
     },
     {
       "slot": "after",
-      "title": "Bytedance 12th anniversary celebration",
+      "title": " Meiyume Singapore Showcase ",
       "category": "events",
       "tags": [
         "events"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
-      "video": "https://youtu.be/LGDU2hlOIZI",
-      "client": "Bytedance",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
+      "video": "https://youtu.be/iM_y1T0M3cA",
+      "client": "Meiyume",
       "credits": [
         [
           "Work",
-          "Producer | 2nd Videographer"
+          "Producer | 1st Videographer "
         ],
         [
           "Production",
@@ -1402,9 +1433,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+        "assets/sources/meiyume-singapore-showcase.mp4"
       ],
-      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4"
     },
     {
       "slot": "after",
@@ -1459,33 +1490,12 @@
     },
     {
       "slot": "after",
-      "title": "Shopee Same Day Delivery",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "",
-      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Shopee 7.7",
       "category": "tvc",
       "tags": [
         "tvc"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
       "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
       "client": "Shopee",
       "credits": [
@@ -1497,56 +1507,123 @@
           "Production",
           "Abundant Productions"
         ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:05",
+          "end": "0:06"
+        },
+        {
+          "label": "",
+          "start": "0:09",
+          "end": "0:11"
+        },
+        {
+          "label": "",
+          "start": "0:20",
+          "end": "0:23"
+        }
       ]
     },
     {
       "slot": "after",
-      "title": "Vitagen Less Sugar",
-      "category": "weddings",
+      "title": "Vogue x MBS",
+      "category": "corporate",
       "tags": [
-        "weddings"
+        "ads",
+        "branded content",
+        "corporate"
       ],
-      "thumb": "",
-      "video": "",
-      "client": "",
+      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
+      "video": "https://youtube.com/shorts/7phCcyXsNgo",
+      "client": "Vogue × Marina Bay Sands",
       "credits": [
         [
           "Work",
-          ""
-        ],
-        [
-          "Production",
-          ""
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Cheezy 7",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 12.37.20 PM.jpg",
-      "video": "https://youtu.be/Lqvd5-1DGSU",
-      "client": "Pizza hut",
-      "credits": [
-        [
-          "Work",
-          "Ai Gen + Green Screen Comp"
+          "Online | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
+      "sourceVideo": "assets/sources/vogue-x-mbs.mp4",
+      "sourceVideos": [
+        "assets/sources/vogue-x-mbs.mp4"
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Progressive Wages",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
+      "video": "https://youtu.be/Oaoh5YTyntQ",
+      "client": "Ministry of Manpower (MOM)",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "sourceVideo": "assets/sources/progressive-wages.mp4",
+      "sourceVideos": [
+        "assets/sources/progressive-wages.mp4"
+      ],
       "clips": [
         {
           "label": "",
-          "start": "",
-          "end": ""
+          "start": "0:06",
+          "end": "0:11"
+        },
+        {
+          "label": "",
+          "start": "0:13",
+          "end": "0:19"
+        },
+        {
+          "label": "",
+          "start": "0:50",
+          "end": "0:56"
         }
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Bytedance 12th anniversary celebration",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
+      "video": "https://youtu.be/LGDU2hlOIZI",
+      "client": "Bytedance",
+      "credits": [
+        [
+          "Work",
+          "Producer | 2nd Videographer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      ],
+      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
     }
   ],
   "categoryDefaults": {
