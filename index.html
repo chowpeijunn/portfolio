@@ -9,8 +9,79 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Encode+Sans+Condensed:wght@700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Password gate — casual overlay, hidden once unlocked */
+    .pw-gate {
+      position: fixed; inset: 0; z-index: 100000;
+      background: #0C0E1A; color: #E8E6DF;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      padding: 24px;
+    }
+    .pw-gate.hidden { display: none; }
+    .pw-box { width: 100%; max-width: 320px; text-align: center; }
+    .pw-title {
+      font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.12em;
+      font-size: 34px; line-height: 1; margin-bottom: 6px;
+    }
+    .pw-sub { font-size: 12px; letter-spacing: 0.04em; color: rgba(232,230,223,0.5); margin-bottom: 22px; }
+    .pw-form { display: flex; flex-direction: column; gap: 10px; }
+    /* Input and button share one box model so they are always identical in size */
+    .pw-input, .pw-btn {
+      box-sizing: border-box; width: 100%;
+      border: 1px solid transparent; border-radius: 8px;
+      padding: 12px 14px; font-family: inherit; font-size: 14px;
+      text-align: center; outline: none;
+    }
+    .pw-input {
+      background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.15);
+      color: #E8E6DF; letter-spacing: 0.15em; transition: border-color 0.2s;
+    }
+    .pw-input:focus { border-color: rgba(232,230,223,0.6); }
+    .pw-btn {
+      background: #E8E6DF; color: #0C0E1A;
+      font-weight: 600; letter-spacing: 0.06em; cursor: pointer; transition: opacity 0.2s;
+    }
+    .pw-btn:hover { opacity: 0.85; }
+    .pw-error { font-size: 12px; color: #e07a7a; min-height: 16px; letter-spacing: 0.02em; }
+  </style>
 </head>
 <body>
+  <!-- Password Gate -->
+  <div class="pw-gate" id="pwGate">
+    <div class="pw-box">
+      <div class="pw-title">Chow Pei Jun</div>
+      <div class="pw-sub">Enter password to view portfolio</div>
+      <form class="pw-form" id="pwForm" autocomplete="off">
+        <input class="pw-input" id="pwInput" type="password" placeholder="Password" aria-label="Password" autofocus>
+        <button class="pw-btn" type="submit">Enter</button>
+        <div class="pw-error" id="pwError"></div>
+      </form>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var KEY = 'pjPortfolioUnlocked';
+      var PW = 'CHOWPEIJUN';
+      var gate = document.getElementById('pwGate');
+      // Already unlocked on this device → skip the gate entirely.
+      try { if (localStorage.getItem(KEY) === 'true') { gate.classList.add('hidden'); return; } } catch (e) {}
+      var form = document.getElementById('pwForm');
+      var input = document.getElementById('pwInput');
+      var error = document.getElementById('pwError');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (input.value.trim().toUpperCase() === PW) {
+          try { localStorage.setItem(KEY, 'true'); } catch (e) {}
+          gate.classList.add('hidden');
+        } else {
+          error.textContent = 'Incorrect password';
+          input.value = '';
+          input.focus();
+        }
+      });
+    })();
+  </script>
   <!-- Counter Loading Screen -->
   <div class="loader" id="loader">
     <span class="loader-counter" id="loaderCounter">0</span>
