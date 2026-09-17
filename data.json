@@ -1624,6 +1624,27 @@
         "assets/sources/bytedance-12th-anniversary-celebration.mp4"
       ],
       "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 9.9 2026",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/eS_HQ4yy0Pc",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics Comp"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
