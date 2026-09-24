@@ -1307,59 +1307,6 @@
     },
     {
       "slot": "after",
-      "title": "Shopee 9.9 2025",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/shopee-99-shopee.jpg",
-      "video": "https://youtu.be/1qnqvj8D5aQ",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Partial Key & Rotoscoping"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "sourceVideo": "assets/sources/shopee-9-9.mp4",
-      "clips": [
-        {
-          "end": "0:42",
-          "label": "Floor Replacement",
-          "start": "0:38",
-          "clipFile": "assets/clips/shopee-9-9-0.mp4"
-        },
-        {
-          "end": "0:32",
-          "label": "Environment Clean Up",
-          "start": "0:31",
-          "clipFile": "assets/clips/shopee-9-9-1.mp4"
-        },
-        {
-          "end": "0:08",
-          "label": "Teeth Clean Up",
-          "start": "0:00",
-          "clipFile": "assets/clips/shopee-9-9-2.mp4"
-        },
-        {
-          "end": "0:08",
-          "label": "Partial Roto / Key",
-          "start": "0:05",
-          "clipFile": "assets/clips/shopee-9-9-3.mp4"
-        }
-      ],
-      "sourceVideos": [
-        "assets/sources/shopee-9-9.mp4"
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Trade Advocacy Programme",
       "category": "corporate",
       "tags": [
