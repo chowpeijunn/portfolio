@@ -1613,6 +1613,27 @@
           "end": "0:13"
         }
       ]
+    },
+    {
+      "slot": "after",
+      "title": "New Project",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
