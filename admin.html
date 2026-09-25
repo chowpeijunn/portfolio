@@ -1466,8 +1466,19 @@ async function getFFmpeg(onLog) {
       await ffmpeg.load({ classWorkerURL: cw, coreURL: cu, wasmURL: wu });
     }
     return { ffmpeg, fetchFile, mt };
-  })();
-  return _ffmpegPromise;
+    })();
+
+  // Fail fast instead of freezing forever: if the compressor hasn't loaded in
+  // 45s, reject with a clear message instead of hanging the upload.
+  const _ffTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error(
+    'Video compressor failed to load (a known ffmpeg.wasm issue in some browsers). Upload an mp4 under 50 MB — it skips compression — or send the video to Claude via Dropbox.'
+  )), 45000));
+  try {
+    return await Promise.race([_ffmpegPromise, _ffTimeout]);
+  } catch (e) {
+    _ffmpegPromise = null;
+    throw e;
+  }
 }
 
 // Compress any-size video to a 720p, audio-stripped mp4 ready for the workflow.
