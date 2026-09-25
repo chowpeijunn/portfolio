@@ -1641,7 +1641,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4"
     },
     {
       "slot": "after",
