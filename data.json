@@ -5,32 +5,6 @@
   "projects": [
     {
       "slot": "before",
-      "title": "Ubin Kakis",
-      "category": "corporate",
-      "tags": [
-        "corporate",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
-      "video": "https://youtu.be/Z_xkK-XQdoY",
-      "client": "Singapore Management University (SMU)",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/ubin-kakis.mp4"
-      ],
-      "sourceVideo": "assets/sources/ubin-kakis.mp4"
-    },
-    {
-      "slot": "before",
       "title": "Shopee 10.10",
       "category": "tvc",
       "tags": [
@@ -75,6 +49,32 @@
       "sourceVideos": [
         "assets/sources/shopee-10-10.mp4"
       ]
+    },
+    {
+      "slot": "before",
+      "title": "Ritz Carlton Wedding Showcase",
+      "category": "events",
+      "tags": [
+        "events",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
+      "video": "https://youtu.be/qSGJ6Qo-NdA",
+      "client": "Heaven's Gift",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Producer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/ritz-carlton-wedding-showcase.mp4"
+      ],
+      "sourceVideo": "assets/sources/ritz-carlton-wedding-showcase.mp4"
     },
     {
       "slot": "before",
@@ -256,16 +256,16 @@
     },
     {
       "slot": "before",
-      "title": "Xmas Pizza",
+      "title": "KFC Brand Video",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/xmas-pizzahut.jpg",
-      "video": "https://youtu.be/WDgh_YVAl-o",
-      "client": "Pizza Hut",
+      "thumb": "assets/thumbs/brand-video-kfc.jpg",
+      "video": "https://youtu.be/GvBZ33dIgSg",
+      "client": "KFC",
       "credits": [
         [
           "Work",
@@ -276,9 +276,9 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideo": "assets/sources/xmas.mp4",
+      "sourceVideo": "assets/sources/kfc-brand-video.mp4",
       "sourceVideos": [
-        "assets/sources/xmas.mp4"
+        "assets/sources/kfc-brand-video.mp4"
       ]
     },
     {
@@ -364,30 +364,29 @@
     },
     {
       "slot": "before",
-      "title": "KFC Brand Video",
-      "category": "tvc",
+      "title": "Ubin Kakis",
+      "category": "corporate",
       "tags": [
-        "tvc",
-        "ads",
+        "corporate",
         "branded content"
       ],
-      "thumb": "assets/thumbs/brand-video-kfc.jpg",
-      "video": "https://youtu.be/GvBZ33dIgSg",
-      "client": "KFC",
+      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
+      "video": "https://youtu.be/Z_xkK-XQdoY",
+      "client": "Singapore Management University (SMU)",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Skin retouching"
+          "Producer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "Optical Films"
         ]
       ],
-      "sourceVideo": "assets/sources/kfc-brand-video.mp4",
       "sourceVideos": [
-        "assets/sources/kfc-brand-video.mp4"
-      ]
+        "assets/sources/ubin-kakis.mp4"
+      ],
+      "sourceVideo": "assets/sources/ubin-kakis.mp4"
     },
     {
       "slot": "before",
@@ -475,16 +474,16 @@
     },
     {
       "slot": "before",
-      "title": "Samyang Buldak Carbonara",
+      "title": "Xmas Pizza",
       "category": "tvc",
       "tags": [
         "tvc",
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/samyang-buldak-kfc.jpg",
-      "video": "https://youtu.be/YhajWC0WMx8",
-      "client": "KFC",
+      "thumb": "assets/thumbs/xmas-pizzahut.jpg",
+      "video": "https://youtu.be/WDgh_YVAl-o",
+      "client": "Pizza Hut",
       "credits": [
         [
           "Work",
@@ -495,23 +494,9 @@
           "Abundant Productions"
         ]
       ],
-      "clips": [
-        {
-          "clipFile": "assets/clips/samyang-buldak-carbonara-0.mp4",
-          "end": "0:27",
-          "label": "Stabilise, Cleanup",
-          "start": "0:20"
-        },
-        {
-          "clipFile": "assets/clips/samyang-buldak-carbonara-1.mp4",
-          "end": "0:15",
-          "label": "Skin Retouch",
-          "start": "0:13"
-        }
-      ],
-      "sourceVideo": "assets/sources/samyang-buldak-carbonara.mp4",
+      "sourceVideo": "assets/sources/xmas.mp4",
       "sourceVideos": [
-        "assets/sources/samyang-buldak-carbonara.mp4"
+        "assets/sources/xmas.mp4"
       ]
     },
     {
@@ -594,13 +579,13 @@
     },
     {
       "slot": "before",
-      "title": "Eugene + Annabelle",
+      "title": "Samuel + Hui Qi",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
-      "video": "https://youtu.be/aN7I7F1gPnI",
+      "thumb": "assets/thumbs/samuel-huiqi.jpg",
+      "video": "https://youtu.be/FhqX9KT8nr8",
       "client": "AndroidsinBoots",
       "credits": [
         [
@@ -613,9 +598,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/eugene-annabelle.mp4"
+        "assets/sources/samuel-hui-qi.mp4"
       ],
-      "sourceVideo": "assets/sources/eugene-annabelle.mp4"
+      "sourceVideo": "assets/sources/samuel-hui-qi.mp4"
     },
     {
       "slot": "before",
@@ -660,28 +645,44 @@
     },
     {
       "slot": "before",
-      "title": "Mel + Jadey",
-      "category": "weddings",
+      "title": "Samyang Buldak Carbonara",
+      "category": "tvc",
       "tags": [
-        "weddings"
+        "tvc",
+        "ads",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/me-jadey.jpg",
-      "video": "https://youtu.be/OoNk_WGmhW8",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/samyang-buldak-kfc.jpg",
+      "video": "https://youtu.be/YhajWC0WMx8",
+      "client": "KFC",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Editor"
+          "Online | Cleanups | Skin retouching"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/mel-jadey.mp4"
+      "clips": [
+        {
+          "clipFile": "assets/clips/samyang-buldak-carbonara-0.mp4",
+          "end": "0:27",
+          "label": "Stabilise, Cleanup",
+          "start": "0:20"
+        },
+        {
+          "clipFile": "assets/clips/samyang-buldak-carbonara-1.mp4",
+          "end": "0:15",
+          "label": "Skin Retouch",
+          "start": "0:13"
+        }
       ],
-      "sourceVideo": "assets/sources/mel-jadey.mp4"
+      "sourceVideo": "assets/sources/samyang-buldak-carbonara.mp4",
+      "sourceVideos": [
+        "assets/sources/samyang-buldak-carbonara.mp4"
+      ]
     },
     {
       "slot": "before",
@@ -892,13 +893,13 @@
     },
     {
       "slot": "before",
-      "title": "Yi Chang + Clara",
+      "title": "Eugene + Annabelle",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
-      "video": "https://youtu.be/pcUNC46vu-s",
+      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
+      "video": "https://youtu.be/aN7I7F1gPnI",
       "client": "AndroidsinBoots",
       "credits": [
         [
@@ -911,34 +912,34 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/yi-chang-clara.mp4"
+        "assets/sources/eugene-annabelle.mp4"
       ],
-      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
+      "sourceVideo": "assets/sources/eugene-annabelle.mp4"
     },
     {
       "slot": "before",
-      "title": "Wilson + Chelsea",
-      "category": "weddings",
+      "title": "Paragon Indent",
+      "category": "corporate",
       "tags": [
-        "weddings"
+        "corporate"
       ],
-      "thumb": "assets/thumbs/wilson-chelsea.jpg",
-      "video": "https://youtu.be/eOdWUo2DBm4",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/Paragon Indent_Thumbnail.jpg",
+      "video": "https://youtu.be/USlC968YdlU",
+      "sourceVideos": [
+        "assets/sources/paragon-indent.mp4"
+      ],
+      "sourceVideo": "assets/sources/paragon-indent.mp4",
+      "client": "Paragon",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Editor"
+          "Online | Ai Gen *this video contains only Ai generation"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
-      ],
-      "sourceVideos": [
-        "assets/sources/wilson-chelsea.mp4"
-      ],
-      "sourceVideo": "assets/sources/wilson-chelsea.mp4"
+      ]
     },
     {
       "slot": "before",
@@ -1050,18 +1051,18 @@
     },
     {
       "slot": "after",
-      "title": "Samuel + Hui Qi",
+      "title": "Wilson + Chelsea",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/samuel-huiqi.jpg",
-      "video": "https://youtu.be/FhqX9KT8nr8",
+      "thumb": "assets/thumbs/wilson-chelsea.jpg",
+      "video": "https://youtu.be/eOdWUo2DBm4",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "2nd Videographer | Editor"
         ],
         [
           "Production",
@@ -1069,9 +1070,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/samuel-hui-qi.mp4"
+        "assets/sources/wilson-chelsea.mp4"
       ],
-      "sourceVideo": "assets/sources/samuel-hui-qi.mp4"
+      "sourceVideo": "assets/sources/wilson-chelsea.mp4"
     },
     {
       "slot": "after",
@@ -1183,18 +1184,18 @@
     },
     {
       "slot": "after",
-      "title": "Nianhua + Debbie",
+      "title": "Mel + Jadey",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/nianhua-debbie.jpg",
-      "video": "https://youtu.be/5ESVAnAJjDY",
+      "thumb": "assets/thumbs/me-jadey.jpg",
+      "video": "https://youtu.be/OoNk_WGmhW8",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer"
+          "2nd Videographer | Editor"
         ],
         [
           "Production",
@@ -1202,60 +1203,59 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/nianhua-debbie.mp4"
+        "assets/sources/mel-jadey.mp4"
       ],
-      "sourceVideo": "assets/sources/nianhua-debbie.mp4"
+      "sourceVideo": "assets/sources/mel-jadey.mp4"
     },
     {
       "slot": "after",
-      "title": "Ritz Carlton Wedding Showcase",
+      "title": "Yi Chang + Clara",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
+      "video": "https://youtu.be/pcUNC46vu-s",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/yi-chang-clara.mp4"
+      ],
+      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Bytedance 12th anniversary celebration",
       "category": "events",
       "tags": [
-        "events",
-        "branded content"
+        "events"
       ],
-      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
-      "video": "https://youtu.be/qSGJ6Qo-NdA",
-      "client": "Heaven's Gift",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
+      "video": "https://youtu.be/LGDU2hlOIZI",
+      "client": "Bytedance",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Producer"
+          "Producer | 2nd Videographer"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Optical Films"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/ritz-carlton-wedding-showcase.mp4"
+        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
       ],
-      "sourceVideo": "assets/sources/ritz-carlton-wedding-showcase.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Weilun + Sandy",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
-      "video": "https://youtu.be/If-L6E2CqMg",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/weilun-sandy.mp4"
-      ],
-      "sourceVideo": "assets/sources/weilun-sandy.mp4"
+      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
     },
     {
       "slot": "after",
@@ -1310,18 +1310,18 @@
     },
     {
       "slot": "after",
-      "title": "Kit + Emily",
+      "title": "Weilun + Sandy",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/kit-emily-same-day-edit-compressed-still.jpg",
-      "video": "https://youtu.be/gu-lUrjBl50",
+      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
+      "video": "https://youtu.be/If-L6E2CqMg",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "2nd Videographer "
+          "Project Lead | 1st Videographer"
         ],
         [
           "Production",
@@ -1329,9 +1329,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+        "assets/sources/weilun-sandy.mp4"
       ],
-      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+      "sourceVideo": "assets/sources/weilun-sandy.mp4"
     },
     {
       "slot": "after",
@@ -1385,70 +1385,53 @@
     },
     {
       "slot": "after",
-      "title": "Paragon Indent",
-      "category": "corporate",
+      "title": "Nianhua + Debbie",
+      "category": "weddings",
       "tags": [
-        "corporate"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/Paragon Indent_Thumbnail.jpg",
-      "video": "https://youtu.be/USlC968YdlU",
-      "sourceVideos": [
-        "assets/sources/paragon-indent.mp4"
-      ],
-      "sourceVideo": "assets/sources/paragon-indent.mp4",
-      "client": "Paragon",
+      "thumb": "assets/thumbs/nianhua-debbie.jpg",
+      "video": "https://youtu.be/5ESVAnAJjDY",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Online | Ai Gen *this video contains only Ai generation"
+          "Project Lead | 1st Videographer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/nianhua-debbie.mp4"
+      ],
+      "sourceVideo": "assets/sources/nianhua-debbie.mp4"
     },
     {
       "slot": "after",
-      "title": "Shopee 7.7 2026",
-      "category": "tvc",
+      "title": "Sengchong + Melanie",
+      "category": "weddings",
       "tags": [
-        "tvc"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
-      "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/sengchong--melanie-sde-compressed-still.jpg",
+      "video": "https://youtu.be/skIhkOQSgi8",
+      "client": "AndroindsinBoots",
       "credits": [
         [
           "Work",
-          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
+          "Project Lead | 1st Videographer "
         ],
         [
           "Production",
-          "Abundant Productions"
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
+        "assets/sources/sengchong--melanie-sde-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
-      "clips": [
-        {
-          "label": "",
-          "start": "0:05",
-          "end": "0:06"
-        },
-        {
-          "label": "",
-          "start": "0:09",
-          "end": "0:11"
-        },
-        {
-          "label": "",
-          "start": "0:20",
-          "end": "0:23"
-        }
-      ]
+      "sourceVideo": "assets/sources/sengchong--melanie-sde-compressed.mp4"
     },
     {
       "slot": "after",
@@ -1522,28 +1505,53 @@
     },
     {
       "slot": "after",
-      "title": "Bytedance 12th anniversary celebration",
-      "category": "events",
+      "title": "Kit + Emily",
+      "category": "weddings",
       "tags": [
-        "events"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
-      "video": "https://youtu.be/LGDU2hlOIZI",
-      "client": "Bytedance",
+      "thumb": "assets/thumbs/kit-emily-same-day-edit-compressed-still.jpg",
+      "video": "https://youtu.be/gu-lUrjBl50",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Producer | 2nd Videographer"
+          "2nd Videographer "
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+        "assets/sources/kit-emily-same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Kenny + Gina",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/kenny__gina_wedding_trailer-compressed--still-muh062fa.jpg",
+      "video": "https://youtu.be/7IMzXghGq8Y",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/kenny__gina_wedding_trailer-compressed-.mp4"
+      ],
+      "sourceVideo": "assets/sources/kenny__gina_wedding_trailer-compressed-.mp4"
     },
     {
       "slot": "after",
@@ -1594,31 +1602,6 @@
     },
     {
       "slot": "after",
-      "title": "Sengchong + Melanie",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/sengchong--melanie-sde-compressed-still.jpg",
-      "video": "https://youtu.be/skIhkOQSgi8",
-      "client": "AndroindsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer "
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/sengchong--melanie-sde-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/sengchong--melanie-sde-compressed.mp4"
-    },
-    {
-      "slot": "after",
       "title": "Token 2049",
       "category": "events",
       "tags": [
@@ -1648,32 +1631,6 @@
     },
     {
       "slot": "after",
-      "title": "GoBusiness",
-      "category": "tvc",
-      "tags": [
-        "branded content",
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
-      "video": "https://youtu.be/xoIFNObpu6M",
-      "client": "GovTech",
-      "credits": [
-        [
-          "Work",
-          "Assistant Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "sourceVideo": "assets/sources/gobusiness.mp4",
-      "sourceVideos": [
-        "assets/sources/gobusiness.mp4"
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Hariz + Aliah",
       "category": "weddings",
       "tags": [
@@ -1696,31 +1653,6 @@
         "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Kenny + Gina",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/kenny__gina_wedding_trailer-compressed--still-muh062fa.jpg",
-      "video": "https://youtu.be/7IMzXghGq8Y",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/kenny__gina_wedding_trailer-compressed-.mp4"
-      ],
-      "sourceVideo": "assets/sources/kenny__gina_wedding_trailer-compressed-.mp4"
     },
     {
       "slot": "after",
@@ -1749,12 +1681,80 @@
     },
     {
       "slot": "after",
+      "title": "GoBusiness",
+      "category": "tvc",
+      "tags": [
+        "branded content",
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
+      "video": "https://youtu.be/xoIFNObpu6M",
+      "client": "GovTech",
+      "credits": [
+        [
+          "Work",
+          "Assistant Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideo": "assets/sources/gobusiness.mp4",
+      "sourceVideos": [
+        "assets/sources/gobusiness.mp4"
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 7.7 2026",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
+      "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:05",
+          "end": "0:06"
+        },
+        {
+          "label": "",
+          "start": "0:09",
+          "end": "0:11"
+        },
+        {
+          "label": "",
+          "start": "0:20",
+          "end": "0:23"
+        }
+      ]
+    },
+    {
+      "slot": "after",
       "title": "Louis + Kendra",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/louis__kendra_same-day-edit-compressed-still-muh0sxt4.jpg",
       "video": "https://youtu.be/v8TW0AqlOmo",
       "client": "AndroidsinBoots",
       "credits": [
