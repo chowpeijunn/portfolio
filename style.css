@@ -259,7 +259,7 @@ a { color: inherit; text-decoration: none; }
 .canvas-inner {
   position: absolute;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-auto-flow: dense;
   gap: 14px;
   padding: 14px 14px 120px;
@@ -268,10 +268,7 @@ a { color: inherit; text-decoration: none; }
   will-change: transform;
 }
 
-/* Explicit column breakpoints — adaptive for all viewport widths */
-@media (max-width: 1899px) {
-  .canvas-inner { grid-template-columns: repeat(4, 1fr); }
-}
+/* Column breakpoints — capped at 4 columns, adaptive down for smaller viewports */
 @media (max-width: 1099px) {
   .canvas-inner { grid-template-columns: repeat(3, 1fr); }
 }
