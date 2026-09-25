@@ -5,28 +5,29 @@
   "projects": [
     {
       "slot": "before",
-      "title": "Kenneth + Natalie",
-      "category": "weddings",
+      "title": "Ubin Kakis",
+      "category": "corporate",
       "tags": [
-        "weddings"
+        "corporate",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/kn-thumbnail.jpg",
-      "video": "https://youtu.be/zQPagPyOaLA",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
+      "video": "https://youtu.be/Z_xkK-XQdoY",
+      "client": "Singapore Management University (SMU)",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer"
+          "Producer"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Optical Films"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/kenneth-natalie.mp4"
+        "assets/sources/ubin-kakis.mp4"
       ],
-      "sourceVideo": "assets/sources/kenneth-natalie.mp4"
+      "sourceVideo": "assets/sources/ubin-kakis.mp4"
     },
     {
       "slot": "before",
@@ -282,28 +283,29 @@
     },
     {
       "slot": "before",
-      "title": "Ryan + Cheryl",
-      "category": "weddings",
+      "title": "Heart of the Spirit",
+      "category": "events",
       "tags": [
-        "weddings"
+        "events",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/thumbnail-ryancheryl.png",
-      "video": "https://youtu.be/R_Y8V4YaEhU",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
+      "video": "https://youtu.be/w7In-QMwguo",
+      "client": "The Macallan",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "1st Videographer | Producer"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Optical Films"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/ryan-cheryl.mp4"
+        "assets/sources/heart-of-the-spirit.mp4"
       ],
-      "sourceVideo": "assets/sources/ryan-cheryl.mp4"
+      "sourceVideo": "assets/sources/heart-of-the-spirit.mp4"
     },
     {
       "slot": "before",
@@ -448,18 +450,18 @@
     },
     {
       "slot": "before",
-      "title": "Yi Chang + Clara",
+      "title": "Kenneth + Natalie",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
-      "video": "https://youtu.be/pcUNC46vu-s",
+      "thumb": "assets/thumbs/kn-thumbnail.jpg",
+      "video": "https://youtu.be/zQPagPyOaLA",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Project Lead | 1st Videographer"
         ],
         [
           "Production",
@@ -467,9 +469,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/yi-chang-clara.mp4"
+        "assets/sources/kenneth-natalie.mp4"
       ],
-      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
+      "sourceVideo": "assets/sources/kenneth-natalie.mp4"
     },
     {
       "slot": "before",
@@ -592,29 +594,28 @@
     },
     {
       "slot": "before",
-      "title": "Ubin Kakis",
-      "category": "corporate",
+      "title": "Eugene + Annabelle",
+      "category": "weddings",
       "tags": [
-        "corporate",
-        "branded content"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
-      "video": "https://youtu.be/Z_xkK-XQdoY",
-      "client": "Singapore Management University (SMU)",
+      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
+      "video": "https://youtu.be/aN7I7F1gPnI",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Producer"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/ubin-kakis.mp4"
+        "assets/sources/eugene-annabelle.mp4"
       ],
-      "sourceVideo": "assets/sources/ubin-kakis.mp4"
+      "sourceVideo": "assets/sources/eugene-annabelle.mp4"
     },
     {
       "slot": "before",
@@ -735,29 +736,28 @@
     },
     {
       "slot": "before",
-      "title": "Heart of the Spirit",
-      "category": "events",
+      "title": "Ryan + Cheryl",
+      "category": "weddings",
       "tags": [
-        "events",
-        "branded content"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
-      "video": "https://youtu.be/w7In-QMwguo",
-      "client": "The Macallan",
+      "thumb": "assets/thumbs/thumbnail-ryancheryl.png",
+      "video": "https://youtu.be/R_Y8V4YaEhU",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "1st Videographer | Producer"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/heart-of-the-spirit.mp4"
+        "assets/sources/ryan-cheryl.mp4"
       ],
-      "sourceVideo": "assets/sources/heart-of-the-spirit.mp4"
+      "sourceVideo": "assets/sources/ryan-cheryl.mp4"
     },
     {
       "slot": "before",
@@ -828,31 +828,6 @@
     },
     {
       "slot": "before",
-      "title": "Eugene + Annabelle",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
-      "video": "https://youtu.be/aN7I7F1gPnI",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/eugene-annabelle.mp4"
-      ],
-      "sourceVideo": "assets/sources/eugene-annabelle.mp4"
-    },
-    {
-      "slot": "before",
       "title": "Kia x Discovery",
       "category": "tvc",
       "tags": [
@@ -916,7 +891,32 @@
       ]
     },
     {
-      "slot": "after",
+      "slot": "before",
+      "title": "Yi Chang + Clara",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
+      "video": "https://youtu.be/pcUNC46vu-s",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/yi-chang-clara.mp4"
+      ],
+      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
+    },
+    {
+      "slot": "before",
       "title": "Wilson + Chelsea",
       "category": "weddings",
       "tags": [
@@ -941,7 +941,7 @@
       "sourceVideo": "assets/sources/wilson-chelsea.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Cheezy 7",
       "category": "tvc",
       "tags": [
@@ -1116,29 +1116,28 @@
     },
     {
       "slot": "after",
-      "title": "Ritz Carlton Wedding Showcase",
-      "category": "events",
+      "title": "Shopee 9.9 2026",
+      "category": "tvc",
       "tags": [
-        "events",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
-      "video": "https://youtu.be/qSGJ6Qo-NdA",
-      "client": "Heaven's Gift",
+      "thumb": "assets/thumbs/Screenshot 2026-09-17 at 11.31.22 AM.jpg",
+      "video": "https://youtu.be/KNuLP7lrMhI?si=ln5tEUuiyCQfS1Yz",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "2nd Videographer | Producer"
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics Comp"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/ritz-carlton-wedding-showcase.mp4"
+        "assets/sources/shopee-9-9-2026.mp4"
       ],
-      "sourceVideo": "assets/sources/ritz-carlton-wedding-showcase.mp4"
+      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4"
     },
     {
       "slot": "after",
@@ -1209,50 +1208,29 @@
     },
     {
       "slot": "after",
-      "title": "Shopee VIP",
-      "category": "tvc",
+      "title": "Ritz Carlton Wedding Showcase",
+      "category": "events",
       "tags": [
-        "tvc",
-        "ads",
+        "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
-      "video": "https://youtu.be/LJYTB7AMaBU",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
+      "video": "https://youtu.be/qSGJ6Qo-NdA",
+      "client": "Heaven's Gift",
       "credits": [
         [
           "Work",
-          "Online | Look Comp | Screen Replacements | Cleanups"
+          "2nd Videographer | Producer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "AndroidsinBoots"
         ]
       ],
-      "clips": [
-        {
-          "label": "Screen Replacement",
-          "start": "0:20",
-          "end": "0:22",
-          "clipFile": "assets/clips/shopee-vip-0.mp4"
-        },
-        {
-          "label": "Confetti Comp",
-          "start": "0:04",
-          "end": "0:08",
-          "clipFile": "assets/clips/shopee-vip-1.mp4"
-        },
-        {
-          "label": "Speedlines / God Ray Comp",
-          "start": "0:14",
-          "end": "0:20",
-          "clipFile": "assets/clips/shopee-vip-2.mp4"
-        }
-      ],
-      "sourceVideo": "assets/sources/shopee-vip.mp4",
       "sourceVideos": [
-        "assets/sources/shopee-vip.mp4"
-      ]
+        "assets/sources/ritz-carlton-wedding-showcase.mp4"
+      ],
+      "sourceVideo": "assets/sources/ritz-carlton-wedding-showcase.mp4"
     },
     {
       "slot": "after",
@@ -1569,28 +1547,50 @@
     },
     {
       "slot": "after",
-      "title": "Shopee 9.9 2026",
+      "title": "Shopee VIP",
       "category": "tvc",
       "tags": [
-        "tvc"
+        "tvc",
+        "ads",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-09-17 at 11.31.22 AM.jpg",
-      "video": "https://youtu.be/KNuLP7lrMhI?si=ln5tEUuiyCQfS1Yz",
+      "thumb": "assets/thumbs/shopee-vip-shopee.jpg",
+      "video": "https://youtu.be/LJYTB7AMaBU",
       "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics Comp"
+          "Online | Look Comp | Screen Replacements | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/shopee-9-9-2026.mp4"
+      "clips": [
+        {
+          "label": "Screen Replacement",
+          "start": "0:20",
+          "end": "0:22",
+          "clipFile": "assets/clips/shopee-vip-0.mp4"
+        },
+        {
+          "label": "Confetti Comp",
+          "start": "0:04",
+          "end": "0:08",
+          "clipFile": "assets/clips/shopee-vip-1.mp4"
+        },
+        {
+          "label": "Speedlines / God Ray Comp",
+          "start": "0:14",
+          "end": "0:20",
+          "clipFile": "assets/clips/shopee-vip-2.mp4"
+        }
       ],
-      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4"
+      "sourceVideo": "assets/sources/shopee-vip.mp4",
+      "sourceVideos": [
+        "assets/sources/shopee-vip.mp4"
+      ]
     },
     {
       "slot": "after",
@@ -1704,7 +1704,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/kenny__gina_wedding_trailer-compressed--still-muh062fa.jpg",
       "video": "https://youtu.be/7IMzXghGq8Y",
       "client": "AndroidsinBoots",
       "credits": [
