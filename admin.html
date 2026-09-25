@@ -2245,7 +2245,8 @@ async function captureFrameThumb() {
   const p    = data.projects[projectIdx];
   const src  = getAllSources(p)[0] || '';
   const base = (src.split('/').pop() || 'thumb').replace(/\.[^.]+$/, '');
-  const name = sanitizeFilename(base + '-still.jpg');
+  const stamp = Date.now().toString(36);   // unique per grab: a re-grab gets a fresh
+  const name = sanitizeFilename(base + '-still-' + stamp + '.jpg');   // URL, never a stale cache
   const uploadPath = `assets/thumbs/${name}`;
 
   // Draw the full frame at native resolution first (needed for letterbox detection).
@@ -2294,7 +2295,7 @@ async function captureFrameThumb() {
       const disp = document.querySelector('.thumb-path-display');
       if (disp) { disp.textContent = uploadPath; disp.classList.remove('is-url'); }
     }
-    setStatus('✓ Thumbnail set for “' + (p.title || 'project') + '”' + (cropped ? ' (black bars cropped)' : ''));
+    setStatus('✓ Thumbnail set for “' + (p.title || 'project') + '”' + (cropped ? ' (black bars cropped)' : '') + ' — shows on the site in ~1 min');
   } catch (err) {
     setStatus('Upload failed: ' + err.message, true);
   }
