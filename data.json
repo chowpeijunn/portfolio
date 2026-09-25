@@ -1662,7 +1662,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
+      ],
+      "sourceVideo": "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
     },
     {
       "slot": "after",
