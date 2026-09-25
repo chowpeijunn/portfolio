@@ -916,8 +916,8 @@ function refreshSourcesStatus() {
 
 // ── FIELD UPDATES ──────────────────────────────────────────
 
-function markDirty() {
-  dirty.add(selectedIdx);
+function markDirty(idx = selectedIdx) {
+  dirty.add(idx);
   // Update sidebar item style without full re-render
   document.querySelectorAll('.project-item').forEach(el => {
     const i = parseInt(el.dataset.idx);
@@ -2239,7 +2239,10 @@ async function captureFrameThumb() {
   if (!getGhToken()) { setStatus('Set your GitHub token (🔑 Token) first.', true); return; }
   if (!vid || !vid.videoWidth) { setStatus('Frame not ready — play or scrub the video first.', true); return; }
 
-  const p    = data.projects[selectedIdx];
+  // Pin the project NOW — the upload is async, and if the user switches projects
+  // before it finishes, the thumbnail must still land on the project they grabbed.
+  const projectIdx = selectedIdx;
+  const p    = data.projects[projectIdx];
   const src  = getAllSources(p)[0] || '';
   const base = (src.split('/').pop() || 'thumb').replace(/\.[^.]+$/, '');
   const name = sanitizeFilename(base + '-still.jpg');
@@ -2281,10 +2284,17 @@ async function captureFrameThumb() {
     setStatus(`Uploading… (${Math.round(blob.size / 1024)} KB)`);
     await githubPut(uploadPath, base64, name);
     if (!thumbFiles.includes(name)) thumbFiles.unshift(name);
-    pickThumb(uploadPath);                       // stores the clean repo path as the thumb
-    const previewImg = document.querySelector('.thumb-preview');
-    if (previewImg && previewImg.tagName === 'IMG') previewImg.src = dataUrl;  // instant local preview (repo copy deploys in ~1 min)
-    setStatus('✓ Thumbnail set from this frame' + (cropped ? ' (black bars cropped)' : ''));
+    // Assign to the PINNED project — NOT pickThumb(), which reads the live
+    // selectedIdx and would land on the wrong project if the user switched.
+    p.thumb = uploadPath;
+    markDirty(projectIdx);
+    if (selectedIdx === projectIdx) {            // only touch the visible editor if still on it
+      const previewImg = document.querySelector('.thumb-preview');
+      if (previewImg && previewImg.tagName === 'IMG') previewImg.src = dataUrl;  // instant local preview
+      const disp = document.querySelector('.thumb-path-display');
+      if (disp) { disp.textContent = uploadPath; disp.classList.remove('is-url'); }
+    }
+    setStatus('✓ Thumbnail set for “' + (p.title || 'project') + '”' + (cropped ? ' (black bars cropped)' : ''));
   } catch (err) {
     setStatus('Upload failed: ' + err.message, true);
   }
