@@ -756,28 +756,26 @@ function renderEditor() {
         ${thumbPreview}
         <div class="thumb-preview-info">
           <div class="thumb-path-display ${isUrl ? 'is-url' : ''}" id="thumbPathDisplay">${thumbSrc || '— none —'}</div>
-          <div class="field" style="margin-bottom:6px">
-            <label>Paste a URL</label>
-            <input type="text" id="thumbUrlInput" value="${isUrl ? esc(thumbSrc) : ''}" placeholder="https://img.youtube.com/vi/.../mqdefault.jpg" oninput="applyThumbUrl(this.value)">
+          ${getAllSources(p).length ? `
+          <button class="btn btn-primary btn-sm" style="margin-top:2px" onclick="toggleFrameGrabber()">🎞 Grab thumbnail from video</button>`
+          : `
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Add a source video to grab a thumbnail from it.</div>`}
+          <div style="margin-top:8px">
+            <span class="thumb-grid-toggle" onclick="toggleThumbGrid()">${thumbGridVisible ? 'Hide image picker ↑' : 'Browse local images ↓'}</span>
           </div>
-          <span class="thumb-grid-toggle" onclick="toggleThumbGrid()">
-            ${thumbGridVisible ? 'Hide image picker ↑' : 'Browse local images ↓'}
-          </span>
         </div>
       </div>
+      <div id="frameGrabber"></div>
       <div class="upload-zone" id="uploadZone"
         ondragover="event.preventDefault();this.classList.add('drag-over')"
         ondragleave="this.classList.remove('drag-over')"
         ondrop="handleUploadDrop(event)">
         <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handleUploadFile(this.files[0])">
         <div class="upload-zone-label">
-          <strong>Upload a new image</strong> — drag &amp; drop or click to browse
+          <strong>Or upload an image</strong> — drag &amp; drop or click to browse
         </div>
         <div class="upload-progress" id="uploadProgress">Uploading…</div>
       </div>
-      ${getAllSources(p).length ? `
-      <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="toggleFrameGrabber()">🎞 Grab thumbnail from video</button>
-      <div id="frameGrabber"></div>` : ''}
       ${thumbGridVisible ? renderThumbGrid(thumbSrc) : ''}
     </div>
 
