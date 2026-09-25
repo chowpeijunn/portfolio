@@ -1741,7 +1741,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
     }
   ],
   "categoryDefaults": {
