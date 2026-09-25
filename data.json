@@ -1595,45 +1595,7 @@
       "sourceVideos": [
         "assets/sources/shopee-9-9-2026.mp4"
       ],
-      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4",
-      "clips": [
-        {
-          "label": "Billboard Comp",
-          "start": "0:32",
-          "end": "0:36"
-        },
-        {
-          "label": "Flyer + Bus Ad Replacement Comp ",
-          "start": "0:18",
-          "end": "0:22"
-        },
-        {
-          "label": "Billboard Comp",
-          "start": "0:12",
-          "end": "0:13"
-        }
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "New Project",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "",
-      "video": "",
-      "client": "",
-      "credits": [
-        [
-          "Work",
-          ""
-        ],
-        [
-          "Production",
-          ""
-        ]
-      ]
+      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4"
     }
   ],
   "categoryDefaults": {
