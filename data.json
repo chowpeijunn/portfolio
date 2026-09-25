@@ -1596,6 +1596,31 @@
         "assets/sources/shopee-9-9-2026.mp4"
       ],
       "sourceVideo": "assets/sources/shopee-9-9-2026.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Sengchong + Melanie",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/skIhkOQSgi8",
+      "client": "AndroindsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer "
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/sengchong--melanie-sde-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/sengchong--melanie-sde-compressed.mp4"
     }
   ],
   "categoryDefaults": {
