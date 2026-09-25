@@ -1746,6 +1746,31 @@
         "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Louis + Kendra",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/v8TW0AqlOmo",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
     }
   ],
   "categoryDefaults": {
