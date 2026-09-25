@@ -1654,7 +1654,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/zachary__leeyin_same-day-edit-compressed--still.jpg",
       "video": "https://youtu.be/6tbLkbjXw3Q",
       "client": "AndroidsinBoots",
       "credits": [
@@ -1691,7 +1691,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
     }
   ],
   "categoryDefaults": {
