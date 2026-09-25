@@ -1777,7 +1777,8 @@
       "sourceVideos": [
         "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
+      "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4",
+      "preview": "assets/previews/louis__kendra_same-day-edit-compressed-preview.mp4"
     }
   ],
   "categoryDefaults": {
