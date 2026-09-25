@@ -331,6 +331,17 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .cat-events { background: #1a1a2a; color: #93c5fd; }
 .cat-tvc { background: #2a1a1a; color: #fca5a5; }
 
+/* Sidebar category filter chips — always colour-coded, filled when active */
+.sidebar-filters { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.sf-chip { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); background: transparent; cursor: pointer; transition: all 0.12s; }
+.sf-all { color: var(--muted); }
+.sf-weddings { color: #c084fc; }
+.sf-corporate { color: #86efac; }
+.sf-events { color: #93c5fd; }
+.sf-tvc { color: #fca5a5; }
+.sf-chip:hover { border-color: currentColor; }
+.sf-chip.active { border-color: currentColor; background: rgba(255,255,255,0.07); font-weight: 600; }
+
 /* ── GRID VIEW OVERLAY ── */
 .grid-overlay {
   position: fixed; inset: 0; z-index: 200;
@@ -513,16 +524,13 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
         oninput="data.showreelCopy = this.value;"
         onfocus="this.style.borderColor='var(--accent)'"
         onblur="this.style.borderColor='var(--border)'" />
-      <div style="font-size:10px;color:var(--muted);margin:6px 0 4px;">Direct video file <span style="opacity:0.5">(overrides YouTube embed)</span></div>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <input id="showreelVideoInput" type="text" placeholder="assets/videos/showreel.mp4"
-          style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:11px;font-family:monospace;outline:none;"
-          oninput="data.showreelVideo = this.value;"
-          onfocus="this.style.borderColor='var(--accent)'"
-          onblur="this.style.borderColor='var(--border)'" />
-        <button class="btn btn-ghost btn-sm" onclick="pickShowreelVideo()" style="flex-shrink:0;font-size:11px;">↑ Upload</button>
-      </div>
-      <div id="showreelVideoProgress" style="font-size:11px;color:var(--accent);margin-top:4px;display:none;"></div>
+    </div>
+    <div class="sidebar-filters" id="sidebarFilters">
+      <button class="sf-chip sf-all active" data-cat="" onclick="setCategoryFilter('')">All</button>
+      <button class="sf-chip sf-weddings"  data-cat="weddings"  onclick="setCategoryFilter('weddings')">Weddings</button>
+      <button class="sf-chip sf-corporate" data-cat="corporate" onclick="setCategoryFilter('corporate')">Corporate</button>
+      <button class="sf-chip sf-events"    data-cat="events"    onclick="setCategoryFilter('events')">Events</button>
+      <button class="sf-chip sf-tvc"       data-cat="tvc"       onclick="setCategoryFilter('tvc')">TVC</button>
     </div>
     <div class="project-list" id="projectList"></div>
     <div class="add-btn-row">
@@ -553,6 +561,7 @@ let dirty = new Set();
 let thumbGridVisible = false;
 let dragSrcIdx = null;
 let filterQuery = '';
+let categoryFilter = '';   // sidebar colour-coded category filter ('' = all)
 
 function getAdminSecret() {
   return localStorage.getItem('adminSecret') || '';
@@ -584,6 +593,12 @@ function updateCount() {
   document.getElementById('projectCount').textContent = `${data.projects.length} projects`;
 }
 
+function setCategoryFilter(cat) {
+  categoryFilter = cat;
+  document.querySelectorAll('.sf-chip').forEach(c => c.classList.toggle('active', (c.dataset.cat || '') === cat));
+  renderList();
+}
+
 function filterList(q) {
   filterQuery = q.toLowerCase();
   renderList();
@@ -597,6 +612,7 @@ function renderList() {
   const list = document.getElementById('projectList');
   list.innerHTML = '';
   data.projects.forEach((p, i) => {
+    if (categoryFilter && p.category !== categoryFilter) return;
     if (filterQuery && !p.title.toLowerCase().includes(filterQuery) && !p.category.includes(filterQuery)) return;
 
     const item = document.createElement('div');
@@ -1944,7 +1960,7 @@ function closeGridView() {
   gridDragSrc = null;
 }
 
-function applyGridView() {
+async function applyGridView() {
   const newProjects = [];
   gridOrder.forEach((idx, i) => {
     data.projects[idx].slot = i < hubIdx ? 'before' : 'after';
@@ -1958,6 +1974,7 @@ function applyGridView() {
   renderEditor();
   updateCount();
   closeGridView();
+  await saveAll();   // persist the new order immediately — no separate Save & Publish needed
 }
 
 // Centre hubIdx so the hub lands in the middle column for the current gridCols.
@@ -2295,7 +2312,9 @@ async function captureFrameThumb() {
       const disp = document.querySelector('.thumb-path-display');
       if (disp) { disp.textContent = uploadPath; disp.classList.remove('is-url'); }
     }
-    setStatus('✓ Thumbnail set for “' + (p.title || 'project') + '”' + (cropped ? ' (black bars cropped)' : '') + ' — shows on the site in ~1 min');
+    setStatus('✓ Thumbnail set — saving…');
+    await saveAll();   // persist to data.json immediately so navigating away can't lose it
+    setStatus('✓ Thumbnail saved for “' + (p.title || 'project') + '”' + (cropped ? ' (black bars cropped)' : '') + ' — live in ~1 min');
   } catch (err) {
     setStatus('Upload failed: ' + err.message, true);
   }
