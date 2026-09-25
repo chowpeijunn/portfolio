@@ -494,7 +494,6 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
       <button class="col-btn" onclick="setGridCols(2)">2</button>
       <button class="col-btn" onclick="setGridCols(3)">3</button>
       <button class="col-btn" onclick="setGridCols(4)">4</button>
-      <button class="col-btn" onclick="setGridCols(5)">5</button>
     </div>
     <button class="btn btn-ghost btn-sm" onclick="closeGridView()">Cancel</button>
     <button class="btn btn-primary btn-sm" onclick="applyGridView()">Apply Order</button>
@@ -1933,7 +1932,7 @@ async function saveAll() {
 
 // ── GRID VIEW ─────────────────────────────────────────────
 
-let gridCols = 5;
+let gridCols = 4;
 let gridOrder = []; // flat array of ALL project indices
 let hubIdx = 0;     // hub is visually inserted before gridOrder[hubIdx]
 let gridDragSrc = null;
