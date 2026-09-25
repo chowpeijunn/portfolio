@@ -1699,22 +1699,22 @@
     },
     {
       "slot": "after",
-      "title": "New Project",
+      "title": "Kenny + Gina",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
       "thumb": "",
-      "video": "",
-      "client": "",
+      "video": "https://youtu.be/7IMzXghGq8Y",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          ""
+          "Editor"
         ],
         [
           "Production",
-          ""
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
