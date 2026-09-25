@@ -775,6 +775,9 @@ function renderEditor() {
         </div>
         <div class="upload-progress" id="uploadProgress">Uploading…</div>
       </div>
+      ${getAllSources(p).length ? `
+      <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="toggleFrameGrabber()">🎞 Grab thumbnail from video</button>
+      <div id="frameGrabber"></div>` : ''}
       ${thumbGridVisible ? renderThumbGrid(thumbSrc) : ''}
     </div>
 
@@ -2171,6 +2174,81 @@ async function handleUploadFile(file) {
     setTimeout(() => { if (progress) progress.classList.remove('visible'); }, 3000);
   } catch (err) {
     showProgress('Upload failed: ' + err.message, true);
+  }
+}
+
+// ── GRAB THUMBNAIL FROM VIDEO ─────────────────────────────
+// Opens the project's source video with a scrubber; the current frame can be
+// captured to a JPEG and set as the thumbnail — no separate image upload needed.
+function toggleFrameGrabber() {
+  const host = document.getElementById('frameGrabber');
+  if (!host) return;
+  if (host.innerHTML.trim()) { host.innerHTML = ''; return; }  // toggle closed
+
+  const p = data.projects[selectedIdx];
+  const src = getAllSources(p)[0];
+  if (!src) { alert('Add a source video for this project first.'); return; }
+
+  host.innerHTML = `
+    <div class="clip-preview" style="margin-top:8px">
+      <div class="clip-player-wrap">
+        <video id="frameGrabVid" src="${esc(src)}" controls preload="metadata"
+          style="width:100%;height:100%;background:#000;display:block;"></video>
+      </div>
+      <div class="clip-controls">
+        <span class="clip-current-time" id="frameGrabTime">0:00</span>
+        <button class="btn btn-primary btn-sm" onclick="captureFrameThumb()">📸 Use this frame</button>
+        <span id="frameGrabStatus" style="font-size:11px;color:var(--muted);"></span>
+      </div>
+      <div class="clip-hint" style="padding:0 10px 8px;">Scrub to the moment you want, then click “Use this frame”.</div>
+    </div>`;
+
+  const vid = document.getElementById('frameGrabVid');
+  const timer = setInterval(() => {
+    if (!document.getElementById('frameGrabVid')) { clearInterval(timer); return; }
+    const el = document.getElementById('frameGrabTime');
+    if (el) el.textContent = fmtTime(vid.currentTime || 0);
+  }, 200);
+}
+
+async function captureFrameThumb() {
+  const vid    = document.getElementById('frameGrabVid');
+  const status = document.getElementById('frameGrabStatus');
+  const setStatus = (m, err) => { if (status) { status.textContent = m; status.style.color = err ? 'var(--danger)' : 'var(--muted)'; } };
+
+  if (!getGhToken()) { setStatus('Set your GitHub token (🔑 Token) first.', true); return; }
+  if (!vid || !vid.videoWidth) { setStatus('Frame not ready — play or scrub the video first.', true); return; }
+
+  const p    = data.projects[selectedIdx];
+  const src  = getAllSources(p)[0] || '';
+  const base = (src.split('/').pop() || 'thumb').replace(/\.[^.]+$/, '');
+  const name = sanitizeFilename(base + '-still.jpg');
+  const uploadPath = `assets/thumbs/${name}`;
+
+  // Draw the current frame to a canvas (cap width at 1600px, same as image uploads).
+  let w = vid.videoWidth, h = vid.videoHeight;
+  const maxW = 1600;
+  if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  canvas.getContext('2d').drawImage(vid, 0, 0, w, h);
+
+  setStatus('Capturing frame…');
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+  const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.85));
+  if (!blob) { setStatus('Capture failed — try a different frame.', true); return; }
+  const base64 = await blobToBase64(blob);
+
+  try {
+    setStatus(`Uploading… (${Math.round(blob.size / 1024)} KB)`);
+    await githubPut(uploadPath, base64, name);
+    if (!thumbFiles.includes(name)) thumbFiles.unshift(name);
+    pickThumb(uploadPath);                       // stores the clean repo path as the thumb
+    const previewImg = document.querySelector('.thumb-preview');
+    if (previewImg && previewImg.tagName === 'IMG') previewImg.src = dataUrl;  // instant local preview (repo copy deploys in ~1 min)
+    setStatus('✓ Thumbnail set from this frame');
+  } catch (err) {
+    setStatus('Upload failed: ' + err.message, true);
   }
 }
 
