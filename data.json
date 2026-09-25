@@ -199,35 +199,45 @@
     },
     {
       "slot": "before",
-      "title": "Portraits of HTA",
-      "category": "corporate",
+      "title": "Shopee 7.7 2026",
+      "category": "tvc",
       "tags": [
-        "corporate",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/portraits-hta.png",
-      "video": "https://youtu.be/m2RVVT-VFZ4",
-      "client": "Home Team Academy (HTA)",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
+      "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Producer"
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ],
-      "videos": [
-        "https://youtu.be/9IJpjz0rtU8",
-        "https://youtu.be/_JmdVs15Yb8",
-        "https://youtu.be/rf8l1mZX-II",
-        "https://youtu.be/wrJFlspDcv4"
-      ],
       "sourceVideos": [
-        "assets/sources/portraits-of-hta.mp4"
+        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
       ],
-      "sourceVideo": "assets/sources/portraits-of-hta.mp4"
+      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
+      "clips": [
+        {
+          "label": "",
+          "start": "0:05",
+          "end": "0:06"
+        },
+        {
+          "label": "",
+          "start": "0:09",
+          "end": "0:11"
+        },
+        {
+          "label": "",
+          "start": "0:20",
+          "end": "0:23"
+        }
+      ]
     },
     {
       "slot": "before",
@@ -527,83 +537,6 @@
     },
     {
       "slot": "before",
-      "title": "Thrive BT",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/thrive-bt-thumbnail.png",
-      "video": "https://youtu.be/-iNtE4e-l4A",
-      "client": "The Business Times",
-      "credits": [
-        [
-          "Work",
-          "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "clips": [
-        {
-          "clipFile": "assets/clips/thrive-bt-0.mp4",
-          "end": "0:21",
-          "label": "Animation, 3D Cam tracking",
-          "start": "0:16"
-        },
-        {
-          "clipFile": "assets/clips/thrive-bt-1.mp4",
-          "end": "0:35",
-          "label": "Animation, Roto, Transition, 3D Cam tracking",
-          "start": "0:26"
-        },
-        {
-          "clipFile": "assets/clips/thrive-bt-2.mp4",
-          "end": "0:44",
-          "label": "Animation, 3D Cam tracking",
-          "start": "0:35"
-        },
-        {
-          "end": "0:46",
-          "label": "Screen Clean Up",
-          "start": "0:45",
-          "clipFile": "assets/clips/thrive-bt-3.mp4"
-        }
-      ],
-      "sourceVideo": "assets/sources/thrive-bt.mp4",
-      "sourceVideos": [
-        "assets/sources/thrive-bt.mp4"
-      ]
-    },
-    {
-      "slot": "before",
-      "title": "Samuel + Hui Qi",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/samuel-huiqi.jpg",
-      "video": "https://youtu.be/FhqX9KT8nr8",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/samuel-hui-qi.mp4"
-      ],
-      "sourceVideo": "assets/sources/samuel-hui-qi.mp4"
-    },
-    {
-      "slot": "before",
       "title": "Thai Curry",
       "category": "tvc",
       "tags": [
@@ -641,6 +574,56 @@
       "sourceVideo": "assets/sources/thai-curry.mp4",
       "sourceVideos": [
         "assets/sources/thai-curry.mp4"
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Samuel + Hui Qi",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/samuel-huiqi.jpg",
+      "video": "https://youtu.be/FhqX9KT8nr8",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/samuel-hui-qi.mp4"
+      ],
+      "sourceVideo": "assets/sources/samuel-hui-qi.mp4"
+    },
+    {
+      "slot": "before",
+      "title": "Paragon Indent",
+      "category": "corporate",
+      "tags": [
+        "corporate"
+      ],
+      "thumb": "assets/thumbs/Paragon Indent_Thumbnail.jpg",
+      "video": "https://youtu.be/USlC968YdlU",
+      "sourceVideos": [
+        "assets/sources/paragon-indent.mp4"
+      ],
+      "sourceVideo": "assets/sources/paragon-indent.mp4",
+      "client": "Paragon",
+      "credits": [
+        [
+          "Work",
+          "Online | Ai Gen *this video contains only Ai generation"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
       ]
     },
     {
@@ -918,27 +901,54 @@
     },
     {
       "slot": "before",
-      "title": "Paragon Indent",
-      "category": "corporate",
+      "title": "Thrive BT",
+      "category": "tvc",
       "tags": [
-        "corporate"
+        "tvc",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/Paragon Indent_Thumbnail.jpg",
-      "video": "https://youtu.be/USlC968YdlU",
-      "sourceVideos": [
-        "assets/sources/paragon-indent.mp4"
-      ],
-      "sourceVideo": "assets/sources/paragon-indent.mp4",
-      "client": "Paragon",
+      "thumb": "assets/thumbs/thrive-bt-thumbnail.png",
+      "video": "https://youtu.be/-iNtE4e-l4A",
+      "client": "The Business Times",
       "credits": [
         [
           "Work",
-          "Online | Ai Gen *this video contains only Ai generation"
+          "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
+      ],
+      "clips": [
+        {
+          "clipFile": "assets/clips/thrive-bt-0.mp4",
+          "end": "0:21",
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:16"
+        },
+        {
+          "clipFile": "assets/clips/thrive-bt-1.mp4",
+          "end": "0:35",
+          "label": "Animation, Roto, Transition, 3D Cam tracking",
+          "start": "0:26"
+        },
+        {
+          "clipFile": "assets/clips/thrive-bt-2.mp4",
+          "end": "0:44",
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:35"
+        },
+        {
+          "end": "0:46",
+          "label": "Screen Clean Up",
+          "start": "0:45",
+          "clipFile": "assets/clips/thrive-bt-3.mp4"
+        }
+      ],
+      "sourceVideo": "assets/sources/thrive-bt.mp4",
+      "sourceVideos": [
+        "assets/sources/thrive-bt.mp4"
       ]
     },
     {
@@ -1707,45 +1717,35 @@
     },
     {
       "slot": "after",
-      "title": "Shopee 7.7 2026",
-      "category": "tvc",
+      "title": "Portraits of HTA",
+      "category": "corporate",
       "tags": [
-        "tvc"
+        "corporate",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
-      "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/portraits-hta.png",
+      "video": "https://youtu.be/m2RVVT-VFZ4",
+      "client": "Home Team Academy (HTA)",
       "credits": [
         [
           "Work",
-          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
+          "Producer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "Optical Films"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
+      "videos": [
+        "https://youtu.be/9IJpjz0rtU8",
+        "https://youtu.be/_JmdVs15Yb8",
+        "https://youtu.be/rf8l1mZX-II",
+        "https://youtu.be/wrJFlspDcv4"
       ],
-      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
-      "clips": [
-        {
-          "label": "",
-          "start": "0:05",
-          "end": "0:06"
-        },
-        {
-          "label": "",
-          "start": "0:09",
-          "end": "0:11"
-        },
-        {
-          "label": "",
-          "start": "0:20",
-          "end": "0:23"
-        }
-      ]
+      "sourceVideos": [
+        "assets/sources/portraits-of-hta.mp4"
+      ],
+      "sourceVideo": "assets/sources/portraits-of-hta.mp4"
     },
     {
       "slot": "after",
