@@ -1307,57 +1307,53 @@
     },
     {
       "slot": "after",
-      "title": "Trade Advocacy Programme",
-      "category": "corporate",
+      "title": "Zachary + Leeyin - Same Day Edit with Pre-wedding",
+      "category": "weddings",
       "tags": [
-        "corporate"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-8.42.55-am.jpg",
-      "video": "https://youtu.be/jFEWqfvhQC0",
-      "client": "The Macallan",
+      "thumb": "assets/thumbs/zachary__leeyin_same-day-edit-compressed--still.jpg",
+      "video": "https://youtu.be/6tbLkbjXw3Q",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Producer"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/trade-advocacy-programme.mp4"
+        "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
       ],
-      "sourceVideo": "assets/sources/trade-advocacy-programme.mp4"
+      "sourceVideo": "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
     },
     {
       "slot": "after",
-      "title": "Token 2049",
-      "category": "events",
+      "title": "Kit + Emily",
+      "category": "weddings",
       "tags": [
-        "events"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.49-am.jpg",
-      "video": "https://youtu.be/cqDVmKocdrA",
-      "client": "DWF",
+      "thumb": "assets/thumbs/kit-emily-same-day-edit-compressed-still.jpg",
+      "video": "https://youtu.be/gu-lUrjBl50",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Producer | 2nd Videographer"
+          "2nd Videographer "
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
-      "videos": [
-        "https://youtu.be/sAOndV48mY4",
-        "https://youtu.be/NLXX-hBEUPE"
-      ],
       "sourceVideos": [
-        "assets/sources/token-2049.mp4"
+        "assets/sources/kit-emily-same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/token-2049.mp4"
+      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4"
     },
     {
       "slot": "after",
@@ -1386,29 +1382,28 @@
     },
     {
       "slot": "after",
-      "title": "GoBusiness",
-      "category": "tvc",
+      "title": "Trade Advocacy Programme",
+      "category": "corporate",
       "tags": [
-        "branded content",
-        "tvc"
+        "corporate"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
-      "video": "https://youtu.be/xoIFNObpu6M",
-      "client": "GovTech",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-8.42.55-am.jpg",
+      "video": "https://youtu.be/jFEWqfvhQC0",
+      "client": "The Macallan",
       "credits": [
         [
           "Work",
-          "Assistant Producer"
+          "Producer"
         ],
         [
           "Production",
           "Optical Films"
         ]
       ],
-      "sourceVideo": "assets/sources/gobusiness.mp4",
       "sourceVideos": [
-        "assets/sources/gobusiness.mp4"
-      ]
+        "assets/sources/trade-advocacy-programme.mp4"
+      ],
+      "sourceVideo": "assets/sources/trade-advocacy-programme.mp4"
     },
     {
       "slot": "after",
@@ -1624,53 +1619,58 @@
     },
     {
       "slot": "after",
-      "title": "Kit + Emily",
-      "category": "weddings",
+      "title": "Token 2049",
+      "category": "events",
       "tags": [
-        "weddings"
+        "events"
       ],
-      "thumb": "assets/thumbs/kit-emily-same-day-edit-compressed-still.jpg",
-      "video": "https://youtu.be/gu-lUrjBl50",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.49-am.jpg",
+      "video": "https://youtu.be/cqDVmKocdrA",
+      "client": "DWF",
       "credits": [
         [
           "Work",
-          "2nd Videographer "
+          "Producer | 2nd Videographer"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Optical Films"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+      "videos": [
+        "https://youtu.be/sAOndV48mY4",
+        "https://youtu.be/NLXX-hBEUPE"
       ],
-      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+      "sourceVideos": [
+        "assets/sources/token-2049.mp4"
+      ],
+      "sourceVideo": "assets/sources/token-2049.mp4"
     },
     {
       "slot": "after",
-      "title": "Zachary + Leeyin - Same Day Edit with Pre-wedding",
-      "category": "weddings",
+      "title": "GoBusiness",
+      "category": "tvc",
       "tags": [
-        "weddings"
+        "branded content",
+        "tvc"
       ],
-      "thumb": "assets/thumbs/zachary__leeyin_same-day-edit-compressed--still.jpg",
-      "video": "https://youtu.be/6tbLkbjXw3Q",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
+      "video": "https://youtu.be/xoIFNObpu6M",
+      "client": "GovTech",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Assistant Producer"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Optical Films"
         ]
       ],
+      "sourceVideo": "assets/sources/gobusiness.mp4",
       "sourceVideos": [
-        "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
-      ],
-      "sourceVideo": "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
+        "assets/sources/gobusiness.mp4"
+      ]
     },
     {
       "slot": "after",
