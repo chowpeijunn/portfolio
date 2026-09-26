@@ -116,7 +116,16 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   background: var(--surface2); border: 1px solid var(--border);
   border-radius: 20px; padding: 3px 10px; font-size: 11px; cursor: default;
 }
-.tag-chip.active { background: #1c2840; border-color: var(--accent); color: var(--accent); }
+/* Colour-coded by category (matches sidebar filter + badges) */
+.tag-weddings  { color: #c084fc; }
+.tag-corporate { color: #86efac; }
+.tag-events    { color: #93c5fd; }
+.tag-tvc       { color: #fca5a5; }
+.tag-chip.active { border-color: currentColor; font-weight: 600; }
+.tag-weddings.active  { background: #2a1a2a; }
+.tag-corporate.active { background: #1a2a1a; }
+.tag-events.active    { background: #1a1a2a; }
+.tag-tvc.active       { background: #2a1a1a; }
 .tag-chip input[type=checkbox] { display: none; }
 
 /* Thumbnail picker */
@@ -688,7 +697,7 @@ function renderEditor() {
 
   const tagsHtml = ALL_TAGS.map(tag => {
     const active = (p.tags || []).includes(tag);
-    return `<label class="tag-chip ${active ? 'active' : ''}">
+    return `<label class="tag-chip tag-${tag} ${active ? 'active' : ''}">
       <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTag('${tag}', this.checked)"> ${tag}
     </label>`;
   }).join('');
@@ -970,7 +979,7 @@ function toggleTag(tag, checked) {
   if (tagsRow) {
     tagsRow.innerHTML = ALL_TAGS.map(t => {
       const active = (p.tags || []).includes(t);
-      return `<label class="tag-chip ${active ? 'active' : ''}">
+      return `<label class="tag-chip tag-${t} ${active ? 'active' : ''}">
         <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTag('${t}', this.checked)"> ${t}
       </label>`;
     }).join('');
