@@ -1944,6 +1944,7 @@ function openGridView() {
     else before.push(i);
   });
   gridOrder = [...before, ...after];
+  hubIdx = before.length;   // open at the SAVED hub position (matches the live site)
   centerHubForCols();
   renderGridBoard();
   document.getElementById('gridOverlay').classList.add('visible');
@@ -1983,8 +1984,8 @@ function centerHubForCols() {
   // Target column-start (0-based within its row) so hub is centred:
   // 2→0 (span 2 fills row), 3→1 (col 2 of 3), 4→1 (span 2 at cols 2-3), 5→2 (col 3 of 5)
   const targetMod = Math.floor((gridCols - 1) / 2);
-  const base = Math.round(gridOrder.length / 2);
-  const currentMod = base % gridCols;
+  const base = hubIdx;   // nudge the CURRENT hub position onto its row's centre column — don't jump to the middle
+  const currentMod = ((base % gridCols) + gridCols) % gridCols;
   let diff = ((targetMod - currentMod) % gridCols + gridCols) % gridCols;
   if (diff > Math.floor(gridCols / 2)) diff -= gridCols; // pick nearest direction
   hubIdx = Math.max(0, Math.min(gridOrder.length, base + diff));
