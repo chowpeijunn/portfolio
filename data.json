@@ -994,7 +994,7 @@
       "sourceVideo": "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Moomoo Testimonials",
       "category": "corporate",
       "tags": [
@@ -1019,7 +1019,7 @@
       "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Shopee 3.3",
       "category": "tvc",
       "tags": [
@@ -1060,7 +1060,7 @@
       ]
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Wilson + Chelsea",
       "category": "weddings",
       "tags": [
@@ -1085,7 +1085,7 @@
       "sourceVideo": "assets/sources/wilson-chelsea.mp4"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Solo Sliders",
       "category": "tvc",
       "tags": [
