@@ -669,54 +669,28 @@
     },
     {
       "slot": "before",
-      "title": "Pizza Hut 45th Anniversary Brand Video",
-      "category": "tvc",
+      "title": "Moomoo Testimonials",
+      "category": "corporate",
       "tags": [
-        "tvc"
+        "corporate"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
-      "video": "https://youtu.be/UaCZbSBDrNU",
-      "client": "Pizza Hut",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
+      "video": "https://youtu.be/7dKE9sv0RtA",
+      "client": "Moomoo",
       "credits": [
         [
           "Work",
-          "Online | Transitions | Cleanups"
+          "Online & Audio Mix | Ai Relight "
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "clips": [
-        {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-0.mp4",
-          "end": "0:07",
-          "label": "Roto + Comp",
-          "start": "0:03"
-        },
-        {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-1.mp4",
-          "end": "0:04",
-          "label": "Lift Button Animation, Match Cut Treatment",
-          "start": "0:02"
-        },
-        {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-2.mp4",
-          "end": "0:13",
-          "label": "Super 8 Treatment + Comp",
-          "start": "0:10"
-        },
-        {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-3.mp4",
-          "end": "0:08",
-          "label": "Rewind Treatment + Comp",
-          "start": "0:07"
-        }
-      ],
       "sourceVideos": [
-        "assets/sources/pizzahut-45th-anniversary.mp4"
+        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
       ],
-      "sourceVideo": "assets/sources/pizzahut-45th-anniversary.mp4"
+      "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
     },
     {
       "slot": "before",
@@ -812,6 +786,159 @@
     },
     {
       "slot": "before",
+      "title": "Pizza Hut 45th Anniversary Brand Video",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
+      "video": "https://youtu.be/UaCZbSBDrNU",
+      "client": "Pizza Hut",
+      "credits": [
+        [
+          "Work",
+          "Online | Transitions | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "clips": [
+        {
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-0.mp4",
+          "end": "0:07",
+          "label": "Roto + Comp",
+          "start": "0:03"
+        },
+        {
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-1.mp4",
+          "end": "0:04",
+          "label": "Lift Button Animation, Match Cut Treatment",
+          "start": "0:02"
+        },
+        {
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-2.mp4",
+          "end": "0:13",
+          "label": "Super 8 Treatment + Comp",
+          "start": "0:10"
+        },
+        {
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-3.mp4",
+          "end": "0:08",
+          "label": "Rewind Treatment + Comp",
+          "start": "0:07"
+        }
+      ],
+      "sourceVideos": [
+        "assets/sources/pizzahut-45th-anniversary.mp4"
+      ],
+      "sourceVideo": "assets/sources/pizzahut-45th-anniversary.mp4"
+    },
+    {
+      "slot": "before",
+      "title": "Eugene + Annabelle",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
+      "video": "https://youtu.be/aN7I7F1gPnI",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/eugene-annabelle.mp4"
+      ],
+      "sourceVideo": "assets/sources/eugene-annabelle.mp4"
+    },
+    {
+      "slot": "before",
+      "title": "Wilson + Chelsea",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/wilson-chelsea.jpg",
+      "video": "https://youtu.be/eOdWUo2DBm4",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/wilson-chelsea.mp4"
+      ],
+      "sourceVideo": "assets/sources/wilson-chelsea.mp4"
+    },
+    {
+      "slot": "before",
+      "title": "Thrive BT",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/thrive-bt-thumbnail.png",
+      "video": "https://youtu.be/-iNtE4e-l4A",
+      "client": "The Business Times",
+      "credits": [
+        [
+          "Work",
+          "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "clips": [
+        {
+          "clipFile": "assets/clips/thrive-bt-0.mp4",
+          "end": "0:21",
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:16"
+        },
+        {
+          "clipFile": "assets/clips/thrive-bt-1.mp4",
+          "end": "0:35",
+          "label": "Animation, Roto, Transition, 3D Cam tracking",
+          "start": "0:26"
+        },
+        {
+          "clipFile": "assets/clips/thrive-bt-2.mp4",
+          "end": "0:44",
+          "label": "Animation, 3D Cam tracking",
+          "start": "0:35"
+        },
+        {
+          "end": "0:46",
+          "label": "Screen Clean Up",
+          "start": "0:45",
+          "clipFile": "assets/clips/thrive-bt-3.mp4"
+        }
+      ],
+      "sourceVideo": "assets/sources/thrive-bt.mp4",
+      "sourceVideos": [
+        "assets/sources/thrive-bt.mp4"
+      ]
+    },
+    {
+      "slot": "before",
       "title": "Kia x Discovery",
       "category": "tvc",
       "tags": [
@@ -876,13 +1003,13 @@
     },
     {
       "slot": "before",
-      "title": "Eugene + Annabelle",
+      "title": "Yi Chang + Clara",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
-      "video": "https://youtu.be/aN7I7F1gPnI",
+      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
+      "video": "https://youtu.be/pcUNC46vu-s",
       "client": "AndroidsinBoots",
       "credits": [
         [
@@ -895,25 +1022,24 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/eugene-annabelle.mp4"
+        "assets/sources/yi-chang-clara.mp4"
       ],
-      "sourceVideo": "assets/sources/eugene-annabelle.mp4"
+      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
     },
     {
       "slot": "before",
-      "title": "Thrive BT",
+      "title": "Shopee Same Day Delivery",
       "category": "tvc",
       "tags": [
-        "tvc",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/thrive-bt-thumbnail.png",
-      "video": "https://youtu.be/-iNtE4e-l4A",
-      "client": "The Business Times",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02 PM.jpg",
+      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Transitions | 3D Tracking & Rotoscoping | Cleanups"
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
         ],
         [
           "Production",
@@ -922,34 +1048,25 @@
       ],
       "clips": [
         {
-          "clipFile": "assets/clips/thrive-bt-0.mp4",
-          "end": "0:21",
-          "label": "Animation, 3D Cam tracking",
-          "start": "0:16"
+          "label": "",
+          "start": "0:06",
+          "end": "0:09"
         },
         {
-          "clipFile": "assets/clips/thrive-bt-1.mp4",
-          "end": "0:35",
-          "label": "Animation, Roto, Transition, 3D Cam tracking",
-          "start": "0:26"
+          "label": "",
+          "start": "0:12",
+          "end": "0:13"
         },
         {
-          "clipFile": "assets/clips/thrive-bt-2.mp4",
-          "end": "0:44",
-          "label": "Animation, 3D Cam tracking",
-          "start": "0:35"
-        },
-        {
-          "end": "0:46",
-          "label": "Screen Clean Up",
-          "start": "0:45",
-          "clipFile": "assets/clips/thrive-bt-3.mp4"
+          "label": "",
+          "start": "0:17",
+          "end": "0:24"
         }
       ],
-      "sourceVideo": "assets/sources/thrive-bt.mp4",
       "sourceVideos": [
-        "assets/sources/thrive-bt.mp4"
-      ]
+        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
     },
     {
       "slot": "before",
@@ -994,98 +1111,32 @@
       "sourceVideo": "assets/sources/compressed_260813_pizzahut-cheesy-7_16x9_30s_price_digital_master.mp4"
     },
     {
-      "slot": "before",
-      "title": "Moomoo Testimonials",
-      "category": "corporate",
-      "tags": [
-        "corporate"
-      ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
-      "video": "https://youtu.be/7dKE9sv0RtA",
-      "client": "Moomoo",
-      "credits": [
-        [
-          "Work",
-          "Online & Audio Mix | Ai Relight "
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
-      ],
-      "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
-    },
-    {
-      "slot": "before",
-      "title": "Shopee 3.3",
+      "slot": "after",
+      "title": "Shopee 9.9 2026",
       "category": "tvc",
       "tags": [
-        "tvc",
-        "ads",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/shopee-33-shopee.jpg",
-      "video": "https://youtu.be/sBmAKofEaDE",
+      "thumb": "assets/thumbs/Screenshot 2026-09-17 at 11.31.22 AM.jpg",
+      "video": "https://youtu.be/KNuLP7lrMhI?si=ln5tEUuiyCQfS1Yz",
       "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Comp | Screen Replacements | Cleanups"
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics Comp"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "clips": [
-        {
-          "label": "Lightning Comp",
-          "start": "0:00",
-          "end": "0:01",
-          "clipFile": "assets/clips/shopee-3-3-0.mp4"
-        },
-        {
-          "label": "Screen Replacement + Compositing",
-          "start": "0:18",
-          "end": "0:20",
-          "clipFile": "assets/clips/shopee-3-3-1.mp4"
-        }
-      ],
-      "sourceVideo": "assets/sources/shopee-3-3.mp4",
       "sourceVideos": [
-        "assets/sources/shopee-3-3.mp4"
-      ]
+        "assets/sources/shopee-9-9-2026.mp4"
+      ],
+      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4"
     },
     {
-      "slot": "before",
-      "title": "Wilson + Chelsea",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/wilson-chelsea.jpg",
-      "video": "https://youtu.be/eOdWUo2DBm4",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/wilson-chelsea.mp4"
-      ],
-      "sourceVideo": "assets/sources/wilson-chelsea.mp4"
-    },
-    {
-      "slot": "before",
+      "slot": "after",
       "title": "Solo Sliders",
       "category": "tvc",
       "tags": [
@@ -1127,73 +1178,6 @@
     },
     {
       "slot": "after",
-      "title": "Shopee 9.9 2026",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/Screenshot 2026-09-17 at 11.31.22 AM.jpg",
-      "video": "https://youtu.be/KNuLP7lrMhI?si=ln5tEUuiyCQfS1Yz",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics Comp"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/shopee-9-9-2026.mp4"
-      ],
-      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Shopee Same Day Delivery",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02 PM.jpg",
-      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "clips": [
-        {
-          "label": "",
-          "start": "0:06",
-          "end": "0:09"
-        },
-        {
-          "label": "",
-          "start": "0:12",
-          "end": "0:13"
-        },
-        {
-          "label": "",
-          "start": "0:17",
-          "end": "0:24"
-        }
-      ],
-      "sourceVideos": [
-        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
-      ],
-      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
-    },
-    {
-      "slot": "after",
       "title": "Mel + Jadey",
       "category": "weddings",
       "tags": [
@@ -1219,18 +1203,18 @@
     },
     {
       "slot": "after",
-      "title": "Yi Chang + Clara",
+      "title": "Weilun + Sandy",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
-      "video": "https://youtu.be/pcUNC46vu-s",
+      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
+      "video": "https://youtu.be/If-L6E2CqMg",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Project Lead | 1st Videographer"
         ],
         [
           "Production",
@@ -1238,34 +1222,52 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/yi-chang-clara.mp4"
+        "assets/sources/weilun-sandy.mp4"
       ],
-      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
+      "sourceVideo": "assets/sources/weilun-sandy.mp4"
     },
     {
       "slot": "after",
-      "title": "Bytedance 12th anniversary celebration",
-      "category": "events",
+      "title": "Progressive Wages",
+      "category": "tvc",
       "tags": [
-        "events"
+        "tvc",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
-      "video": "https://youtu.be/LGDU2hlOIZI",
-      "client": "Bytedance",
+      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
+      "video": "https://youtu.be/Oaoh5YTyntQ",
+      "client": "Ministry of Manpower (MOM)",
       "credits": [
         [
           "Work",
-          "Producer | 2nd Videographer"
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ],
+      "sourceVideo": "assets/sources/progressive-wages.mp4",
       "sourceVideos": [
-        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+        "assets/sources/progressive-wages.mp4"
       ],
-      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      "clips": [
+        {
+          "label": "",
+          "start": "0:06",
+          "end": "0:11"
+        },
+        {
+          "label": "",
+          "start": "0:13",
+          "end": "0:19"
+        },
+        {
+          "label": "",
+          "start": "0:50",
+          "end": "0:56"
+        }
+      ]
     },
     {
       "slot": "after",
@@ -1320,18 +1322,18 @@
     },
     {
       "slot": "after",
-      "title": "Weilun + Sandy",
+      "title": "Louis + Kendra",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
-      "video": "https://youtu.be/If-L6E2CqMg",
+      "thumb": "assets/thumbs/louis__kendra_same-day-edit-compressed-still-muh0sxt4.jpg",
+      "video": "https://youtu.be/v8TW0AqlOmo",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer"
+          "2nd Videographer"
         ],
         [
           "Production",
@@ -1339,34 +1341,50 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/weilun-sandy.mp4"
+        "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/weilun-sandy.mp4"
+      "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
     },
     {
       "slot": "after",
-      "title": " Meiyume Singapore Showcase ",
-      "category": "events",
+      "title": "Shopee 3.3",
+      "category": "tvc",
       "tags": [
-        "events"
+        "tvc",
+        "ads",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
-      "video": "https://youtu.be/iM_y1T0M3cA",
-      "client": "Meiyume",
+      "thumb": "assets/thumbs/shopee-33-shopee.jpg",
+      "video": "https://youtu.be/sBmAKofEaDE",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Producer | 1st Videographer "
+          "Online | Comp | Screen Replacements | Cleanups"
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/meiyume-singapore-showcase.mp4"
+      "clips": [
+        {
+          "label": "Lightning Comp",
+          "start": "0:00",
+          "end": "0:01",
+          "clipFile": "assets/clips/shopee-3-3-0.mp4"
+        },
+        {
+          "label": "Screen Replacement + Compositing",
+          "start": "0:18",
+          "end": "0:20",
+          "clipFile": "assets/clips/shopee-3-3-1.mp4"
+        }
       ],
-      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4"
+      "sourceVideo": "assets/sources/shopee-3-3.mp4",
+      "sourceVideos": [
+        "assets/sources/shopee-3-3.mp4"
+      ]
     },
     {
       "slot": "after",
@@ -1472,46 +1490,32 @@
     },
     {
       "slot": "after",
-      "title": "Progressive Wages",
-      "category": "tvc",
+      "title": "Token 2049",
+      "category": "events",
       "tags": [
-        "tvc",
-        "branded content"
+        "events"
       ],
-      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
-      "video": "https://youtu.be/Oaoh5YTyntQ",
-      "client": "Ministry of Manpower (MOM)",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.49-am.jpg",
+      "video": "https://youtu.be/cqDVmKocdrA",
+      "client": "DWF",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
+          "Producer | 2nd Videographer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "Optical Films"
         ]
       ],
-      "sourceVideo": "assets/sources/progressive-wages.mp4",
-      "sourceVideos": [
-        "assets/sources/progressive-wages.mp4"
+      "videos": [
+        "https://youtu.be/sAOndV48mY4",
+        "https://youtu.be/NLXX-hBEUPE"
       ],
-      "clips": [
-        {
-          "label": "",
-          "start": "0:06",
-          "end": "0:11"
-        },
-        {
-          "label": "",
-          "start": "0:13",
-          "end": "0:19"
-        },
-        {
-          "label": "",
-          "start": "0:50",
-          "end": "0:56"
-        }
-      ]
+      "sourceVideos": [
+        "assets/sources/token-2049.mp4"
+      ],
+      "sourceVideo": "assets/sources/token-2049.mp4"
     },
     {
       "slot": "after",
@@ -1565,111 +1569,6 @@
     },
     {
       "slot": "after",
-      "title": "Token 2049",
-      "category": "events",
-      "tags": [
-        "events"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.49-am.jpg",
-      "video": "https://youtu.be/cqDVmKocdrA",
-      "client": "DWF",
-      "credits": [
-        [
-          "Work",
-          "Producer | 2nd Videographer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "videos": [
-        "https://youtu.be/sAOndV48mY4",
-        "https://youtu.be/NLXX-hBEUPE"
-      ],
-      "sourceVideos": [
-        "assets/sources/token-2049.mp4"
-      ],
-      "sourceVideo": "assets/sources/token-2049.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Hariz + Aliah",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/hariz__aliah_wedding_trailer-compressed-still.jpg",
-      "video": "https://youtu.be/_CkRskuYJ2w",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2024 Project Lead | 1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Timothy Casandra",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/timothy__casandra_same-day-edit-compressed-still-muh0mwn2.jpg",
-      "video": "https://youtu.be/2ZWPL4xhw7Y",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "GoBusiness",
-      "category": "tvc",
-      "tags": [
-        "branded content",
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
-      "video": "https://youtu.be/xoIFNObpu6M",
-      "client": "GovTech",
-      "credits": [
-        [
-          "Work",
-          "Assistant Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "sourceVideo": "assets/sources/gobusiness.mp4",
-      "sourceVideos": [
-        "assets/sources/gobusiness.mp4"
-      ]
-    },
-    {
-      "slot": "after",
       "title": "Portraits of HTA",
       "category": "corporate",
       "tags": [
@@ -1702,18 +1601,43 @@
     },
     {
       "slot": "after",
-      "title": "Louis + Kendra",
+      "title": " Meiyume Singapore Showcase ",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
+      "video": "https://youtu.be/iM_y1T0M3cA",
+      "client": "Meiyume",
+      "credits": [
+        [
+          "Work",
+          "Producer | 1st Videographer "
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/meiyume-singapore-showcase.mp4"
+      ],
+      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Timothy Casandra",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/louis__kendra_same-day-edit-compressed-still-muh0sxt4.jpg",
-      "video": "https://youtu.be/v8TW0AqlOmo",
+      "thumb": "assets/thumbs/timothy__casandra_same-day-edit-compressed-still-muh0mwn2.jpg",
+      "video": "https://youtu.be/2ZWPL4xhw7Y",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "2nd Videographer"
+          "2nd Videographer | Editor"
         ],
         [
           "Production",
@@ -1721,9 +1645,85 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
+        "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
+      "sourceVideo": "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Hariz + Aliah",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/hariz__aliah_wedding_trailer-compressed-still.jpg",
+      "video": "https://youtu.be/_CkRskuYJ2w",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2024 Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Bytedance 12th anniversary celebration",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
+      "video": "https://youtu.be/LGDU2hlOIZI",
+      "client": "Bytedance",
+      "credits": [
+        [
+          "Work",
+          "Producer | 2nd Videographer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      ],
+      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "GoBusiness",
+      "category": "tvc",
+      "tags": [
+        "branded content",
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
+      "video": "https://youtu.be/xoIFNObpu6M",
+      "client": "GovTech",
+      "credits": [
+        [
+          "Work",
+          "Assistant Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideo": "assets/sources/gobusiness.mp4",
+      "sourceVideos": [
+        "assets/sources/gobusiness.mp4"
+      ]
     },
     {
       "slot": "after",
@@ -1738,7 +1738,7 @@
       "credits": [
         [
           "Work",
-          "2026 Online | Clean Ups | Graphics Comp"
+          "2026 Online | Clean Ups | Graphics Comp "
         ],
         [
           "Production",
