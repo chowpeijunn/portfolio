@@ -1724,6 +1724,27 @@
         "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "KFC Sauce Mania",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/BB-dqOgnpxM",
+      "client": "Abundant Productions",
+      "credits": [
+        [
+          "Work",
+          "2026 Online | Clean Ups | Graphics Comp"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
