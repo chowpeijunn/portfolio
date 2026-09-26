@@ -1961,6 +1961,7 @@ function closeGridView() {
 }
 
 async function applyGridView() {
+  centerHubForCols();   // snap hub to its row's centre column so the saved position matches the live site exactly
   const newProjects = [];
   gridOrder.forEach((idx, i) => {
     data.projects[idx].slot = i < hubIdx ? 'before' : 'after';
