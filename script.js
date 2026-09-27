@@ -728,52 +728,99 @@ function initFilter() {
   }
   window._relayoutFilter = relayoutFilter;
 
-  // Animate ONLY the cards into their new slots. The hub is never touched, and
-  // any card whose screen position is unchanged (already surrounding the hub)
-  // is skipped — so it doesn't move.
+  const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';   // smooth ease-out
+  const SLIDE_MS = 520;
+  const FADE_MS = 320;
+
+  // Animate ONLY the cards into their new slots. The hub is never touched.
+  // On-screen cards slide (FLIP); cards entering the viewport fade in; cards
+  // that stay off-screen just teleport (invisibly). Everything is written in one
+  // batch with a single forced reflow so the moves start together and glide
+  // instead of jumping.
   function flipCards(prev) {
     if (!prev) return;
-    // Only animate local shuffles; teleport anything that would slide more than
-    // ~half the viewport (the far cards we relocate to rebalance) so nothing is
-    // seen flying across the screen.
-    const maxSlide = window.innerHeight * 0.6;
+    const vh = window.innerHeight;
+    const off = (y) => y < -240 || y > vh;   // fully outside the viewport
+    const slides = [], fades = [];
+
     inner.querySelectorAll('.project-card').forEach(el => {
-      if (el.classList.contains('hidden')) return;   // filtered out this pass
-      const oldPos = prev.get(el);
-      if (!oldPos) return;                            // newly shown → appears in place
+      if (el.classList.contains('hidden')) return;      // filtered out this pass
       const r = el.getBoundingClientRect();
+      const oldPos = prev.get(el);
+      if (!oldPos) {                                     // newly shown (entered)
+        if (!off(r.top)) fades.push(el);                //   → fade in if visible
+        return;
+      }
       const dx = oldPos.x - r.left;
       const dy = oldPos.y - r.top;
-      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;   // already in place → hold still
-      if (Math.hypot(dx, dy) > maxSlide) return;          // long relocation → teleport
-      el.style.transition = 'none';
-      el.style.transform = `translate(${dx}px, ${dy}px)`;
-      requestAnimationFrame(() => {
-        el.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        el.style.transform = '';
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return; // already in place → hold still
+      const oldOff = off(oldPos.y), newOff = off(r.top);
+      if (oldOff && newOff) return;                     // stays off-screen → teleport
+      if (oldOff || newOff) {                            // crosses the viewport edge
+        if (!newOff) fades.push(el);                    //   entering → fade in, don't fly
+        return;                                          //   leaving → just teleport out
+      }
+      slides.push({ el, dx, dy });                      // both on-screen → slide
+    });
+
+    // Batch all initial states, force ONE reflow, then animate together.
+    slides.forEach(s => { s.el.style.transition = 'none'; s.el.style.transform = `translate(${s.dx}px, ${s.dy}px)`; });
+    fades.forEach(el => { el.style.transition = 'none'; el.style.opacity = '0'; });
+    void inner.offsetWidth;                              // commit the initial frame
+
+    requestAnimationFrame(() => {
+      slides.forEach(s => {
+        s.el.style.transition = `transform ${SLIDE_MS}ms ${EASE}`;
+        s.el.style.transform = '';
+        s.el.addEventListener('transitionend', function done() {
+          s.el.style.transition = '';
+          s.el.removeEventListener('transitionend', done);
+        }, { once: true });
+      });
+      fades.forEach(el => {
+        el.style.transition = `opacity ${FADE_MS}ms ease`;
+        el.style.opacity = '';
         el.addEventListener('transitionend', function done() {
-          el.style.transition = '';
+          el.style.transition = ''; el.style.opacity = '';
           el.removeEventListener('transitionend', done);
         }, { once: true });
       });
     });
   }
 
+  let _filterSeq = 0;
+
   function applyFilter(category) {
     activeFilter = category;
     window._activeFilter = category;
+    filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
 
-    // 1) snapshot where the cards are now, 2) reflow the DOM, 3) pin the hub in
-    // place INSTANTLY (no pan animation, hub never moves), 4) slide only the
-    // cards from their old spots to their new ones.
-    const prev = window._capturePositions ? window._capturePositions() : null;
-    relayoutFilter(category);
-    centerOnHub(false);
-    flipCards(prev);
+    const seq = ++_filterSeq;
 
-    filterBtns.forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.filter === category);
-    });
+    // The heavy step: snapshot, reflow, pin the hub instantly, animate cards.
+    const doMove = () => {
+      if (seq !== _filterSeq) return;                   // superseded by a newer click
+      leaving.forEach(el => { el.style.transition = ''; el.style.opacity = ''; });
+      const prev = window._capturePositions ? window._capturePositions() : null;
+      relayoutFilter(category);
+      centerOnHub(false);
+      flipCards(prev);
+    };
+
+    // Cards on screen now that the new filter will remove — fade them out first
+    // so they don't just blink away, then reflow the survivors into place.
+    const leaving = category
+      ? [...inner.querySelectorAll('.project-card')].filter(el =>
+          getComputedStyle(el).display !== 'none' && !cardMatchesFilter(el, category))
+      : [];
+
+    if (leaving.length) {
+      const OUT_MS = 200;
+      leaving.forEach(el => { el.style.transition = `opacity ${OUT_MS}ms ease`; el.style.opacity = '0'; });
+      setTimeout(doMove, OUT_MS + 10);   // let them finish fading before they're hidden
+    } else {
+      doMove();
+    }
   }
 
   function resetFilter() {
