@@ -291,9 +291,31 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .clip-current-time {
   font-size: 12px;
   color: var(--text);
-  min-width: 44px;
+  min-width: 66px;
+  text-align: center;
   font-variant-numeric: tabular-nums;
   font-weight: 600;
+}
+.clip-step {
+  min-width: 26px;
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 12px;
+  line-height: 1;
+}
+.clip-fps {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--dim);
+  margin-left: 2px;
+}
+.clip-fps input {
+  width: 42px;
+  padding: 2px 4px;
+  font-size: 11px;
+  text-align: center;
 }
 .clip-range-bar {
   position: relative;
@@ -892,8 +914,8 @@ function clipRowHtml(clip, ci) {
     </select>` : '';
   return `<div class="clip-row" id="clip-${ci}">
     <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
-    <input class="clip-time" type="text" value="${esc(clip.start || '')}" placeholder="Start" oninput="updateClip(${ci}, 'start', this.value)" id="clip-start-${ci}">
-    <input class="clip-time" type="text" value="${esc(clip.end || '')}" placeholder="End" oninput="updateClip(${ci}, 'end', this.value)" id="clip-end-${ci}">
+    <input class="clip-time" type="text" value="${esc(clip.start || '')}" placeholder="In" oninput="updateClip(${ci}, 'start', this.value)" id="clip-start-${ci}">
+    <input class="clip-time" type="text" value="${esc(clip.end || '')}" placeholder="Out" oninput="updateClip(${ci}, 'end', this.value)" id="clip-end-${ci}">
     ${sourcePicker}
     <span class="field-status ${statusCls}" id="clip-status-${ci}" title="${extracted ? esc(clip.clipFile) : 'Run Save & extract to generate'}">${statusTxt}</span>
     <button class="btn btn-ghost btn-sm clip-scrub-btn" id="clip-scrub-btn-${ci}" onclick="toggleClipPreview(${ci})" title="Scrub video to set times">⏱</button>
@@ -1266,6 +1288,7 @@ function loadYTApi() {
 
 var _clipPlayers = {};   // ci → YT.Player
 var _clipTimers  = {};   // ci → setInterval id
+var _clipFps     = {};   // ci → frames-per-second used for frame stepping
 
 function getYtVideoId(url) {
   if (!url) return '';
@@ -1281,10 +1304,29 @@ function fmtTime(secs) {
   return m + ':' + String(s % 60).padStart(2, '0');
 }
 
+// Frame-aware readout for the scrubber: "M:SS · f<frame within the second>".
+function fmtTC(secs, fps) {
+  fps = fps || 25;
+  secs = Math.max(0, secs || 0);
+  const whole = Math.floor(secs);
+  const frame = Math.floor((secs - whole) * fps + 1e-6);
+  return fmtTime(whole) + ' · f' + String(frame).padStart(2, '0');
+}
+
+// Trim a fixed-decimal string without eating whole-number zeros:
+// "3.000"->"3", "3.410"->"3.41", "10.000"->"10".
+function trimNum(str) {
+  return String(str).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
 function parseClipTime(val) {
-  if (!val) return 0;
-  const parts = String(val).split(':').map(Number);
-  return parts.length === 2 ? parts[0] * 60 + parts[1] : (parseInt(val) || 0);
+  if (val === null || val === undefined || val === '') return 0;
+  const s = String(val).trim();
+  if (s.includes(':')) {
+    const p = s.split(':');
+    return (parseFloat(p[0]) || 0) * 60 + (parseFloat(p[1]) || 0);
+  }
+  return parseFloat(s) || 0;
 }
 
 function closeClipPreview(ci) {
@@ -1322,11 +1364,18 @@ function toggleClipPreview(ci) {
   preview.id = `clip-preview-${ci}`;
   preview.className = 'clip-preview';
 
+  _clipFps[ci] = _clipFps[ci] || 25;
   const controlsHtml = `
     <div class="clip-controls">
-      <span class="clip-current-time" id="clip-time-${ci}">0:00</span>
-      <button class="btn btn-ghost btn-sm" onclick="setClipTime(${ci},'start')">Set Start</button>
-      <button class="btn btn-ghost btn-sm" onclick="setClipTime(${ci},'end')">Set End</button>
+      <button class="btn btn-ghost btn-sm clip-step" onclick="stepFrame(${ci},-1)" title="Back one frame">◀︎</button>
+      <span class="clip-current-time" id="clip-time-${ci}">0:00 · f00</span>
+      <button class="btn btn-ghost btn-sm clip-step" onclick="stepFrame(${ci},1)" title="Forward one frame">▶︎</button>
+      <label class="clip-fps" title="Frames per second — sets the frame-step size">fps
+        <input type="number" id="clip-fps-${ci}" value="${_clipFps[ci]}" min="1" max="120" step="1"
+               oninput="_clipFps[${ci}] = parseFloat(this.value) || 25">
+      </label>
+      <button class="btn btn-ghost btn-sm" onclick="setClipTime(${ci},'start')">Set In</button>
+      <button class="btn btn-ghost btn-sm" onclick="setClipTime(${ci},'end')">Set Out</button>
     </div>
     <div class="clip-range-bar">
       <div class="clip-range-track"></div>
@@ -1347,7 +1396,7 @@ function toggleClipPreview(ci) {
     _clipTimers[ci] = setInterval(() => {
       if (!document.getElementById(`clip-preview-${ci}`)) { closeClipPreview(ci); return; }
       const timeEl = document.getElementById(`clip-time-${ci}`);
-      if (timeEl) timeEl.textContent = fmtTime(vid.currentTime || 0);
+      if (timeEl) timeEl.textContent = fmtTC(vid.currentTime || 0, _clipFps[ci]);
       if (vid.duration > 0) updateClipRangeBar(ci, vid.duration);
     }, 200);
 
@@ -1371,7 +1420,7 @@ function toggleClipPreview(ci) {
               const t   = player.getCurrentTime() || 0;
               const dur = player.getDuration()    || 0;
               const timeEl = document.getElementById(`clip-time-${ci}`);
-              if (timeEl) timeEl.textContent = fmtTime(t);
+              if (timeEl) timeEl.textContent = fmtTC(t, _clipFps[ci]);
               if (dur > 0) updateClipRangeBar(ci, dur);
             }, 200);
           }
@@ -1385,15 +1434,37 @@ function toggleClipPreview(ci) {
 function setClipTime(ci, field) {
   const player = _clipPlayers[ci];
   if (!player) return;
-  // Works for both <video> element (currentTime property) and YT.Player (getCurrentTime method)
-  const t = fmtTime(typeof player.getCurrentTime === 'function'
+  // Works for both <video> element (currentTime) and YT.Player (getCurrentTime()).
+  // Store the EXACT fractional second so the extractor lands on the frame you
+  // stopped on — no rounding to whole seconds.
+  const secs = typeof player.getCurrentTime === 'function'
     ? player.getCurrentTime()
-    : (player.currentTime || 0));
-  updateClip(ci, field, t);
+    : (player.currentTime || 0);
+  const val = trimNum((secs || 0).toFixed(3));   // e.g. "18.44"
+  updateClip(ci, field, val);
   const input = document.getElementById(field === 'start' ? `clip-start-${ci}` : `clip-end-${ci}`);
-  if (input) input.value = t;
+  if (input) input.value = val;
   const dur = typeof player.getDuration === 'function' ? player.getDuration() : (player.duration || 0);
   if (dur > 0) updateClipRangeBar(ci, dur);
+}
+
+// Step the scrubber exactly one frame (dir = -1 back, +1 forward) using the
+// clip's fps. The captured time stays exact regardless of fps, so even a rough
+// fps still lets you land on a precise loop point by eye.
+function stepFrame(ci, dir) {
+  const player = _clipPlayers[ci];
+  if (!player) return;
+  const delta = dir / (_clipFps[ci] || 25);
+  if (typeof player.seekTo === 'function' && typeof player.getCurrentTime === 'function') {
+    // YouTube player
+    try { player.pauseVideo(); } catch (e) {}
+    player.seekTo(Math.max(0, (player.getCurrentTime() || 0) + delta), true);
+  } else {
+    // <video> element — nudge one frame and pause so it holds the frame
+    player.pause();
+    const dur = player.duration || Infinity;
+    player.currentTime = Math.max(0, Math.min(dur, (player.currentTime || 0) + delta));
+  }
 }
 
 function updateClipRangeBar(ci, dur) {
