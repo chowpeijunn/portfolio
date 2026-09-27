@@ -1133,7 +1133,24 @@
       "sourceVideos": [
         "assets/sources/shopee-9-9-2026.mp4"
       ],
-      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4"
+      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4",
+      "clips": [
+        {
+          "label": "Clean up + Roto + Flyer and Bus Ad replacement",
+          "start": "17.625",
+          "end": "22.557"
+        },
+        {
+          "label": "Billboard Comp",
+          "start": "31.342",
+          "end": "33.404"
+        },
+        {
+          "label": "Billboard Comp and Partial Animation",
+          "start": "33.548",
+          "end": "35.792"
+        }
+      ]
     },
     {
       "slot": "after",
@@ -1759,14 +1776,12 @@
         {
           "label": "Clean up + Roto + Graphics Comp ",
           "start": "18.11",
-          "end": "21.881",
-          "clipFile": "assets/clips/kfc-sauce-mania-1.mp4"
+          "end": "21.881"
         },
         {
           "label": "Clean up + Roto + Graphics Comp ",
           "start": "9.676",
-          "end": "13.03",
-          "clipFile": "assets/clips/kfc-sauce-mania-2.mp4"
+          "end": "13.03"
         }
       ]
     }
