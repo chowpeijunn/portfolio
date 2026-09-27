@@ -636,28 +636,6 @@ function initFilter() {
     return card.dataset.category === filter || tags.includes(filter);
   }
 
-  // Required value of (cards-above-hub % cols) that lands the hub on the centre
-  // column for the current breakpoint. null = no constraint (hub is full-width).
-  function centerRemainder(cols) {
-    if (cols === 2) return null;   // hub spans the whole 2-col row
-    return 1;                      // 4-col: cols 2-3;  3-col: middle col
-  }
-
-  // Pick how many matching cards sit ABOVE the hub: as close to half as possible
-  // while keeping the hub centred, so the rows nearest the hub fill first.
-  function pickTargetBefore(n, cols) {
-    const base = Math.round(n / 2);
-    const rem = centerRemainder(cols);
-    if (rem === null) return base;
-    for (let d = 0; d <= n; d++) {
-      for (const cand of [base - d, base + d]) {
-        if (cand < 0 || cand > n) continue;
-        if (((cand % cols) + cols) % cols === rem) return cand;
-      }
-    }
-    return base;
-  }
-
   // Rebuild the grid so only matching cards show, packed tightly around the hub.
   function relayoutFilter(category) {
     const cols = (window._getGridCols ? window._getGridCols() : 4);
@@ -683,36 +661,108 @@ function initFilter() {
     hub.style.gridColumn = span2 ? 'span 2' : '';
     hub.classList.toggle('hub-span-2', cols === 4);
 
+    const originalBefore = window._originalBeforeCount || 0;
     const matching = [], rest = [];
     canonical.forEach(c => (cardMatchesFilter(c, category) ? matching : rest).push(c));
     matching.forEach(c => c.classList.remove('hidden'));
     rest.forEach(c => c.classList.add('hidden'));
 
-    const targetBefore = pickTargetBefore(matching.length, cols);
+    // Split matching cards by the side of the hub they sat on. Within each list
+    // canonical order is preserved, so the LAST before-card and the FIRST after-
+    // card are the hub's immediate neighbours.
+    const mBefore = matching.filter(c => canonical.indexOf(c) < originalBefore);
+    const mAfter  = matching.filter(c => canonical.indexOf(c) >= originalBefore);
+    const total   = matching.length;
 
-    // before-cards → just above hub, after-cards → just below, hidden → parked at end.
+    // Balanced split (~half above / half below) so the hub stays centred in the
+    // cluster and lands on its usual centre column.
+    const targetBefore = balancedBefore(total, cols);
+
+    // Reach that split by relocating only the cards FARTHEST from the hub (which
+    // sit off-screen): the near-hub cards keep their exact slots and never move.
+    let beforeList, afterList;
+    if (mBefore.length >= targetBefore) {
+      const move = mBefore.length - targetBefore;      // far (topmost) before-cards
+      beforeList = mBefore.slice(move);                // nearest-hub ones stay
+      afterList  = mAfter.concat(mBefore.slice(0, move)); // moved cards go to the bottom
+    } else {
+      const need = targetBefore - mBefore.length;
+      const movedUp = mAfter.slice(mAfter.length - need); // far (bottommost) after-cards
+      beforeList = movedUp.concat(mBefore);            // moved cards go to the top
+      afterList  = mAfter.slice(0, mAfter.length - need); // nearest-hub ones stay
+    }
+
     const head = document.createDocumentFragment();
-    matching.slice(0, targetBefore).forEach(c => head.appendChild(c));
+    beforeList.forEach(c => head.appendChild(c));
     inner.insertBefore(head, hub);
 
     const tail = document.createDocumentFragment();
-    matching.slice(targetBefore).forEach(c => tail.appendChild(c));
+    afterList.forEach(c => tail.appendChild(c));
     inner.insertBefore(tail, hub.nextSibling);
 
     rest.forEach(c => inner.appendChild(c));
+    // NB: centering is done by the caller (so the hub is pinned in one
+    // synchronous step and never animates).
+  }
 
-    setTimeout(() => centerOnHub(false), 0);
+  // How many cards go above the hub: closest to half of `n` that still lands the
+  // hub on its centre column (matches the full-grid arrangement).
+  function balancedBefore(n, cols) {
+    const base = Math.round(n / 2);
+    if (cols === 2) return base;         // hub is a full-width row — any split works
+    const rem = 1;                        // 4-col: cols 2-3;  3-col: middle col
+    for (let d = 0; d <= n; d++) {
+      for (const cand of [base - d, base + d]) {
+        if (cand < 0 || cand > n) continue;
+        if (((cand % cols) + cols) % cols === rem) return cand;
+      }
+    }
+    return base;
   }
   window._relayoutFilter = relayoutFilter;
+
+  // Animate ONLY the cards into their new slots. The hub is never touched, and
+  // any card whose screen position is unchanged (already surrounding the hub)
+  // is skipped — so it doesn't move.
+  function flipCards(prev) {
+    if (!prev) return;
+    // Only animate local shuffles; teleport anything that would slide more than
+    // ~half the viewport (the far cards we relocate to rebalance) so nothing is
+    // seen flying across the screen.
+    const maxSlide = window.innerHeight * 0.6;
+    inner.querySelectorAll('.project-card').forEach(el => {
+      if (el.classList.contains('hidden')) return;   // filtered out this pass
+      const oldPos = prev.get(el);
+      if (!oldPos) return;                            // newly shown → appears in place
+      const r = el.getBoundingClientRect();
+      const dx = oldPos.x - r.left;
+      const dy = oldPos.y - r.top;
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;   // already in place → hold still
+      if (Math.hypot(dx, dy) > maxSlide) return;          // long relocation → teleport
+      el.style.transition = 'none';
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+      requestAnimationFrame(() => {
+        el.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        el.style.transform = '';
+        el.addEventListener('transitionend', function done() {
+          el.style.transition = '';
+          el.removeEventListener('transitionend', done);
+        }, { once: true });
+      });
+    });
+  }
 
   function applyFilter(category) {
     activeFilter = category;
     window._activeFilter = category;
 
-    // FLIP: capture positions, mutate, animate matching cards into place.
+    // 1) snapshot where the cards are now, 2) reflow the DOM, 3) pin the hub in
+    // place INSTANTLY (no pan animation, hub never moves), 4) slide only the
+    // cards from their old spots to their new ones.
     const prev = window._capturePositions ? window._capturePositions() : null;
     relayoutFilter(category);
-    if (prev && window._animateFlip) window._animateFlip(prev);
+    centerOnHub(false);
+    flipCards(prev);
 
     filterBtns.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.filter === category);
@@ -720,8 +770,11 @@ function initFilter() {
   }
 
   function resetFilter() {
-    applyFilter(null);
-    centerOnHub(true);
+    if (activeFilter) {
+      applyFilter(null);   // clear the filter: hub pinned, cards animate back
+    } else {
+      centerOnHub(true);   // nothing filtered — just glide back to the hub
+    }
   }
 
   window.resetFilter = resetFilter;
@@ -1315,6 +1368,7 @@ initShowreel();
         // fall back to the normal full-grid centering.
         if (window._activeFilter && window._relayoutFilter) {
           window._relayoutFilter(window._activeFilter);
+          centerOnHub(false);
         } else {
           updateHubSpan();
         }
