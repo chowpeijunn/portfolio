@@ -1138,22 +1138,26 @@
         {
           "label": "Clean up + Roto + Flyer and Bus Ad replacement",
           "start": "17.625",
-          "end": "22.557"
+          "end": "22.557",
+          "clipFile": "assets/clips/shopee-9-9-2026-0.mp4"
         },
         {
           "label": "Billboard Comp",
           "start": "31.342",
-          "end": "33.404"
+          "end": "33.404",
+          "clipFile": "assets/clips/shopee-9-9-2026-1.mp4"
         },
         {
           "label": "Billboard Comp and Partial Animation",
           "start": "33.548",
-          "end": "35.792"
+          "end": "35.792",
+          "clipFile": "assets/clips/shopee-9-9-2026-2.mp4"
         },
         {
           "label": "Clean up + Billboard Comp",
           "start": "11.883",
-          "end": "13.511"
+          "end": "13.511",
+          "clipFile": "assets/clips/shopee-9-9-2026-3.mp4"
         }
       ]
     },
