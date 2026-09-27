@@ -1040,27 +1040,32 @@
         {
           "label": "Smoke, Screen, Sparks Comp",
           "start": "7.157",
-          "end": "9.447"
+          "end": "9.447",
+          "clipFile": "assets/clips/shopee-same-day-delivery-0.mp4"
         },
         {
           "label": "Screen Replacement",
           "start": "13.067",
-          "end": "14.129"
+          "end": "14.129",
+          "clipFile": "assets/clips/shopee-same-day-delivery-1.mp4"
         },
         {
           "label": "Lightning and Plates Comp",
           "start": "17.479",
-          "end": "19.796"
+          "end": "19.796",
+          "clipFile": "assets/clips/shopee-same-day-delivery-2.mp4"
         },
         {
           "label": "Lightning and Plates Comp",
           "start": "19.818",
-          "end": "22.104"
+          "end": "22.104",
+          "clipFile": "assets/clips/shopee-same-day-delivery-3.mp4"
         },
         {
           "label": "Lightning and Plates Comp",
           "start": "22.152",
-          "end": "24.617"
+          "end": "24.617",
+          "clipFile": "assets/clips/shopee-same-day-delivery-4.mp4"
         }
       ],
       "sourceVideos": [
