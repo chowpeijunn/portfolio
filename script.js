@@ -210,6 +210,13 @@ function checkFooterVisibility() {
   const inner = document.getElementById('canvasInner');
   const introCard = document.getElementById('introCard');
   if (!inner || !introCard) return;
+  // While a filter is active the grid is short and centred on the hub, which
+  // would otherwise read as "scrolled to the bottom" and pop the footer over
+  // the cards. Keep it hidden until the filter is cleared.
+  if (window._activeFilter) {
+    introCard.classList.remove('visible');
+    return;
+  }
   const ty = inner._ty || 0;
   const innerH = inner.scrollHeight;
   const viewH = window.innerHeight;
