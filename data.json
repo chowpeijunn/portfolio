@@ -1092,22 +1092,26 @@
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "3.553",
-          "end": "5.536"
+          "end": "5.536",
+          "clipFile": "assets/clips/cheezy-7-0.mp4"
         },
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "15.172",
-          "end": "17.368"
+          "end": "17.368",
+          "clipFile": "assets/clips/cheezy-7-1.mp4"
         },
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "24.268",
-          "end": "25.12"
+          "end": "25.12",
+          "clipFile": "assets/clips/cheezy-7-2.mp4"
         },
         {
           "label": "Roto with plates + Green Screen AI Generated Background Comp",
           "start": "17.465",
-          "end": "19.357"
+          "end": "19.357",
+          "clipFile": "assets/clips/cheezy-7-3.mp4"
         }
       ],
       "sourceVideos": [
