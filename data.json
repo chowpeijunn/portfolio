@@ -1149,6 +1149,11 @@
           "label": "Billboard Comp and Partial Animation",
           "start": "33.548",
           "end": "35.792"
+        },
+        {
+          "label": "Clean up + Billboard Comp",
+          "start": "11.883",
+          "end": "13.511"
         }
       ]
     },
