@@ -225,8 +225,7 @@
         {
           "label": "Lightning Comp",
           "start": "9.261",
-          "end": "11.798",
-          "clipFile": "assets/clips/shopee-7-7-2026-0.mp4"
+          "end": "11.798"
         }
       ]
     },
@@ -1039,19 +1038,29 @@
       ],
       "clips": [
         {
-          "label": "",
-          "start": "0:06",
-          "end": "0:09"
+          "label": "Smoke, Screen, Sparks Comp",
+          "start": "7.157",
+          "end": "9.447"
         },
         {
-          "label": "",
-          "start": "0:12",
-          "end": "0:13"
+          "label": "Screen Replacement",
+          "start": "13.067",
+          "end": "14.129"
         },
         {
-          "label": "",
-          "start": "0:17",
-          "end": "0:24"
+          "label": "Lightning and Plates Comp",
+          "start": "17.479",
+          "end": "19.796"
+        },
+        {
+          "label": "Lightning and Plates Comp",
+          "start": "19.818",
+          "end": "22.104"
+        },
+        {
+          "label": "Lightning and Plates Comp",
+          "start": "22.152",
+          "end": "24.617"
         }
       ],
       "sourceVideos": [
@@ -1393,7 +1402,7 @@
           "clipFile": "assets/clips/shopee-3-3-0.mp4"
         },
         {
-          "label": "Screen Replacement + Compositing",
+          "label": "Screen Replacement",
           "start": "0:18",
           "end": "0:20",
           "clipFile": "assets/clips/shopee-3-3-1.mp4"
