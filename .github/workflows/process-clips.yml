@@ -1,0 +1,46 @@
+name: Process Clips
+
+# Fired by the admin panel's "Save & extract clips" button, which sends a
+# repository_dispatch event with the project + clip in/out times.
+on:
+  repository_dispatch:
+    types: [process-clips]
+
+permissions:
+  contents: write
+
+# Never run two extractions at once — they both commit data.json.
+concurrency:
+  group: process-clips
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Extract clips
+        env:
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+        run: python3 .github/scripts/process_clips.py
+
+      - name: Commit results
+        run: |
+          git config user.name "clip-extractor[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A assets/clips data.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Extract clips for '${{ github.event.client_payload.project_title }}' (automated)"
+          # Land on top of any admin save that raced us.
+          git pull --rebase --autostash origin ${{ github.ref_name }}
+          git push origin HEAD:${{ github.ref_name }}
