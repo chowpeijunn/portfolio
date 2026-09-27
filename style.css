@@ -179,6 +179,30 @@ a { color: inherit; text-decoration: none; }
   text-underline-offset: 2px;
 }
 
+/* Footer social icons — mirror the circular hub icon buttons */
+.intro-link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(232, 230, 223, 0.7);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.intro-link-icon svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.intro-link-icon:hover {
+  color: rgba(232, 230, 223, 1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 .intro-copy {
   font-size: 0.5625rem;
   color: rgba(232, 230, 223, 0.3);
@@ -302,8 +326,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .project-card.hidden {
-  opacity: 0;
-  pointer-events: none;
+  /* Removed from grid flow entirely so grid-auto-flow: dense repacks the
+     remaining (matching) cards tightly around the hub — no empty holes. */
+  display: none !important;
 }
 
 .project-card:hover {

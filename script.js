@@ -619,7 +619,14 @@ function initHoverToPlay() {
    ============================================ */
 function initFilter() {
   const filterBtns = document.querySelectorAll('.hub-filter-btn');
-  const cards = document.querySelectorAll('.project-card');
+  const inner = document.getElementById('canvasInner');
+  const hub = document.getElementById('centerHub');
+  if (!inner || !hub) return;
+
+  // Canonical arranged order of every card, captured once before any filtering
+  // reshuffles the DOM. Reading order (top-left → bottom-right) is preserved by
+  // updateHubSpan, so this stays a faithful record of the admin arrangement.
+  const canonical = Array.from(inner.querySelectorAll('.project-card'));
 
   let activeFilter = null;
 
@@ -629,15 +636,83 @@ function initFilter() {
     return card.dataset.category === filter || tags.includes(filter);
   }
 
+  // Required value of (cards-above-hub % cols) that lands the hub on the centre
+  // column for the current breakpoint. null = no constraint (hub is full-width).
+  function centerRemainder(cols) {
+    if (cols === 2) return null;   // hub spans the whole 2-col row
+    return 1;                      // 4-col: cols 2-3;  3-col: middle col
+  }
+
+  // Pick how many matching cards sit ABOVE the hub: as close to half as possible
+  // while keeping the hub centred, so the rows nearest the hub fill first.
+  function pickTargetBefore(n, cols) {
+    const base = Math.round(n / 2);
+    const rem = centerRemainder(cols);
+    if (rem === null) return base;
+    for (let d = 0; d <= n; d++) {
+      for (const cand of [base - d, base + d]) {
+        if (cand < 0 || cand > n) continue;
+        if (((cand % cols) + cols) % cols === rem) return cand;
+      }
+    }
+    return base;
+  }
+
+  // Rebuild the grid so only matching cards show, packed tightly around the hub.
+  function relayoutFilter(category) {
+    const cols = (window._getGridCols ? window._getGridCols() : 4);
+
+    if (!category) {
+      // Restore full canonical arrangement, then hand centering to updateHubSpan.
+      canonical.forEach(c => c.classList.remove('hidden'));
+      const originalBefore = window._originalBeforeCount || 0;
+      const head = document.createDocumentFragment();
+      canonical.slice(0, originalBefore).forEach(c => head.appendChild(c));
+      inner.insertBefore(head, hub);
+      const tail = document.createDocumentFragment();
+      canonical.slice(originalBefore).forEach(c => tail.appendChild(c));
+      inner.insertBefore(tail, hub.nextSibling);
+      if (window._updateHubSpan) window._updateHubSpan();
+      return;
+    }
+
+    // Match updateHubSpan's hub sizing for the current breakpoint (span 2 at
+    // 2- and 4-col, single-wide at 3-col) — otherwise a resize into a filtered
+    // view leaves the hub the wrong width.
+    const span2 = cols === 2 || cols === 4;
+    hub.style.gridColumn = span2 ? 'span 2' : '';
+    hub.classList.toggle('hub-span-2', cols === 4);
+
+    const matching = [], rest = [];
+    canonical.forEach(c => (cardMatchesFilter(c, category) ? matching : rest).push(c));
+    matching.forEach(c => c.classList.remove('hidden'));
+    rest.forEach(c => c.classList.add('hidden'));
+
+    const targetBefore = pickTargetBefore(matching.length, cols);
+
+    // before-cards → just above hub, after-cards → just below, hidden → parked at end.
+    const head = document.createDocumentFragment();
+    matching.slice(0, targetBefore).forEach(c => head.appendChild(c));
+    inner.insertBefore(head, hub);
+
+    const tail = document.createDocumentFragment();
+    matching.slice(targetBefore).forEach(c => tail.appendChild(c));
+    inner.insertBefore(tail, hub.nextSibling);
+
+    rest.forEach(c => inner.appendChild(c));
+
+    setTimeout(() => centerOnHub(false), 0);
+  }
+  window._relayoutFilter = relayoutFilter;
+
   function applyFilter(category) {
     activeFilter = category;
-    cards.forEach((card) => {
-      if (!cardMatchesFilter(card, category)) {
-        card.classList.add('hidden');
-      } else {
-        card.classList.remove('hidden');
-      }
-    });
+    window._activeFilter = category;
+
+    // FLIP: capture positions, mutate, animate matching cards into place.
+    const prev = window._capturePositions ? window._capturePositions() : null;
+    relayoutFilter(category);
+    if (prev && window._animateFlip) window._animateFlip(prev);
 
     filterBtns.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.filter === category);
@@ -1129,6 +1204,8 @@ initShowreel();
       const el = items[i];
       const oldPos = oldPositions.get(el);
       if (!oldPos) continue;
+      // Skip cards that were just filtered out (display:none → zero-size rect).
+      if (el.classList && el.classList.contains('hidden')) continue;
 
       const newRect = el.getBoundingClientRect();
       const dx = oldPos.x - newRect.left;
@@ -1217,8 +1294,12 @@ initShowreel();
     setTimeout(() => centerOnHub(false), 0);
   }
 
-  // Expose so the data-loader can call updateHubSpan AFTER cards are in the DOM
+  // Expose so the data-loader can call updateHubSpan AFTER cards are in the DOM,
+  // and so the filter (separate scope) can reuse centering + FLIP animation.
   window._updateHubSpan = updateHubSpan;
+  window._getGridCols = getGridCols;
+  window._capturePositions = capturePositions;
+  window._animateFlip = animateFlip;
 
   // Only re-run when the column count actually crosses a breakpoint
   let activeCols = getGridCols();
@@ -1230,7 +1311,13 @@ initShowreel();
       if (newCols !== activeCols) {
         prevPositions = capturePositions();
         activeCols = newCols;
-        updateHubSpan();
+        // Keep the tight hub-packed layout if a filter is active; otherwise
+        // fall back to the normal full-grid centering.
+        if (window._activeFilter && window._relayoutFilter) {
+          window._relayoutFilter(window._activeFilter);
+        } else {
+          updateHubSpan();
+        }
         animateFlip(prevPositions);
       } else {
         centerOnHub(false);
