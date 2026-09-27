@@ -1744,7 +1744,12 @@
           "Production",
           "Abundant Productions"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/kfc-sauce-mania.mp4"
+      ],
+      "sourceVideo": "assets/sources/kfc-sauce-mania.mp4",
+      "preview": "assets/previews/kfc-sauce-mania-preview.mp4"
     }
   ],
   "categoryDefaults": {
