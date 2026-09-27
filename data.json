@@ -223,19 +223,9 @@
       "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
       "clips": [
         {
-          "label": "",
-          "start": "0:05",
-          "end": "0:06"
-        },
-        {
-          "label": "",
-          "start": "0:09",
-          "end": "0:11"
-        },
-        {
-          "label": "",
-          "start": "0:20",
-          "end": "0:23"
+          "label": "Lightning Comp",
+          "start": "9.261",
+          "end": "11.798"
         }
       ]
     },
@@ -1092,26 +1082,22 @@
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "3.553",
-          "end": "5.536",
-          "clipFile": "assets/clips/cheezy-7-0.mp4"
+          "end": "5.536"
         },
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "15.172",
-          "end": "17.368",
-          "clipFile": "assets/clips/cheezy-7-1.mp4"
+          "end": "17.368"
         },
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "24.268",
-          "end": "25.12",
-          "clipFile": "assets/clips/cheezy-7-2.mp4"
+          "end": "25.12"
         },
         {
           "label": "Roto with plates + Green Screen AI Generated Background Comp",
           "start": "17.465",
-          "end": "19.357",
-          "clipFile": "assets/clips/cheezy-7-3.mp4"
+          "end": "19.357"
         }
       ],
       "sourceVideos": [
@@ -1147,26 +1133,22 @@
         {
           "label": "Clean up + Roto + Flyer and Bus Ad replacement",
           "start": "17.625",
-          "end": "22.557",
-          "clipFile": "assets/clips/shopee-9-9-2026-0.mp4"
+          "end": "22.557"
         },
         {
           "label": "Billboard Comp",
           "start": "31.342",
-          "end": "33.404",
-          "clipFile": "assets/clips/shopee-9-9-2026-1.mp4"
+          "end": "33.404"
         },
         {
           "label": "Billboard Comp and Partial Animation",
           "start": "33.548",
-          "end": "35.792",
-          "clipFile": "assets/clips/shopee-9-9-2026-2.mp4"
+          "end": "35.792"
         },
         {
           "label": "Clean up + Billboard Comp",
           "start": "11.883",
-          "end": "13.511",
-          "clipFile": "assets/clips/shopee-9-9-2026-3.mp4"
+          "end": "13.511"
         }
       ]
     },
