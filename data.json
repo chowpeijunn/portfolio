@@ -1748,7 +1748,25 @@
       "sourceVideos": [
         "assets/sources/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed.mp4"
+      "sourceVideo": "assets/sources/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed.mp4",
+      "clips": [
+        {
+          "label": "Clean up + Roto + Graphics Comp ",
+          "start": "15.294",
+          "end": "18.066",
+          "clipFile": "assets/clips/kfc-sauce-mania-0.mp4"
+        },
+        {
+          "label": "Clean up + Roto + Graphics Comp ",
+          "start": "18.11",
+          "end": "21.881"
+        },
+        {
+          "label": "Clean up + Roto + Graphics Comp ",
+          "start": "9.676",
+          "end": "13.03"
+        }
+      ]
     }
   ],
   "categoryDefaults": {
