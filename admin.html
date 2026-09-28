@@ -857,10 +857,13 @@ function renderEditor() {
 function renderThumbGrid(currentThumb) {
   const opts = thumbFiles.map(file => {
     const path = `assets/thumbs/${file}`;
+    // URL-encode the filename for the <img> so names with spaces or "+" still load.
+    const src  = `assets/thumbs/${encodeURIComponent(file)}`;
     const sel = currentThumb === path;
-    return `<div class="thumb-opt ${sel ? 'selected' : ''}" onclick="pickThumb('${path}')">
-      <img src="${path}" loading="lazy" alt="${file}">
-      <div class="thumb-opt-label">${file}</div>
+    const jsPath = path.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    return `<div class="thumb-opt ${sel ? 'selected' : ''}" data-path="${esc(path)}" onclick="pickThumb('${jsPath}')">
+      <img src="${src}" loading="lazy" alt="${esc(file)}">
+      <div class="thumb-opt-label">${esc(file)}</div>
     </div>`;
   }).join('');
   return `<div class="thumb-grid-wrap"><div class="thumb-grid">${opts}</div></div>`;
@@ -1025,7 +1028,7 @@ function pickThumb(path) {
   updateThumbPreview(path);
   // Update grid selection
   document.querySelectorAll('.thumb-opt').forEach(el => {
-    el.classList.toggle('selected', el.getAttribute('onclick').includes(`'${path}'`));
+    el.classList.toggle('selected', el.dataset.path === path);
   });
   // Update path display
   const disp = document.querySelector('.thumb-path-display');
@@ -1055,8 +1058,19 @@ function updateThumbPreview(src) {
   }
 }
 
-function toggleThumbGrid() {
+async function toggleThumbGrid() {
   thumbGridVisible = !thumbGridVisible;
+  if (thumbGridVisible) {
+    // Refetch the thumbs folder so images added since the page loaded (via the
+    // admin, GitHub, or git) show up without needing a full reload.
+    try {
+      const res = await fetch('/api/thumbs', { headers: { 'x-admin-secret': getAdminSecret() } });
+      if (res.ok) {
+        const list = await res.json();
+        if (Array.isArray(list)) thumbFiles = list;
+      }
+    } catch (_) { /* keep the cached list if the refresh fails */ }
+  }
   renderEditor();
 }
 
