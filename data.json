@@ -1899,6 +1899,27 @@
           "AndroidsinBoots"
         ]
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Mark + Meredith",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/Jm3L0_JG2TI",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2023 Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
