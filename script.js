@@ -319,14 +319,55 @@ window.addEventListener('resize', () => {
     return { x: inner._tx || 0, y: inner._ty || 0 };
   }
 
+  // Bounding box of the pannable content in inner offset-space. When a filter is
+  // active only the visible (matching) cards + hub count, so scrolling can't run off
+  // into the empty area held by the hidden outer cells; otherwise it's the whole grid.
+  function getContentBounds() {
+    if (!window._activeFilter) {
+      return { left: 0, top: 0, right: inner.scrollWidth, bottom: inner.scrollHeight };
+    }
+    let l = Infinity, t = Infinity, r = -Infinity, b = -Infinity;
+    const add = el => {
+      const L = el.offsetLeft, T = el.offsetTop;
+      if (L < l) l = L; if (T < t) t = T;
+      if (L + el.offsetWidth > r) r = L + el.offsetWidth;
+      if (T + el.offsetHeight > b) b = T + el.offsetHeight;
+    };
+    const hubEl = document.getElementById('centerHub');
+    if (hubEl) add(hubEl);
+    inner.querySelectorAll('.project-card').forEach(el => {
+      if (!el.classList.contains('hidden')) add(el);
+    });
+    if (l === Infinity) return { left: 0, top: 0, right: inner.scrollWidth, bottom: inner.scrollHeight };
+    return { left: l, top: t, right: r, bottom: b };
+  }
+
   function clamp(x, y) {
-    const innerW = inner.scrollWidth;
-    const innerH = inner.scrollHeight;
     const viewW = window.innerWidth;
     const viewH = window.innerHeight;
-
-    // Horizontal: allow panning to hub-centered position and back to natural 0
     const hubTx = inner._hubCenterTx || 0;
+
+    if (window._activeFilter) {
+      // Pan only within the visible cards' box (a small pad), never into empty space.
+      const bnd = getContentBounds();
+      const contentW = bnd.right - bnd.left;
+      const contentH = bnd.bottom - bnd.top;
+      let minX, maxX, minY, maxY;
+      if (contentW <= viewW) { minX = maxX = (viewW - contentW) / 2 - bnd.left; }
+      else { minX = viewW - 14 - bnd.right; maxX = 14 - bnd.left; }
+      if (contentH <= viewH) { minY = maxY = (viewH - contentH) / 2 - bnd.top; }
+      else { minY = viewH - 14 - bnd.bottom; maxY = 14 - bnd.top; }
+      // Keep the hub-centered position reachable so nothing jumps on the first pan.
+      minX = Math.min(minX, hubTx); maxX = Math.max(maxX, hubTx);
+      return {
+        x: Math.min(maxX, Math.max(minX, x)),
+        y: Math.min(maxY, Math.max(minY, y))
+      };
+    }
+
+    const innerW = inner.scrollWidth;
+    const innerH = inner.scrollHeight;
+    // Horizontal: allow panning to hub-centered position and back to natural 0
     const minX = Math.min(0, viewW - innerW, hubTx);
     const maxX = Math.max(0, viewW - innerW, hubTx);
     const minY = viewH - innerH - 14;
@@ -357,6 +398,11 @@ window.addEventListener('resize', () => {
       checkFooterVisibility();
     }
   }
+
+  // Exposed so the filter can re-clamp the view into the new bounds (a no-op when
+  // already inside them, so it only snaps back if a filter shrank the content away
+  // from the current scroll position).
+  window._setTranslate = setTranslate;
 
   // Check if we're near center hub and toggle return button
   function updateReturnButton() {
@@ -672,14 +718,34 @@ function initFilter() {
     after.sort(byOrder);
 
     const match = c => cardMatchesFilter(c, category);
-    // before region fills left→right ending at the hub, so matching cards go LAST
-    // (adjacent to hub); after region starts at the hub, so matching cards go FIRST.
-    const beforeOrder = category
-      ? [...before.filter(c => !match(c)), ...before.filter(match)]
-      : before;
-    const afterOrder = category
-      ? [...after.filter(match), ...after.filter(c => !match(c))]
-      : after;
+    // Minimal-movement packing: the K cells nearest the hub on each side (the end
+    // of the before list, the start of the after list) should hold that side's K
+    // matching cards. A matching card ALREADY in that near region stays in its exact
+    // cell; a non-matching card in the near region is pushed out and swapped for a
+    // matching card pulled in from the outer cells. So only cards that genuinely need
+    // to fill a near gap move — anything already surrounding the hub is left alone.
+    function packSide(cells, nearAtEnd) {
+      if (!category) return cells;                 // reset → canonical order
+      const M = cells.length;
+      const K = cells.filter(match).length;
+      const isNear = i => nearAtEnd ? (i >= M - K) : (i < K);
+      const out = new Array(M);
+      const incoming = [], outgoing = [];
+      for (let i = 0; i < M; i++) {
+        const near = isNear(i), m = match(cells[i]);
+        if (m === near) out[i] = cells[i];         // already correctly placed — keep
+        else if (m) incoming.push(cells[i]);       // matching but outer — pull inward
+        else outgoing.push(cells[i]);              // non-matching but near — push outward
+      }
+      let im = 0, on = 0;
+      for (let i = 0; i < M; i++) {
+        if (out[i]) continue;
+        out[i] = isNear(i) ? incoming[im++] : outgoing[on++];
+      }
+      return out;
+    }
+    const beforeOrder = packSide(before, true);
+    const afterOrder  = packSide(after, false);
 
     // Reorder DOM in place — per-side counts unchanged, so the hub cell holds.
     beforeOrder.forEach(c => inner.insertBefore(c, hub));
@@ -714,6 +780,12 @@ function initFilter() {
       requestAnimationFrame(() => {
         fadeIn.forEach(c => { c.style.transition = ''; c.style.opacity = ''; });
       });
+    }
+
+    // Snap the view into the (now tighter or looser) scroll bounds so filtering
+    // can't leave the viewport parked over the empty hidden-card area.
+    if (window._setTranslate) {
+      window._setTranslate(inner._tx || 0, inner._ty || 0, true);
     }
   }
 
