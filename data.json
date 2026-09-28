@@ -1886,7 +1886,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/andysophie-same-day-edit-compressed--still-mul6slav.jpg",
       "video": "https://youtu.be/QGuV-rb7zBQ",
       "client": "AndroidsinBoots",
       "credits": [
@@ -1912,7 +1912,7 @@
         "weddings"
       ],
       "thumb": "assets/thumbs/mark meredith thumbnail.jpg",
-      "video": "https://youtu.be/AB9RQeXHYZQ",
+      "video": "https://youtu.be/Jm3L0_JG2TI",
       "client": "AndroidsinBoots",
       "credits": [
         [
@@ -1925,8 +1925,10 @@
         ]
       ],
       "year": "2023",
-      "sourceVideos": [],
-      "sourceVideo": ""
+      "sourceVideos": [
+        "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
     }
   ],
   "categoryDefaults": {
