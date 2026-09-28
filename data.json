@@ -1898,11 +1898,7 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ],
-      "sourceVideos": [
-        "assets/sources/andysophie-same-day-edit-compressed-.mp4"
-      ],
-      "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4"
+      ]
     },
     {
       "slot": "after",
@@ -1917,13 +1913,14 @@
       "credits": [
         [
           "Work",
-          "2023 Project Lead | 1st Videographer | Editor"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
           "AndroidsinBoots"
         ]
       ],
+      "year": "2023",
       "sourceVideos": [
         "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
       ],
