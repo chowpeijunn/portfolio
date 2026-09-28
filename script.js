@@ -632,30 +632,98 @@ function initFilter() {
 
   let activeFilter = null;
 
+  // Stable original ordering — lets us restore each side's relative order on reset.
+  inner.querySelectorAll('.project-card').forEach((c, i) => {
+    if (c.dataset.order == null) c.dataset.order = i;
+  });
+  const byOrder = (a, b) => (+a.dataset.order) - (+b.dataset.order);
+
   function cardMatchesFilter(card, filter) {
     if (!filter) return true;
     const tags = (card.dataset.tags || '').split(',').map(t => t.trim().toLowerCase());
     return card.dataset.category === filter || tags.includes(filter);
   }
 
-  // Filtering is a pure per-position crossfade: non-matching cards fade out but
-  // keep their grid cell (via .hidden = opacity:0), so nothing repacks and every
-  // matching card stays exactly where it is. No sliding, no hub movement.
+  // Filtering packs matching cards into the cells NEAREST the hub and fades the
+  // rest out. Non-matching cards keep a (now outer) grid cell via .hidden =
+  // opacity:0, and we only reorder WITHIN each side of the hub, so the card count
+  // per side is unchanged and the hub cell never moves. A card that ends up in a
+  // new cell is crossfaded (hidden across the instant grid reflow, then faded in
+  // at its new spot); a card already in the right place is left untouched — so
+  // nothing ever slides.
   function applyFilter(category) {
     activeFilter = category;
     window._activeFilter = category;
-    inner.querySelectorAll('.project-card').forEach(card => {
-      card.classList.toggle('hidden', !cardMatchesFilter(card, category));
-    });
     filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
+
+    const cards = Array.from(inner.querySelectorAll('.project-card'));
+    const oldRects = new Map();
+    cards.forEach(c => oldRects.set(c, c.getBoundingClientRect()));
+
+    // Split into before/after hub (respects any cross-hub moves updateHubSpan made)
+    const before = [], after = [];
+    let past = false;
+    for (const el of inner.children) {
+      if (el === hub) { past = true; continue; }
+      if (!el.classList.contains('project-card')) continue;
+      (past ? after : before).push(el);
+    }
+    before.sort(byOrder);
+    after.sort(byOrder);
+
+    const match = c => cardMatchesFilter(c, category);
+    // before region fills left→right ending at the hub, so matching cards go LAST
+    // (adjacent to hub); after region starts at the hub, so matching cards go FIRST.
+    const beforeOrder = category
+      ? [...before.filter(c => !match(c)), ...before.filter(match)]
+      : before;
+    const afterOrder = category
+      ? [...after.filter(match), ...after.filter(c => !match(c))]
+      : after;
+
+    // Reorder DOM in place — per-side counts unchanged, so the hub cell holds.
+    beforeOrder.forEach(c => inner.insertBefore(c, hub));
+    let ref = hub;
+    afterOrder.forEach(c => { inner.insertBefore(c, ref.nextSibling); ref = c; });
+
+    // Measure the new layout, then crossfade only the cards that actually changed.
+    void inner.offsetWidth;
+    const fadeIn = [];
+    cards.forEach(c => {
+      const o = oldRects.get(c);
+      const n = c.getBoundingClientRect();
+      const moved = Math.abs(o.left - n.left) > 1 || Math.abs(o.top - n.top) > 1;
+      if (match(c)) {
+        c.classList.remove('hidden');
+        if (moved) {
+          c.style.transition = 'none';
+          c.style.opacity = '0';   // start invisible at the new cell
+          fadeIn.push(c);
+        } else {
+          c.style.transition = '';
+          c.style.opacity = '';    // already in place — leave crisp, no fade
+        }
+      } else {
+        c.style.transition = '';
+        c.classList.add('hidden');  // fade out, keeps its (outer) cell
+        c.style.opacity = '';
+      }
+    });
+    if (fadeIn.length) {
+      void inner.offsetWidth;                 // commit opacity:0 before animating
+      requestAnimationFrame(() => {
+        fadeIn.forEach(c => { c.style.transition = ''; c.style.opacity = ''; });
+      });
+    }
   }
 
   function resetFilter() {
-    if (activeFilter) applyFilter(null);   // fade everything back in, nothing moves
+    if (activeFilter) applyFilter(null);   // restore order, fade moved cards back in
     else centerOnHub(true);                // nothing filtered — glide back to the hub
   }
 
   window.resetFilter = resetFilter;
+  window._applyFilter = applyFilter;
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -1244,7 +1312,13 @@ initShowreel();
         prevPositions = capturePositions();
         activeCols = newCols;
         updateHubSpan();
-        animateFlip(prevPositions);
+        // With a filter active, re-pack for the new column count (crossfade,
+        // no slide) instead of the FLIP layout animation.
+        if (window._activeFilter && window._applyFilter) {
+          window._applyFilter(window._activeFilter);
+        } else {
+          animateFlip(prevPositions);
+        }
       } else {
         centerOnHub(false);
       }
