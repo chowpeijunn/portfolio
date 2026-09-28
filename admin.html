@@ -168,11 +168,20 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   border-radius: var(--radius); padding: 8px; background: var(--surface);
 }
 .thumb-opt {
+  position: relative;
   cursor: pointer; border-radius: 5px; overflow: hidden;
   border: 2px solid transparent; transition: border-color 0.1s;
 }
 .thumb-opt:hover { border-color: var(--muted); }
 .thumb-opt.selected { border-color: var(--accent); }
+.thumb-del {
+  position: absolute; top: 3px; right: 3px; z-index: 2;
+  width: 18px; height: 18px; padding: 0; border: none; border-radius: 50%;
+  background: rgba(0,0,0,0.6); color: #fff; font-size: 13px; line-height: 1;
+  cursor: pointer; display: none; align-items: center; justify-content: center;
+}
+.thumb-opt:hover .thumb-del { display: flex; }
+.thumb-del:hover { background: var(--danger); }
 .thumb-opt img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--surface2); }
 .thumb-opt-label { font-size: 9px; color: var(--muted); padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .thumb-opt.selected .thumb-opt-label { color: var(--accent); }
@@ -862,11 +871,48 @@ function renderThumbGrid(currentThumb) {
     const sel = currentThumb === path;
     const jsPath = path.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
     return `<div class="thumb-opt ${sel ? 'selected' : ''}" data-path="${esc(path)}" onclick="pickThumb('${jsPath}')">
+      <button class="thumb-del" title="Delete this image" onclick="deleteThumb('${jsPath}', event)">×</button>
       <img src="${src}" loading="lazy" alt="${esc(file)}">
       <div class="thumb-opt-label">${esc(file)}</div>
     </div>`;
   }).join('');
   return `<div class="thumb-grid-wrap"><div class="thumb-grid">${opts}</div></div>`;
+}
+
+// Delete a thumbnail file from the repo (GitHub Contents API: GET its sha, then
+// DELETE). Warns if a project still uses it; removes it from the picker on success.
+async function deleteThumb(path, evt) {
+  if (evt) evt.stopPropagation();   // don't also select the tile being deleted
+  const token = getGhToken();
+  if (!token) { alert('Set your GitHub token (🔑 Token) first to delete images.'); return; }
+  const file = path.split('/').pop();
+  const inUse = data.projects.filter(p => p.thumb === path).map(p => p.title || 'Untitled');
+  let msg = `Delete “${file}” from the repo? This can’t be undone.`;
+  if (inUse.length) msg += `\n\nStill used as the thumbnail for: ${inUse.join(', ')}.`;
+  if (!confirm(msg)) return;
+
+  const apiPath = path.split('/').map(encodeURIComponent).join('/');
+  const api = `https://api.github.com/repos/chowpeijunn/portfolio/contents/${apiPath}`;
+  const headers = {
+    Authorization: `token ${token}`,
+    Accept: 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json',
+    'User-Agent': 'portfolio-admin'
+  };
+  try {
+    const getRes = await fetch(api, { headers });
+    if (!getRes.ok) throw new Error(getRes.status === 404 ? 'File not found in repo' : `GitHub ${getRes.status}`);
+    const sha = (await getRes.json()).sha;
+    const delRes = await fetch(api, {
+      method: 'DELETE', headers,
+      body: JSON.stringify({ message: `Admin: delete ${file}`, sha, branch: 'main' })
+    });
+    if (!delRes.ok) { const e = await delRes.json().catch(() => ({})); throw new Error(e.message || `GitHub ${delRes.status}`); }
+    thumbFiles = thumbFiles.filter(f => f !== file);
+    renderEditor();
+  } catch (e) {
+    alert('Delete failed: ' + e.message);
+  }
 }
 
 function creditRowHtml([key, val], ci) {
