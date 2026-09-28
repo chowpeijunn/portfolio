@@ -1023,7 +1023,8 @@
       "sourceVideos": [
         "assets/sources/yi-chang-clara.mp4"
       ],
-      "sourceVideo": "assets/sources/yi-chang-clara.mp4"
+      "sourceVideo": "assets/sources/yi-chang-clara.mp4",
+      "year": "2023"
     },
     {
       "slot": "before",
@@ -1244,7 +1245,8 @@
       "sourceVideos": [
         "assets/sources/mel-jadey.mp4"
       ],
-      "sourceVideo": "assets/sources/mel-jadey.mp4"
+      "sourceVideo": "assets/sources/mel-jadey.mp4",
+      "year": "2024"
     },
     {
       "slot": "after",
@@ -1269,7 +1271,8 @@
       "sourceVideos": [
         "assets/sources/weilun-sandy.mp4"
       ],
-      "sourceVideo": "assets/sources/weilun-sandy.mp4"
+      "sourceVideo": "assets/sources/weilun-sandy.mp4",
+      "year": "2024"
     },
     {
       "slot": "after",
@@ -1366,7 +1369,8 @@
       "sourceVideos": [
         "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
       ],
-      "sourceVideo": "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4"
+      "sourceVideo": "assets/sources/zachary__leeyin_same-day-edit-compressed-.mp4",
+      "year": "2023"
     },
     {
       "slot": "after",
@@ -1391,7 +1395,8 @@
       "sourceVideos": [
         "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4"
+      "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4",
+      "year": "2024"
     },
     {
       "slot": "after",
@@ -1482,7 +1487,8 @@
       "sourceVideos": [
         "assets/sources/nianhua-debbie.mp4"
       ],
-      "sourceVideo": "assets/sources/nianhua-debbie.mp4"
+      "sourceVideo": "assets/sources/nianhua-debbie.mp4",
+      "year": "2023"
     },
     {
       "slot": "after",
@@ -1507,7 +1513,8 @@
       "sourceVideos": [
         "assets/sources/sengchong--melanie-sde-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/sengchong--melanie-sde-compressed.mp4"
+      "sourceVideo": "assets/sources/sengchong--melanie-sde-compressed.mp4",
+      "year": "2026"
     },
     {
       "slot": "after",
@@ -1588,7 +1595,8 @@
       "sourceVideos": [
         "assets/sources/kit-emily-same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4",
+      "year": "2025"
     },
     {
       "slot": "after",
@@ -1613,7 +1621,8 @@
       "sourceVideos": [
         "assets/sources/kenny__gina_wedding_trailer-compressed-.mp4"
       ],
-      "sourceVideo": "assets/sources/kenny__gina_wedding_trailer-compressed-.mp4"
+      "sourceVideo": "assets/sources/kenny__gina_wedding_trailer-compressed-.mp4",
+      "year": "2023"
     },
     {
       "slot": "after",
@@ -1695,7 +1704,8 @@
       "sourceVideos": [
         "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
+      "sourceVideo": "assets/sources/timothy__casandra_same-day-edit-compressed.mp4",
+      "year": "2023"
     },
     {
       "slot": "after",
@@ -1704,7 +1714,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/hariz__aliah_wedding_trailer-compressed-still.jpg",
+      "thumb": "assets/thumbs/hariz_+_aliah_(wedding_trailer) thumbnail.jpg",
       "video": "https://youtu.be/_CkRskuYJ2w",
       "client": "AndroidsinBoots",
       "credits": [
@@ -1720,7 +1730,8 @@
       "sourceVideos": [
         "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
+      "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4",
+      "year": "2023"
     },
     {
       "slot": "after",
@@ -1885,7 +1896,8 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "year": "2023"
     },
     {
       "slot": "after",
@@ -1910,7 +1922,8 @@
       "sourceVideos": [
         "assets/sources/andysophie-same-day-edit-compressed-.mp4"
       ],
-      "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4"
+      "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
+      "year": "2022"
     },
     {
       "slot": "after",
