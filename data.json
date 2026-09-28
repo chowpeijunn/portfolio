@@ -1857,6 +1857,27 @@
         "assets/sources/singapore_management_university__centre_for_social_responsibility_c4sr-compressed-.mp4"
       ],
       "sourceVideo": "assets/sources/singapore_management_university__centre_for_social_responsibility_c4sr-compressed-.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Eugene + Grace",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/Hesi8u_IkEo",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
