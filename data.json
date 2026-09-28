@@ -1835,18 +1835,22 @@
     },
     {
       "slot": "after",
-      "title": "New Project",
+      "title": "Centre for Social Responsibility (C4SR)",
       "category": "corporate",
       "tags": [
         "corporate"
       ],
       "thumb": "",
-      "video": "",
-      "client": "",
+      "video": "https://youtu.be/c2ULgDbx7fw",
+      "client": "Singapore Management University (SMU)",
       "credits": [
         [
+          "Work",
+          "Producer"
+        ],
+        [
           "Production",
-          ""
+          "Optical Films"
         ]
       ]
     }
