@@ -2351,6 +2351,15 @@ async function captureFrameThumb() {
   const name = sanitizeFilename(base + '-still-' + stamp + '.jpg');   // URL, never a stale cache
   const uploadPath = `assets/thumbs/${name}`;
 
+  // Report progress in a persistent bottom-right toast (same as Save & extract /
+  // Source upload) so the grab keeps reporting — and any failure stays visible —
+  // even after the user switches to another project to work on other uploads.
+  const toast = makeOpToast('thumbToast-' + stamp, 'Thumbnail · ' + (p.title || 'project'));
+  const stage = (pct, m, state) => {
+    setStatus(String(m).replace(/<[^>]+>/g, ''), state === 'error');
+    toast.setProgress(pct, m, state);
+  };
+
   // Draw the full frame at native resolution first (needed for letterbox detection).
   const full = document.createElement('canvas');
   full.width = vid.videoWidth; full.height = vid.videoHeight;
@@ -2377,14 +2386,14 @@ async function captureFrameThumb() {
   canvas.width = w; canvas.height = h;
   canvas.getContext('2d').drawImage(full, sx, sy, sw, sh, 0, 0, w, h);
 
-  setStatus('Capturing frame…');
+  stage(15, 'Capturing frame…');
   const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
   const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.85));
-  if (!blob) { setStatus('Capture failed — try a different frame.', true); return; }
+  if (!blob) { stage(100, 'Capture failed — try a different frame.', 'error'); toast.allowDismiss(); return; }
   const base64 = await blobToBase64(blob);
 
   try {
-    setStatus(`Uploading… (${Math.round(blob.size / 1024)} KB)`);
+    stage(50, `Uploading… (${Math.round(blob.size / 1024)} KB)`);
     await githubPut(uploadPath, base64, name);
     if (!thumbFiles.includes(name)) thumbFiles.unshift(name);
     // Assign to the PINNED project — NOT pickThumb(), which reads the live
@@ -2397,11 +2406,14 @@ async function captureFrameThumb() {
       const disp = document.querySelector('.thumb-path-display');
       if (disp) { disp.textContent = uploadPath; disp.classList.remove('is-url'); }
     }
-    setStatus('✓ Thumbnail set — saving…');
+    stage(85, 'Saving…');
     await saveAll();   // persist to data.json immediately so navigating away can't lose it
-    setStatus('✓ Thumbnail saved for “' + (p.title || 'project') + '”' + (cropped ? ' (black bars cropped)' : '') + ' — live in ~1 min');
+    stage(100, '✓ Saved for “' + (p.title || 'project') + '”' + (cropped ? ' (black bars cropped)' : '') + ' — live in ~1 min', 'success');
+    toast.allowDismiss();
+    setTimeout(() => toast.close(), 6000);
   } catch (err) {
-    setStatus('Upload failed: ' + err.message, true);
+    stage(100, 'Upload failed: ' + err.message, 'error');
+    toast.allowDismiss();
   }
 }
 
