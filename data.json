@@ -1919,7 +1919,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
     }
   ],
   "categoryDefaults": {
