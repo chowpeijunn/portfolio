@@ -953,7 +953,7 @@
       "sourceVideo": "assets/sources/kia-x-discovery.mp4",
       "clips": [
         {
-          "label": "Binocular Look",
+          "label": "Binocular Comp",
           "start": "0:04",
           "end": "0:07"
         },
@@ -1792,14 +1792,12 @@
         {
           "label": "Clean up + Roto + Graphics Comp ",
           "start": "18.11",
-          "end": "21.881",
-          "clipFile": "assets/clips/kfc-sauce-mania-1.mp4"
+          "end": "21.881"
         },
         {
           "label": "Clean up + Roto + Graphics Comp ",
           "start": "9.676",
-          "end": "13.03",
-          "clipFile": "assets/clips/kfc-sauce-mania-2.mp4"
+          "end": "13.03"
         }
       ]
     }
