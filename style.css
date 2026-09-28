@@ -327,8 +327,10 @@ a { color: inherit; text-decoration: none; }
 
 .project-card.hidden {
   /* Removed from grid flow entirely so grid-auto-flow: dense repacks the
-     remaining (matching) cards tightly around the hub — no empty holes. */
-  display: none !important;
+     remaining (matching) cards tightly around the hub — no empty holes.
+     No !important: a leaving card is briefly given inline position:absolute so
+     it can fade out in place while the survivors reflow around it. */
+  display: none;
 }
 
 .project-card:hover {

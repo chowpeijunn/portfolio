@@ -789,37 +789,68 @@ function initFilter() {
   }
 
   let _filterSeq = 0;
+  let _lifted = [];   // leaving cards currently floating out of flow, mid fade-out
+
+  // Reset every inline style used to float a leaving card, so its .hidden class
+  // (plain display:none) takes over again.
+  function dropLifted(el) {
+    ['width', 'height', 'left', 'top', 'margin', 'position', 'zIndex',
+     'pointerEvents', 'transition', 'opacity', 'display'].forEach(p => { el.style[p] = ''; });
+  }
 
   function applyFilter(category) {
     activeFilter = category;
     window._activeFilter = category;
     filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
-
     const seq = ++_filterSeq;
 
-    // The heavy step: snapshot, reflow, pin the hub instantly, animate cards.
-    const doMove = () => {
-      if (seq !== _filterSeq) return;                   // superseded by a newer click
-      leaving.forEach(el => { el.style.transition = ''; el.style.opacity = ''; });
-      const prev = window._capturePositions ? window._capturePositions() : null;
-      relayoutFilter(category);
-      centerOnHub(false);
-      flipCards(prev);
-    };
+    // Clear any leftover floats from a still-running previous transition.
+    _lifted.forEach(dropLifted);
+    _lifted = [];
 
-    // Cards on screen now that the new filter will remove — fade them out first
-    // so they don't just blink away, then reflow the survivors into place.
+    // 1) Snapshot where every card is BEFORE anything changes.
+    const prev = window._capturePositions ? window._capturePositions() : null;
+
+    // 2) Lift the leaving cards out of the grid flow, frozen at their current
+    //    spot, so the survivors reflow around them while they fade in place —
+    //    fade-out and slide happen together, not in two beats.
     const leaving = category
       ? [...inner.querySelectorAll('.project-card')].filter(el =>
           getComputedStyle(el).display !== 'none' && !cardMatchesFilter(el, category))
       : [];
-
     if (leaving.length) {
-      const OUT_MS = 200;
-      leaving.forEach(el => { el.style.transition = `opacity ${OUT_MS}ms ease`; el.style.opacity = '0'; });
-      setTimeout(doMove, OUT_MS + 10);   // let them finish fading before they're hidden
-    } else {
-      doMove();
+      const innerRect = inner.getBoundingClientRect();
+      const rects = leaving.map(el => el.getBoundingClientRect());   // read all first
+      leaving.forEach((el, i) => {
+        const r = rects[i];
+        el.style.width = r.width + 'px';
+        el.style.height = r.height + 'px';
+        el.style.left = (r.left - innerRect.left) + 'px';
+        el.style.top = (r.top - innerRect.top) + 'px';
+        el.style.margin = '0';
+        el.style.position = 'absolute';
+        el.style.zIndex = '0';
+        el.style.pointerEvents = 'none';
+      });
+      _lifted = leaving;
+    }
+
+    // 3) Reflow the survivors and pin the hub — all synchronous, one repaint.
+    relayoutFilter(category);
+    centerOnHub(false);
+
+    // 4) relayout tagged the leaving cards .hidden; keep them shown + floating so
+    //    they can fade, then animate everything on the next frame together.
+    leaving.forEach(el => { el.style.display = 'block'; el.style.transition = `opacity ${FADE_MS}ms ease`; });
+    flipCards(prev);                                    // survivors slide, entering fade in
+    if (leaving.length) {
+      void inner.offsetWidth;
+      requestAnimationFrame(() => { leaving.forEach(el => { el.style.opacity = '0'; }); });
+      setTimeout(() => {
+        if (seq !== _filterSeq) return;                 // a newer click already cleaned up
+        leaving.forEach(dropLifted);
+        _lifted = [];
+      }, FADE_MS + 60);
     }
   }
 
