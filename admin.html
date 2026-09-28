@@ -828,6 +828,10 @@ function renderEditor() {
     <!-- CREDITS -->
     <div class="section">
       <div class="section-title">Credits</div>
+      <div class="field" style="margin-bottom:10px">
+        <label>Year</label>
+        <input type="text" value="${esc(p.year || '')}" placeholder="e.g. 2024" oninput="update('year', this.value)">
+      </div>
       <div class="credits-list" id="creditsList">${creditsHtml}</div>
       <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="addCredit()">+ Add credit row</button>
     </div>

@@ -1014,7 +1014,10 @@ initShowreel();
       ['Editing',        'Chow Pei Jun'],
     ];
     const rows = project.credits || defaultCredits;
-    creditsEl.innerHTML = rows.map(([label, val]) =>
+    // A "Year" segment renders first — above Work/Production — as an ordinary
+    // credit row, so it shares the exact label/value styling of the others.
+    const allRows = project.year ? [['Year', project.year], ...rows] : rows;
+    creditsEl.innerHTML = allRows.map(([label, val]) =>
       `<span class="detail-credit-label">${label}</span>` +
       `<span class="detail-credit-value">${val}</span>`
     ).join('');
