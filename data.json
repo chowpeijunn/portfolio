@@ -1852,7 +1852,11 @@
           "Production",
           "Optical Films"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/singapore_management_university__centre_for_social_responsibility_c4sr-compressed-.mp4"
+      ],
+      "sourceVideo": "assets/sources/singapore_management_university__centre_for_social_responsibility_c4sr-compressed-.mp4"
     }
   ],
   "categoryDefaults": {
