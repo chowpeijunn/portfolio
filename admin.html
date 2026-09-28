@@ -1092,7 +1092,7 @@ function updateThumbPreview(src) {
   if (src) {
     const img = document.createElement('img');
     img.className = 'thumb-preview';
-    img.src = src;
+    img.src = src.startsWith('http') ? src : src.split('/').map(encodeURIComponent).join('/');
     img.alt = '';
     img.onerror = () => { img.outerHTML = '<div class="thumb-preview-placeholder">broken link</div>'; };
     existing.replaceWith(img);
@@ -1113,7 +1113,12 @@ async function toggleThumbGrid() {
       const res = await fetch('/api/thumbs', { headers: { 'x-admin-secret': getAdminSecret() } });
       if (res.ok) {
         const list = await res.json();
-        if (Array.isArray(list)) thumbFiles = list;
+        if (Array.isArray(list)) {
+          // Union, not replace: keep locally-known files (e.g. one just uploaded
+          // that the API listing may not include yet) and add any new server ones.
+          const seen = new Set(thumbFiles);
+          list.forEach(f => { if (!seen.has(f)) thumbFiles.push(f); });
+        }
       }
     } catch (_) { /* keep the cached list if the refresh fails */ }
   }
@@ -2278,7 +2283,7 @@ function handleUploadDrop(e) {
 // Keeps GIFs as-is (canvas would break animation).
 function compressImage(file, maxWidth = 1600, quality = 0.85) {
   return new Promise((resolve) => {
-    if (file.type === 'image/gif') { resolve({ blob: file, name: file.name }); return; }
+    if (file.type === 'image/gif') { resolve({ blob: file, name: sanitizeFilename(file.name) }); return; }
     const img = new Image();
     const url = URL.createObjectURL(file);
     img.onload = () => {
@@ -2289,11 +2294,11 @@ function compressImage(file, maxWidth = 1600, quality = 0.85) {
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
       canvas.toBlob(blob => {
-        const name = file.name.replace(/\.[^.]+$/, '.jpg');
+        const name = sanitizeFilename(file.name.replace(/\.[^.]+$/, '.jpg'));
         resolve({ blob, name });
       }, 'image/jpeg', quality);
     };
-    img.onerror = () => { URL.revokeObjectURL(url); resolve({ blob: file, name: file.name }); };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve({ blob: file, name: sanitizeFilename(file.name) }); };
     img.src = url;
   });
 }
@@ -2330,9 +2335,18 @@ async function handleUploadFile(file) {
     const filename = uploadFilename;
     if (!thumbFiles.includes(filename)) thumbFiles.unshift(filename);
     pickThumb(uploadPath);
+    if (thumbGridVisible) renderEditor();   // show the new tile in the open picker
 
-    showProgress(`✓ Uploaded: ${filename}`);
-    setTimeout(() => { if (progress) progress.classList.remove('visible'); }, 3000);
+    // The repo copy isn't served until the deploy finishes (~1 min), so preview
+    // the just-uploaded image from the local blob right away instead of a 404.
+    const localUrl = URL.createObjectURL(blob);
+    const pv = document.querySelector('.thumb-preview');
+    if (pv && pv.tagName === 'IMG') pv.src = localUrl;
+    const tileImg = document.querySelector(`.thumb-opt[data-path="${uploadPath}"] img`);
+    if (tileImg) tileImg.src = localUrl;
+
+    showProgress(`✓ Uploaded: ${filename} — live in ~1 min`);
+    setTimeout(() => { if (progress) progress.classList.remove('visible'); }, 4000);
   } catch (err) {
     showProgress('Upload failed: ' + err.message, true);
   }
