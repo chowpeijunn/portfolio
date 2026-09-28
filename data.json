@@ -1860,7 +1860,7 @@
     },
     {
       "slot": "after",
-      "title": "Eugene + Grace",
+      "title": "Norman + XinRu",
       "category": "weddings",
       "tags": [
         "weddings"
@@ -1911,8 +1911,8 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/mark__meredith_same-day-edit-compressed-still-mul0rvtz.jpg",
-      "video": "https://youtu.be/Jm3L0_JG2TI",
+      "thumb": "assets/thumbs/mark meredith thumbnail.jpg",
+      "video": "https://youtu.be/AB9RQeXHYZQ",
       "client": "AndroidsinBoots",
       "credits": [
         [
@@ -1925,10 +1925,8 @@
         ]
       ],
       "year": "2023",
-      "sourceVideos": [
-        "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+      "sourceVideos": [],
+      "sourceVideo": ""
     }
   ],
   "categoryDefaults": {
