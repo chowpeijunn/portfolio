@@ -241,19 +241,15 @@ function centerOnHub(smooth) {
   inner._hubCenterTx = offsetX; // store so clamp can allow this position
 
   if (smooth) {
-    inner.classList.remove('no-transition');
+    inner.classList.add('animate');
+    clearTimeout(inner._animTO);
+    inner._animTO = setTimeout(() => inner.classList.remove('animate'), 600);
   } else {
-    inner.classList.add('no-transition');
+    inner.classList.remove('animate');
   }
   inner.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
   inner._tx = offsetX;
   inner._ty = offsetY;
-
-  if (!smooth) {
-    requestAnimationFrame(() => {
-      inner.classList.remove('no-transition');
-    });
-  }
   checkFooterVisibility();
 }
 
@@ -384,14 +380,13 @@ window.addEventListener('resize', () => {
     inner._tx = clamped.x;
     inner._ty = clamped.y;
     if (smooth) {
-      inner.classList.remove('no-transition');
+      inner.classList.add('animate');
+      clearTimeout(inner._animTO);
+      inner._animTO = setTimeout(() => inner.classList.remove('animate'), 600);
     } else {
-      inner.classList.add('no-transition');
+      inner.classList.remove('animate');
     }
     inner.style.transform = `translate3d(${clamped.x}px, ${clamped.y}px, 0)`;
-    if (!smooth) {
-      requestAnimationFrame(() => inner.classList.remove('no-transition'));
-    }
     if (window._updateScrollProgress) window._updateScrollProgress();
     if (!skipSideEffects) {
       updateReturnButton();
@@ -409,15 +404,10 @@ window.addEventListener('resize', () => {
     returnBtn.classList.add('visible');
   }
 
-  // Return to center — also resets filters
+  // Return to center — just glide back to the hub, leaving any active filter as-is.
   returnBtn.addEventListener('click', () => {
     stopMomentum();
-    setTimeout(updateReturnButton, 700);
-    if (window.resetFilter) {
-      window.resetFilter();
-    } else {
-      centerOnHub(true);
-    }
+    centerOnHub(true);
   });
 
   function stopMomentum() {
@@ -490,18 +480,8 @@ window.addEventListener('resize', () => {
       isDragging = false;
       document.body.classList.remove('dragging');
       inner.classList.remove('no-transition');
-      // Average recent samples, scale to ~60fps frame unit
-      const recent = velSamples.filter(s => performance.now() - s.t < 80);
-      if (recent.length) {
-        velocityX = recent.reduce((a, s) => a + s.vx, 0) / recent.length * 16;
-        velocityY = recent.reduce((a, s) => a + s.vy, 0) / recent.length * 16;
-      }
       velSamples = [];
-      if (Math.abs(velocityX) > 0.5 || Math.abs(velocityY) > 0.5) {
-        momentumRAF = requestAnimationFrame(applyMomentum);
-      } else {
-        inner.style.willChange = 'auto';
-      }
+      inner.style.willChange = 'auto';
     }
   });
 
@@ -568,34 +548,17 @@ window.addEventListener('resize', () => {
     }
   });
 
-  // Scroll wheel — smooth with momentum
-  let wheelTimeout = null;
-  let wheelVx = 0, wheelVy = 0;
-
+  // Scroll wheel / trackpad — direct 1:1, like a normal web page. No custom
+  // momentum or smoothing, so the OS's own trackpad inertia passes through
+  // untouched instead of fighting a scripted glide.
   canvas.addEventListener('wheel', (e) => {
     if (document.getElementById('detailOverlay')?.classList.contains('open')) return;
     e.preventDefault();
     stopMomentum();
-
     const pos = getTranslate();
     const dx = e.shiftKey ? -e.deltaY : -e.deltaX;
     const dy = e.shiftKey ? 0 : -e.deltaY;
-
-    // Accumulate velocity from wheel
-    wheelVx = dx * 0.8;
-    wheelVy = dy * 0.8;
-
-    setTranslate(pos.x + dx, pos.y + dy);
-
-    // After wheel stops, apply momentum glide
-    clearTimeout(wheelTimeout);
-    wheelTimeout = setTimeout(() => {
-      velocityX = wheelVx * 0.8;
-      velocityY = wheelVy * 0.8;
-      if (Math.abs(velocityX) > 0.5 || Math.abs(velocityY) > 0.5) {
-        momentumRAF = requestAnimationFrame(applyMomentum);
-      }
-    }, 60);
+    setTranslate(pos.x + dx, pos.y + dy, false);
   }, { passive: false });
 })();
 
