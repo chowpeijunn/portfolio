@@ -1807,6 +1807,48 @@
           "end": "13.03"
         }
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Rizki’s Story from Touch Young Arrows",
+      "category": "corporate",
+      "tags": [
+        "corporate"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/WeVEiI6kwtg",
+      "client": "Touch Community Services",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/touch_community_services__rizkis_story_touch_young_arrows-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/touch_community_services__rizkis_story_touch_young_arrows-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "New Project",
+      "category": "corporate",
+      "tags": [
+        "corporate"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Production",
+          ""
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
