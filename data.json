@@ -1898,7 +1898,11 @@
           "Production",
           "AndroidsinBoots"
         ]
-      ]
+      ],
+      "sourceVideos": [
+        "assets/sources/andysophie-same-day-edit-compressed-.mp4"
+      ],
+      "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4"
     },
     {
       "slot": "after",
