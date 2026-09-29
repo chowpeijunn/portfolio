@@ -857,14 +857,6 @@ function renderEditor() {
       <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="addCredit()">+ Add credit row</button>
     </div>
 
-    <!-- DELETE -->
-    <div class="section">
-      <div class="section-title">Danger Zone</div>
-      <div class="danger-zone">
-        <p>This will permanently remove the project from the portfolio. You'll need to save after deleting.</p>
-        <button class="btn btn-danger btn-sm" onclick="deleteProject()">Delete "${esc(p.title || 'this project')}"</button>
-      </div>
-    </div>
   `;
 
   // If a clip extraction is currently running, keep the new button disabled too
