@@ -686,34 +686,49 @@ function initFilter() {
     after.sort(byOrder);
 
     const match = c => cardMatchesFilter(c, category);
-    // Minimal-movement packing: the K cells nearest the hub on each side (the end
-    // of the before list, the start of the after list) should hold that side's K
-    // matching cards. A matching card ALREADY in that near region stays in its exact
-    // cell; a non-matching card in the near region is pushed out and swapped for a
-    // matching card pulled in from the outer cells. So only cards that genuinely need
-    // to fill a near gap move — anything already surrounding the hub is left alone.
-    function packSide(cells, nearAtEnd) {
-      if (!category) return cells;                 // reset → canonical order
-      const M = cells.length;
-      const K = cells.filter(match).length;
-      const isNear = i => nearAtEnd ? (i >= M - K) : (i < K);
-      const out = new Array(M);
+    // Global nearest-first packing. Matching cards must occupy the cells NEAREST
+    // the hub across BOTH sides — not just the nearest cells within each side.
+    // Packing each side alone leaves near cells empty on a side with few matches
+    // while the other side overflows onto a new outer row (e.g. two matching cards
+    // stranded a row below the hub while cells right beside it sit empty). We keep
+    // exactly `before.length` cards before the hub (and `after.length` after it) so
+    // the hub cell never moves — the only freedom is WHICH card sits in each cell.
+    // A matching card already in a near cell stays put; a near cell holding a
+    // non-match is swapped for a matching card pulled in from an outer cell, even
+    // across the hub.
+    function packGlobal() {
+      if (!category) return { beforeOrder: before, afterOrder: after }; // reset
+      const B = before.length, A = after.length;
+      // Each slot is a fixed grid cell. Distance to the hub grows walking away from
+      // the hub boundary: the last before-cell and the first after-cell are nearest.
+      const slots = [];
+      for (let i = 0; i < B; i++) slots.push({ side: 'b', i, dist: B - 1 - i, tie: 0 });
+      for (let j = 0; j < A; j++) slots.push({ side: 'a', i: j, dist: j, tie: 1 });
+      slots.sort((s, t) => s.dist - t.dist || s.tie - t.tie);
+      const cardAt = s => (s.side === 'b' ? before : after)[s.i];
+      const M = slots.filter(s => match(cardAt(s))).length;  // total matching cards
+      // The M nearest slots should be the matching ones. Keep cards already placed
+      // correctly; collect the mismatches to swap between near and outer slots.
+      const assign = new Array(slots.length);
       const incoming = [], outgoing = [];
-      for (let i = 0; i < M; i++) {
-        const near = isNear(i), m = match(cells[i]);
-        if (m === near) out[i] = cells[i];         // already correctly placed — keep
-        else if (m) incoming.push(cells[i]);       // matching but outer — pull inward
-        else outgoing.push(cells[i]);              // non-matching but near — push outward
-      }
+      slots.forEach((s, rank) => {
+        const near = rank < M, m = match(cardAt(s));
+        if (m === near) assign[rank] = cardAt(s);            // already right — keep
+        else if (m) incoming.push(cardAt(s));                // matching but outer — pull in
+        else outgoing.push(cardAt(s));                       // non-match but near — push out
+      });
       let im = 0, on = 0;
-      for (let i = 0; i < M; i++) {
-        if (out[i]) continue;
-        out[i] = isNear(i) ? incoming[im++] : outgoing[on++];
-      }
-      return out;
+      slots.forEach((s, rank) => {
+        if (!assign[rank]) assign[rank] = rank < M ? incoming[im++] : outgoing[on++];
+      });
+      const beforeOrder = new Array(B), afterOrder = new Array(A);
+      slots.forEach((s, rank) => {
+        if (s.side === 'b') beforeOrder[s.i] = assign[rank];
+        else afterOrder[s.i] = assign[rank];
+      });
+      return { beforeOrder, afterOrder };
     }
-    const beforeOrder = packSide(before, true);
-    const afterOrder  = packSide(after, false);
+    const { beforeOrder, afterOrder } = packGlobal();
 
     // Reorder DOM in place — per-side counts unchanged, so the hub cell holds.
     beforeOrder.forEach(c => inner.insertBefore(c, hub));
