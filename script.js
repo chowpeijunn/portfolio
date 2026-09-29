@@ -81,8 +81,9 @@ function renderCards(projects) {
   if (afterHTML)  hub.insertAdjacentHTML('afterend',    afterHTML);
 }
 
-// Fetch project data immediately so cards are ready before the loader finishes
-const _dataReady = fetch('data.json')
+// Fetch project data immediately so cards are ready before the loader finishes.
+// Cache-bust so freshly published edits (e.g. a new Year) show without a hard refresh.
+const _dataReady = fetch('data.json?t=' + Date.now(), { cache: 'no-store' })
   .then(r => r.json())
   .then(data => {
     renderCards(data.projects);
