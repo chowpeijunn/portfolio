@@ -618,7 +618,7 @@ async function init() {
   updateTokenBtn(!!getGhToken());
   const secret = getAdminSecret();
   const [dataRes, thumbRes] = await Promise.all([
-    fetch('/data.json').then(r => r.json()),
+    fetch('/data.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()),
     fetch('/api/thumbs', { headers: { 'x-admin-secret': secret } }).then(async r => {
       if (r.status === 401) throw Object.assign(new Error('Unauthorized'), { status: 401 });
       return r.json();
