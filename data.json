@@ -2034,6 +2034,31 @@
         ]
       ],
       "year": "2024"
+    },
+    {
+      "slot": "after",
+      "title": "New Project",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
+      ],
+      "sourceVideo": "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
     }
   ],
   "categoryDefaults": {
