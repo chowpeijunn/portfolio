@@ -75,7 +75,8 @@
       "sourceVideos": [
         "assets/sources/ritz-carlton-wedding-showcase.mp4"
       ],
-      "sourceVideo": "assets/sources/ritz-carlton-wedding-showcase.mp4"
+      "sourceVideo": "assets/sources/ritz-carlton-wedding-showcase.mp4",
+      "hidden": true
     },
     {
       "slot": "before",
