@@ -2105,27 +2105,28 @@
     {
       "slot": "after",
       "title": "PRSIN Wedding Show Highlights (Heaven's Gift Ver.)",
-      "category": "weddings",
+      "category": "events",
       "tags": [
-        "weddings"
+        "events"
       ],
-      "thumb": "",
-      "video": "",
+      "thumb": "assets/thumbs/fiz7bouomcd7_dfutlfq1q-compressed--still-mumc8pe9.jpg",
+      "video": "https://youtu.be/dgx10XqAQPM",
       "client": "Heaven's Gift",
       "credits": [
         [
           "Work",
-          ""
+          "2nd Videographer "
         ],
         [
           "Production",
-          ""
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
         "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
       ],
-      "sourceVideo": "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
+      "sourceVideo": "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4",
+      "year": "2024"
     }
   ],
   "categoryDefaults": {
