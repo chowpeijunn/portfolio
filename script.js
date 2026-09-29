@@ -26,6 +26,10 @@ function renderCards(projects) {
   const hub = document.getElementById('centerHub');
   if (!hub) return;
 
+  // Skip projects hidden from the public site (toggled in the admin). They stay
+  // in data.json so they can be un-hidden later — they're just not rendered here.
+  projects = projects.filter(p => !p.hidden);
+
   // Build lookup map used by openDetail
   window._projectMap = Object.create(null);
   projects.forEach(p => { window._projectMap[p.title] = p; });
