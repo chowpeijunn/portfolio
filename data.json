@@ -1987,6 +1987,29 @@
         "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "PRSIN Wedding Show Highlights (Heaven's Gift Ver.)",
+      "category": "weddings",
+      "tags": [
+        "weddings",
+        "events"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "Heaven's Gift",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "year": "2024"
     }
   ],
   "categoryDefaults": {
