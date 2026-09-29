@@ -2059,6 +2059,73 @@
         "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
       ],
       "sourceVideo": "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "New Project",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "New ProjectPRSIN Wedding Show Highlights (Heaven's Gift Ver.)",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "PRSIN Wedding Show Highlights (Heaven's Gift Ver.)",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "Heaven's Gift",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
+      ],
+      "sourceVideo": "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4"
     }
   ],
   "categoryDefaults": {
