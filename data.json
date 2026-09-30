@@ -1637,7 +1637,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/kenny-gina.jpg",
+      "thumb": "assets/thumbs/kenny__gina_wedding_trailer-compressed--still-muh062fa.jpg",
       "video": "https://youtu.be/7IMzXghGq8Y",
       "client": "AndroidsinBoots",
       "credits": [
@@ -1748,7 +1748,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/hariz-aliah-thumbnail.jpg",
+      "thumb": "assets/thumbs/hariz_+_aliah_(wedding_trailer) thumbnail.jpg",
       "video": "https://youtu.be/_CkRskuYJ2w",
       "client": "AndroidsinBoots",
       "credits": [
@@ -1922,7 +1922,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/hariz-aliah-thumbnail.jpg",
+      "thumb": "assets/thumbs/Norman XinRu Thumbnail.jpg",
       "video": "https://youtu.be/AB9RQeXHYZQ",
       "client": "AndroidsinBoots",
       "credits": [
@@ -2014,6 +2014,32 @@
       ],
       "sourceVideo": "assets/sources/fiz7bouomcd7_dfutlfq1q-compressed-.mp4",
       "year": "2024"
+    },
+    {
+      "slot": "after",
+      "title": "Hervé + Sarah",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/m8zTdebIiy4",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "year": "2024",
+      "sourceVideos": [
+        "assets/sources/herve__sarah_wedding_trailer_compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/herve__sarah_wedding_trailer_compressed.mp4"
     }
   ],
   "categoryDefaults": {
