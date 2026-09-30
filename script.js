@@ -31,6 +31,25 @@ function categoryLabel(cat) {
   return CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
 }
 
+// Shareable filter links (?filter=weddings). Friendly slugs in the URL map to the
+// internal filter values, so a link stays readable (e.g. ?filter=branded-content).
+const FILTER_SLUGS = { weddings: 'weddings', branded: 'branded-content', events: 'events', tvc: 'tvc' };
+const SLUG_TO_FILTER = { weddings: 'weddings', 'branded-content': 'branded', branded: 'branded', events: 'events', tvc: 'tvc' };
+function getUrlFilter() {
+  try {
+    const s = (new URLSearchParams(location.search).get('filter') || '').toLowerCase().trim();
+    return SLUG_TO_FILTER[s] || null;
+  } catch (_) { return null; }
+}
+function syncFilterUrl(category) {
+  try {
+    const url = new URL(location.href);
+    if (category) url.searchParams.set('filter', FILTER_SLUGS[category] || category);
+    else url.searchParams.delete('filter');
+    history.replaceState(null, '', url);
+  } catch (_) { /* history/URL unavailable — ignore */ }
+}
+
 function renderCards(projects) {
   const hub = document.getElementById('centerHub');
   if (!hub) return;
@@ -174,6 +193,13 @@ const _dataReady = fetch('data.json?t=' + Date.now(), { cache: 'no-store' })
     bottomBar.getBoundingClientRect();
     bottomBar.classList.add('visible');
     centerOnHub();
+    // Deep link: if the URL names a filter (?filter=weddings), land on it directly
+    // so a shared link opens straight to that category.
+    const urlFilter = getUrlFilter();
+    if (urlFilter && window._applyFilter) {
+      window._applyFilter(urlFilter);
+      centerOnHub(false);
+    }
     // Always show return button
     const returnBtn = document.getElementById('returnBtn');
     if (returnBtn) returnBtn.classList.add('visible');
@@ -677,6 +703,7 @@ function initFilter() {
   function applyFilter(category) {
     activeFilter = category;
     window._activeFilter = category;
+    syncFilterUrl(category);   // keep the URL shareable (?filter=…)
     filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
 
     const cards = Array.from(inner.querySelectorAll('.project-card'));
