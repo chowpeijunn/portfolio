@@ -708,7 +708,15 @@ function initFilter() {
     // after.length after it) so the hub cell never moves; only WHICH card sits in each
     // cell changes, and a matching card may cross the hub to complete a nearer row.
     function packGlobal() {
-      if (!category) return { beforeOrder: before, afterOrder: after }; // reset
+      if (!category) {
+        // Reset → restore the original arrangement. Because filtering can move a
+        // card ACROSS the hub, sorting each side alone would leave a crossed card
+        // stranded on the wrong side. Re-sort ALL cards by their canonical order and
+        // re-cut at the same hub position (before.length is preserved by filtering).
+        const all = before.concat(after).sort(byOrder);
+        const cut = before.length;
+        return { beforeOrder: all.slice(0, cut), afterOrder: all.slice(cut) };
+      }
       const B = before.length, A = after.length;
       const hubTop = hubRect.top;
       // Describe every card-cell by its fixed geometry in the current grid layout.
