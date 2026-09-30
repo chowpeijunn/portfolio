@@ -178,9 +178,9 @@
     {
       "slot": "before",
       "title": "My Big Fat Web3 Wedding",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate",
+        "branded",
         "branded content"
       ],
       "thumb": "assets/thumbs/web3-wedding-vice.jpg",
@@ -377,9 +377,9 @@
     {
       "slot": "before",
       "title": "Ubin Kakis",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate",
+        "branded",
         "branded content"
       ],
       "thumb": "assets/thumbs/ubin-kakis-smu.jpg",
@@ -614,9 +614,9 @@
     {
       "slot": "before",
       "title": "Paragon Indent",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate"
+        "branded"
       ],
       "thumb": "assets/thumbs/Paragon Indent_Thumbnail.jpg",
       "video": "https://youtu.be/USlC968YdlU",
@@ -682,9 +682,9 @@
     {
       "slot": "before",
       "title": "Moomoo Testimonials",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate"
+        "branded"
       ],
       "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.40.46 PM.jpg",
       "video": "https://youtu.be/7dKE9sv0RtA",
@@ -734,9 +734,9 @@
     {
       "slot": "before",
       "title": "Foodflix",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate",
+        "branded",
         "branded content"
       ],
       "thumb": "assets/thumbs/foodflix-sats.jpg",
@@ -1471,9 +1471,9 @@
     {
       "slot": "after",
       "title": "Trade Advocacy Programme",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate"
+        "branded"
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-17-at-8.42.55-am.jpg",
       "video": "https://youtu.be/jFEWqfvhQC0",
@@ -1549,11 +1549,11 @@
     {
       "slot": "after",
       "title": "Vogue x MBS",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
         "ads",
         "branded content",
-        "corporate"
+        "branded"
       ],
       "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
       "video": "https://youtube.com/shorts/7phCcyXsNgo",
@@ -1659,9 +1659,9 @@
     {
       "slot": "after",
       "title": "Portraits of HTA",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate",
+        "branded",
         "branded content"
       ],
       "thumb": "assets/thumbs/portraits-hta.png",
@@ -1867,9 +1867,9 @@
     {
       "slot": "after",
       "title": "Rizki’s Story from Touch Young Arrows",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate"
+        "branded"
       ],
       "thumb": "assets/thumbs/touch_community_services__rizkis_story_touch_young_arrows-compressed-still-mukyp7dz.jpg",
       "video": "https://youtu.be/WeVEiI6kwtg",
@@ -1893,9 +1893,9 @@
     {
       "slot": "after",
       "title": "Centre for Social Responsibility (C4SR)",
-      "category": "corporate",
+      "category": "branded",
       "tags": [
-        "corporate"
+        "branded"
       ],
       "thumb": "assets/thumbs/singapore_management_university__centre_for_social_responsibility_c4sr-compressed--still-mukzjbti.jpg",
       "video": "https://youtu.be/c2ULgDbx7fw",
@@ -2066,20 +2066,6 @@
         "Licensed"
       ]
     ],
-    "corporate": [
-      [
-        "Cinematography",
-        "Chow Pei Jun"
-      ],
-      [
-        "Direction",
-        "Chow Pei Jun"
-      ],
-      [
-        "Editing",
-        "Chow Pei Jun"
-      ]
-    ],
     "events": [
       [
         "Cinematography",
@@ -2102,6 +2088,20 @@
       [
         "Production",
         "Abundant Productions"
+      ]
+    ],
+    "branded": [
+      [
+        "Cinematography",
+        "Chow Pei Jun"
+      ],
+      [
+        "Direction",
+        "Chow Pei Jun"
+      ],
+      [
+        "Editing",
+        "Chow Pei Jun"
       ]
     ]
   }

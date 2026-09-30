@@ -25,7 +25,7 @@ function getYouTubeThumbnail(url) {
 // Display names for categories where the label shown to visitors differs from the
 // internal value stored in data.json (kept as-is so the admin's tag→category sync
 // and existing tags keep working). Falls back to a simple capitalisation.
-const CATEGORY_LABELS = { corporate: 'Branded Content' };
+const CATEGORY_LABELS = { branded: 'Branded Content', tvc: 'TVC' };
 function categoryLabel(cat) {
   cat = cat || '';
   return CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));

@@ -126,12 +126,12 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 }
 /* Colour-coded by category (matches sidebar filter + badges) */
 .tag-weddings  { color: #c084fc; }
-.tag-corporate { color: #86efac; }
+.tag-branded { color: #86efac; }
 .tag-events    { color: #93c5fd; }
 .tag-tvc       { color: #fca5a5; }
 .tag-chip.active { border-color: currentColor; font-weight: 600; }
 .tag-weddings.active  { background: #2a1a2a; }
-.tag-corporate.active { background: #1a2a1a; }
+.tag-branded.active { background: #1a2a1a; }
 .tag-events.active    { background: #1a1a2a; }
 .tag-tvc.active       { background: #2a1a1a; }
 .tag-chip input[type=checkbox] { display: none; }
@@ -375,7 +375,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   padding: 2px 6px; border-radius: 3px;
 }
 .cat-weddings { background: #2a1a2a; color: #c084fc; }
-.cat-corporate { background: #1a2a1a; color: #86efac; }
+.cat-branded { background: #1a2a1a; color: #86efac; }
 .cat-events { background: #1a1a2a; color: #93c5fd; }
 .cat-tvc { background: #2a1a1a; color: #fca5a5; }
 
@@ -384,7 +384,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .sf-chip { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); background: transparent; cursor: pointer; transition: all 0.12s; }
 .sf-all { color: var(--muted); }
 .sf-weddings { color: #c084fc; }
-.sf-corporate { color: #86efac; }
+.sf-branded { color: #86efac; }
 .sf-events { color: #93c5fd; }
 .sf-tvc { color: #fca5a5; }
 .sf-chip:hover { border-color: currentColor; }
@@ -566,7 +566,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
         onfocus="this.style.borderColor='var(--accent)'"
         onblur="this.style.borderColor='var(--border)'" />
       <div style="font-size:10px;color:var(--muted);margin:6px 0 4px;">Caption</div>
-      <input id="showreelCopyInput" type="text" placeholder="Weddings | Corporate | …"
+      <input id="showreelCopyInput" type="text" placeholder="Weddings | Branded Content | …"
         style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:12px;outline:none;"
         oninput="data.showreelCopy = this.value;"
         onfocus="this.style.borderColor='var(--accent)'"
@@ -575,7 +575,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
     <div class="sidebar-filters" id="sidebarFilters">
       <button class="sf-chip sf-all active" data-cat="" onclick="setCategoryFilter('')">All</button>
       <button class="sf-chip sf-weddings"  data-cat="weddings"  onclick="setCategoryFilter('weddings')">Weddings</button>
-      <button class="sf-chip sf-corporate" data-cat="corporate" onclick="setCategoryFilter('corporate')">Corporate</button>
+      <button class="sf-chip sf-branded" data-cat="branded" onclick="setCategoryFilter('branded')">Branded Content</button>
       <button class="sf-chip sf-events"    data-cat="events"    onclick="setCategoryFilter('events')">Events</button>
       <button class="sf-chip sf-tvc"       data-cat="tvc"       onclick="setCategoryFilter('tvc')">TVC</button>
     </div>
@@ -598,8 +598,11 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 <!-- THUMB PICKER (hidden grid, toggled per project) -->
 
 <script>
-const CATEGORIES = ['weddings', 'corporate', 'events', 'tvc'];
-const ALL_TAGS = ['weddings', 'corporate', 'events', 'tvc'];
+const CATEGORIES = ['weddings', 'branded', 'events', 'tvc'];
+const ALL_TAGS = ['weddings', 'branded', 'events', 'tvc'];
+// Categories whose visitor/admin label differs from the stored value.
+const CATEGORY_DISPLAY = { branded: 'Branded Content', tvc: 'TVC' };
+const catDisplayName = c => CATEGORY_DISPLAY[c] || (c ? c.charAt(0).toUpperCase() + c.slice(1) : c);
 
 let data = null;
 let thumbFiles = [];
@@ -614,11 +617,34 @@ function getAdminSecret() {
   return localStorage.getItem('adminSecret') || '';
 }
 
+// Load data.json for editing. The deployed /data.json lags a publish by the
+// Vercel deploy time (~30–60s), so a just-added or just-edited project can look
+// like it vanished after Save + refresh. When a token is present we read straight
+// from GitHub (reflects the commit immediately); otherwise fall back to the
+// deployed file.
+async function loadData() {
+  const token = getGhToken();
+  if (token) {
+    try {
+      const res = await fetch(
+        'https://api.github.com/repos/chowpeijunn/portfolio/contents/data.json?ref=main&t=' + Date.now(),
+        { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }, cache: 'no-store' }
+      );
+      if (res.ok) {
+        const j = await res.json();
+        const bytes = Uint8Array.from(atob((j.content || '').replace(/\s/g, '')), c => c.charCodeAt(0));
+        return JSON.parse(new TextDecoder().decode(bytes));
+      }
+    } catch (_) { /* fall through to the deployed copy */ }
+  }
+  return fetch('/data.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json());
+}
+
 async function init() {
   updateTokenBtn(!!getGhToken());
   const secret = getAdminSecret();
   const [dataRes, thumbRes] = await Promise.all([
-    fetch('/data.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()),
+    loadData(),
     fetch('/api/thumbs', { headers: { 'x-admin-secret': secret } }).then(async r => {
       if (r.status === 401) throw Object.assign(new Error('Unauthorized'), { status: 401 });
       return r.json();
@@ -652,7 +678,7 @@ function filterList(q) {
 }
 
 function catBadge(cat) {
-  return `<span class="cat-badge cat-${cat}">${cat}</span>`;
+  return `<span class="cat-badge cat-${cat}">${catDisplayName(cat)}</span>`;
 }
 
 function renderList() {
@@ -737,7 +763,7 @@ function renderEditor() {
   const tagsHtml = ALL_TAGS.map(tag => {
     const active = (p.tags || []).includes(tag);
     return `<label class="tag-chip tag-${tag} ${active ? 'active' : ''}">
-      <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTag('${tag}', this.checked)"> ${tag}
+      <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTag('${tag}', this.checked)"> ${catDisplayName(tag)}
     </label>`;
   }).join('');
 
@@ -1069,7 +1095,7 @@ function toggleTag(tag, checked) {
     tagsRow.innerHTML = ALL_TAGS.map(t => {
       const active = (p.tags || []).includes(t);
       return `<label class="tag-chip tag-${t} ${active ? 'active' : ''}">
-        <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTag('${t}', this.checked)"> ${t}
+        <input type="checkbox" ${active ? 'checked' : ''} onchange="toggleTag('${t}', this.checked)"> ${catDisplayName(t)}
       </label>`;
     }).join('');
   }
