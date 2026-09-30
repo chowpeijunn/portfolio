@@ -674,7 +674,9 @@ function initFilter() {
     const oldRects = new Map();
     cards.forEach(c => oldRects.set(c, c.getBoundingClientRect()));
 
-    // Split into before/after hub (respects any cross-hub moves updateHubSpan made)
+    // Split into before/after hub (respects any cross-hub moves updateHubSpan made).
+    // Keep the DOM order too: beforeDOM[k]/afterDOM[k] mark the fixed grid cell k, so
+    // we can group cells into rows from their measured positions.
     const before = [], after = [];
     let past = false;
     for (const el of inner.children) {
@@ -682,49 +684,63 @@ function initFilter() {
       if (!el.classList.contains('project-card')) continue;
       (past ? after : before).push(el);
     }
-    before.sort(byOrder);
+    const beforeDOM = before.slice();   // beforeDOM[k] currently sits in before-cell k
+    const afterDOM  = after.slice();
+    before.sort(byOrder);               // canonical order — stable pool of cards
     after.sort(byOrder);
 
     const match = c => cardMatchesFilter(c, category);
-    // Global nearest-first packing. Matching cards must occupy the cells NEAREST
-    // the hub across BOTH sides — not just the nearest cells within each side.
-    // Packing each side alone leaves near cells empty on a side with few matches
-    // while the other side overflows onto a new outer row (e.g. two matching cards
-    // stranded a row below the hub while cells right beside it sit empty). We keep
-    // exactly `before.length` cards before the hub (and `after.length` after it) so
-    // the hub cell never moves — the only freedom is WHICH card sits in each cell.
-    // A matching card already in a near cell stays put; a near cell holding a
-    // non-match is swapped for a matching card pulled in from an outer cell, even
-    // across the hub.
+    const hubRect = hub.getBoundingClientRect();
+    // Row-first nearest packing. Matching cards fill the cells nearest the hub, but
+    // completing whole ROWS before starting the next one — so the visible block never
+    // has interior gaps. Any shortfall lands as blanks at the outer edge of the last
+    // row, never as a hole beside the hub or a card stranded on a fresh row while near
+    // cells sit empty. We keep exactly before.length cards before the hub (and
+    // after.length after it) so the hub cell never moves; only WHICH card sits in each
+    // cell changes, and a matching card may cross the hub to complete a nearer row.
     function packGlobal() {
       if (!category) return { beforeOrder: before, afterOrder: after }; // reset
       const B = before.length, A = after.length;
-      // Each slot is a fixed grid cell. Distance to the hub grows walking away from
-      // the hub boundary: the last before-cell and the first after-cell are nearest.
-      const slots = [];
-      for (let i = 0; i < B; i++) slots.push({ side: 'b', i, dist: B - 1 - i, tie: 0 });
-      for (let j = 0; j < A; j++) slots.push({ side: 'a', i: j, dist: j, tie: 1 });
-      slots.sort((s, t) => s.dist - t.dist || s.tie - t.tie);
-      const cardAt = s => (s.side === 'b' ? before : after)[s.i];
-      const M = slots.filter(s => match(cardAt(s))).length;  // total matching cards
-      // The M nearest slots should be the matching ones. Keep cards already placed
-      // correctly; collect the mismatches to swap between near and outer slots.
-      const assign = new Array(slots.length);
+      const hubTop = hubRect.top;
+      // Describe every card-cell by its fixed geometry in the current grid layout.
+      const cells = [];
+      for (let k = 0; k < B; k++) {
+        const r = oldRects.get(beforeDOM[k]);
+        cells.push({ side: 'b', idx: k, top: Math.round(r.top), left: r.left });
+      }
+      for (let k = 0; k < A; k++) {
+        const r = oldRects.get(afterDOM[k]);
+        cells.push({ side: 'a', idx: k, top: Math.round(r.top), left: r.left });
+      }
+      // Fill order: rows closest to the hub row first; at equal distance the row above
+      // comes before the row below; within a row, left to right. Filling each row fully
+      // before the next keeps any gaps at the far edge of the outermost used row.
+      cells.sort((p, q) => {
+        const dp = Math.abs(p.top - hubTop), dq = Math.abs(q.top - hubTop);
+        if (dp !== dq) return dp - dq;
+        if (p.top !== q.top) return p.top - q.top;   // same distance: top row first
+        return p.left - q.left;                       // within a row: left → right
+      });
+      const cardOf = cell => (cell.side === 'b' ? beforeDOM : afterDOM)[cell.idx];
+      const M = cells.filter(cell => match(cardOf(cell))).length;  // matching count
+      // The M nearest cells (whole rows first) should hold the matching cards. Keep
+      // cards already correctly placed; swap the mismatches between near/far cells.
+      const assign = new Array(cells.length);
       const incoming = [], outgoing = [];
-      slots.forEach((s, rank) => {
-        const near = rank < M, m = match(cardAt(s));
-        if (m === near) assign[rank] = cardAt(s);            // already right — keep
-        else if (m) incoming.push(cardAt(s));                // matching but outer — pull in
-        else outgoing.push(cardAt(s));                       // non-match but near — push out
+      cells.forEach((cell, rank) => {
+        const near = rank < M, m = match(cardOf(cell));
+        if (m === near) assign[rank] = cardOf(cell);   // already right — keep
+        else if (m) incoming.push(cardOf(cell));       // matching but far — pull in
+        else outgoing.push(cardOf(cell));              // non-match but near — push out
       });
       let im = 0, on = 0;
-      slots.forEach((s, rank) => {
+      cells.forEach((cell, rank) => {
         if (!assign[rank]) assign[rank] = rank < M ? incoming[im++] : outgoing[on++];
       });
       const beforeOrder = new Array(B), afterOrder = new Array(A);
-      slots.forEach((s, rank) => {
-        if (s.side === 'b') beforeOrder[s.i] = assign[rank];
-        else afterOrder[s.i] = assign[rank];
+      cells.forEach((cell, rank) => {
+        if (cell.side === 'b') beforeOrder[cell.idx] = assign[rank];
+        else afterOrder[cell.idx] = assign[rank];
       });
       return { beforeOrder, afterOrder };
     }
