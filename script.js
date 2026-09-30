@@ -22,6 +22,15 @@ function getYouTubeThumbnail(url) {
   return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : '';
 }
 
+// Display names for categories where the label shown to visitors differs from the
+// internal value stored in data.json (kept as-is so the admin's tag→category sync
+// and existing tags keep working). Falls back to a simple capitalisation.
+const CATEGORY_LABELS = { corporate: 'Branded Content' };
+function categoryLabel(cat) {
+  cat = cat || '';
+  return CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
+}
+
 function renderCards(projects) {
   const hub = document.getElementById('centerHub');
   if (!hub) return;
@@ -35,7 +44,7 @@ function renderCards(projects) {
   projects.forEach(p => { window._projectMap[p.title] = p; });
 
   function makeCard(p) {
-    const catDisplay = p.category.charAt(0).toUpperCase() + p.category.slice(1);
+    const catDisplay = categoryLabel(p.category);
     const tags = Array.isArray(p.tags) ? p.tags.join(',') : (p.tags || '');
     const thumbSrc = p.thumb || '';
     const ytFallback = getYouTubeThumbnail(p.video || '');
@@ -1026,7 +1035,7 @@ initShowreel();
     const project  = (window._projectMap || {})[title] || {};
 
     // Badge
-    catBadge.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+    catBadge.textContent = categoryLabel(category);
 
     // Title
     titleEl.textContent = title;
