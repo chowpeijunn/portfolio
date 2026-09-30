@@ -1739,7 +1739,8 @@
         "assets/sources/timothy__casandra_same-day-edit-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/timothy__casandra_same-day-edit-compressed.mp4",
-      "year": "2023"
+      "year": "2023",
+      "hidden": true
     },
     {
       "slot": "after",
