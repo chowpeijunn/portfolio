@@ -2035,8 +2035,10 @@ function projectMatchesFilter(p, filter) {
 // Fill gridOrder + hubIdx for the current scope (main page, or one filter's subset).
 function buildGridForScope() {
   if (arrangeScope === 'main') {
+    // Exclude hidden projects — the site doesn't render them, so including them here
+    // would shift every card and the hub out of sync with the live page.
     const before = [], after = [];
-    data.projects.forEach((p, i) => { (p.slot === 'after' ? after : before).push(i); });
+    data.projects.forEach((p, i) => { if (p.hidden) return; (p.slot === 'after' ? after : before).push(i); });
     gridOrder = [...before, ...after];
     hubIdx = before.length;
   } else {
@@ -2111,6 +2113,8 @@ async function applyGridView() {
       data.projects[idx].slot = i < hubIdx ? 'before' : 'after';
       newProjects.push(data.projects[idx]);
     });
+    // Hidden projects aren't on the board — keep them (at the end) so they aren't lost.
+    data.projects.filter(p => p.hidden).forEach(p => newProjects.push(p));
     data.projects = newProjects;
     dirty.clear();
     data.projects.forEach((_, i) => dirty.add(i));
@@ -2159,7 +2163,7 @@ function setGridCols(n) {
 function renderGridBoard() {
   const board = document.getElementById('gridBoard');
   board.style.gridTemplateColumns = `repeat(${gridCols}, 1fr)`;
-  board.style.gridAutoFlow = 'row';
+  board.style.gridAutoFlow = 'dense';   // match the live site so the preview is WYSIWYG
   board.innerHTML = '';
 
   // Render all items in order, inserting hub at hubIdx
