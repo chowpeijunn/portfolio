@@ -1962,7 +1962,8 @@
         "assets/sources/andysophie-same-day-edit-compressed-.mp4"
       ],
       "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
-      "year": "2022"
+      "year": "2022",
+      "hidden": true
     },
     {
       "slot": "after",
@@ -2041,6 +2042,32 @@
         "assets/sources/herve__sarah_wedding_trailer_compressed.mp4"
       ],
       "sourceVideo": "assets/sources/herve__sarah_wedding_trailer_compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "William + Joie",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/william-joei-thumbnail.jpg",
+      "video": "https://youtu.be/_fCwejUqj7w",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/william-joie-lunch-express-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/william-joie-lunch-express-edit-compressed.mp4"
     }
   ],
   "categoryDefaults": {
