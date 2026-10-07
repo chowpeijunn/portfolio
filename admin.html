@@ -2089,9 +2089,11 @@ function openGridView() {
   arrangeScope = 'main';
   const sel = document.getElementById('arrangeScope');
   if (sel) sel.value = 'main';
+  gridCols = siteColsForWidth();   // open at the same column count the live site shows
   buildGridForScope();
   updateArrangeChrome();
   renderGridBoard();
+  highlightColBtns(gridCols);
   document.getElementById('gridOverlay').classList.add('visible');
   // Scroll hub into view
   setTimeout(() => {
@@ -2147,6 +2149,20 @@ function centerHubForCols() {
   let diff = ((targetMod - currentMod) % gridCols + gridCols) % gridCols;
   if (diff > Math.floor(gridCols / 2)) diff -= gridCols; // pick nearest direction
   hubIdx = Math.max(0, Math.min(gridOrder.length, base + diff));
+}
+
+// The live site's column count for the current window width (mirror script.js).
+function siteColsForWidth() {
+  const w = window.innerWidth;
+  if (w > 1099) return 4;
+  if (w > 799) return 3;
+  return 2;
+}
+function highlightColBtns(n) {
+  document.querySelectorAll('.col-btn').forEach(b => {
+    b.style.background = parseInt(b.textContent) === n ? 'var(--accent)' : '';
+    b.style.color = parseInt(b.textContent) === n ? '#fff' : '';
+  });
 }
 
 function setGridCols(n) {
