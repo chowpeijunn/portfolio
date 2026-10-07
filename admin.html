@@ -535,8 +535,18 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 <div class="grid-overlay" id="gridOverlay">
   <div class="grid-topbar">
     <div class="grid-topbar-title">Arrange Projects</div>
-    <div class="grid-topbar-hint">Drag to reorder · Hub card marks where it sits in the grid</div>
+    <div class="grid-topbar-hint" id="arrangeHint">Drag to reorder · Hub card marks where it sits in the grid</div>
     <div class="topbar-spacer"></div>
+    <div class="grid-col-controls">
+      <span>View:</span>
+      <select id="arrangeScope" onchange="setArrangeScope(this.value)" style="background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:12px;">
+        <option value="main">Main page (all)</option>
+        <option value="weddings">Weddings</option>
+        <option value="branded">Branded Content</option>
+        <option value="events">Events</option>
+        <option value="tvc">TVC</option>
+      </select>
+    </div>
     <div class="grid-col-controls">
       <span>Columns:</span>
       <button class="col-btn" onclick="setGridCols(2)">2</button>
@@ -544,7 +554,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
       <button class="col-btn" onclick="setGridCols(4)">4</button>
     </div>
     <button class="btn btn-ghost btn-sm" onclick="closeGridView()">Cancel</button>
-    <button class="btn btn-primary btn-sm" onclick="applyGridView()">Apply Order</button>
+    <button class="btn btn-primary btn-sm" id="arrangeApplyBtn" onclick="applyGridView()">Apply Order</button>
   </div>
   <div class="grid-canvas">
     <div class="grid-board" id="gridBoard"></div>
@@ -2009,19 +2019,76 @@ async function saveAll() {
 // ── GRID VIEW ─────────────────────────────────────────────
 
 let gridCols = 4;
-let gridOrder = []; // flat array of ALL project indices
+let gridOrder = []; // flat array of project indices currently on the board
 let hubIdx = 0;     // hub is visually inserted before gridOrder[hubIdx]
 let gridDragSrc = null;
+let arrangeScope = 'main';   // 'main' = all projects → main page; else a filter value
+
+// Mirror the site's filter matching: the project's category, or a tag equal to it.
+function projectMatchesFilter(p, filter) {
+  if (!filter) return true;
+  if (p.category === filter) return true;
+  const tags = Array.isArray(p.tags) ? p.tags : (p.tags || '').split(',');
+  return tags.map(t => String(t).trim().toLowerCase()).includes(filter);
+}
+
+// Fill gridOrder + hubIdx for the current scope (main page, or one filter's subset).
+function buildGridForScope() {
+  if (arrangeScope === 'main') {
+    const before = [], after = [];
+    data.projects.forEach((p, i) => { (p.slot === 'after' ? after : before).push(i); });
+    gridOrder = [...before, ...after];
+    hubIdx = before.length;
+  } else {
+    const matchIdx = [];
+    data.projects.forEach((p, i) => { if (!p.hidden && projectMatchesFilter(p, arrangeScope)) matchIdx.push(i); });
+    const byTitle = {}; matchIdx.forEach(i => { byTitle[data.projects[i].title] = i; });
+    const layout = (data.filterLayouts || {})[arrangeScope];
+    let ordered = [];
+    if (layout && Array.isArray(layout.order)) {
+      const seen = new Set();
+      layout.order.forEach(t => { const i = byTitle[t]; if (i != null && !seen.has(i)) { ordered.push(i); seen.add(i); } });
+      matchIdx.forEach(i => { if (!seen.has(i)) { ordered.push(i); seen.add(i); } });
+    } else {
+      ordered = matchIdx;
+    }
+    gridOrder = ordered;
+    hubIdx = (layout && Number.isInteger(layout.hubBefore))
+      ? Math.max(0, Math.min(ordered.length, layout.hubBefore))
+      : Math.ceil(ordered.length / 2);
+  }
+  centerHubForCols();
+}
+
+function updateArrangeChrome() {
+  const hint = document.getElementById('arrangeHint');
+  const apply = document.getElementById('arrangeApplyBtn');
+  if (arrangeScope === 'main') {
+    if (hint) hint.textContent = 'Drag to reorder · Hub marks where it sits · sets the main page';
+    if (apply) apply.textContent = 'Apply Order';
+  } else {
+    const name = (typeof catDisplayName === 'function') ? catDisplayName(arrangeScope) : arrangeScope;
+    if (hint) hint.textContent = `Arranging the ${name} filter only · drag to reorder · hub marks its centre`;
+    if (apply) apply.textContent = `Apply ${name} Order`;
+  }
+}
+
+function setArrangeScope(scope) {
+  arrangeScope = scope;
+  const sel = document.getElementById('arrangeScope');
+  if (sel && sel.value !== scope) sel.value = scope;
+  gridDragSrc = null;
+  buildGridForScope();
+  updateArrangeChrome();
+  renderGridBoard();
+}
 
 function openGridView() {
-  const before = [], after = [];
-  data.projects.forEach((p, i) => {
-    if (p.slot === 'after') after.push(i);
-    else before.push(i);
-  });
-  gridOrder = [...before, ...after];
-  hubIdx = before.length;   // open at the SAVED hub position (matches the live site)
-  centerHubForCols();
+  arrangeScope = 'main';
+  const sel = document.getElementById('arrangeScope');
+  if (sel) sel.value = 'main';
+  buildGridForScope();
+  updateArrangeChrome();
   renderGridBoard();
   document.getElementById('gridOverlay').classList.add('visible');
   // Scroll hub into view
@@ -2037,21 +2104,31 @@ function closeGridView() {
 }
 
 async function applyGridView() {
-  centerHubForCols();   // snap hub to its row's centre column so the saved position matches the live site exactly
-  const newProjects = [];
-  gridOrder.forEach((idx, i) => {
-    data.projects[idx].slot = i < hubIdx ? 'before' : 'after';
-    newProjects.push(data.projects[idx]);
-  });
-  data.projects = newProjects;
-  dirty.clear();
-  data.projects.forEach((_, i) => dirty.add(i));
+  centerHubForCols();   // snap hub to its row's centre column so the saved position matches the live site
+  if (arrangeScope === 'main') {
+    const newProjects = [];
+    gridOrder.forEach((idx, i) => {
+      data.projects[idx].slot = i < hubIdx ? 'before' : 'after';
+      newProjects.push(data.projects[idx]);
+    });
+    data.projects = newProjects;
+    dirty.clear();
+    data.projects.forEach((_, i) => dirty.add(i));
+  } else {
+    // Save this filter's independent arrangement — order + hub position — without
+    // touching the main-page order or any other filter.
+    if (!data.filterLayouts || typeof data.filterLayouts !== 'object') data.filterLayouts = {};
+    data.filterLayouts[arrangeScope] = {
+      order: gridOrder.map(idx => data.projects[idx].title),
+      hubBefore: hubIdx
+    };
+  }
   selectedIdx = null;
   renderList();
   renderEditor();
   updateCount();
   closeGridView();
-  await saveAll();   // persist the new order immediately — no separate Save & Publish needed
+  await saveAll();   // persist immediately — sends the whole data.json (incl. filterLayouts)
 }
 
 // Centre hubIdx so the hub lands in the middle column for the current gridCols.

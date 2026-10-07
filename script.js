@@ -103,8 +103,10 @@ function renderCards(projects) {
       `</div></div></a>`;
   }
 
-  // Record original split so updateHubSpan can restore when column count changes
+  // Record original split so updateHubSpan can restore when column count changes.
+  // _globalBeforeCount is the unfiltered hub position, restored when a filter clears.
   window._originalBeforeCount = projects.filter(p => p.slot === 'before').length;
+  window._globalBeforeCount = window._originalBeforeCount;
 
   const beforeHTML = projects.filter(p => p.slot === 'before').map(makeCard).join('\n      ');
   const afterHTML  = projects.filter(p => p.slot === 'after').map(makeCard).join('\n      ');
@@ -118,6 +120,7 @@ function renderCards(projects) {
 const _dataReady = fetch('data.json?t=' + Date.now(), { cache: 'no-store' })
   .then(r => r.json())
   .then(data => {
+    window._filterLayouts = data.filterLayouts || {};
     renderCards(data.projects);
     // Propagate showreel URL to the button
     const showreelBtn = document.getElementById('showreelBtn');
@@ -372,7 +375,7 @@ window.addEventListener('resize', () => {
     const hubEl = document.getElementById('centerHub');
     if (hubEl) add(hubEl);
     inner.querySelectorAll('.project-card').forEach(el => {
-      if (!el.classList.contains('hidden')) add(el);
+      if (!el.classList.contains('hidden') && el.style.display !== 'none') add(el);
     });
     if (l === Infinity) return { left: 0, top: 0, right: inner.scrollWidth, bottom: inner.scrollHeight };
     return { left: l, top: t, right: r, bottom: b };
@@ -707,126 +710,74 @@ function initFilter() {
     filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
 
     const cards = Array.from(inner.querySelectorAll('.project-card'));
-    const oldRects = new Map();
-    cards.forEach(c => oldRects.set(c, c.getBoundingClientRect()));
+    const old = (window._capturePositions ? window._capturePositions() : new Map());
 
-    // Split into before/after hub (respects any cross-hub moves updateHubSpan made).
-    // Keep the DOM order too: beforeDOM[k]/afterDOM[k] mark the fixed grid cell k, so
-    // we can group cells into rows from their measured positions.
-    const before = [], after = [];
-    let past = false;
-    for (const el of inner.children) {
-      if (el === hub) { past = true; continue; }
-      if (!el.classList.contains('project-card')) continue;
-      (past ? after : before).push(el);
-    }
-    const beforeDOM = before.slice();   // beforeDOM[k] currently sits in before-cell k
-    const afterDOM  = after.slice();
-    before.sort(byOrder);               // canonical order — stable pool of cards
-    after.sort(byOrder);
+    if (!category) {
+      // RESET → the main-page arrangement: every card visible, canonical order, the
+      // hub back at its unfiltered position.
+      cards.forEach(c => { c.style.display = ''; c.classList.remove('hidden'); c.style.opacity = ''; c.style.transition = ''; });
+      const all = cards.slice().sort(byOrder);
+      const cut = Math.max(0, Math.min(all.length, window._globalBeforeCount || 0));
+      all.slice(0, cut).forEach(c => inner.insertBefore(c, hub));
+      let ref = hub;
+      all.slice(cut).forEach(c => { inner.insertBefore(c, ref.nextSibling); ref = c; });
+      window._originalBeforeCount = cut;
+    } else {
+      // FILTER → render like the main page but on the matching subset. Matching cards
+      // take their saved per-filter order (row-major, exactly as arranged in the admin);
+      // the rest leave the grid (display:none) so the block is compact with no gaps. A
+      // saved layout supplies the order + hub position the user arranged; with none, we
+      // fall back to canonical order and a centred hub.
+      const match = c => cardMatchesFilter(c, category);
+      const matching = cards.filter(match);
+      const matchSet = new Set(matching);
+      const layout = (window._filterLayouts || {})[category];
 
-    const match = c => cardMatchesFilter(c, category);
-    const hubRect = hub.getBoundingClientRect();
-    // Row-first nearest packing. Matching cards fill the cells nearest the hub, but
-    // completing whole ROWS before starting the next one — so the visible block never
-    // has interior gaps. Any shortfall lands as blanks at the outer edge of the last
-    // row, never as a hole beside the hub or a card stranded on a fresh row while near
-    // cells sit empty. We keep exactly before.length cards before the hub (and
-    // after.length after it) so the hub cell never moves; only WHICH card sits in each
-    // cell changes, and a matching card may cross the hub to complete a nearer row.
-    function packGlobal() {
-      if (!category) {
-        // Reset → restore the original arrangement. Because filtering can move a
-        // card ACROSS the hub, sorting each side alone would leave a crossed card
-        // stranded on the wrong side. Re-sort ALL cards by their canonical order and
-        // re-cut at the same hub position (before.length is preserved by filtering).
-        const all = before.concat(after).sort(byOrder);
-        const cut = before.length;
-        return { beforeOrder: all.slice(0, cut), afterOrder: all.slice(cut) };
-      }
-      const B = before.length, A = after.length;
-      const hubTop = hubRect.top;
-      // Describe every card-cell by its fixed geometry in the current grid layout.
-      const cells = [];
-      for (let k = 0; k < B; k++) {
-        const r = oldRects.get(beforeDOM[k]);
-        cells.push({ side: 'b', idx: k, top: Math.round(r.top), left: r.left });
-      }
-      for (let k = 0; k < A; k++) {
-        const r = oldRects.get(afterDOM[k]);
-        cells.push({ side: 'a', idx: k, top: Math.round(r.top), left: r.left });
-      }
-      // Fill order: rows closest to the hub row first; at equal distance the row above
-      // comes before the row below; within a row, left to right. Filling each row fully
-      // before the next keeps any gaps at the far edge of the outermost used row.
-      cells.sort((p, q) => {
-        const dp = Math.abs(p.top - hubTop), dq = Math.abs(q.top - hubTop);
-        if (dp !== dq) return dp - dq;
-        if (p.top !== q.top) return p.top - q.top;   // same distance: top row first
-        return p.left - q.left;                       // within a row: left → right
-      });
-      const cardOf = cell => (cell.side === 'b' ? beforeDOM : afterDOM)[cell.idx];
-      const M = cells.filter(cell => match(cardOf(cell))).length;  // matching count
-      // The M nearest cells (whole rows first) should hold the matching cards. Keep
-      // cards already correctly placed; swap the mismatches between near/far cells.
-      const assign = new Array(cells.length);
-      const incoming = [], outgoing = [];
-      cells.forEach((cell, rank) => {
-        const near = rank < M, m = match(cardOf(cell));
-        if (m === near) assign[rank] = cardOf(cell);   // already right — keep
-        else if (m) incoming.push(cardOf(cell));       // matching but far — pull in
-        else outgoing.push(cardOf(cell));              // non-match but near — push out
-      });
-      let im = 0, on = 0;
-      cells.forEach((cell, rank) => {
-        if (!assign[rank]) assign[rank] = rank < M ? incoming[im++] : outgoing[on++];
-      });
-      const beforeOrder = new Array(B), afterOrder = new Array(A);
-      cells.forEach((cell, rank) => {
-        if (cell.side === 'b') beforeOrder[cell.idx] = assign[rank];
-        else afterOrder[cell.idx] = assign[rank];
-      });
-      return { beforeOrder, afterOrder };
-    }
-    const { beforeOrder, afterOrder } = packGlobal();
-
-    // Reorder DOM in place — per-side counts unchanged, so the hub cell holds.
-    beforeOrder.forEach(c => inner.insertBefore(c, hub));
-    let ref = hub;
-    afterOrder.forEach(c => { inner.insertBefore(c, ref.nextSibling); ref = c; });
-
-    // Measure the new layout, then crossfade only the cards that actually changed.
-    void inner.offsetWidth;
-    const fadeIn = [];
-    cards.forEach(c => {
-      const o = oldRects.get(c);
-      const n = c.getBoundingClientRect();
-      const moved = Math.abs(o.left - n.left) > 1 || Math.abs(o.top - n.top) > 1;
-      if (match(c)) {
-        c.classList.remove('hidden');
-        if (moved) {
-          c.style.transition = 'none';
-          c.style.opacity = '0';   // start invisible at the new cell
-          fadeIn.push(c);
-        } else {
-          c.style.transition = '';
-          c.style.opacity = '';    // already in place — leave crisp, no fade
-        }
+      let ordered;
+      if (layout && Array.isArray(layout.order) && layout.order.length) {
+        const byTitle = Object.create(null);
+        matching.forEach(c => { byTitle[c.dataset.title] = c; });
+        ordered = [];
+        const seen = new Set();
+        layout.order.forEach(t => { const c = byTitle[t]; if (c && !seen.has(c)) { ordered.push(c); seen.add(c); } });
+        matching.forEach(c => { if (!seen.has(c)) { ordered.push(c); seen.add(c); } });  // new projects appended
       } else {
-        c.style.transition = '';
-        c.classList.add('hidden');  // fade out, keeps its (outer) cell
-        c.style.opacity = '';
+        ordered = matching.slice().sort(byOrder);
       }
-    });
-    if (fadeIn.length) {
-      void inner.offsetWidth;                 // commit opacity:0 before animating
+      const nonMatching = cards.filter(c => !matchSet.has(c));
+
+      let hubBefore = (layout && Number.isInteger(layout.hubBefore)) ? layout.hubBefore : Math.ceil(ordered.length / 2);
+      hubBefore = Math.max(0, Math.min(ordered.length, hubBefore));
+
+      nonMatching.forEach(c => { c.style.display = 'none'; c.classList.remove('hidden'); c.style.opacity = ''; });
+      ordered.forEach(c => { c.style.display = ''; c.classList.remove('hidden'); c.style.opacity = ''; c.style.transition = ''; });
+
+      ordered.slice(0, hubBefore).forEach(c => inner.insertBefore(c, hub));
+      let ref = hub;
+      ordered.slice(hubBefore).forEach(c => { inner.insertBefore(c, ref.nextSibling); ref = c; });
+      nonMatching.forEach(c => inner.appendChild(c));   // parked at the end, out of the grid
+
+      window._originalBeforeCount = hubBefore;
+    }
+
+    // Centre the hub among the VISIBLE cards for the current column count, then glide
+    // everything from where it was. Cards that just appeared (no prior position) fade in.
+    if (window._updateHubSpan) window._updateHubSpan();
+    void inner.offsetWidth;
+    if (window._animateFlip) window._animateFlip(old);
+    const appeared = cards.filter(c => c.style.display !== 'none' && !old.has(c));
+    if (appeared.length) {
+      appeared.forEach(c => { c.style.transition = 'none'; c.style.opacity = '0'; });
+      void inner.offsetWidth;
       requestAnimationFrame(() => {
-        fadeIn.forEach(c => { c.style.transition = ''; c.style.opacity = ''; });
+        appeared.forEach(c => { c.style.transition = 'opacity 0.45s ease'; c.style.opacity = '';
+          c.addEventListener('transitionend', function cl(){ c.style.transition = ''; c.removeEventListener('transitionend', cl); }, { once: true });
+        });
       });
     }
 
-    // Snap the view into the (now tighter or looser) scroll bounds so filtering
-    // can't leave the viewport parked over the empty hidden-card area.
+    // Snap the view into the (now tighter or looser) scroll bounds so a filter can't
+    // leave the viewport parked over empty space.
     if (window._setTranslate) {
       window._setTranslate(inner._tx || 0, inner._ty || 0, true);
     }
@@ -1310,6 +1261,10 @@ initShowreel();
     const positions = new Map();
     for (let i = 0; i < items.length; i++) {
       const el = items[i];
+      // Skip cards a filter has removed from the grid — their rect is zero, which
+      // would make a card re-appearing later FLIP in from the top-left corner.
+      if (el.style && el.style.display === 'none') continue;
+      if (el.classList && el.classList.contains('hidden')) continue;
       const rect = el.getBoundingClientRect();
       positions.set(el, { x: rect.left, y: rect.top, w: rect.width, h: rect.height });
     }
@@ -1322,8 +1277,9 @@ initShowreel();
       const el = items[i];
       const oldPos = oldPositions.get(el);
       if (!oldPos) continue;
-      // Skip cards that were just filtered out (display:none → zero-size rect).
+      // Skip cards that were just filtered out (display:none/opacity → zero-size rect).
       if (el.classList && el.classList.contains('hidden')) continue;
+      if (el.style && el.style.display === 'none') continue;
 
       const newRect = el.getBoundingClientRect();
       const dx = oldPos.x - newRect.left;
@@ -1386,12 +1342,14 @@ initShowreel();
       targetBefore    = originalBefore + shift;
     }
 
-    // Split current children into before/after relative to hub
+    // Split current children into before/after relative to hub. Skip cards hidden
+    // by a per-filter layout (display:none) — the hub centres among VISIBLE cards.
     const beforeCards = [], afterCards = [];
     let past = false;
     for (const el of inner.children) {
       if (el === hub) { past = true; continue; }
       if (!el.classList.contains('project-card')) continue;
+      if (el.style.display === 'none') continue;
       (past ? afterCards : beforeCards).push(el);
     }
 
