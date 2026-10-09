@@ -2068,6 +2068,36 @@
       "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
       "year": "2022",
       "hidden": true
+    },
+    {
+      "slot": "after",
+      "title": "STB Stopover 2026",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/otc3Ho9FgZc",
+      "client": "Singapore Tourism Board",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ],
+        [
+          "Agency",
+          "TSLA"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/stb-stopover-60s-compresed.mp4"
+      ],
+      "sourceVideo": "assets/sources/stb-stopover-60s-compresed.mp4"
     }
   ],
   "categoryDefaults": {
