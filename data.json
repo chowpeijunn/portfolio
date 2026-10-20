@@ -2150,7 +2150,7 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/screenshot-2026-10-20-at-3.25.37-pm.jpg",
       "video": "https://youtu.be/FOw38gdbHK8",
       "client": "Shopee",
       "credits": [
@@ -2170,9 +2170,14 @@
       "sourceVideo": "assets/sources/shopee-6.6-2026-compressed.mp4",
       "clips": [
         {
-          "label": "",
-          "start": "",
-          "end": ""
+          "label": "Digital Ball and Coin Comp",
+          "start": "7.668",
+          "end": "9.056"
+        },
+        {
+          "label": "Digital Ball and Coin Comp",
+          "start": "36.127",
+          "end": "36.74"
         }
       ]
     }
