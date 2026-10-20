@@ -957,37 +957,44 @@
         {
           "label": "Binocular Comp",
           "start": "0:04",
-          "end": "0:07"
+          "end": "0:07",
+          "clipFile": "assets/clips/kia-x-discovery-0.mp4"
         },
         {
           "label": "License Plate Replacement",
           "start": "0:08",
-          "end": "0:13"
+          "end": "0:13",
+          "clipFile": "assets/clips/kia-x-discovery-1.mp4"
         },
         {
           "label": "License Plate Replacement + Car Clean Up",
           "start": "0:25",
-          "end": "0:38"
+          "end": "0:38",
+          "clipFile": "assets/clips/kia-x-discovery-2.mp4"
         },
         {
           "label": "License Plate Replacement",
           "start": "0:45",
-          "end": "0:50"
+          "end": "0:50",
+          "clipFile": "assets/clips/kia-x-discovery-3.mp4"
         },
         {
           "label": "License Plate Replacement",
           "start": "0:59",
-          "end": "1:02"
+          "end": "1:02",
+          "clipFile": "assets/clips/kia-x-discovery-4.mp4"
         },
         {
           "label": "License Plate Replacement",
           "start": "1:09",
-          "end": "1:12"
+          "end": "1:12",
+          "clipFile": "assets/clips/kia-x-discovery-5.mp4"
         },
         {
           "label": "License Plate Replacement",
           "start": "1:18",
-          "end": "1:23"
+          "end": "1:23",
+          "clipFile": "assets/clips/kia-x-discovery-6.mp4"
         }
       ],
       "sourceVideos": [
@@ -1103,22 +1110,26 @@
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "3.553",
-          "end": "5.536"
+          "end": "5.536",
+          "clipFile": "assets/clips/cheezy-7-0.mp4"
         },
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "15.172",
-          "end": "17.368"
+          "end": "17.368",
+          "clipFile": "assets/clips/cheezy-7-1.mp4"
         },
         {
           "label": "Roto + Green Screen AI Generated Background Comp",
           "start": "24.268",
-          "end": "25.12"
+          "end": "25.12",
+          "clipFile": "assets/clips/cheezy-7-2.mp4"
         },
         {
           "label": "Roto with plates + Green Screen AI Generated Background Comp",
           "start": "17.465",
-          "end": "19.357"
+          "end": "19.357",
+          "clipFile": "assets/clips/cheezy-7-3.mp4"
         }
       ],
       "sourceVideos": [
@@ -1800,12 +1811,14 @@
         {
           "label": "Clean up + Roto + Graphics Comp ",
           "start": "18.11",
-          "end": "21.881"
+          "end": "21.881",
+          "clipFile": "assets/clips/kfc-sauce-mania-1.mp4"
         },
         {
           "label": "Clean up + Roto + Graphics Comp ",
           "start": "9.676",
-          "end": "13.03"
+          "end": "13.03",
+          "clipFile": "assets/clips/kfc-sauce-mania-2.mp4"
         }
       ],
       "year": "2026"
@@ -1882,7 +1895,11 @@
           "AndroidsinBoots"
         ]
       ],
-      "year": "2023"
+      "year": "2023",
+      "sourceVideos": [
+        "assets/sources/norman__xinru_wedding_trailer-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/norman__xinru_wedding_trailer-compressed.mp4"
     },
     {
       "slot": "after",

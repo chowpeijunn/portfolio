@@ -552,7 +552,6 @@ window.addEventListener('resize', () => {
 
   window.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
-    document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
     document.querySelectorAll('.project-card.gif-active').forEach(c => {
       c.classList.remove('gif-active');
       const g = c.querySelector('.card-gif');
@@ -649,20 +648,9 @@ function initHoverToPlay() {
     const ytId = getYouTubeId(videoUrl);
 
     if (ytId) {
-      // Fallback: YouTube iframe (for cards without a GIF preview)
-      let hoverIframe = null;
-      card.addEventListener('mouseenter', () => {
-        if (hoverIframe) return;
-        hoverIframe = document.createElement('iframe');
-        hoverIframe.className = 'card-hover-iframe';
-        hoverIframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&rel=0&playsinline=1`;
-        hoverIframe.allow = 'autoplay; encrypted-media';
-        hoverIframe.setAttribute('frameborder', '0');
-        media.appendChild(hoverIframe);
-      });
-      card.addEventListener('mouseleave', () => {
-        if (hoverIframe) { hoverIframe.src = ''; hoverIframe.remove(); hoverIframe = null; }
-      });
+      // YouTube-only project with no source/preview video: keep the thumbnail still
+      // on hover. Embedding YouTube here flashed its title, avatar and logo.
+      return;
     } else {
       // Local video element
       const video = card.querySelector('.card-video');
@@ -899,108 +887,69 @@ initShowreel();
     return `<video class="detail-video-player" controls preload="metadata" src="${src}"></video>`;
   }
 
+  // "M:SS", "H:MM:SS" or plain seconds — keeping fractions, since the admin
+  // scrubber stores frame-accurate times like "18.11".
   function parseTimecode(val) {
-    if (typeof val === 'number') return Math.round(val);
+    if (typeof val === 'number') return val;
     if (typeof val === 'string') {
-      const parts = val.split(':').map(Number);
+      const parts = val.trim().split(':').map(Number);
+      if (parts.some(n => Number.isNaN(n))) return 0;
       if (parts.length === 2) return parts[0] * 60 + parts[1];
       if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-      return parseInt(val) || 0;
+      return parts[0] || 0;
     }
     return 0;
   }
 
-  // YouTube IFrame API — loaded once on demand
-  const _clipYTPlayers = [];
-  function ensureYTApi(cb) {
-    if (window.YT && window.YT.Player) { cb(); return; }
-    if (!window._ytApiCallbacks) {
-      window._ytApiCallbacks = [];
-      const s = document.createElement('script');
-      s.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(s);
-      window.onYouTubeIframeAPIReady = () => {
-        window._ytApiCallbacks.forEach(fn => fn());
-        window._ytApiCallbacks = [];
-      };
-    }
-    window._ytApiCallbacks.push(cb);
-  }
-
   function makeClipEl(clip, i) {
     const label = clip.label ? `<span class="detail-clip-label">${escapeHtml(clip.label)}</span>` : '';
+    let media = '';
     if (clip.clipFile) {
-      return `<div class="detail-clip">
-        <div class="detail-clip-inner">
-          <video autoplay muted loop playsinline preload="auto" src="${escapeHtml(clip.clipFile)}"></video>
-        </div>
-        ${label}
-      </div>`;
+      // Extracted clip — a short muted mp4 that loops on its own.
+      media = `<video autoplay muted loop playsinline preload="auto" src="${escapeHtml(clip.clipFile)}"></video>`;
+    } else if (clip._src && clip._end > clip._start) {
+      // Not extracted yet — loop the in/out range straight from the project's own
+      // source video. A plain muted <video>, so no YouTube title/logo/pause chrome;
+      // initClipPlayers keeps playback inside the range.
+      media = `<video class="clip-seg" autoplay muted playsinline preload="metadata" ` +
+        `data-start="${clip._start}" data-end="${clip._end}" ` +
+        `src="${escapeHtml(clip._src)}#t=${clip._start},${clip._end}"></video>`;
+    } else if (clip._thumb) {
+      // Nothing playable — show a still rather than an embedded YouTube player.
+      media = `<img class="detail-clip-still" src="${escapeHtml(clip._thumb)}" alt="${escapeHtml(clip.label || '')}">`;
     }
-    const thumb = `https://img.youtube.com/vi/${clip._ytId}/mqdefault.jpg`;
     return `<div class="detail-clip">
-      <div class="detail-clip-inner">
-        <div class="clip-yt-target" id="clip-yt-${i}"></div>
-        <img class="detail-clip-thumb" src="${thumb}" alt="${escapeHtml(clip.label || '')}">
-      </div>
+      <div class="detail-clip-inner">${media}</div>
       ${label}
     </div>`;
   }
 
-  const _clipLoopTimers = [];
-
-  function initClipPlayers(clips, videoUrl) {
-    _clipYTPlayers.forEach(p => { try { p.destroy(); } catch(e){} });
-    _clipYTPlayers.length = 0;
-    _clipLoopTimers.forEach(t => clearInterval(t));
-    _clipLoopTimers.length = 0;
-
-    const ytId = getYouTubeId(videoUrl);
-    clips.forEach((clip, i) => {
-      if (clip.clipFile) return;
-      const start = parseTimecode(clip.start || 0);
-      const end   = parseTimecode(clip.end   || 0);
-      ensureYTApi(() => {
-        const divId = `clip-yt-${i}`;
-        if (!document.getElementById(divId)) return;
-        const thumb = document.getElementById(divId)
-          ?.closest('.detail-clip-inner')
-          ?.querySelector('.detail-clip-thumb');
-
-        const p = new YT.Player(divId, {
-          videoId: ytId,
-          playerVars: {
-            autoplay: 1, mute: 1, controls: 0, rel: 0, playsinline: 1,
-            modestbranding: 1, iv_load_policy: 3, disablekb: 1,
-            start: Math.floor(start)
-          },
-          events: {
-            onStateChange(e) {
-              if (e.data === YT.PlayerState.PLAYING) {
-                if (thumb) thumb.classList.add('hide');
-              }
-            },
-            onReady(e) {
-              e.target.seekTo(start, true);
-              e.target.playVideo();
-              if (thumb) thumb.classList.add('hide');
-              // Virtual loop — poll currentTime, seek before ENDED fires
-              // This prevents the end screen / "Watch on YouTube" from ever appearing
-              const iv = setInterval(() => {
-                try {
-                  if (e.target.getPlayerState() !== YT.PlayerState.PLAYING) return;
-                  if (e.target.getCurrentTime() >= end - 0.4) {
-                    e.target.seekTo(start, true);
-                  }
-                } catch(_) {}
-              }, 250);
-              _clipLoopTimers.push(iv);
-            }
-          }
-        });
-        _clipYTPlayers.push(p);
-      });
+  // Loop each source-segment clip between its in and out points. The check runs
+  // every frame — timeupdate only fires ~4×/s, which let a few frames of the next
+  // shot slip past the out point — and stops once closing the overlay removes them.
+  function initClipPlayers(root) {
+    const segs = Array.from(root.querySelectorAll('video.clip-seg'));
+    if (!segs.length) return;
+    segs.forEach(v => {
+      v._segStart = parseFloat(v.dataset.start) || 0;
+      v._segEnd   = parseFloat(v.dataset.end)   || 0;
+      const restart = () => { try { v.currentTime = v._segStart; } catch (_) {} v.play().catch(() => {}); };
+      v.addEventListener('loadedmetadata', restart, { once: true });
+      // The #t= media fragment pauses at the out point; carry on from the in point.
+      v.addEventListener('pause', () => { if (v.isConnected && v.currentTime >= v._segEnd - 0.15) restart(); });
+      v.addEventListener('ended', restart);
     });
+    const tick = () => {
+      const live = segs.filter(v => v.isConnected);
+      if (!live.length) return;
+      live.forEach(v => {
+        if (v.currentTime >= v._segEnd - 0.04 || v.currentTime < v._segStart - 0.25) {
+          try { v.currentTime = v._segStart; } catch (_) {}
+        }
+      });
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
 
   // For extra videos: wrapped in 16:9 container
@@ -1073,19 +1022,21 @@ initShowreel();
     const detailClipsEl = document.getElementById('detailClips');
     if (detailClipsEl) {
       const clips = project.clips;
-      const mainVideoUrl = project.video || '';
-      const ytId = getYouTubeId(mainVideoUrl);
-      if (clips && clips.length > 0 && ytId) {
-        // Annotate clips with resolved values for makeClipEl
+      const ytId = getYouTubeId(project.video || '');
+      const projSrc = (Array.isArray(project.sourceVideos) && project.sourceVideos[0]) || project.sourceVideo || '';
+      if (clips && clips.length > 0) {
+        // Annotate clips with what makeClipEl needs: the source to loop if the clip
+        // hasn't been extracted yet, the resolved in/out seconds, and a still fallback.
         const resolved = clips.map(c => ({
           ...c,
-          _ytId: ytId,
+          _src: c.sourceVideo || projSrc,
           _start: parseTimecode(c.start || 0),
-          _end:   parseTimecode(c.end   || 0)
+          _end:   parseTimecode(c.end   || 0),
+          _thumb: ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : (project.thumb || '')
         }));
         detailClipsEl.innerHTML = resolved.map((c, i) => makeClipEl(c, i)).join('');
         detailClipsEl.style.display = 'grid';
-        initClipPlayers(resolved, mainVideoUrl);
+        initClipPlayers(detailClipsEl);
       } else {
         detailClipsEl.innerHTML = '';
         detailClipsEl.style.display = 'none';
@@ -1115,10 +1066,6 @@ initShowreel();
       detailVideosEl.querySelectorAll('video').forEach(v => v.pause());
       detailVideosEl.querySelectorAll('iframe').forEach(f => { f.src = ''; });
     }
-    _clipLoopTimers.forEach(t => clearInterval(t));
-    _clipLoopTimers.length = 0;
-    _clipYTPlayers.forEach(p => { try { p.destroy(); } catch(e){} });
-    _clipYTPlayers.length = 0;
     const detailClipsEl = document.getElementById('detailClips');
     if (detailClipsEl) detailClipsEl.innerHTML = '';
     bottomBar.classList.remove('detail-mode');
@@ -1172,7 +1119,6 @@ initShowreel();
 
     // Tapping off a card clears any active mobile preview
     if (!card) {
-      document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
       document.querySelectorAll('.project-card.gif-active').forEach(c => {
         c.classList.remove('gif-active');
         const g = c.querySelector('.card-gif');
@@ -1205,45 +1151,13 @@ initShowreel();
           return; // don't open detail yet
         }
         // Second tap — GIF was active, clear it and fall through to openDetail
-      } else {
-        // YouTube iframe fallback
-        const ytId = getYouTubeId(card.dataset.video || '');
-        if (ytId) {
-          const existingFrame = card.querySelector('.card-hover-iframe');
-          if (!existingFrame) {
-            // First tap — clear any other previews and show this one
-            document.querySelectorAll('.card-hover-iframe').forEach(f => { f.src = ''; f.remove(); });
-            const media = card.querySelector('.card-media');
-            if (media) {
-              const iframe = document.createElement('iframe');
-              iframe.className = 'card-hover-iframe';
-              iframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&rel=0&playsinline=1`;
-              iframe.allow = 'autoplay; encrypted-media';
-              iframe.setAttribute('frameborder', '0');
-              media.appendChild(iframe);
-              return; // don't open detail yet
-            }
-          } else {
-            // Second tap — remove preview and fall through to openDetail
-            existingFrame.src = '';
-            existingFrame.remove();
-          }
-        }
       }
+      // Cards without a preview video open straight away — no YouTube embed preview.
     }
 
     openDetail(card);
   });
 
-  // Preload YT API on first card hover so it's ready when detail opens
-  canvasInner.addEventListener('mouseover', (e) => {
-    const card = e.target.closest('.project-card');
-    if (!card) return;
-    const project = (window._projectMap || {})[card.dataset.title] || {};
-    if (project.clips && project.clips.length && project.video && getYouTubeId(project.video)) {
-      ensureYTApi(() => {});
-    }
-  }, { passive: true, once: true });
 })();
 
 /* ============================================
