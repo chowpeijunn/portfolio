@@ -1216,13 +1216,13 @@
         {
           "label": "Timestop transition",
           "start": "0:00",
-          "end": "0:04",
+          "end": "4.905",
           "clipFile": "assets/clips/solo-sliders-0.mp4"
         },
         {
           "label": "Background Slide + MatchCut Transition",
-          "start": "0:11",
-          "end": "0:14",
+          "start": "11.492",
+          "end": "14.796",
           "clipFile": "assets/clips/solo-sliders-1.mp4"
         }
       ],
