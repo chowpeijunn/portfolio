@@ -796,9 +796,9 @@
       "clips": [
         {
           "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-0.mp4",
-          "end": "0:07",
+          "end": "7.187",
           "label": "Roto + Comp",
-          "start": "0:03"
+          "start": "3.977"
         },
         {
           "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-1.mp4",
@@ -808,15 +808,15 @@
         },
         {
           "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-2.mp4",
-          "end": "0:13",
+          "end": "13.679",
           "label": "Super 8 Treatment + Comp",
-          "start": "0:10"
+          "start": "9.968"
         },
         {
           "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-3.mp4",
-          "end": "0:08",
+          "end": "8.792",
           "label": "Rewind Treatment + Comp",
-          "start": "0:07"
+          "start": "7.239"
         }
       ],
       "sourceVideos": [
