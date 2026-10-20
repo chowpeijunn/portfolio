@@ -2120,17 +2120,20 @@
         {
           "label": "Background Clean Up",
           "start": "1.337",
-          "end": "3.656"
+          "end": "3.656",
+          "clipFile": "assets/clips/stb-stopover-2026-0.mp4"
         },
         {
           "label": "Match Cut Comp",
           "start": "36.391",
-          "end": "38.242"
+          "end": "38.242",
+          "clipFile": "assets/clips/stb-stopover-2026-1.mp4"
         },
         {
           "label": "Sky Replacement",
           "start": "38.435",
-          "end": "41.963"
+          "end": "41.963",
+          "clipFile": "assets/clips/stb-stopover-2026-2.mp4"
         }
       ]
     }
