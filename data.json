@@ -802,9 +802,9 @@
         },
         {
           "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-1.mp4",
-          "end": "0:04",
+          "end": "3.816",
           "label": "Lift Button Animation, Match Cut Treatment",
-          "start": "0:02"
+          "start": "2.442"
         },
         {
           "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-2.mp4",
@@ -1895,11 +1895,7 @@
           "AndroidsinBoots"
         ]
       ],
-      "year": "2023",
-      "sourceVideos": [
-        "assets/sources/norman__xinru_wedding_trailer-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/norman__xinru_wedding_trailer-compressed.mp4"
+      "year": "2023"
     },
     {
       "slot": "after",
