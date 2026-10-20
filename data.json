@@ -1317,20 +1317,20 @@
       "clips": [
         {
           "label": "Graphics Animation and Comp",
-          "start": "0:06",
-          "end": "0:11",
+          "start": "6.874",
+          "end": "11.452",
           "clipFile": "assets/clips/progressive-wages-0.mp4"
         },
         {
           "label": "Graphics Animation and Comp",
-          "start": "0:13",
-          "end": "0:19",
+          "start": "13.165",
+          "end": "20.315",
           "clipFile": "assets/clips/progressive-wages-1.mp4"
         },
         {
           "label": "Graphics Animation and Comp",
-          "start": "0:50",
-          "end": "0:56",
+          "start": "51.97",
+          "end": "55.721",
           "clipFile": "assets/clips/progressive-wages-2.mp4"
         }
       ],
