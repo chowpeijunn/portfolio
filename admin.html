@@ -255,6 +255,18 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .op-toast .op-label { font-size: 11px; color: var(--dim); word-break: break-word; }
 .op-toast .op-label a { color: var(--accent); text-decoration: underline; }
 
+/* Live progress for a source-video upload, shown inside the Source video field */
+.src-upload { margin-top: 8px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface2); }
+.src-upload[hidden] { display: none; }
+.src-upload-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 12px; margin-bottom: 6px; }
+.src-upload-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.src-upload-pct { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; flex-shrink: 0; }
+.src-upload-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.src-upload-fill { height: 100%; width: 0%; border-radius: 3px; background: var(--accent); transition: width 0.3s ease, background 0.3s; }
+.src-upload-fill.success { background: var(--success); }
+.src-upload-fill.error   { background: var(--danger); }
+.src-upload-label { margin-top: 6px; font-size: 11px; color: var(--dim, #9a9a9a); font-variant-numeric: tabular-nums; }
+
 /* Status pill for the Source video field */
 .field-status {
   display: inline-block;
@@ -836,6 +848,7 @@ function renderEditor() {
         </label>
         <div class="sources-list" id="sourcesList">${sourcesHtml(p)}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="pickSourceVideo()">+ Upload source</button>
+        <div class="src-upload" id="srcUpload" ${_srcUp && _srcUp.projectTitle === p.title ? '' : 'hidden'}>${srcUploadInner()}</div>
       </div>
       <div class="field">
         <label>Extra videos — YouTube URL, direct video, or GIF</label>
@@ -1771,6 +1784,56 @@ function refreshSourceStatus(value)  { refreshFieldStatus('sourceVideoStatus', v
 
 let _sourceUploadInFlight = false;
 
+// Live state of the current/last source upload, so the progress panel survives
+// re-renders and switching projects: { projectTitle, name, pct, label, state }.
+// state: 'active' | 'success' (uploaded, waiting to go live) | 'live' | 'error'.
+let _srcUp = null;
+
+function srcUploadInner() {
+  if (!_srcUp) return '';
+  const fillCls = _srcUp.state === 'error' ? 'error' : (_srcUp.state === 'active' ? '' : 'success');
+  return `<div class="src-upload-head">
+      <span class="src-upload-name">${esc(_srcUp.name)}</span>
+      <span class="src-upload-pct">${_srcUp.state === 'error' ? 'Failed' : Math.round(_srcUp.pct) + '%'}</span>
+    </div>
+    <div class="src-upload-track"><div class="src-upload-fill ${fillCls}" style="width:${Math.max(0, Math.min(100, _srcUp.pct))}%"></div></div>
+    <div class="src-upload-label">${_srcUp.label}</div>`;
+}
+
+// Push the latest state into the inline panel + status pill (if this project is open).
+function srcUploadRender() {
+  if (!_srcUp) return;
+  const p = data.projects[selectedIdx];
+  const mine = p && p.title === _srcUp.projectTitle;
+  const panel = document.getElementById('srcUpload');
+  if (panel) { panel.hidden = !mine; if (mine) panel.innerHTML = srcUploadInner(); }
+  const pill = document.getElementById('sourceVideoStatus');
+  if (pill && mine && _srcUp.state === 'active') {
+    pill.className = 'field-status';
+    pill.textContent = `⏳ Uploading ${Math.round(_srcUp.pct)}%`;
+  } else if (pill && mine) {
+    pill.className = 'field-status';
+    refreshSourcesStatus();   // back to "✓ N uploaded" / "○ Not uploaded"
+  }
+}
+
+// After the commit the file only exists on the site once Vercel finishes deploying,
+// which can take a few minutes. Poll until it's actually served.
+async function srcUploadWaitLive(path, set) {
+  const url = '/' + path.split('/').map(encodeURIComponent).join('/');
+  const t0 = Date.now();
+  while (Date.now() - t0 < 12 * 60 * 1000) {
+    try {
+      const r = await fetch(url + '?cb=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
+      if (r.ok) { set(100, '✓ Live on the site — ready to use.', 'live'); return; }
+    } catch (_) { /* keep waiting */ }
+    const mins = Math.floor((Date.now() - t0) / 60000), secs = Math.floor((Date.now() - t0) / 1000) % 60;
+    set(100, `✓ Uploaded · going live on the site (Vercel is deploying — usually 1–5 min) · ${mins}:${String(secs).padStart(2, '0')}`, 'success');
+    await new Promise(r => setTimeout(r, 6000));
+  }
+  set(100, '✓ Uploaded · the site is still deploying — check back in a few minutes.', 'success');
+}
+
 // An mp4 at or under this size is committed untouched. Base64 inflates the
 // request body by a third, and GitHub's blob ceiling is 100 MB, so this has to
 // stay well under that: 50 MB of video becomes a ~67 MB POST.
@@ -1796,6 +1859,15 @@ function pickSourceVideo() {
     const projectIdx = selectedIdx;
     const project    = data.projects[projectIdx];
     const toast = makeOpToast('sourceToast', `Uploading source: ${project.title}`);
+    // Phases: preparing 0–5% · upload 5–92% (the slow part, live bytes) ·
+    // commit 92–97% · save 97–100% · then wait for the site to serve it.
+    _srcUp = { projectTitle: project.title, name: file.name, pct: 0, label: 'Preparing…', state: 'active' };
+    const set = (pct, label, state = 'active') => {
+      Object.assign(_srcUp, { pct, label, state });
+      toast.setProgress(pct, label, state === 'live' ? 'success' : (state === 'active' ? '' : state));
+      srcUploadRender();
+    };
+    set(0, 'Preparing…');
 
     _sourceUploadInFlight = true;
     try {
@@ -1807,11 +1879,11 @@ function pickSourceVideo() {
 
       let compressed;
       if (smallMp4 && await isFastStartMp4(file)) {
-        toast.setProgress(60, `Already web-ready (${(file.size/1024/1024).toFixed(1)} MB) — skipping compression`);
+        set(3, `Already web-ready (${(file.size/1024/1024).toFixed(1)} MB)`);
         compressed = file;
       } else if (smallMp4) {
         // Stream copy, no re-encode — seconds rather than minutes.
-        compressed = await remuxFastStart(file, (pct, msg) => toast.setProgress(pct * 0.7, msg));
+        compressed = await remuxFastStart(file, (pct, msg) => set(pct * 0.04, msg));
       } else {
         const mb = (file.size / 1024 / 1024).toFixed(0);
         throw new Error(/\.mp4$/i.test(file.name)
@@ -1829,7 +1901,7 @@ function pickSourceVideo() {
         `assets/sources/${name}`,
         await blobToBase64(compressed),
         name,
-        (pct, msg) => toast.setProgress(70 + pct * 0.2, msg)
+        (pct, msg) => set(5 + pct * 0.92, msg)
       );
 
       if (!Array.isArray(project.sourceVideos)) project.sourceVideos = getAllSources(project);
@@ -1839,11 +1911,14 @@ function pickSourceVideo() {
       if (selectedIdx === projectIdx) renderEditor();
       markDirty();
 
-      toast.setProgress(90, 'Saving project…');
+      set(97, 'Saving project…');
       await saveAll();
-      toast.setProgress(100, `✓ ${name} — ${outMB.toFixed(1)} MB`, 'success');
+      set(100, `✓ Uploaded ${name} (${outMB.toFixed(1)} MB)`, 'success');
+      toast.allowDismiss();
+      _sourceUploadInFlight = false;
+      await srcUploadWaitLive(uploadPath, set);
     } catch (err) {
-      toast.setProgress(100, 'Upload failed: ' + err.message, 'error');
+      set(_srcUp ? _srcUp.pct : 100, 'Upload failed: ' + err.message, 'error');
     } finally {
       toast.allowDismiss();
       _sourceUploadInFlight = false;
@@ -1913,7 +1988,8 @@ async function githubPutLarge(path, base64, filename, onStep) {
   // which makes a multi-megabyte send look frozen, so use XHR for this one call.
   const body = JSON.stringify({ content: base64, encoding: 'base64' });
   const bodyMB = (body.length / 1024 / 1024).toFixed(1);
-  onStep(0, `Uploading ${bodyMB} MB… 0%`);
+  onStep(0, `Uploading 0 / ${bodyMB} MB…`);
+  const upStart = Date.now();
   const { sha: blobSha } = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `${apiBase}/git/blobs`);
@@ -1923,8 +1999,15 @@ async function githubPutLarge(path, base64, filename, onStep) {
       .forEach(([k, v]) => xhr.setRequestHeader(k, v));
     xhr.upload.onprogress = e => {
       if (!e.lengthComputable) return;
-      const pct = Math.round((e.loaded / e.total) * 100);
-      onStep(pct * 0.6, `Uploading ${bodyMB} MB… ${pct}%`);
+      const frac = e.loaded / e.total;
+      const secs = (Date.now() - upStart) / 1000;
+      const rate = secs > 0.5 ? e.loaded / secs : 0;                 // bytes/s
+      const left = rate ? (e.total - e.loaded) / rate : 0;
+      const sentMB = (e.loaded / 1024 / 1024).toFixed(1);
+      const eta = !rate ? '' : left > 90 ? ` · ~${Math.ceil(left / 60)} min left` : ` · ~${Math.ceil(left)}s left`;
+      const speed = rate ? ` · ${(rate / 1024 / 1024).toFixed(1)} MB/s` : '';
+      onStep(frac * 95, frac >= 1 ? 'Upload sent — GitHub is processing it…'
+                                 : `Uploading ${sentMB} / ${bodyMB} MB${speed}${eta}`);
     };
     xhr.onload = () => {
       let j = {};
@@ -1937,11 +2020,11 @@ async function githubPutLarge(path, base64, filename, onStep) {
     xhr.send(body);
   });
 
-  onStep(65, 'Fetching current tree…');
+  onStep(96, 'Committing to the repo…');
   const { object: { sha: headSha } } = await gh(`${apiBase}/git/refs/heads/main`);
   const { tree: { sha: treeSha } }   = await gh(`${apiBase}/git/commits/${headSha}`);
 
-  onStep(75, 'Building tree…');
+  onStep(97, 'Committing to the repo…');
   const { sha: newTreeSha } = await gh(`${apiBase}/git/trees`, {
     method: 'POST',
     body: JSON.stringify({
@@ -1950,13 +2033,13 @@ async function githubPutLarge(path, base64, filename, onStep) {
     })
   });
 
-  onStep(80, 'Committing…');
+  onStep(98, 'Committing to the repo…');
   const { sha: newCommitSha } = await gh(`${apiBase}/git/commits`, {
     method: 'POST',
     body: JSON.stringify({ message: `Admin: upload source ${filename}`, tree: newTreeSha, parents: [headSha] })
   });
 
-  onStep(95, 'Updating branch…');
+  onStep(99, 'Committing to the repo…');
   await gh(`${apiBase}/git/refs/heads/main`, {
     method: 'PATCH',
     body: JSON.stringify({ sha: newCommitSha })
