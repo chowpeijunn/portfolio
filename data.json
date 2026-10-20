@@ -2213,7 +2213,14 @@
       "sourceVideos": [
         "assets/sources/sg61-tiger-brokers-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/sg61-tiger-brokers-compressed.mp4"
+      "sourceVideo": "assets/sources/sg61-tiger-brokers-compressed.mp4",
+      "clips": [
+        {
+          "label": "Pixel Sort Transition",
+          "start": "24.814",
+          "end": "26.512"
+        }
+      ]
     }
   ],
   "categoryDefaults": {
