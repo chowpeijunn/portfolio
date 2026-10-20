@@ -679,7 +679,8 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4"
+        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4",
+        "assets/sources/moomoo-testimonials-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4",
       "year": "2026"
@@ -2188,6 +2189,28 @@
       "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
       "year": "2022",
       "hidden": true
+    },
+    {
+      "slot": "after",
+      "title": "SG61 Tiger Brokers",
+      "category": "branded",
+      "tags": [
+        "branded"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/jsKgHTGKpdk",
+      "client": "Mediacorp Brand Studio / Tiger Brokers",
+      "credits": [
+        [
+          "Work",
+          "Online & Audio Mix | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "year": "2026"
     }
   ],
   "categoryDefaults": {
