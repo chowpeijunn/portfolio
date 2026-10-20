@@ -2172,12 +2172,14 @@
         {
           "label": "Digital Ball and Coin Comp",
           "start": "7.668",
-          "end": "9.056"
+          "end": "9.056",
+          "clipFile": "assets/clips/shopee-6-6-2026-0.mp4"
         },
         {
           "label": "Digital Ball and Coin Comp",
           "start": "36.127",
-          "end": "36.74"
+          "end": "36.74",
+          "clipFile": "assets/clips/shopee-6-6-2026-1.mp4"
         }
       ]
     }
