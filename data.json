@@ -541,14 +541,14 @@
       "clips": [
         {
           "label": "Screen Replacement",
-          "start": "0:03",
-          "end": "0:05",
+          "start": "3.07",
+          "end": "5.298",
           "clipFile": "assets/clips/thai-curry-0.mp4"
         },
         {
           "label": "Cleanup",
-          "start": "0:24",
-          "end": "0:26",
+          "start": "24.369",
+          "end": "26.945",
           "clipFile": "assets/clips/thai-curry-1.mp4"
         }
       ],
