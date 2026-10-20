@@ -1297,50 +1297,53 @@
     },
     {
       "slot": "after",
-      "title": "Progressive Wages",
+      "title": "STB Stopover 2026",
       "category": "tvc",
       "tags": [
-        "tvc",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
-      "video": "https://youtu.be/Oaoh5YTyntQ",
-      "client": "Ministry of Manpower (MOM)",
+      "thumb": "assets/thumbs/stb-stopover-thumbnail.jpg",
+      "video": "https://youtu.be/otc3Ho9FgZc",
+      "client": "Singapore Tourism Board",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
+          "Online | Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
+        ],
+        [
+          "Agency",
+          "TSLA"
         ]
       ],
-      "sourceVideo": "assets/sources/progressive-wages.mp4",
+      "year": "2026",
       "sourceVideos": [
-        "assets/sources/progressive-wages.mp4"
+        "assets/sources/stb-stopover-60s-compresed.mp4"
       ],
+      "sourceVideo": "assets/sources/stb-stopover-60s-compresed.mp4",
       "clips": [
         {
-          "label": "Graphics Animation and Comp",
-          "start": "6.874",
-          "end": "11.452",
-          "clipFile": "assets/clips/progressive-wages-0.mp4"
+          "label": "Background Clean Up",
+          "start": "1.337",
+          "end": "3.656",
+          "clipFile": "assets/clips/stb-stopover-2026-0.mp4"
         },
         {
-          "label": "Graphics Animation and Comp",
-          "start": "13.165",
-          "end": "20.315",
-          "clipFile": "assets/clips/progressive-wages-1.mp4"
+          "label": "Match Cut Comp",
+          "start": "36.391",
+          "end": "38.242",
+          "clipFile": "assets/clips/stb-stopover-2026-1.mp4"
         },
         {
-          "label": "Graphics Animation and Comp",
-          "start": "51.97",
-          "end": "55.721",
-          "clipFile": "assets/clips/progressive-wages-2.mp4"
+          "label": "Sky Replacement",
+          "start": "38.435",
+          "end": "41.963",
+          "clipFile": "assets/clips/stb-stopover-2026-2.mp4"
         }
-      ],
-      "year": "2025"
+      ]
     },
     {
       "slot": "after",
@@ -1465,29 +1468,49 @@
     },
     {
       "slot": "after",
-      "title": "Trade Advocacy Programme",
-      "category": "branded",
+      "title": "KFC Sauce Mania",
+      "category": "tvc",
       "tags": [
-        "branded"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-8.42.55-am.jpg",
-      "video": "https://youtu.be/jFEWqfvhQC0",
-      "client": "The Macallan",
+      "thumb": "assets/thumbs/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed-still-muj9iiqr.jpg",
+      "video": "https://youtu.be/BB-dqOgnpxM",
+      "client": "Abundant Productions",
       "credits": [
         [
           "Work",
-          "Producer"
+          "2026 Online | Clean Ups | Graphics Comp "
         ],
         [
           "Production",
-          "Optical Films"
+          "Abundant Productions"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/trade-advocacy-programme.mp4"
+        "assets/sources/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/trade-advocacy-programme.mp4",
-      "year": "2024"
+      "sourceVideo": "assets/sources/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed.mp4",
+      "clips": [
+        {
+          "label": "Clean up + Roto + Graphics Comp ",
+          "start": "15.294",
+          "end": "18.066",
+          "clipFile": "assets/clips/kfc-sauce-mania-0.mp4"
+        },
+        {
+          "label": "Clean up + Roto + Graphics Comp ",
+          "start": "18.11",
+          "end": "21.881",
+          "clipFile": "assets/clips/kfc-sauce-mania-1.mp4"
+        },
+        {
+          "label": "Clean up + Roto + Graphics Comp ",
+          "start": "9.676",
+          "end": "13.03",
+          "clipFile": "assets/clips/kfc-sauce-mania-2.mp4"
+        }
+      ],
+      "year": "2026"
     },
     {
       "slot": "after",
@@ -1790,49 +1813,29 @@
     },
     {
       "slot": "after",
-      "title": "KFC Sauce Mania",
-      "category": "tvc",
+      "title": "Trade Advocacy Programme",
+      "category": "branded",
       "tags": [
-        "tvc"
+        "branded"
       ],
-      "thumb": "assets/thumbs/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed-still-muj9iiqr.jpg",
-      "video": "https://youtu.be/BB-dqOgnpxM",
-      "client": "Abundant Productions",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-8.42.55-am.jpg",
+      "video": "https://youtu.be/jFEWqfvhQC0",
+      "client": "The Macallan",
       "credits": [
         [
           "Work",
-          "2026 Online | Clean Ups | Graphics Comp "
+          "Producer"
         ],
         [
           "Production",
-          "Abundant Productions"
+          "Optical Films"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed.mp4"
+        "assets/sources/trade-advocacy-programme.mp4"
       ],
-      "sourceVideo": "assets/sources/260924_kfc-sauce-mania_30s_16x9_digital_master-compressed.mp4",
-      "clips": [
-        {
-          "label": "Clean up + Roto + Graphics Comp ",
-          "start": "15.294",
-          "end": "18.066",
-          "clipFile": "assets/clips/kfc-sauce-mania-0.mp4"
-        },
-        {
-          "label": "Clean up + Roto + Graphics Comp ",
-          "start": "18.11",
-          "end": "21.881",
-          "clipFile": "assets/clips/kfc-sauce-mania-1.mp4"
-        },
-        {
-          "label": "Clean up + Roto + Graphics Comp ",
-          "start": "9.676",
-          "end": "13.03",
-          "clipFile": "assets/clips/kfc-sauce-mania-2.mp4"
-        }
-      ],
-      "year": "2026"
+      "sourceVideo": "assets/sources/trade-advocacy-programme.mp4",
+      "year": "2024"
     },
     {
       "slot": "after",
@@ -1910,29 +1913,50 @@
     },
     {
       "slot": "after",
-      "title": "Mark + Meredith",
-      "category": "weddings",
+      "title": "Progressive Wages",
+      "category": "tvc",
       "tags": [
-        "weddings"
+        "tvc",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/mark-meredith-thumbnail.jpg",
-      "video": "https://youtu.be/Jm3L0_JG2TI",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/progressive-wages-ministry-of-manpower-mom.jpg",
+      "video": "https://youtu.be/Oaoh5YTyntQ",
+      "client": "Ministry of Manpower (MOM)",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ],
-      "year": "2023",
+      "sourceVideo": "assets/sources/progressive-wages.mp4",
       "sourceVideos": [
-        "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+        "assets/sources/progressive-wages.mp4"
       ],
-      "sourceVideo": "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+      "clips": [
+        {
+          "label": "Graphics Animation and Comp",
+          "start": "6.874",
+          "end": "11.452",
+          "clipFile": "assets/clips/progressive-wages-0.mp4"
+        },
+        {
+          "label": "Graphics Animation and Comp",
+          "start": "13.165",
+          "end": "20.315",
+          "clipFile": "assets/clips/progressive-wages-1.mp4"
+        },
+        {
+          "label": "Graphics Animation and Comp",
+          "start": "51.97",
+          "end": "55.721",
+          "clipFile": "assets/clips/progressive-wages-2.mp4"
+        }
+      ],
+      "year": "2025"
     },
     {
       "slot": "after",
@@ -2011,6 +2035,72 @@
       ],
       "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4",
       "year": "2024"
+    },
+    {
+      "slot": "after",
+      "title": "Mark + Meredith",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/mark-meredith-thumbnail.jpg",
+      "video": "https://youtu.be/Jm3L0_JG2TI",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "year": "2023",
+      "sourceVideos": [
+        "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/mark__meredith_same-day-edit-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 6.6 2026",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-10-20-at-3.25.37-pm.jpg",
+      "video": "https://youtu.be/FOw38gdbHK8",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Graphics Comp"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/shopee-6.6-2026-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/shopee-6.6-2026-compressed.mp4",
+      "clips": [
+        {
+          "label": "Digital Ball and Coin Comp",
+          "start": "7.668",
+          "end": "9.056",
+          "clipFile": "assets/clips/shopee-6-6-2026-0.mp4"
+        },
+        {
+          "label": "Digital Ball and Coin Comp",
+          "start": "36.127",
+          "end": "36.74",
+          "clipFile": "assets/clips/shopee-6-6-2026-1.mp4"
+        }
+      ]
     },
     {
       "slot": "before",
@@ -2092,96 +2182,6 @@
       "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
       "year": "2022",
       "hidden": true
-    },
-    {
-      "slot": "after",
-      "title": "STB Stopover 2026",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/stb-stopover-thumbnail.jpg",
-      "video": "https://youtu.be/otc3Ho9FgZc",
-      "client": "Singapore Tourism Board",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ],
-        [
-          "Agency",
-          "TSLA"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/stb-stopover-60s-compresed.mp4"
-      ],
-      "sourceVideo": "assets/sources/stb-stopover-60s-compresed.mp4",
-      "clips": [
-        {
-          "label": "Background Clean Up",
-          "start": "1.337",
-          "end": "3.656",
-          "clipFile": "assets/clips/stb-stopover-2026-0.mp4"
-        },
-        {
-          "label": "Match Cut Comp",
-          "start": "36.391",
-          "end": "38.242",
-          "clipFile": "assets/clips/stb-stopover-2026-1.mp4"
-        },
-        {
-          "label": "Sky Replacement",
-          "start": "38.435",
-          "end": "41.963",
-          "clipFile": "assets/clips/stb-stopover-2026-2.mp4"
-        }
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Shopee 6.6 2026",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-10-20-at-3.25.37-pm.jpg",
-      "video": "https://youtu.be/FOw38gdbHK8",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Graphics Comp"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/shopee-6.6-2026-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/shopee-6.6-2026-compressed.mp4",
-      "clips": [
-        {
-          "label": "Digital Ball and Coin Comp",
-          "start": "7.668",
-          "end": "9.056",
-          "clipFile": "assets/clips/shopee-6-6-2026-0.mp4"
-        },
-        {
-          "label": "Digital Ball and Coin Comp",
-          "start": "36.127",
-          "end": "36.74",
-          "clipFile": "assets/clips/shopee-6-6-2026-1.mp4"
-        }
-      ]
     }
   ],
   "categoryDefaults": {
