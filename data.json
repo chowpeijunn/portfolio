@@ -682,7 +682,10 @@
         "assets/sources/moomoo-testimonials-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/moomoo-testimonials-compressed.mp4",
-      "year": "2026"
+      "year": "2026",
+      "videos": [
+        ""
+      ]
     },
     {
       "slot": "before",
