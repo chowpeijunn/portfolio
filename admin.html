@@ -213,6 +213,9 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .clip-row { display: flex; gap: 6px; align-items: center; }
 .clip-row .clip-label { flex: 1.2; }
 .clip-row .clip-time { flex: 0.7; min-width: 0; }
+/* A ready-made clip uploaded as a video (plays as a muted loop on the site) */
+.clip-upload-thumb { width: 64px; height: 36px; object-fit: cover; border-radius: 4px; background: #000; flex-shrink: 0; }
+.clip-row-uploaded .clip-label { flex: 1; }
 .clip-row .clip-source {
   flex: 1; min-width: 80px; max-width: 160px;
   background: var(--surface); color: var(--text);
@@ -860,8 +863,9 @@ function renderEditor() {
         <label>Clips — mark your contributions as hover-to-play segments</label>
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="uploadClipVideo()" title="Upload a ready-made video — it plays as a muted loop, like a GIF">+ Upload clip video</button>
         <button class="btn btn-sm btn-save-extract" id="processClipsBtn" onclick="processClips()">💾 Save &amp; extract clips</button>
-        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4. Progress shows in the bottom-right corner — safe to switch projects while it runs.</div>
+        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4. Or use <b>+ Upload clip video</b> to add a ready-made video as a looping clip (no extracting needed). Progress shows in the bottom-right corner — safe to switch projects while it runs.</div>
       </div>
     </div>
 
@@ -1005,6 +1009,16 @@ function sourcesHtml(p) {
 }
 
 function clipRowHtml(clip, ci) {
+  if (clip.uploaded) {
+    // Uploaded as a ready-made video: nothing to trim or extract.
+    const src = _clipLocalUrls[clip.clipFile] || ('/' + String(clip.clipFile || '').split('/').map(encodeURIComponent).join('/'));
+    return `<div class="clip-row clip-row-uploaded" id="clip-${ci}">
+    <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
+    <video class="clip-upload-thumb" src="${esc(src)}" muted loop autoplay playsinline preload="metadata"></video>
+    <span class="field-status ok" title="${esc(clip.clipFile)}">🎞 Uploaded clip</span>
+    <button class="credit-remove" onclick="removeClip(${ci})" title="Remove clip">×</button>
+  </div>`;
+  }
   const extracted = !!clip.clipFile;
   const statusCls = extracted ? 'ok' : 'missing';
   const statusTxt = extracted ? '✓ Extracted' : '○ Not extracted';
@@ -1349,9 +1363,12 @@ async function processClips() {
   const token = getGhToken();
 
   if (!token)              { alert('Set your GitHub token (🔑 Token) first.'); return; }
+  // Uploaded clips are ready as they are; only in/out clips need extracting. The
+  // extractor also skips any clip without a valid range, so their indices stay put.
+  const extractable = (p.clips || []).filter(c => !c.uploaded);
+  if (!extractable.length) { alert((p.clips || []).length ? 'Nothing to extract — uploaded clips are ready as they are.' : 'Add at least one clip with start/end times first.'); return; }
   if (!p.sourceVideo)      { alert('Upload a Source video for this project first (above the Clips section).'); return; }
-  if (!p.clips || !p.clips.length) { alert('Add at least one clip with start/end times first.'); return; }
-  const invalid = p.clips.filter(c => !c.start || !c.end);
+  const invalid = extractable.filter(c => !c.start || !c.end);
   if (invalid.length) { alert(`${invalid.length} clip(s) missing start/end. Set times first.`); return; }
 
   const toast = makeOpToast('extractToast', `Extracting: ${p.title}`);
@@ -1406,6 +1423,89 @@ async function processClips() {
     updateBtn(false);
     toast.allowDismiss();
   }
+}
+
+// ── Uploaded clips ────────────────────────────────────────────
+// A ready-made video added as a clip. It's converted in the browser (WebCodecs via
+// the vendored Mediabunny, same as /admin/compress) to a small muted 720p mp4, so it
+// plays on the site like the extracted clips: autoplaying, looping, no controls.
+let _clipUploadInFlight = false;
+const _clipLocalUrls = {};   // path → blob URL, so the row previews before the deploy lands
+let _mbPromise = null;
+const loadMediabunny = () => _mbPromise || (_mbPromise = import('/vendor/mediabunny-1.61.6.min.mjs'));
+
+async function makeLoopingClip(file, onProgress) {
+  if (!('VideoEncoder' in window)) throw new Error("This browser can't convert video — use the latest Chrome or Safari.");
+  const mb = await loadMediabunny();
+  const input = new mb.Input({ source: new mb.BlobSource(file), formats: mb.ALL_FORMATS });
+  try {
+    const vt = await input.getPrimaryVideoTrack();
+    if (!vt) throw new Error('No video found in that file.');
+    if (!(await vt.canDecode())) {
+      const names = { prores: 'ProRes', hevc: 'HEVC', vp9: 'VP9', av1: 'AV1' };
+      const c = vt.codec ? (names[vt.codec] || vt.codec.toUpperCase()) : (/\.mov$/i.test(file.name) ? 'ProRes' : 'this');
+      throw new Error(`Browsers can't read ${c} video. Export the clip as an H.264 .mp4 and upload that.`);
+    }
+    const duration = await input.computeDuration();
+    const h0 = Math.min(720, vt.displayHeight), h = h0 - (h0 % 2);
+    const w = Math.round(vt.displayWidth * h / vt.displayHeight / 2) * 2;
+    // ~2.5 Mbps at 720p looks clean for a short loop; long uploads get less so the
+    // file always stays well under the upload limit (~30 MB).
+    const bitrate = Math.max(500_000, Math.min(2_500_000, Math.floor(30 * 1024 * 1024 * 0.94 * 8 / duration)));
+    const output = new mb.Output({ format: new mb.Mp4OutputFormat({ fastStart: 'in-memory' }), target: new mb.BufferTarget() });
+    const conv = await mb.Conversion.init({
+      input, output,
+      video: { width: w, height: h, fit: 'contain', codec: 'avc', bitrate, forceTranscode: true },
+      audio: { discard: true },
+    });
+    if (!conv.isValid) throw new Error("This file can't be converted in the browser.");
+    conv.onProgress = f => onProgress(f * 100, `Converting to a looping clip… ${Math.floor(f * 100)}%`);
+    await conv.execute();
+    return { blob: new Blob([output.target.buffer], { type: 'video/mp4' }), duration };
+  } finally {
+    try { input.dispose(); } catch (_) {}
+  }
+}
+
+function uploadClipVideo() {
+  if (_clipUploadInFlight) { alert('A clip upload is already running. Wait for it to finish, or dismiss the progress card first.'); return; }
+  if (!getGhToken()) { alert('Set your GitHub token (🔑 Token) first.'); return; }
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.accept = 'video/*,.mp4,.mov,.m4v,.webm';
+  picker.onchange = async () => {
+    const file = picker.files[0];
+    if (!file) return;
+    const projectIdx = selectedIdx;              // pin the project in case you switch mid-upload
+    const project = data.projects[projectIdx];
+    const toast = makeOpToast('clipUploadToast', `Adding clip: ${project.title}`);
+    const set = (pct, label, state = '') => toast.setProgress(pct, label, state === 'live' ? 'success' : state);
+    _clipUploadInFlight = true;
+    try {
+      set(0, 'Preparing…');
+      const { blob, duration } = await makeLoopingClip(file, (pct, label) => set(pct * 0.5, label));
+      const slug = (project.title || 'clip').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'clip';
+      const path = `assets/clips/${slug}-upload-${Date.now().toString(36)}.mp4`;
+      _clipLocalUrls[path] = URL.createObjectURL(blob);
+      await githubPutLarge(path, await blobToBase64(blob), path.split('/').pop(), (pct, msg) => set(50 + pct * 0.45, msg));
+      if (!Array.isArray(project.clips)) project.clips = [];
+      project.clips.push({ label: '', clipFile: path, uploaded: true });
+      if (selectedIdx === projectIdx) renderEditor();
+      markDirty();
+      set(96, 'Saving project…');
+      await saveAll();
+      set(100, `✓ Clip added — ${(blob.size / 1024 / 1024).toFixed(1)} MB, ${Math.round(duration)}s loop. Give it a label in Clips.`, 'success');
+      toast.allowDismiss();
+      _clipUploadInFlight = false;
+      await srcUploadWaitLive(path, set);
+    } catch (e) {
+      set(100, 'Clip upload failed: ' + (e?.message || e), 'error');
+    } finally {
+      toast.allowDismiss();
+      _clipUploadInFlight = false;
+    }
+  };
+  picker.click();
 }
 
 function removeClip(ci) {
