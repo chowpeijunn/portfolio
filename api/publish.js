@@ -3,7 +3,7 @@ const FILE   = 'data.json';
 const BRANCH = 'main';
 
 // Keep any clipFile the live data.json already has when the incoming save is
-// missing it for the same clip (same project title, same clip index + times).
+// missing it for the same clip (same project title, clip index, times + source).
 // This stops a publish/auto-save that raced the background extractor from
 // blanking out freshly-extracted clip pointers.
 function preserveClipFiles(incoming, current) {
@@ -19,7 +19,8 @@ function preserveClipFiles(incoming, current) {
       const c = cur.clips[i];
       if (clip && c && !clip.clipFile && c.clipFile &&
           String(clip.start) === String(c.start) &&
-          String(clip.end) === String(c.end)) {
+          String(clip.end) === String(c.end) &&
+          String(clip.sourceVideo || '') === String(c.sourceVideo || '')) {
         clip.clipFile = c.clipFile;
       }
     });

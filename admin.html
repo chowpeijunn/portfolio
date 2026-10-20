@@ -1232,7 +1232,22 @@ function updateClip(ci, field, val) {
   const p = data.projects[selectedIdx];
   if (!p.clips) p.clips = [];
   if (!p.clips[ci]) p.clips[ci] = { label: '', start: '', end: '' };
-  p.clips[ci][field] = val;
+  const clip = p.clips[ci];
+  const prev = clip[field];
+  clip[field] = val;
+  // The extracted mp4 was cut from the old in/out points and source. Changing any
+  // of them makes it stale, so drop it: the clip reads "Not extracted" until Save &
+  // extract cuts a new one (meanwhile the site loops the new range from the source).
+  if ((field === 'start' || field === 'end' || field === 'sourceVideo') &&
+      clip.clipFile && String(prev ?? '') !== String(val ?? '')) {
+    delete clip.clipFile;
+    const pill = document.getElementById(`clip-status-${ci}`);
+    if (pill) {
+      pill.className = 'field-status missing';
+      pill.textContent = '○ Not extracted';
+      pill.title = 'Run Save & extract to generate';
+    }
+  }
   markDirty();
 }
 

@@ -396,8 +396,11 @@ window.addEventListener('resize', () => {
       else { minX = viewW - 14 - bnd.right; maxX = 14 - bnd.left; }
       if (contentH <= viewH) { minY = maxY = (viewH - contentH) / 2 - bnd.top; }
       else { minY = viewH - 14 - bnd.bottom; maxY = 14 - bnd.top; }
-      // Keep the hub-centered position reachable so nothing jumps on the first pan.
+      // Keep the hub-centered position reachable so nothing jumps on the first pan,
+      // and the position a filter pinned the hub at, so filtering never moves it.
       minX = Math.min(minX, hubTx); maxX = Math.max(maxX, hubTx);
+      if (inner._pinTx != null) { minX = Math.min(minX, inner._pinTx); maxX = Math.max(maxX, inner._pinTx); }
+      if (inner._pinTy != null) { minY = Math.min(minY, inner._pinTy); maxY = Math.max(maxY, inner._pinTy); }
       return {
         x: Math.min(maxX, Math.max(minX, x)),
         y: Math.min(maxY, Math.max(minY, y))
@@ -407,10 +410,12 @@ window.addEventListener('resize', () => {
     const innerW = inner.scrollWidth;
     const innerH = inner.scrollHeight;
     // Horizontal: allow panning to hub-centered position and back to natural 0
-    const minX = Math.min(0, viewW - innerW, hubTx);
-    const maxX = Math.max(0, viewW - innerW, hubTx);
-    const minY = viewH - innerH - 14;
-    const maxY = 14;
+    const pinX = inner._pinTx != null ? inner._pinTx : hubTx;
+    const pinY = inner._pinTy != null ? inner._pinTy : viewH - innerH - 14;
+    const minX = Math.min(0, viewW - innerW, hubTx, pinX);
+    const maxX = Math.max(0, viewW - innerW, hubTx, pinX);
+    const minY = Math.min(viewH - innerH - 14, pinY);
+    const maxY = Math.max(14, pinY);
 
     return {
       x: Math.min(maxX, Math.max(minX, x)),
@@ -699,6 +704,7 @@ function initFilter() {
 
     const cards = Array.from(inner.querySelectorAll('.project-card'));
     const old = (window._capturePositions ? window._capturePositions() : new Map());
+    const hubScreen = hub.getBoundingClientRect();   // the hub stays exactly here
 
     if (!category) {
       // RESET → the main-page arrangement: every card visible, canonical order, the
@@ -748,10 +754,20 @@ function initFilter() {
       window._originalBeforeCount = hubBefore;
     }
 
-    // Centre the hub among the VISIBLE cards for the current column count, then glide
-    // everything from where it was. Cards that just appeared (no prior position) fade in.
-    if (window._updateHubSpan) window._updateHubSpan();
+    // Centre the hub among the VISIBLE cards for the current column count — without
+    // re-centring the view, since that made the hub jump.
+    if (window._updateHubSpan) window._updateHubSpan(true);
     void inner.offsetWidth;
+    // The re-layout moved the hub to a different grid cell. Shift the canvas by the
+    // same amount, instantly, so the hub stays put on screen (the buttons stay under
+    // the cursor); the scroll limits always allow this pinned position.
+    const hubNow = hub.getBoundingClientRect();
+    if (hubScreen.width && hubNow.width) {   // skip if the grid isn't laid out yet
+      inner._pinTx = (inner._tx || 0) + (hubScreen.left - hubNow.left);
+      inner._pinTy = (inner._ty || 0) + (hubScreen.top - hubNow.top);
+      if (window._setTranslate) window._setTranslate(inner._pinTx, inner._pinTy, false);
+    }
+    // Cards glide from where they were to their new cells around the still hub.
     if (window._animateFlip) window._animateFlip(old);
     const appeared = cards.filter(c => c.style.display !== 'none' && !old.has(c));
     if (appeared.length) {
@@ -764,11 +780,6 @@ function initFilter() {
       });
     }
 
-    // Snap the view into the (now tighter or looser) scroll bounds so a filter can't
-    // leave the viewport parked over empty space.
-    if (window._setTranslate) {
-      window._setTranslate(inner._tx || 0, inner._ty || 0, true);
-    }
   }
 
   function resetFilter() {
@@ -1231,7 +1242,7 @@ initShowreel();
   // 2-col: span 2 full-width. 4-col: span 2 wrapper, inner stays 1-card wide.
   // 3 & 5-col: natural flow, 1 card wide. Cards are moved to fill the cell
   // immediately left of the hub so there's never an empty gap.
-  function updateHubSpan() {
+  function updateHubSpan(keepView) {
     const hub = document.getElementById('centerHub');
     const inner = document.getElementById('canvasInner');
     if (!hub || !inner) return;
@@ -1281,7 +1292,7 @@ initShowreel();
       }
     }
 
-    setTimeout(() => centerOnHub(false), 0);
+    if (!keepView) setTimeout(() => centerOnHub(false), 0);
   }
 
   // Expose so the data-loader can call updateHubSpan AFTER cards are in the DOM,
