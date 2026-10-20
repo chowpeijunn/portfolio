@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23E8E6DF'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='14' fill='%230C0E1A'>PJ</text></svg>">
+<title>Compress Video — Portfolio Admin</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Same palette as the admin */
+:root {
+  --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --border: #2a2a2a;
+  --text: #e0e0e0; --muted: #8a8a8a; --dim: #9a9a9a;
+  --accent: #4f8ef7; --warn: #f5a623; --danger: #e05252; --success: #4caf50;
+  --radius: 8px;
+}
+body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); font-size: 13px; min-height: 100vh; }
+.topbar { display: flex; align-items: center; gap: 12px; padding: 0 16px; height: 52px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.topbar-title { font-weight: 700; font-size: 15px; }
+.topbar-sub { color: var(--muted); font-size: 12px; }
+.topbar-spacer { flex: 1; }
+a.back { color: var(--text); text-decoration: none; padding: 7px 12px; border: 1px solid var(--border); border-radius: 6px; }
+a.back:hover { background: var(--surface2); }
+
+main { max-width: 760px; margin: 28px auto; padding: 0 16px 60px; display: flex; flex-direction: column; gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+.card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+.hidden { display: none !important; }
+
+.drop { border: 2px dashed var(--border); border-radius: 10px; padding: 40px 16px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
+.drop:hover, .drop.over { border-color: var(--accent); background: rgba(79,142,247,0.06); }
+.drop strong { display: block; font-size: 15px; margin-bottom: 6px; }
+.drop span { color: var(--muted); }
+
+.info { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+.info div { background: var(--surface2); border-radius: 6px; padding: 8px 10px; }
+.info b { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; margin-bottom: 3px; }
+.filename { font-weight: 600; font-size: 14px; margin-bottom: 12px; word-break: break-all; }
+
+.row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.row > label { width: 110px; color: var(--muted); }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.seg button { background: transparent; color: var(--text); border: 0; padding: 7px 14px; cursor: pointer; font: inherit; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.on { background: var(--accent); color: #fff; }
+.seg button:disabled { opacity: .35; cursor: not-allowed; }
+input[type=number] { width: 80px; background: var(--surface2); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 8px; font: inherit; }
+.hint { color: var(--muted); font-size: 12px; }
+.estimate { margin-top: 4px; padding: 10px 12px; background: var(--surface2); border-radius: 6px; font-variant-numeric: tabular-nums; }
+.q-good { color: var(--success); } .q-ok { color: var(--warn); } .q-low { color: var(--danger); }
+
+.btn { border: 1px solid var(--border); background: var(--surface2); color: var(--text); padding: 9px 16px; border-radius: 6px; cursor: pointer; font: inherit; font-weight: 600; text-decoration: none; display: inline-block; }
+.btn:hover { filter: brightness(1.15); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+
+.track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 10px 0 8px; }
+.fill { height: 100%; width: 0%; background: var(--accent); transition: width .3s ease; border-radius: 4px; }
+.fill.done { background: var(--success); }
+.progress-head { display: flex; justify-content: space-between; font-weight: 600; font-variant-numeric: tabular-nums; }
+.progress-label { color: var(--dim); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+video { width: 100%; border-radius: 6px; background: #000; margin-top: 12px; }
+.notice { border-radius: 8px; padding: 12px 14px; line-height: 1.5; }
+.notice.error { background: rgba(224,82,82,0.12); border: 1px solid rgba(224,82,82,0.4); }
+.notice.warn  { background: rgba(245,166,35,0.10); border: 1px solid rgba(245,166,35,0.35); }
+.notice.ok    { background: rgba(76,175,80,0.10); border: 1px solid rgba(76,175,80,0.35); }
+.notice .t { display: block; font-weight: 700; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-title">Compress Video</div>
+  <div class="topbar-sub">720p · fits the admin upload · runs on this computer — nothing is uploaded</div>
+  <div class="topbar-spacer"></div>
+  <a class="back" href="/admin">← Back to admin</a>
+</div>
+
+<main>
+  <div class="notice error hidden" id="unsupported">
+    <span class="t">This browser can't compress video.</span>
+    Open this page in the latest Chrome or Safari.
+  </div>
+
+  <!-- 1. pick a file -->
+  <div class="card" id="pickCard">
+    <label class="drop" id="drop">
+      <strong>Drop a video here, or click to choose</strong>
+      <span>.mp4 masters work best (H.264 / HEVC). Large 4K files are fine.</span>
+      <input type="file" id="fileInput" accept="video/*,.mp4,.mov,.m4v" hidden>
+    </label>
+  </div>
+
+  <!-- 2. file info + settings -->
+  <div class="card hidden" id="setupCard">
+    <div class="filename" id="fName"></div>
+    <div class="info" id="fInfo"></div>
+
+    <div class="notice error hidden" id="readError" style="margin-top:14px"></div>
+
+    <div id="settings" style="margin-top:18px">
+      <div class="row">
+        <label>Resolution</label>
+        <div class="seg" id="resSeg">
+          <button data-res="720" class="on">720p (recommended)</button>
+          <button data-res="1080">1080p</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>Max file size</label>
+        <input type="number" id="maxMB" value="34" min="5" max="500" step="1"> <span>MB</span>
+        <span class="hint">Admin uploads must stay under ~36 MB.</span>
+      </div>
+      <div class="row">
+        <label>Audio</label>
+        <div class="seg" id="audioSeg">
+          <button data-audio="keep" class="on">Keep</button>
+          <button data-audio="remove">Remove</button>
+        </div>
+      </div>
+      <div class="estimate" id="estimate"></div>
+      <div class="actions">
+        <button class="btn btn-primary" id="goBtn">Compress</button>
+        <button class="btn" id="otherBtn">Choose a different file</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. progress -->
+  <div class="card hidden" id="progressCard">
+    <div class="progress-head"><span id="pTitle">Compressing…</span><span id="pPct">0%</span></div>
+    <div class="track"><div class="fill" id="pFill"></div></div>
+    <div class="progress-label" id="pLabel">Starting…</div>
+    <div class="actions"><button class="btn" id="cancelBtn">Cancel</button></div>
+    <div class="hint" style="margin-top:10px">Keep this tab open until it finishes.</div>
+  </div>
+
+  <!-- 4. result -->
+  <div class="card hidden" id="resultCard">
+    <div class="notice ok" id="resultNote"></div>
+    <video id="preview" controls playsinline></video>
+    <div class="actions">
+      <a class="btn btn-primary" id="downloadBtn" download>Download</a>
+      <button class="btn" id="againBtn">Compress another</button>
+    </div>
+    <div class="hint" style="margin-top:12px">Next: in the admin, open the project and use <b>+ Upload source</b>.</div>
+  </div>
+</main>
+
+<script type="module">
+import {
+  Input, BlobSource, ALL_FORMATS, Output, Mp4OutputFormat, BufferTarget,
+  Conversion, ConversionCanceledError, canEncodeVideo, canEncodeAudio
+} from '/vendor/mediabunny-1.61.6.min.mjs';
+
+const $ = id => document.getElementById(id);
+const MB = 1024 * 1024;
+const AUDIO_BPS = 128_000;
+const CAP = { 720: 3_500_000, 1080: 8_000_000 };   // more than this buys nothing visible
+const show = (el, on = true) => el.classList.toggle('hidden', !on);
+const fmtTime = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+const fmtMB = b => (b / MB).toFixed(1) + ' MB';
+
+const CODEC_NAMES = { avc: 'H.264', hevc: 'HEVC', vp8: 'VP8', vp9: 'VP9', av1: 'AV1', prores: 'ProRes',
+  aac: 'AAC', opus: 'Opus', mp3: 'MP3', flac: 'FLAC', vorbis: 'Vorbis' };
+const codecName = c => !c ? 'Unknown' : (CODEC_NAMES[c] || (/^pcm/.test(c) ? 'PCM' : c.toUpperCase()));
+
+let state = { file: null, input: null, duration: 0, srcW: 0, srcH: 0, hasAudio: false,
+              res: 720, keepAudio: true, conversion: null, outUrl: null };
+
+// ---- browser support ----------------------------------------------------
+let supported = 'VideoEncoder' in window;
+if (supported) {
+  try { supported = await canEncodeVideo('avc', { width: 1280, height: 720, bitrate: 3e6 }); }
+  catch { supported = false; }
+}
+if (!supported) { show($('unsupported')); show($('pickCard'), false); }
+
+// ---- picking a file -----------------------------------------------------
+const drop = $('drop');
+['dragenter', 'dragover'].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', ev => { const f = ev.dataTransfer.files[0]; if (f) loadFile(f); });
+$('fileInput').addEventListener('change', ev => { const f = ev.target.files[0]; if (f) loadFile(f); ev.target.value = ''; });
+$('otherBtn').onclick = $('againBtn').onclick = () => reset();
+
+function reset() {
+  if (state.input) { try { state.input.dispose(); } catch {} }
+  if (state.outUrl) URL.revokeObjectURL(state.outUrl);
+  state = { ...state, file: null, input: null, conversion: null, outUrl: null };
+  $('preview').removeAttribute('src');
+  show($('setupCard'), false); show($('progressCard'), false); show($('resultCard'), false);
+  show($('pickCard'));
+}
+
+async function loadFile(file) {
+  reset();
+  state.file = file;
+  show($('pickCard'), false); show($('setupCard'));
+  $('fName').textContent = file.name;
+  $('fInfo').innerHTML = `<div><b>Size</b>${fmtMB(file.size)}</div><div><b>Status</b>Reading…</div>`;
+  show($('readError'), false); show($('settings'));
+
+  try {
+    const input = new Input({ source: new BlobSource(file), formats: ALL_FORMATS });
+    state.input = input;
+    const vt = await input.getPrimaryVideoTrack();
+    if (!vt) throw new Error('No video track found in this file.');
+    const at = await input.getPrimaryAudioTrack();
+    state.duration = await input.computeDuration();
+    state.srcW = vt.displayWidth; state.srcH = vt.displayHeight;
+    state.hasAudio = !!at;
+    let fps = '';
+    try { const st = await vt.computePacketStats(60); fps = st.averagePacketRate ? Math.round(st.averagePacketRate) + ' fps' : ''; } catch {}
+    const vName = codecName(vt.codec);
+    $('fInfo').innerHTML = `
+      <div><b>Size</b>${fmtMB(file.size)}</div>
+      <div><b>Length</b>${fmtTime(state.duration)}</div>
+      <div><b>Resolution</b>${state.srcW}×${state.srcH}</div>
+      <div><b>Video</b>${vName}${fps ? ' · ' + fps : ''}</div>
+      <div><b>Audio</b>${at ? codecName(at.codec) : 'None'}</div>`;
+
+    if (!(await vt.canDecode())) {
+      const what = vt.codec ? `${vName} video` : `this video format${/\.mov$/i.test(file.name) ? ' (likely ProRes)' : ''}`;
+      throw new Error(`Browsers can't read ${what}. Export an H.264 .mp4 master (any quality) from Premiere/Resolve and compress that — or send this file to Claude.`);
+    }
+
+    // Only offer a resolution that's actually a downscale.
+    const can1080 = state.srcH > 720;
+    document.querySelector('#resSeg [data-res="1080"]').disabled = !can1080;
+    if (!can1080) setRes(720);
+    show($('audioSeg').closest('.row'), state.hasAudio);
+    updateEstimate();
+  } catch (e) {
+    $('readError').innerHTML = `<span class="t">Can't compress this file</span>${e.message}`;
+    show($('readError')); show($('settings'), false);
+  }
+}
+
+// ---- settings + size estimate -------------------------------------------
+function setRes(r) { state.res = r; document.querySelectorAll('#resSeg button').forEach(b => b.classList.toggle('on', +b.dataset.res === r)); updateEstimate(); }
+document.querySelectorAll('#resSeg button').forEach(b => b.onclick = () => setRes(+b.dataset.res));
+document.querySelectorAll('#audioSeg button').forEach(b => b.onclick = () => {
+  state.keepAudio = b.dataset.audio === 'keep';
+  document.querySelectorAll('#audioSeg button').forEach(x => x.classList.toggle('on', x === b));
+  updateEstimate();
+});
+$('maxMB').oninput = updateEstimate;
+
+function outSize() {
+  const h = Math.min(state.res, state.srcH);
+  const w = Math.round(state.srcW * h / state.srcH / 2) * 2;   // even width for H.264
+  return { w, h: h - (h % 2) };
+}
+function plan(maxMB = +$('maxMB').value || 34) {
+  const audioBps = state.hasAudio && state.keepAudio ? AUDIO_BPS : 0;
+  // 6% headroom for the container and for the encoder landing a little over target
+  const raw = (maxMB * MB * 0.94 * 8) / state.duration - audioBps;
+  const videoBps = Math.max(400_000, Math.min(CAP[state.res], Math.floor(raw)));
+  const estBytes = (videoBps + audioBps) * state.duration / 8 * 1.02;
+  return { videoBps, audioBps, estBytes, maxBytes: maxMB * MB };
+}
+function updateEstimate() {
+  if (!state.duration) return;
+  const { videoBps, estBytes, maxBytes } = plan();
+  const { w, h } = outSize();
+  const kbps = Math.round(videoBps / 1000);
+  // Rough quality guide for H.264 at these sizes
+  const good = state.res === 720 ? 2000 : 4500, ok = state.res === 720 ? 1200 : 2800;
+  const q = kbps >= good ? ['q-good', 'Looks great'] : kbps >= ok ? ['q-ok', 'Good — slightly soft on fast motion']
+          : ['q-low', 'Soft — this is a long video for this size'];
+  const over = estBytes > maxBytes;
+  $('estimate').innerHTML = `${w}×${h} · ${kbps.toLocaleString()} kbps video${state.hasAudio && state.keepAudio ? ' + 128 kbps audio' : ''}
+    → about <b>${fmtMB(Math.min(estBytes, maxBytes))}</b> · <span class="${q[0]}">${q[1]}</span>
+    ${over ? '<br><span class="q-low">Very long for this size — the result may come out larger.</span>' : ''}`;
+}
+
+// ---- compress -----------------------------------------------------------
+$('goBtn').onclick = () => compress();
+$('cancelBtn').onclick = async () => { if (state.conversion) await state.conversion.cancel(); };
+
+async function compress(retryBps) {
+  const p = plan();
+  const videoBps = retryBps || p.videoBps;
+  const { w, h } = outSize();
+  show($('setupCard'), false); show($('progressCard')); show($('resultCard'), false);
+  $('pTitle').textContent = retryBps ? 'Re-compressing a little smaller…' : 'Compressing…';
+  $('pFill').classList.remove('done'); $('pFill').style.width = '0%'; $('pPct').textContent = '0%';
+  $('pLabel').textContent = 'Starting…';
+
+  let wake = null;
+  try { wake = await navigator.wakeLock?.request('screen'); } catch {}
+
+  try {
+    // A fresh Input each run — a finished conversion can't be reused.
+    const input = new Input({ source: new BlobSource(state.file), formats: ALL_FORMATS });
+    const output = new Output({ format: new Mp4OutputFormat({ fastStart: 'in-memory' }), target: new BufferTarget() });
+
+    let audio = { discard: true };
+    if (state.hasAudio && state.keepAudio) {
+      const aacOk = await canEncodeAudio('aac', { numberOfChannels: 2, sampleRate: 48000, bitrate: AUDIO_BPS }).catch(() => false);
+      // Re-encode to 128 kbps AAC (masters often carry 320 kbps or PCM). If this
+      // browser can't encode AAC, copy the original audio track instead.
+      audio = aacOk ? { codec: 'aac', bitrate: AUDIO_BPS, numberOfChannels: 2, forceTranscode: true } : { codec: 'aac' };
+    }
+
+    const conv = await Conversion.init({
+      input, output,
+      video: { width: w, height: h, fit: 'contain', codec: 'avc', bitrate: videoBps, forceTranscode: true },
+      audio,
+    });
+    if (!conv.isValid) {
+      const why = conv.discardedTracks.map(d => `${d.track.type}: ${d.reason.replace(/_/g, ' ')}`).join(', ');
+      throw new Error(`This file can't be converted in the browser (${why}).`);
+    }
+    state.conversion = conv;
+
+    const t0 = performance.now();
+    conv.onProgress = (frac, processed) => {
+      const pct = Math.min(100, frac * 100);
+      const secs = (performance.now() - t0) / 1000;
+      const speed = secs > 1 ? processed / secs : 0;
+      const left = speed ? (state.duration - processed) / speed : 0;
+      $('pFill').style.width = pct + '%';
+      $('pPct').textContent = Math.floor(pct) + '%';
+      $('pLabel').textContent = `${fmtTime(processed)} / ${fmtTime(state.duration)}` +
+        (speed ? ` · ${speed.toFixed(1)}× real-time · about ${fmtTime(left)} left` : '');
+    };
+
+    await conv.execute();
+    const blob = new Blob([output.target.buffer], { type: 'video/mp4' });
+    input.dispose();
+
+    // Hardware encoders can land a bit over the target bitrate; if so, retry once smaller.
+    if (blob.size > p.maxBytes && !retryBps) {
+      const smaller = Math.floor(videoBps * (p.maxBytes * 0.92) / blob.size);
+      return compress(Math.max(300_000, smaller));
+    }
+    finish(blob, w, h, (performance.now() - t0) / 1000, p.maxBytes);
+  } catch (e) {
+    show($('progressCard'), false); show($('setupCard'));
+    if (e instanceof ConversionCanceledError || e?.name === 'ConversionCanceledError') {
+      $('readError').innerHTML = '<span class="t">Cancelled</span>Nothing was saved.';
+    } else {
+      $('readError').innerHTML = `<span class="t">Compression failed</span>${e?.message || e}`;
+    }
+    show($('readError'));
+  } finally {
+    state.conversion = null;
+    try { await wake?.release(); } catch {}
+  }
+}
+
+function finish(blob, w, h, secs, maxBytes) {
+  show($('progressCard'), false); show($('resultCard'));
+  if (state.outUrl) URL.revokeObjectURL(state.outUrl);
+  state.outUrl = URL.createObjectURL(blob);
+  $('preview').src = state.outUrl + '#t=0.5';   // show a real frame, not black
+  const base = state.file.name.replace(/\.[^.]+$/, '');
+  const name = `${base}-compressed.mp4`;
+  const dl = $('downloadBtn');
+  dl.href = state.outUrl; dl.download = name; dl.textContent = `Download ${fmtMB(blob.size)}`;
+  const fits = blob.size <= maxBytes;
+  $('resultNote').className = 'notice ' + (fits ? 'ok' : 'warn');
+  $('resultNote').innerHTML = `<span class="t">${fits ? '✓ Done' : 'Done — but over your size limit'}</span>
+    ${fmtMB(state.file.size)} → <b>${fmtMB(blob.size)}</b> · ${w}×${h} · ${fmtTime(state.duration)} · took ${fmtTime(secs)}
+    <br>Saved as “${name}”.${fits ? '' : ' Try a lower max size or 720p before uploading.'}`;
+}
+</script>
+</body>
+</html>

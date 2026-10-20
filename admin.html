@@ -537,6 +537,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
   <div class="topbar-spacer"></div>
   <span class="status-msg" id="statusMsg"></span>
   <button class="btn btn-ghost" onclick="openGridView()">⊞ Arrange</button>
+  <button class="btn btn-ghost" onclick="window.open('/admin/compress', '_blank')" title="Shrink a video so it fits the upload — runs in your browser">🎞 Compress video</button>
   <button class="btn btn-ghost" onclick="window.open('/', '_blank')">View Site</button>
   <button class="btn btn-primary" onclick="saveAll()">Save</button>
   <button class="btn" style="background:#22c55e;color:#fff" onclick="saveAndPublish()">Save &amp; Publish ↗</button>
@@ -844,7 +845,7 @@ function renderEditor() {
         <label>
           Source video${(getAllSources(p).length > 1) ? 's' : ''}
           <span class="field-status ${getAllSources(p).length ? 'ok' : 'missing'}" id="sourceVideoStatus">${getAllSources(p).length ? `✓ ${getAllSources(p).length} uploaded` : '○ Not uploaded'}</span>
-          <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — upload an mp4 under 50 MB; compress larger videos first. Add multiple if a project has multiple films.)</span>
+          <span style="opacity:0.5;font-size:10px;">(used by Save &amp; extract — upload an mp4 under ~36 MB; shrink larger ones with <a href="/admin/compress" target="_blank" style="color:var(--accent)">🎞 Compress video</a>. Add multiple if a project has multiple films.)</span>
         </label>
         <div class="sources-list" id="sourcesList">${sourcesHtml(p)}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="pickSourceVideo()">+ Upload source</button>
@@ -1887,8 +1888,8 @@ function pickSourceVideo() {
       } else {
         const mb = (file.size / 1024 / 1024).toFixed(0);
         throw new Error(/\.mp4$/i.test(file.name)
-          ? `This video is ${mb} MB. Compress it to an mp4 under ${SKIP_COMPRESS_MAX_MB} MB first (ask Claude to compress it), then upload.`
-          : `Please upload an .mp4 under ${SKIP_COMPRESS_MAX_MB} MB. Convert/compress this file first (ask Claude), then upload.`);
+          ? `This video is ${mb} MB — too big to upload. Shrink it first with <a href="/admin/compress" target="_blank">🎞 Compress video</a>, then upload the result.`
+          : `Please upload an .mp4. Convert this file with <a href="/admin/compress" target="_blank">🎞 Compress video</a> first, then upload the result.`);
       }
 
       const outMB = compressed.size / 1024 / 1024;
