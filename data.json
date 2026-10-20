@@ -2156,14 +2156,18 @@
       "credits": [
         [
           "Work",
-          "Online | Cleanups | 3D Cam w Graphics Comp"
+          "Online | Cleanups | Graphics Comp"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
-      "year": "2026"
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/shopee-6.6-2026-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/shopee-6.6-2026-compressed.mp4"
     }
   ],
   "categoryDefaults": {
