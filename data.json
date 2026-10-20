@@ -1441,13 +1441,13 @@
         {
           "label": "Lightning Comp",
           "start": "0:00",
-          "end": "0:01",
+          "end": "1.993",
           "clipFile": "assets/clips/shopee-3-3-0.mp4"
         },
         {
           "label": "Screen Replacement",
-          "start": "0:18",
-          "end": "0:20",
+          "start": "18.183",
+          "end": "23.113",
           "clipFile": "assets/clips/shopee-3-3-1.mp4"
         }
       ],
