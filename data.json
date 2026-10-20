@@ -100,46 +100,51 @@
       ],
       "clips": [
         {
-          "end": "0:29",
+          "end": "29.964",
           "label": "Particular / Stock Particle Comp",
-          "start": "0:27",
+          "start": "27.941",
           "clipFile": "assets/clips/phc-2026-0.mp4"
         },
         {
-          "end": "0:35",
+          "end": "35.138",
           "label": "Particular / Stock Particle Comp",
-          "start": "0:33",
+          "start": "33.308",
           "clipFile": "assets/clips/phc-2026-1.mp4"
         },
         {
-          "end": "0:37",
+          "end": "37.623",
           "label": "Particular / Stock Particle Comp",
-          "start": "0:36",
+          "start": "36.584",
           "clipFile": "assets/clips/phc-2026-2.mp4"
         },
         {
-          "end": "0:57",
+          "end": "51.973",
           "label": "Particular / Stock Particle Comp",
-          "start": "0:50",
+          "start": "48.081",
           "clipFile": "assets/clips/phc-2026-3.mp4"
         },
         {
-          "end": "1:09",
+          "end": "57.316",
           "label": "Particular / Stock Particle Comp",
-          "start": "1:07",
+          "start": "54.886",
           "clipFile": "assets/clips/phc-2026-4.mp4"
         },
         {
-          "end": "1:14",
-          "label": "Transition + Particular / Stock Particle Comp",
-          "start": "1:11",
+          "end": "70.052",
+          "label": "Particular / Stock Particle Comp",
+          "start": "64.403",
           "clipFile": "assets/clips/phc-2026-5.mp4"
         },
         {
-          "end": "1:30",
+          "end": "90.627",
           "label": "Particular / Stock Particle Comp",
-          "start": "1:22",
+          "start": "82.47",
           "clipFile": "assets/clips/phc-2026-6.mp4"
+        },
+        {
+          "label": "Transition",
+          "start": "71.395",
+          "end": "76.238"
         }
       ],
       "sourceVideo": "assets/sources/phc-2026.mp4",
