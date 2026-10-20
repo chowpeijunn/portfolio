@@ -28,21 +28,21 @@
       "sourceVideo": "assets/sources/shopee-10-10.mp4",
       "clips": [
         {
-          "end": "0:03",
-          "label": "Screen Replacement + Compositing",
+          "end": "3.144",
+          "label": "Screen Replacement + Graphics Comp",
           "start": "0:00",
           "clipFile": "assets/clips/shopee-10-10-0.mp4"
         },
         {
-          "end": "0:19",
+          "end": "19.336",
           "label": "Key + Compositing",
-          "start": "0:17",
+          "start": "16.643",
           "clipFile": "assets/clips/shopee-10-10-1.mp4"
         },
         {
-          "end": "0:23",
+          "end": "20.72",
           "label": "3D Tracking + Key + Compositing",
-          "start": "0:20",
+          "start": "19.423",
           "clipFile": "assets/clips/shopee-10-10-2.mp4"
         }
       ],
