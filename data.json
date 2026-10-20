@@ -2209,7 +2209,11 @@
           "Abundant Productions"
         ]
       ],
-      "year": "2026"
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/sg61-tiger-brokers-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/sg61-tiger-brokers-compressed.mp4"
     }
   ],
   "categoryDefaults": {
