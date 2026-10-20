@@ -1224,6 +1224,11 @@
           "start": "11.492",
           "end": "14.796",
           "clipFile": "assets/clips/solo-sliders-1.mp4"
+        },
+        {
+          "label": "Graphics Comp",
+          "start": "7.106",
+          "end": "9.23"
         }
       ],
       "sourceVideo": "assets/sources/solo-sliders.mp4",
