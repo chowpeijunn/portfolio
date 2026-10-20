@@ -679,10 +679,9 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4",
         "assets/sources/moomoo-testimonials-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/compressed_260803_moomoo-testimonial_main_16x9_digital_master.mp4",
+      "sourceVideo": "assets/sources/moomoo-testimonials-compressed.mp4",
       "year": "2026"
     },
     {
