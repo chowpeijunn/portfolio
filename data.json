@@ -183,41 +183,6 @@
     },
     {
       "slot": "before",
-      "title": "Shopee 7.7",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
-      "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
-      ],
-      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
-      "clips": [
-        {
-          "label": "Lightning Comp",
-          "start": "9.261",
-          "end": "11.798",
-          "clipFile": "assets/clips/shopee-7-7-2026-0.mp4"
-        }
-      ],
-      "year": "2026",
-      "hidden": true
-    },
-    {
-      "slot": "before",
       "title": "Jeric + Lydia",
       "category": "weddings",
       "tags": [
@@ -785,18 +750,18 @@
     },
     {
       "slot": "before",
-      "title": "Pizza Hut 45th Anniversary Brand Video",
+      "title": "Shopee Same Day Delivery",
       "category": "tvc",
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
-      "video": "https://youtu.be/UaCZbSBDrNU",
-      "client": "Pizza Hut",
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02 PM.jpg",
+      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Transitions | Cleanups | Graphics Comp"
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
         ],
         [
           "Production",
@@ -805,34 +770,40 @@
       ],
       "clips": [
         {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-0.mp4",
-          "end": "7.187",
-          "label": "Roto + Comp",
-          "start": "3.977"
+          "label": "Smoke, Screen, Sparks Comp",
+          "start": "7.157",
+          "end": "9.447",
+          "clipFile": "assets/clips/shopee-same-day-delivery-0.mp4"
         },
         {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-1.mp4",
-          "end": "3.816",
-          "label": "Lift Button Animation, Match Cut Treatment",
-          "start": "2.442"
+          "label": "Screen Replacement",
+          "start": "13.067",
+          "end": "14.129",
+          "clipFile": "assets/clips/shopee-same-day-delivery-1.mp4"
         },
         {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-2.mp4",
-          "end": "13.679",
-          "label": "Super 8 Treatment + Comp",
-          "start": "10.414"
+          "label": "Lightning and Plates Comp",
+          "start": "17.479",
+          "end": "19.796",
+          "clipFile": "assets/clips/shopee-same-day-delivery-2.mp4"
         },
         {
-          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-3.mp4",
-          "end": "8.792",
-          "label": "Rewind Treatment + Comp",
-          "start": "7.239"
+          "label": "Lightning and Plates Comp",
+          "start": "19.818",
+          "end": "22.104",
+          "clipFile": "assets/clips/shopee-same-day-delivery-3.mp4"
+        },
+        {
+          "label": "Lightning and Plates Comp",
+          "start": "22.152",
+          "end": "24.617",
+          "clipFile": "assets/clips/shopee-same-day-delivery-4.mp4"
         }
       ],
       "sourceVideos": [
-        "assets/sources/pizzahut-45th-anniversary.mp4"
+        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
       ],
-      "sourceVideo": "assets/sources/pizzahut-45th-anniversary.mp4",
+      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4",
       "year": "2026"
     },
     {
@@ -1040,18 +1011,18 @@
     },
     {
       "slot": "before",
-      "title": "Shopee Same Day Delivery",
+      "title": "Pizza Hut 45th Anniversary Brand Video",
       "category": "tvc",
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 3.28.02 PM.jpg",
-      "video": "https://youtu.be/E4LH19gz3q4?si=pqHRg7cEc_-FJxrR",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/Screenshot 2026-05-04 at 10.51.53 PM.jpg",
+      "video": "https://youtu.be/UaCZbSBDrNU",
+      "client": "Pizza Hut",
       "credits": [
         [
           "Work",
-          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
+          "Online | Transitions | Cleanups | Graphics Comp"
         ],
         [
           "Production",
@@ -1060,40 +1031,34 @@
       ],
       "clips": [
         {
-          "label": "Smoke, Screen, Sparks Comp",
-          "start": "7.157",
-          "end": "9.447",
-          "clipFile": "assets/clips/shopee-same-day-delivery-0.mp4"
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-0.mp4",
+          "end": "7.187",
+          "label": "Roto + Comp",
+          "start": "3.977"
         },
         {
-          "label": "Screen Replacement",
-          "start": "13.067",
-          "end": "14.129",
-          "clipFile": "assets/clips/shopee-same-day-delivery-1.mp4"
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-1.mp4",
+          "end": "3.816",
+          "label": "Lift Button Animation, Match Cut Treatment",
+          "start": "2.442"
         },
         {
-          "label": "Lightning and Plates Comp",
-          "start": "17.479",
-          "end": "19.796",
-          "clipFile": "assets/clips/shopee-same-day-delivery-2.mp4"
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-2.mp4",
+          "end": "13.679",
+          "label": "Super 8 Treatment + Comp",
+          "start": "10.414"
         },
         {
-          "label": "Lightning and Plates Comp",
-          "start": "19.818",
-          "end": "22.104",
-          "clipFile": "assets/clips/shopee-same-day-delivery-3.mp4"
-        },
-        {
-          "label": "Lightning and Plates Comp",
-          "start": "22.152",
-          "end": "24.617",
-          "clipFile": "assets/clips/shopee-same-day-delivery-4.mp4"
+          "clipFile": "assets/clips/pizza-hut-45th-anniversary-brand-video-3.mp4",
+          "end": "8.792",
+          "label": "Rewind Treatment + Comp",
+          "start": "7.239"
         }
       ],
       "sourceVideos": [
-        "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4"
+        "assets/sources/pizzahut-45th-anniversary.mp4"
       ],
-      "sourceVideo": "assets/sources/compress_260701_shopee-sdd_main-30s_16x9_digital_master.mp4",
+      "sourceVideo": "assets/sources/pizzahut-45th-anniversary.mp4",
       "year": "2026"
     },
     {
@@ -1201,7 +1166,7 @@
       "year": "2026"
     },
     {
-      "slot": "after",
+      "slot": "before",
       "title": "Solo Sliders",
       "category": "tvc",
       "tags": [
@@ -2113,6 +2078,75 @@
       ]
     },
     {
+      "slot": "after",
+      "title": "SG61 Tiger Brokers",
+      "category": "branded",
+      "tags": [
+        "branded"
+      ],
+      "thumb": "assets/thumbs/sg61-tiger-brokers-compressed-still-mvge32sx.jpg",
+      "video": "https://youtu.be/jsKgHTGKpdk",
+      "client": "Mediacorp Brand Studio / Tiger Brokers",
+      "credits": [
+        [
+          "Work",
+          "Online & Audio Mix | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/sg61-tiger-brokers-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/sg61-tiger-brokers-compressed.mp4",
+      "clips": [
+        {
+          "label": "Pixel Sort Transition",
+          "start": "24.814",
+          "end": "26.512",
+          "clipFile": "assets/clips/sg61-tiger-brokers-0.mp4"
+        }
+      ]
+    },
+    {
+      "slot": "before",
+      "title": "Shopee 7.7",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/Screenshot 2026-08-15 at 1.44.26 PM.jpg",
+      "video": "https://youtu.be/-UzoAuyD5R8?si=IewTKOevZ7WO9z84",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Partial VFX Supervision | Lightning Comps | Ai Gen | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4"
+      ],
+      "sourceVideo": "assets/sources/compress_260624_shopee-77_main-30s_16x9_digital_master_subless.mp4",
+      "clips": [
+        {
+          "label": "Lightning Comp",
+          "start": "9.261",
+          "end": "11.798",
+          "clipFile": "assets/clips/shopee-7-7-2026-0.mp4"
+        }
+      ],
+      "year": "2026",
+      "hidden": true
+    },
+    {
       "slot": "before",
       "title": "Ritz Carlton Wedding Showcase",
       "category": "events",
@@ -2192,40 +2226,6 @@
       "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
       "year": "2022",
       "hidden": true
-    },
-    {
-      "slot": "after",
-      "title": "SG61 Tiger Brokers",
-      "category": "branded",
-      "tags": [
-        "branded"
-      ],
-      "thumb": "assets/thumbs/sg61-tiger-brokers-compressed-still-mvge32sx.jpg",
-      "video": "https://youtu.be/jsKgHTGKpdk",
-      "client": "Mediacorp Brand Studio / Tiger Brokers",
-      "credits": [
-        [
-          "Work",
-          "Online & Audio Mix | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/sg61-tiger-brokers-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/sg61-tiger-brokers-compressed.mp4",
-      "clips": [
-        {
-          "label": "Pixel Sort Transition",
-          "start": "24.814",
-          "end": "26.512",
-          "clipFile": "assets/clips/sg61-tiger-brokers-0.mp4"
-        }
-      ]
     }
   ],
   "categoryDefaults": {
