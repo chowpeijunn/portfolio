@@ -200,7 +200,7 @@ const _dataReady = fetch('data.json?t=' + Date.now(), { cache: 'no-store' })
     // so a shared link opens straight to that category.
     const urlFilter = getUrlFilter();
     if (urlFilter && window._applyFilter) {
-      window._applyFilter(urlFilter);
+      window._applyFilter(urlFilter, { instant: true });
       centerOnHub(false);
     }
     // Always show return button
@@ -696,20 +696,45 @@ function initFilter() {
   // new cell is crossfaded (hidden across the instant grid reflow, then faded in
   // at its new spot); a card already in the right place is left untouched — so
   // nothing ever slides.
-  function applyFilter(category) {
+  // Switching filters is a quick crossfade: the cards on screen fade out, the grid
+  // swaps while they're invisible, then the new set fades in around the hub, which
+  // stays put. Nothing slides. A newer click supersedes one still mid-fade.
+  const FADE_OUT_MS = 140, FADE_IN_MS = 200;
+  let _filterRun = 0;
+
+  function applyFilter(category, opts = {}) {
     activeFilter = category;
     window._activeFilter = category;
     syncFilterUrl(category);   // keep the URL shareable (?filter=…)
     filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
 
+    const run = ++_filterRun;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const shown = Array.from(inner.querySelectorAll('.project-card')).filter(c => c.style.display !== 'none');
+    // Deep links and resizes lay out straight away; clicks fade the old set out first.
+    if (opts.instant || reduce || !shown.length) {
+      relayout(category);
+      fadeIn(run, opts.noFade || reduce);
+      return;
+    }
+    shown.forEach(c => { c.style.transition = `opacity ${FADE_OUT_MS}ms ease`; c.style.opacity = '0'; });
+    setTimeout(() => {
+      if (run !== _filterRun) return;   // a newer click took over
+      relayout(category);
+      fadeIn(run);
+    }, FADE_OUT_MS);
+  }
+
+  // Rebuild the grid for `category` (null = everything) and keep the hub where it is
+  // on screen. Touches layout only — opacity belongs to the fade.
+  function relayout(category) {
     const cards = Array.from(inner.querySelectorAll('.project-card'));
-    const old = (window._capturePositions ? window._capturePositions() : new Map());
     const hubScreen = hub.getBoundingClientRect();   // the hub stays exactly here
 
     if (!category) {
       // RESET → the main-page arrangement: every card visible, canonical order, the
       // hub back at its unfiltered position.
-      cards.forEach(c => { c.style.display = ''; c.classList.remove('hidden'); c.style.opacity = ''; c.style.transition = ''; });
+      cards.forEach(c => { c.style.display = ''; c.classList.remove('hidden'); });
       const all = cards.slice().sort(byOrder);
       const cut = Math.max(0, Math.min(all.length, window._globalBeforeCount || 0));
       all.slice(0, cut).forEach(c => inner.insertBefore(c, hub));
@@ -743,8 +768,8 @@ function initFilter() {
       let hubBefore = (layout && Number.isInteger(layout.hubBefore)) ? layout.hubBefore : Math.ceil(ordered.length / 2);
       hubBefore = Math.max(0, Math.min(ordered.length, hubBefore));
 
-      nonMatching.forEach(c => { c.style.display = 'none'; c.classList.remove('hidden'); c.style.opacity = ''; });
-      ordered.forEach(c => { c.style.display = ''; c.classList.remove('hidden'); c.style.opacity = ''; c.style.transition = ''; });
+      nonMatching.forEach(c => { c.style.display = 'none'; c.classList.remove('hidden'); });
+      ordered.forEach(c => { c.style.display = ''; c.classList.remove('hidden'); });
 
       ordered.slice(0, hubBefore).forEach(c => inner.insertBefore(c, hub));
       let ref = hub;
@@ -767,19 +792,18 @@ function initFilter() {
       inner._pinTy = (inner._ty || 0) + (hubScreen.top - hubNow.top);
       if (window._setTranslate) window._setTranslate(inner._pinTx, inner._pinTy, false);
     }
-    // Cards glide from where they were to their new cells around the still hub.
-    if (window._animateFlip) window._animateFlip(old);
-    const appeared = cards.filter(c => c.style.display !== 'none' && !old.has(c));
-    if (appeared.length) {
-      appeared.forEach(c => { c.style.transition = 'none'; c.style.opacity = '0'; });
-      void inner.offsetWidth;
-      requestAnimationFrame(() => {
-        appeared.forEach(c => { c.style.transition = 'opacity 0.45s ease'; c.style.opacity = '';
-          c.addEventListener('transitionend', function cl(){ c.style.transition = ''; c.removeEventListener('transitionend', cl); }, { once: true });
-        });
-      });
-    }
+  }
 
+  function fadeIn(run, instant) {
+    const vis = Array.from(inner.querySelectorAll('.project-card')).filter(c => c.style.display !== 'none');
+    if (instant) { vis.forEach(c => { c.style.transition = ''; c.style.opacity = ''; }); return; }
+    vis.forEach(c => { c.style.transition = 'none'; c.style.opacity = '0'; });
+    void inner.offsetWidth;   // commit opacity:0 so the change below animates from it
+    // Start the fade straight away rather than on the next animation frame, which a
+    // background tab may never deliver (that left cards stuck invisible).
+    vis.forEach(c => { c.style.transition = `opacity ${FADE_IN_MS}ms ease`; c.style.opacity = ''; });
+    // Hand transitions back to the stylesheet (card hover effects) once faded in.
+    setTimeout(() => { if (run === _filterRun) vis.forEach(c => { c.style.transition = ''; }); }, FADE_IN_MS + 40);
   }
 
   function resetFilter() {
@@ -1316,7 +1340,7 @@ initShowreel();
         // With a filter active, re-pack for the new column count (crossfade,
         // no slide) instead of the FLIP layout animation.
         if (window._activeFilter && window._applyFilter) {
-          window._applyFilter(window._activeFilter);
+          window._applyFilter(window._activeFilter, { instant: true, noFade: true });
         } else {
           animateFlip(prevPositions);
         }

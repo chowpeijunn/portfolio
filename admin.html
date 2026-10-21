@@ -2220,6 +2220,7 @@ async function saveAll() {
 let gridCols = 4;
 let gridOrder = []; // flat array of project indices currently on the board
 let hubIdx = 0;     // hub is visually inserted before gridOrder[hubIdx]
+let hubBase = 0;    // saved hub position (cards before it) — the site centres from this
 let gridDragSrc = null;
 let arrangeScope = 'main';   // 'main' = all projects → main page; else a filter value
 
@@ -2239,7 +2240,7 @@ function buildGridForScope() {
     const before = [], after = [];
     data.projects.forEach((p, i) => { if (p.hidden) return; (p.slot === 'after' ? after : before).push(i); });
     gridOrder = [...before, ...after];
-    hubIdx = before.length;
+    hubBase = before.length;
   } else {
     const matchIdx = [];
     data.projects.forEach((p, i) => { if (!p.hidden && projectMatchesFilter(p, arrangeScope)) matchIdx.push(i); });
@@ -2254,7 +2255,7 @@ function buildGridForScope() {
       ordered = matchIdx;
     }
     gridOrder = ordered;
-    hubIdx = (layout && Number.isInteger(layout.hubBefore))
+    hubBase = (layout && Number.isInteger(layout.hubBefore))
       ? Math.max(0, Math.min(ordered.length, layout.hubBefore))
       : Math.ceil(ordered.length / 2);
   }
@@ -2307,11 +2308,10 @@ function closeGridView() {
 }
 
 async function applyGridView() {
-  centerHubForCols();   // snap hub to its row's centre column so the saved position matches the live site
   if (arrangeScope === 'main') {
     const newProjects = [];
     gridOrder.forEach((idx, i) => {
-      data.projects[idx].slot = i < hubIdx ? 'before' : 'after';
+      data.projects[idx].slot = i < hubBase ? 'before' : 'after';
       newProjects.push(data.projects[idx]);
     });
     // Hidden projects aren't on the board — keep them (at the end) so they aren't lost.
@@ -2325,7 +2325,7 @@ async function applyGridView() {
     if (!data.filterLayouts || typeof data.filterLayouts !== 'object') data.filterLayouts = {};
     data.filterLayouts[arrangeScope] = {
       order: gridOrder.map(idx => data.projects[idx].title),
-      hubBefore: hubIdx
+      hubBefore: hubBase
     };
   }
   selectedIdx = null;
@@ -2336,18 +2336,24 @@ async function applyGridView() {
   await saveAll();   // persist immediately — sends the whole data.json (incl. filterLayouts)
 }
 
-// Centre hubIdx so the hub lands in the middle column for the current gridCols.
-// Even cols (2,4): hub spans 2 → target col-start = floor((cols-1)/2) from 0-based row start
-// Odd cols (3,5):  hub is 1-wide → same formula gives the centre column index
+// Place the hub exactly where the live site will for the current gridCols — a mirror of
+// updateHubSpan() in script.js. Always computed from the saved position (hubBase), never
+// from the previous column count's result, so switching 2/3/4 can't drift from the site.
 function centerHubForCols() {
-  // Target column-start (0-based within its row) so hub is centred:
-  // 2→0 (span 2 fills row), 3→1 (col 2 of 3), 4→1 (span 2 at cols 2-3), 5→2 (col 3 of 5)
-  const targetMod = Math.floor((gridCols - 1) / 2);
-  const base = hubIdx;   // nudge the CURRENT hub position onto its row's centre column — don't jump to the middle
-  const currentMod = ((base % gridCols) + gridCols) % gridCols;
-  let diff = ((targetMod - currentMod) % gridCols + gridCols) % gridCols;
-  if (diff > Math.floor(gridCols / 2)) diff -= gridCols; // pick nearest direction
-  hubIdx = Math.max(0, Math.min(gridOrder.length, base + diff));
+  const base = hubBase;
+  let target = base;
+  if (gridCols === 4) {
+    // Hub spans cols 2-3 → needs target % 4 === 1; take the nearer direction
+    let shift4 = (1 - base % 4 + 4) % 4;
+    if (shift4 > 2) shift4 -= 4;
+    target = base + shift4;
+  } else if (gridCols % 2 === 1 && base > 0) {
+    // 1-wide hub in the centre column — the site only shifts forward
+    const center = Math.floor((gridCols - 1) / 2);
+    target = base + (center - base % gridCols + gridCols) % gridCols;
+  }
+  // 2 cols: hub fills its own row; dense flow back-fills an odd count, same as the site
+  hubIdx = Math.max(0, Math.min(gridOrder.length, target));
 }
 
 // The live site's column count for the current window width (mirror script.js).
