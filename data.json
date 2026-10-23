@@ -2226,6 +2226,32 @@
       "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
       "year": "2022",
       "hidden": true
+    },
+    {
+      "slot": "after",
+      "title": "Maybank Dining Deals",
+      "category": "branded",
+      "tags": [
+        "branded"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/m0SFo3Ud8SY",
+      "client": "Maybank",
+      "credits": [
+        [
+          "Work",
+          "Online | Ai Gen *this video's footage contains only Ai generation"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
     }
   ],
   "categoryDefaults": {
