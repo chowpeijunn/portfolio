@@ -2252,6 +2252,28 @@
         "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Ian + Laetitia",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/Y19r1wvmFx0",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "year": "2026"
     }
   ],
   "categoryDefaults": {
