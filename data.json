@@ -2293,13 +2293,21 @@
       "credits": [
         [
           "Work",
-          ""
+          "Cleanups"
         ],
         [
           "Production",
-          ""
+          "Abundant Productions"
         ]
-      ]
+      ],
+      "year": "2026",
+      "videos": [
+        ""
+      ],
+      "sourceVideos": [
+        "assets/sources/261027_lta-deepavali_main_16x9_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/261027_lta-deepavali_main_16x9_digital_master-compressed.mp4"
     },
     {
       "slot": "after",
