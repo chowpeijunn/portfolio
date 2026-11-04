@@ -2282,48 +2282,6 @@
     },
     {
       "slot": "after",
-      "title": "New Project",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "",
-      "video": "",
-      "client": "",
-      "credits": [
-        [
-          "Work",
-          ""
-        ],
-        [
-          "Production",
-          ""
-        ]
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "New Project",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "",
-      "video": "",
-      "client": "",
-      "credits": [
-        [
-          "Work",
-          ""
-        ],
-        [
-          "Production",
-          ""
-        ]
-      ]
-    },
-    {
-      "slot": "after",
       "title": "LTA Deepavali",
       "category": "tvc",
       "tags": [
@@ -2346,28 +2304,6 @@
     {
       "slot": "after",
       "title": "SWDA Career Health",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "",
-      "video": "",
-      "client": "Skills and Workforce Development Agency (SWDA)",
-      "credits": [
-        [
-          "Work",
-          ""
-        ],
-        [
-          "Production",
-          ""
-        ]
-      ],
-      "year": "2026"
-    },
-    {
-      "slot": "after",
-      "title": "SWDA Career Health",
       "category": "tvc",
       "tags": [
         "tvc"
@@ -2378,11 +2314,11 @@
       "credits": [
         [
           "Work",
-          "Online | Partial VFX Supervision | Cleanups | Transitions"
+          ""
         ],
         [
           "Production",
-          "Abundant Productions"
+          ""
         ]
       ],
       "year": "2026"
