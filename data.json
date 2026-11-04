@@ -2279,6 +2279,69 @@
         "assets/sources/ian--laetitia-same-day-edit-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/ian--laetitia-same-day-edit-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "New Project",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "New Project",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "LTA Deepavali",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/Vfwip9XLV8E",
+      "client": "Land Transport Authority (LTA)",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
