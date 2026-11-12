@@ -2333,8 +2333,13 @@
       "year": "2026",
       "clips": [
         {
-          "label": "",
+          "label": "Ai Background gen + Footage Comp",
           "clipFile": "assets/clips/maybank-silverlife-upload-mwdat22e.mp4",
+          "uploaded": true
+        },
+        {
+          "label": "",
+          "clipFile": "assets/clips/maybank-silverlife-upload-mwdatztq.mp4",
           "uploaded": true
         }
       ]
