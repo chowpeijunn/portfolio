@@ -2330,7 +2330,14 @@
         "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4",
-      "year": "2026"
+      "year": "2026",
+      "clips": [
+        {
+          "label": "",
+          "clipFile": "assets/clips/maybank-silverlife-upload-mwdat22e.mp4",
+          "uploaded": true
+        }
+      ]
     }
   ],
   "categoryDefaults": {
