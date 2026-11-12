@@ -26,10 +26,7 @@ body {
   background-color: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-  cursor: grab;
 }
-
-body.dragging { cursor: grabbing; }
 
 a { color: inherit; text-decoration: none; }
 
@@ -272,29 +269,29 @@ a { color: inherit; text-decoration: none; }
 .canvas {
   position: fixed;
   inset: 0;
-  overflow: hidden;
+  /* Native scrolling — the browser's own, smooth on phones. No scrollbar: the
+     thin progress line at the top shows position instead. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   display: none;
   opacity: 0;
   transition: opacity 0.8s ease;
 }
 
 .canvas.visible { opacity: 1; }
+.canvas::-webkit-scrollbar { display: none; }
 
 .canvas-inner {
-  position: absolute;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-flow: dense;
   gap: 14px;
   padding: 14px 14px 120px;
-  width: 100vw;
-  will-change: transform;
-}
-
-/* Panning (drag/wheel) is instant — the transform only animates when we
-   deliberately glide back to the hub (centerOnHub / return button). */
-.canvas-inner.animate {
-  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  width: 100%;
 }
 
 /* Column breakpoints — capped at 4 columns, adaptive down for smaller viewports */
@@ -309,9 +306,6 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-.canvas-inner.no-transition {
-  transition: none !important;
-}
 
 
 /* ============================================

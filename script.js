@@ -213,6 +213,7 @@ const _dataReady = fetch('data.json?t=' + Date.now(), { cache: 'no-store' })
   }
 
   function warmYouTubeAPI() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;   // phones: skip, it loads ~1 MB of player JS
     const firstYT = document.querySelector('[data-video*="youtu"]');
     if (!firstYT) return;
     const id = getYouTubeId(firstYT.dataset.video || '');
@@ -248,11 +249,11 @@ const _dataReady = fetch('data.json?t=' + Date.now(), { cache: 'no-store' })
 /* ============================================
    CENTER ON HUB
    ============================================ */
-/* Global footer visibility — show only at bottom scroll limit */
+/* Global footer visibility — show only at the bottom of the scroll */
 function checkFooterVisibility() {
-  const inner = document.getElementById('canvasInner');
+  const canvas = document.getElementById('canvas');
   const introCard = document.getElementById('introCard');
-  if (!inner || !introCard) return;
+  if (!canvas || !introCard) return;
   // While a filter is active the grid is short and centred on the hub, which
   // would otherwise read as "scrolled to the bottom" and pop the footer over
   // the cards. Keep it hidden until the filter is cleared.
@@ -260,353 +261,111 @@ function checkFooterVisibility() {
     introCard.classList.remove('visible');
     return;
   }
-  const ty = inner._ty || 0;
-  const innerH = inner.scrollHeight;
-  const viewH = window.innerHeight;
-  const minY = viewH - innerH - 40;
-  if (ty <= minY + 40) {
-    introCard.classList.add('visible');
-  } else {
-    introCard.classList.remove('visible');
-  }
+  const atBottom = canvas.scrollTop >= canvas.scrollHeight - canvas.clientHeight - 40;
+  introCard.classList.toggle('visible', atBottom);
 }
 
-function centerOnHub(smooth) {
+// The grid scrolls natively inside #canvas. When the hub has to stay at a spot
+// the grid is too short to scroll to (a filter with few cards), the grid gets
+// extra top/bottom padding — empty space, so the hub can still sit there.
+function setHubPad(top, bottom) {
+  const inner = document.getElementById('canvasInner');
+  inner.style.paddingTop = '';
+  inner.style.paddingBottom = '';
+  inner._padTop = top;
+  if (!top && !bottom) return;
+  const cs = getComputedStyle(inner);
+  if (top) inner.style.paddingTop = (parseFloat(cs.paddingTop) + top) + 'px';
+  if (bottom) inner.style.paddingBottom = (parseFloat(cs.paddingBottom) + bottom) + 'px';
+}
+
+// Scroll so the hub's top edge sits `screenY` px below the top of the screen.
+// With allowPad the grid is padded when it can't scroll that far; without, the
+// scroll just stops at the grid's ends.
+function placeHub(screenY, smooth, allowPad) {
+  const canvas = document.getElementById('canvas');
   const inner = document.getElementById('canvasInner');
   const hub = document.getElementById('centerHub');
-  if (!hub || !inner) return;
-
-  const hubCenterY = hub.offsetTop + hub.offsetHeight / 2;
-
-  // Horizontal: center the hub card
-  const offsetX = window.innerWidth / 2 - hub.offsetLeft - hub.offsetWidth / 2;
-  const offsetY = window.innerHeight / 2 - hubCenterY;
-  inner._hubCenterTx = offsetX; // store so clamp can allow this position
-
-  if (smooth) {
-    inner.classList.add('animate');
-    clearTimeout(inner._animTO);
-    inner._animTO = setTimeout(() => inner.classList.remove('animate'), 600);
-  } else {
-    inner.classList.remove('animate');
+  if (!canvas || !inner || !hub) return;
+  const s0 = canvas.scrollTop, oldTop = inner._padTop || 0;
+  setHubPad(0, 0);
+  const hubTop = hub.offsetTop;
+  let target = hubTop - screenY, top = 0, bottom = 0;
+  if (allowPad) {
+    top = Math.max(0, Math.ceil(-target));
+    target += top;
+    // Measure the grid itself — the scroll height never drops below the screen.
+    bottom = Math.max(0, Math.ceil(target - (inner.offsetHeight + top - canvas.clientHeight)));
   }
-  inner.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
-  inner._tx = offsetX;
-  inner._ty = offsetY;
+  setHubPad(top, bottom);
+  target = Math.max(0, Math.min(canvas.scrollHeight - canvas.clientHeight, target));
+  if (smooth) {
+    // Padding added or removed above the view shifts the grid; cancel that out
+    // first so only the glide moves it.
+    canvas.scrollTop = s0 + top - oldTop;
+    canvas.scrollTo({ top: target, behavior: 'smooth' });
+  } else {
+    canvas.scrollTop = target;
+  }
   checkFooterVisibility();
 }
+window._placeHub = placeHub;
 
-// Re-center on resize
-window.addEventListener('resize', () => {
-  centerOnHub(false);
-});
+function centerOnHub(smooth) {
+  const canvas = document.getElementById('canvas');
+  const hub = document.getElementById('centerHub');
+  if (!canvas || !hub) return;
+  // A filter's grid is short, so let it pad to put the hub dead centre; the main
+  // grid just scrolls as close to centred as it can.
+  placeHub((canvas.clientHeight - hub.offsetHeight) / 2, smooth, !!window._activeFilter);
+}
 
 /* ============================================
    SCROLL PROGRESS
    ============================================ */
 (function () {
   const progressBar = document.getElementById('scrollProgress');
-  const inner = document.getElementById('canvasInner');
-
-  // Cache dimensions — only recalculate on resize, never during scroll
-  let cachedW = inner.scrollWidth, cachedH = inner.scrollHeight;
-  window.addEventListener('resize', () => {
-    cachedW = inner.scrollWidth;
-    cachedH = inner.scrollHeight;
-    updateProgress();
-  });
+  const canvas = document.getElementById('canvas');
+  if (!progressBar || !canvas) return;
 
   function updateProgress() {
-    if (!inner) return;
-    const maxScrollX = cachedW - window.innerWidth  + 28;
-    const maxScrollY = cachedH - window.innerHeight + 28;
-    const tx = inner._tx || 0;
-    const ty = inner._ty || 0;
-    const scrolledX = maxScrollX > 0 ? (-tx + 14) / maxScrollX : 0;
-    const scrolledY = maxScrollY > 0 ? (-ty + 14) / maxScrollY : 0;
-    const progress = Math.max(0, Math.min(1, (scrolledX + scrolledY) / 2));
+    const max = canvas.scrollHeight - canvas.clientHeight;
+    const progress = max > 0 ? Math.max(0, Math.min(1, canvas.scrollTop / max)) : 0;
     progressBar.style.width = (progress * 100) + '%';
   }
 
-  // Expose so setTranslate can call directly — no MutationObserver needed
   window._updateScrollProgress = updateProgress;
 })();
 
 /* ============================================
-   DRAG TO SCROLL with MOMENTUM & BOUNDARIES
+   SCROLL — the phone's / browser's own native scrolling inside #canvas
    ============================================ */
 (function () {
   const canvas = document.getElementById('canvas');
-  const inner = document.getElementById('canvasInner');
   const returnBtn = document.getElementById('returnBtn');
+  if (!canvas) return;
 
-  let isDragging = false;
-  let startX, startY;
-  let currentX = 0, currentY = 0;
-  let velocityX = 0, velocityY = 0;
-  let lastMoveX = 0, lastMoveY = 0;
-  let lastMoveTime = 0;
-  let momentumRAF = null;
-  // Rolling velocity: keep last N pointer samples for a stable average
-  const VEL_SAMPLES = 5;
-  let velSamples = [];
-
-  // Hub center position (computed once after centerOnHub runs)
-  let hubCenterTx = null, hubCenterTy = null;
-
-  function getTranslate() {
-    return { x: inner._tx || 0, y: inner._ty || 0 };
-  }
-
-  // Bounding box of the pannable content in inner offset-space. When a filter is
-  // active only the visible (matching) cards + hub count, so scrolling can't run off
-  // into the empty area held by the hidden outer cells; otherwise it's the whole grid.
-  function getContentBounds() {
-    if (!window._activeFilter) {
-      return { left: 0, top: 0, right: inner.scrollWidth, bottom: inner.scrollHeight };
-    }
-    let l = Infinity, t = Infinity, r = -Infinity, b = -Infinity;
-    const add = el => {
-      const L = el.offsetLeft, T = el.offsetTop;
-      if (L < l) l = L; if (T < t) t = T;
-      if (L + el.offsetWidth > r) r = L + el.offsetWidth;
-      if (T + el.offsetHeight > b) b = T + el.offsetHeight;
-    };
-    const hubEl = document.getElementById('centerHub');
-    if (hubEl) add(hubEl);
-    inner.querySelectorAll('.project-card').forEach(el => {
-      if (!el.classList.contains('hidden') && el.style.display !== 'none') add(el);
+  // Side effects of scrolling, batched to once per frame.
+  let queued = false;
+  canvas.addEventListener('scroll', () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      if (window._updateScrollProgress) window._updateScrollProgress();
+      checkFooterVisibility();
+      // Scrolling away ends a tapped card's mobile preview.
+      document.querySelectorAll('.project-card.gif-active').forEach(c => {
+        c.classList.remove('gif-active');
+        const g = c.querySelector('.card-gif');
+        if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
+      });
     });
-    if (l === Infinity) return { left: 0, top: 0, right: inner.scrollWidth, bottom: inner.scrollHeight };
-    return { left: l, top: t, right: r, bottom: b };
-  }
-
-  function clamp(x, y) {
-    const viewW = window.innerWidth;
-    const viewH = window.innerHeight;
-    const hubTx = inner._hubCenterTx || 0;
-
-    if (window._activeFilter) {
-      // Pan only within the visible cards' box (a small pad), never into empty space.
-      const bnd = getContentBounds();
-      const contentW = bnd.right - bnd.left;
-      const contentH = bnd.bottom - bnd.top;
-      let minX, maxX, minY, maxY;
-      if (contentW <= viewW) { minX = maxX = (viewW - contentW) / 2 - bnd.left; }
-      else { minX = viewW - 14 - bnd.right; maxX = 14 - bnd.left; }
-      if (contentH <= viewH) { minY = maxY = (viewH - contentH) / 2 - bnd.top; }
-      else { minY = viewH - 14 - bnd.bottom; maxY = 14 - bnd.top; }
-      // Keep the hub-centered position reachable so nothing jumps on the first pan,
-      // and the position a filter pinned the hub at, so filtering never moves it.
-      minX = Math.min(minX, hubTx); maxX = Math.max(maxX, hubTx);
-      if (inner._pinTx != null) { minX = Math.min(minX, inner._pinTx); maxX = Math.max(maxX, inner._pinTx); }
-      if (inner._pinTy != null) { minY = Math.min(minY, inner._pinTy); maxY = Math.max(maxY, inner._pinTy); }
-      return {
-        x: Math.min(maxX, Math.max(minX, x)),
-        y: Math.min(maxY, Math.max(minY, y))
-      };
-    }
-
-    const innerW = inner.scrollWidth;
-    const innerH = inner.scrollHeight;
-    // Horizontal: allow panning to hub-centered position and back to natural 0
-    const pinX = inner._pinTx != null ? inner._pinTx : hubTx;
-    const pinY = inner._pinTy != null ? inner._pinTy : viewH - innerH - 14;
-    const minX = Math.min(0, viewW - innerW, hubTx, pinX);
-    const maxX = Math.max(0, viewW - innerW, hubTx, pinX);
-    const minY = Math.min(viewH - innerH - 14, pinY);
-    const maxY = Math.max(14, pinY);
-
-    return {
-      x: Math.min(maxX, Math.max(minX, x)),
-      y: Math.min(maxY, Math.max(minY, y))
-    };
-  }
-
-  function setTranslate(x, y, smooth, skipSideEffects) {
-    const clamped = clamp(x, y);
-    inner._tx = clamped.x;
-    inner._ty = clamped.y;
-    if (smooth) {
-      inner.classList.add('animate');
-      clearTimeout(inner._animTO);
-      inner._animTO = setTimeout(() => inner.classList.remove('animate'), 600);
-    } else {
-      inner.classList.remove('animate');
-    }
-    inner.style.transform = `translate3d(${clamped.x}px, ${clamped.y}px, 0)`;
-    if (window._updateScrollProgress) window._updateScrollProgress();
-    if (!skipSideEffects) {
-      updateReturnButton();
-      checkFooterVisibility();
-    }
-  }
-
-  // Exposed so the filter can re-clamp the view into the new bounds (a no-op when
-  // already inside them, so it only snaps back if a filter shrank the content away
-  // from the current scroll position).
-  window._setTranslate = setTranslate;
-
-  // Check if we're near center hub and toggle return button
-  function updateReturnButton() {
-    returnBtn.classList.add('visible');
-  }
-
-  // Return to center — just glide back to the hub, leaving any active filter as-is.
-  returnBtn.addEventListener('click', () => {
-    stopMomentum();
-    centerOnHub(true);
-  });
-
-  function stopMomentum() {
-    if (momentumRAF) {
-      cancelAnimationFrame(momentumRAF);
-      momentumRAF = null;
-    }
-  }
-
-  function applyMomentum() {
-    const friction = 0.96;
-    velocityX *= friction;
-    velocityY *= friction;
-
-    if (Math.abs(velocityX) < 0.25 && Math.abs(velocityY) < 0.25) {
-      momentumRAF = null;
-      inner.style.willChange = 'auto';
-      updateReturnButton();
-      checkFooterVisibility();
-      return;
-    }
-
-    const pos = getTranslate();
-    setTranslate(pos.x + velocityX, pos.y + velocityY, false, true);
-    momentumRAF = requestAnimationFrame(applyMomentum);
-  }
-
-  // Mouse drag
-  canvas.addEventListener('mousedown', (e) => {
-    if (e.target.closest('button, .hub-card, .detail-overlay')) return;
-    if (document.getElementById('detailOverlay')?.classList.contains('open')) return;
-    stopMomentum();
-    isDragging = true;
-    document.body.classList.add('dragging');
-    const pos = getTranslate();
-    currentX = pos.x;
-    currentY = pos.y;
-    startX = e.clientX;
-    startY = e.clientY;
-    lastMoveX = e.clientX;
-    lastMoveY = e.clientY;
-    lastMoveTime = performance.now();
-    velocityX = 0;
-    velocityY = 0;
-    velSamples = [];
-    inner.style.willChange = 'transform';
-    inner.classList.add('no-transition');
-    e.preventDefault();
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const now = performance.now();
-    const dt = now - lastMoveTime;
-    if (dt > 0) {
-      velSamples.push({ vx: (e.clientX - lastMoveX) / dt, vy: (e.clientY - lastMoveY) / dt, t: now });
-      if (velSamples.length > VEL_SAMPLES) velSamples.shift();
-    }
-    lastMoveX = e.clientX;
-    lastMoveY = e.clientY;
-    lastMoveTime = now;
-
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    setTranslate(currentX + dx, currentY + dy, false, true);
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      document.body.classList.remove('dragging');
-      inner.classList.remove('no-transition');
-      velSamples = [];
-      inner.style.willChange = 'auto';
-    }
-  });
-
-  // Touch drag
-  canvas.addEventListener('touchstart', (e) => {
-    // Allow dragging from anywhere except UI controls (not <a> — cards are links but draggable)
-    if (e.target.closest('button, .hub-card, .detail-overlay')) return;
-    if (document.getElementById('detailOverlay')?.classList.contains('open')) return;
-    stopMomentum();
-    isDragging = true;
-    const pos = getTranslate();
-    currentX = pos.x;
-    currentY = pos.y;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    lastMoveX = e.touches[0].clientX;
-    lastMoveY = e.touches[0].clientY;
-    lastMoveTime = performance.now();
-    velocityX = 0;
-    velocityY = 0;
-    velSamples = [];
-    inner.style.willChange = 'transform';
-    inner.classList.add('no-transition');
   }, { passive: true });
 
-  window.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    document.querySelectorAll('.project-card.gif-active').forEach(c => {
-      c.classList.remove('gif-active');
-      const g = c.querySelector('.card-gif');
-      if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
-    });
-    e.preventDefault();
-    const now = performance.now();
-    const dt = now - lastMoveTime;
-    const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
-    if (dt > 0) {
-      velSamples.push({ vx: (tx - lastMoveX) / dt, vy: (ty - lastMoveY) / dt, t: now });
-      if (velSamples.length > VEL_SAMPLES) velSamples.shift();
-    }
-    lastMoveX = tx;
-    lastMoveY = ty;
-    lastMoveTime = now;
+  // Return to center — just glide back to the hub, leaving any active filter as-is.
+  if (returnBtn) returnBtn.addEventListener('click', () => centerOnHub(true));
 
-    setTranslate(currentX + (tx - startX), currentY + (ty - startY), false, true);
-  }, { passive: false });
-
-  window.addEventListener('touchend', () => {
-    if (isDragging) {
-      isDragging = false;
-      inner.classList.remove('no-transition');
-      const recent = velSamples.filter(s => performance.now() - s.t < 80);
-      if (recent.length) {
-        velocityX = recent.reduce((a, s) => a + s.vx, 0) / recent.length * 16;
-        velocityY = recent.reduce((a, s) => a + s.vy, 0) / recent.length * 16;
-      }
-      velSamples = [];
-      if (Math.abs(velocityX) > 0.5 || Math.abs(velocityY) > 0.5) {
-        momentumRAF = requestAnimationFrame(applyMomentum);
-      } else {
-        inner.style.willChange = 'auto';
-      }
-    }
-  });
-
-  // Scroll wheel / trackpad — direct 1:1, like a normal web page. No custom
-  // momentum or smoothing, so the OS's own trackpad inertia passes through
-  // untouched instead of fighting a scripted glide.
-  canvas.addEventListener('wheel', (e) => {
-    if (document.getElementById('detailOverlay')?.classList.contains('open')) return;
-    e.preventDefault();
-    stopMomentum();
-    const pos = getTranslate();
-    const dx = e.shiftKey ? -e.deltaY : -e.deltaX;
-    const dy = e.shiftKey ? 0 : -e.deltaY;
-    setTranslate(pos.x + dx, pos.y + dy, false);
-  }, { passive: false });
 })();
 
 /* ============================================
@@ -627,9 +386,13 @@ function initHoverToPlay() {
     });
   }, { rootMargin: '200px' }); // start loading 300px before card enters view
 
-  document.querySelectorAll('.card-gif[data-src]').forEach(gif => {
-    preloadObserver.observe(gif);
-  });
+  // Only where previews play on hover. On phones they play on tap, so preloading
+  // every card's video while scrolling past was wasted work — load on tap instead.
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.card-gif[data-src]').forEach(gif => {
+      preloadObserver.observe(gif);
+    });
+  }
 
   document.querySelectorAll('.project-card').forEach((card) => {
     const media = card.querySelector('.card-media');
@@ -783,14 +546,18 @@ function initFilter() {
     // re-centring the view, since that made the hub jump.
     if (window._updateHubSpan) window._updateHubSpan(true);
     void inner.offsetWidth;
-    // The re-layout moved the hub to a different grid cell. Shift the canvas by the
-    // same amount, instantly, so the hub stays put on screen (the buttons stay under
-    // the cursor); the scroll limits always allow this pinned position.
-    const hubNow = hub.getBoundingClientRect();
-    if (hubScreen.width && hubNow.width) {   // skip if the grid isn't laid out yet
-      inner._pinTx = (inner._tx || 0) + (hubScreen.left - hubNow.left);
-      inner._pinTy = (inner._ty || 0) + (hubScreen.top - hubNow.top);
-      if (window._setTranslate) window._setTranslate(inner._pinTx, inner._pinTy, false);
+    // The re-layout moved the hub to a different grid cell. Scroll by the same
+    // amount, instantly, so the hub stays put on screen (the buttons stay under the
+    // cursor) — padding the grid if it's too short to scroll there.
+    if (hubScreen.width && hub.offsetWidth) {   // skip if the grid isn't laid out yet
+      const canvas = document.getElementById('canvas');
+      // Clicking tab after tab without scrolling reuses the same spot, so sub-pixel
+      // rounding can't creep the hub along click by click.
+      const unmoved = inner._pinAnchor != null && canvas.scrollTop === inner._pinScroll;
+      const anchor = unmoved ? inner._pinAnchor : hubScreen.top - canvas.getBoundingClientRect().top;
+      window._placeHub(anchor, false, true);
+      inner._pinAnchor = anchor;
+      inner._pinScroll = canvas.scrollTop;
     }
   }
 
@@ -1126,18 +893,7 @@ initShowreel();
   });
 
   // Card click — intercept before browser navigates
-  // Track drag distance so a genuine drag doesn't open the detail
-  let _downX = 0, _downY = 0, _wasDragged = false;
-  document.addEventListener('mousedown', (e) => {
-    _downX = e.clientX; _downY = e.clientY; _wasDragged = false;
-  });
-  document.addEventListener('mousemove', (e) => {
-    if (!e.buttons) return;
-    if (Math.abs(e.clientX - _downX) > 6 || Math.abs(e.clientY - _downY) > 6) {
-      _wasDragged = true;
-    }
-  });
-  // Touch equivalent
+  // A touch that moved (a swipe, not a tap) shouldn't open the detail
   let _touchDownX = 0, _touchDownY = 0, _touchDragged = false;
   document.addEventListener('touchstart', (e) => {
     _touchDownX = e.touches[0].clientX;
@@ -1152,7 +908,7 @@ initShowreel();
   }, { passive: true });
 
   canvasInner.addEventListener('click', (e) => {
-    if (_wasDragged || _touchDragged) return;
+    if (_touchDragged) return;
     const card = e.target.closest('.project-card');
 
     // Tapping off a card clears any active mobile preview
@@ -1331,10 +1087,15 @@ initShowreel();
 
   // Only re-run when the column count actually crosses a breakpoint
   let activeCols = getGridCols();
+  let lastW = window.innerWidth;
   let resizeRAF = null;
   window.addEventListener('resize', () => {
     cancelAnimationFrame(resizeRAF);
     resizeRAF = requestAnimationFrame(() => {
+      // Height-only resizes (a phone's toolbar showing/hiding) leave the view
+      // alone — re-centring then would yank the page mid-scroll.
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
       const newCols = getGridCols();
       if (newCols !== activeCols) {
         prevPositions = capturePositions();
