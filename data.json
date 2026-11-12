@@ -2319,13 +2319,18 @@
       "credits": [
         [
           "Work",
-          ""
+          "Online }"
         ],
         [
           "Production",
           ""
         ]
-      ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/compressed_--superless_260923_nea-hawker_main_16x9_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_--superless_260923_nea-hawker_main_16x9_digital_master-compressed.mp4"
     },
     {
       "slot": "after",
