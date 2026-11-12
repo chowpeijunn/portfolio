@@ -2428,6 +2428,27 @@
           "uploaded": true
         }
       ]
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 11.11 2026",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/YvUWj_BhbgI",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
     }
   ],
   "categoryDefaults": {
