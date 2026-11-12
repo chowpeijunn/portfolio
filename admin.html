@@ -216,6 +216,11 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 /* A ready-made clip uploaded as a video (plays as a muted loop on the site) */
 .clip-upload-thumb { width: 64px; height: 36px; object-fit: cover; border-radius: 4px; background: #000; flex-shrink: 0; }
 .clip-row-uploaded .clip-label { flex: 1; }
+/* Six-dot grip — drag a row by it to change the clip order on the site */
+.clip-grip { flex-shrink: 0; display: flex; align-items: center; padding: 4px 3px; color: var(--muted); cursor: grab; touch-action: none; border-radius: 4px; }
+.clip-grip:hover { color: var(--text); background: var(--surface2); }
+.clip-row.dragging { position: relative; z-index: 5; background: var(--surface2); border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,0.5); outline: 1px solid var(--border); }
+body.clip-reordering, body.clip-reordering * { cursor: grabbing !important; user-select: none; }
 .clip-row .clip-source {
   flex: 1; min-width: 80px; max-width: 160px;
   background: var(--surface); color: var(--text);
@@ -863,9 +868,9 @@ function renderEditor() {
         <label>Clips — mark your contributions as hover-to-play segments</label>
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
-        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="uploadClipVideo()" title="Upload a ready-made video or GIF — it plays as a muted loop">+ Upload clip (video / GIF)</button>
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="uploadClipVideo()" title="Upload ready-made videos or GIFs — pick several at once; each plays as a muted loop">+ Upload clips (video / GIF)</button>
         <button class="btn btn-sm btn-save-extract" id="processClipsBtn" onclick="processClips()">💾 Save &amp; extract clips</button>
-        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4. Or use <b>+ Upload clip</b> to add a ready-made video or GIF as a looping clip (no extracting needed). Progress shows in the bottom-right corner — safe to switch projects while it runs.</div>
+        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4. Or use <b>+ Upload clips</b> to add ready-made videos or GIFs as looping clips — select several at once (no extracting needed). Drag the ⠿ dots to change the order clips appear on the site. Progress shows in the bottom-right corner — safe to switch projects while it runs.</div>
       </div>
     </div>
 
@@ -1008,11 +1013,15 @@ function sourcesHtml(p) {
     </div>`).join('');
 }
 
+const CLIP_GRIP = `<span class="clip-grip" title="Drag to reorder" aria-label="Drag to reorder" onpointerdown="startClipDrag(event, __CI__)"><svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true"><circle cx="2.5" cy="3" r="1.5"/><circle cx="7.5" cy="3" r="1.5"/><circle cx="2.5" cy="8" r="1.5"/><circle cx="7.5" cy="8" r="1.5"/><circle cx="2.5" cy="13" r="1.5"/><circle cx="7.5" cy="13" r="1.5"/></svg></span>`;
+const clipGrip = ci => CLIP_GRIP.replace('__CI__', ci);
+
 function clipRowHtml(clip, ci) {
   if (clip.uploaded) {
     // Uploaded as a ready-made video: nothing to trim or extract.
     const src = _clipLocalUrls[clip.clipFile] || ('/' + String(clip.clipFile || '').split('/').map(encodeURIComponent).join('/'));
     return `<div class="clip-row clip-row-uploaded" id="clip-${ci}">
+    ${clipGrip(ci)}
     <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
     ${/\.gif$/i.test(clip.clipFile || '')
       ? `<img class="clip-upload-thumb" src="${esc(src)}" alt="">`
@@ -1036,6 +1045,7 @@ function clipRowHtml(clip, ci) {
       }).join('')}
     </select>` : '';
   return `<div class="clip-row" id="clip-${ci}">
+    ${clipGrip(ci)}
     <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
     <input class="clip-time" type="text" value="${esc(clip.start || '')}" placeholder="In" oninput="updateClip(${ci}, 'start', this.value)" id="clip-start-${ci}">
     <input class="clip-time" type="text" value="${esc(clip.end || '')}" placeholder="Out" oninput="updateClip(${ci}, 'end', this.value)" id="clip-end-${ci}">
@@ -1518,44 +1528,65 @@ function uploadClipVideo() {
   if (!getGhToken()) { alert('Set your GitHub token (🔑 Token) first.'); return; }
   const picker = document.createElement('input');
   picker.type = 'file';
+  picker.multiple = true;   // pick several videos / GIFs at once
   picker.accept = 'video/*,.mp4,.mov,.m4v,.webm,image/gif,.gif';
   picker.onchange = async () => {
-    const file = picker.files[0];
-    if (!file) return;
+    const files = Array.from(picker.files || []);
+    if (!files.length) return;
     const projectIdx = selectedIdx;              // pin the project in case you switch mid-upload
     const project = data.projects[projectIdx];
-    const toast = makeOpToast('clipUploadToast', `Adding clip: ${project.title}`);
+    const n = files.length;
+    const toast = makeOpToast('clipUploadToast', n > 1 ? `Adding ${n} clips: ${project.title}` : `Adding clip: ${project.title}`);
     const set = (pct, label, state = '') => toast.setProgress(pct, label, state === 'live' ? 'success' : state);
     _clipUploadInFlight = true;
+    const added = [], failed = [];
     try {
-      set(0, 'Preparing…');
-      const onConv = (pct, label) => set(pct * 0.5, label);
-      const isGif = file.type === 'image/gif' || /\.gif$/i.test(file.name);
-      let made = isGif ? await makeLoopingClipFromGif(file, onConv) : await makeLoopingClip(file, onConv);
-      if (!made) {
-        // No ImageDecoder in this browser (e.g. older Safari) — upload the GIF unchanged.
-        if (file.size > 30 * 1024 * 1024) throw new Error(`This GIF is ${(file.size / 1024 / 1024).toFixed(0)} MB and this browser can't shrink it — open the admin in Chrome, or use a GIF under 30 MB.`);
-        made = { blob: file, duration: 0 };
+      // One at a time — converting several videos at once would swamp the browser.
+      for (let k = 0; k < n; k++) {
+        const file = files[k];
+        const tag = n > 1 ? `Clip ${k + 1} of ${n} · ${file.name} — ` : '';
+        // Each file gets an equal slice of the bar: first half converting, then uploading.
+        const slice = (pct, label) => set((k + pct / 100) / n * 95, tag + label);
+        try {
+          slice(0, 'Preparing…');
+          const onConv = (pct, label) => slice(pct * 0.5, label);
+          const isGif = file.type === 'image/gif' || /\.gif$/i.test(file.name);
+          let made = isGif ? await makeLoopingClipFromGif(file, onConv) : await makeLoopingClip(file, onConv);
+          if (!made) {
+            // No ImageDecoder in this browser (e.g. older Safari) — upload the GIF unchanged.
+            if (file.size > 30 * 1024 * 1024) throw new Error(`This GIF is ${(file.size / 1024 / 1024).toFixed(0)} MB and this browser can't shrink it — open the admin in Chrome, or use a GIF under 30 MB.`);
+            made = { blob: file, duration: 0 };
+          }
+          const { blob, duration } = made;
+          const ext = blob.type === 'image/gif' ? 'gif' : 'mp4';
+          const slug = (project.title || 'clip').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'clip';
+          const path = `assets/clips/${slug}-upload-${Date.now().toString(36)}.${ext}`;
+          _clipLocalUrls[path] = URL.createObjectURL(blob);
+          await githubPutLarge(path, await blobToBase64(blob), path.split('/').pop(), (pct, msg) => slice(50 + pct * 0.5, msg));
+          if (!Array.isArray(project.clips)) project.clips = [];
+          project.clips.push({ label: '', clipFile: path, uploaded: true });
+          if (selectedIdx === projectIdx) renderClipsList();
+          markDirty();
+          added.push({ path, size: blob.size, duration });
+        } catch (e) {
+          failed.push(`${file.name}: ${e?.message || e}`);
+        }
       }
-      const { blob, duration } = made;
-      const ext = blob.type === 'image/gif' ? 'gif' : 'mp4';
-      const slug = (project.title || 'clip').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'clip';
-      const path = `assets/clips/${slug}-upload-${Date.now().toString(36)}.${ext}`;
-      _clipLocalUrls[path] = URL.createObjectURL(blob);
-      await githubPutLarge(path, await blobToBase64(blob), path.split('/').pop(), (pct, msg) => set(50 + pct * 0.45, msg));
-      if (!Array.isArray(project.clips)) project.clips = [];
-      project.clips.push({ label: '', clipFile: path, uploaded: true });
-      if (selectedIdx === projectIdx) renderEditor();
-      markDirty();
+      if (!added.length) throw new Error(failed.join(' · '));
       set(96, 'Saving project…');
       await saveAll();
-      const len = duration ? `, ${duration < 10 ? duration.toFixed(1) : Math.round(duration)}s loop` : '';
-      set(100, `✓ Clip added — ${(blob.size / 1024 / 1024).toFixed(1)} MB${len}. Give it a label in Clips.`, 'success');
+      const mb = (added.reduce((a, c) => a + c.size, 0) / 1024 / 1024).toFixed(1);
+      const d = added[0].duration;
+      const what = added.length === 1
+        ? `✓ Clip added — ${mb} MB${d ? `, ${d < 10 ? d.toFixed(1) : Math.round(d)}s loop` : ''}.`
+        : `✓ ${added.length} clips added — ${mb} MB.`;
+      const fails = failed.length ? ` ${failed.length} failed — ${failed.join(' · ')}` : ' Give them a label in Clips.';
+      set(100, what + fails, failed.length ? 'error' : 'success');
       toast.allowDismiss();
       _clipUploadInFlight = false;
-      await srcUploadWaitLive(path, set);
+      if (!failed.length) await srcUploadWaitLive(added[added.length - 1].path, set);
     } catch (e) {
-      set(100, 'Clip upload failed: ' + (e?.message || e), 'error');
+      set(100, (n > 1 ? 'Clip uploads failed: ' : 'Clip upload failed: ') + (e?.message || e), 'error');
     } finally {
       toast.allowDismiss();
       _clipUploadInFlight = false;
@@ -1563,6 +1594,56 @@ function uploadClipVideo() {
   };
   picker.click();
 }
+
+// Re-draw just the clip rows (ids and handlers follow each clip's new index).
+function renderClipsList() {
+  const p = data.projects[selectedIdx];
+  const list = document.getElementById('clipsList');
+  if (p && list) list.innerHTML = (p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('');
+}
+
+// ── Reorder clips by dragging the dotted grip ─────────────────
+// The rows move live under the pointer; on release the new order is written to
+// p.clips, which is the order the clips appear on the site. Pointer events, so it
+// works with a mouse, trackpad or finger.
+function startClipDrag(e, ci) {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  e.preventDefault();
+  const list = document.getElementById('clipsList');
+  const row = document.getElementById(`clip-${ci}`);
+  if (!list || !row) return;
+  // Scrub previews are tied to row positions — close them before anything moves.
+  Object.keys(_clipPlayers).forEach(i => closeClipPreview(Number(i)));
+  list.querySelectorAll('.clip-preview').forEach(el => el.remove());
+  const rows = () => Array.from(list.querySelectorAll('.clip-row'));
+  row.classList.add('dragging');
+  document.body.classList.add('clip-reordering');
+  // Listen on window: moving the row re-inserts the grip, which drops pointer capture.
+  const move = ev => {
+    const y = ev.clientY;
+    const before = rows().find(r => r !== row && y < r.getBoundingClientRect().top + r.offsetHeight / 2);
+    if (before) { if (row.nextElementSibling !== before) list.insertBefore(row, before); }
+    else if (list.lastElementChild !== row) list.appendChild(row);
+  };
+  const end = () => {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', end);
+    window.removeEventListener('pointercancel', end);
+    row.classList.remove('dragging');
+    document.body.classList.remove('clip-reordering');
+    const order = rows().map(r => Number(r.id.slice('clip-'.length)));   // old index of each row, top to bottom
+    if (order.some((oldIdx, newIdx) => oldIdx !== newIdx)) {
+      const p = data.projects[selectedIdx];
+      p.clips = order.map(oldIdx => p.clips[oldIdx]);
+      markDirty();
+    }
+    renderClipsList();
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', end);
+  window.addEventListener('pointercancel', end);
+}
+
 
 function removeClip(ci) {
   closeClipPreview(ci);
