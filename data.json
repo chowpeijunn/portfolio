@@ -2348,6 +2348,73 @@
         ]
       ],
       "year": "2026"
+    },
+    {
+      "slot": "after",
+      "title": "Maybanj",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "New Project",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Maybank Silverlife",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "",
+      "video": "https://youtu.be/XRmPbh6CY7w?si=PQZEmIBT8091yEN7",
+      "client": "Maybank",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
     }
   ],
   "categoryDefaults": {
