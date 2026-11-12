@@ -2468,18 +2468,25 @@
       "credits": [
         [
           "Work",
-          ""
+          "Online | Ai gen + Comp | Transition"
         ],
         [
           "Production",
-          ""
+          "Abundant Productions"
         ]
       ],
       "year": "2026",
       "sourceVideos": [
         "assets/sources/compressed_261026_shopee-11.11_54s_16x9_digital_master-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/compressed_261026_shopee-11.11_54s_16x9_digital_master-compressed.mp4"
+      "sourceVideo": "assets/sources/compressed_261026_shopee-11.11_54s_16x9_digital_master-compressed.mp4",
+      "clips": [
+        {
+          "label": "Ai Background Gen + Footage Comp + Transition",
+          "start": "",
+          "end": ""
+        }
+      ]
     }
   ],
   "categoryDefaults": {
