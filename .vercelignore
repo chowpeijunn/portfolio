@@ -3,3 +3,12 @@ node_modules/
 .git/
 design_handoff_animated_logo/
 .DS_Store
+
+# Full source videos stay in GitHub (the clip extractor reads them there); the
+# site serves the short hover previews in assets/previews/ instead.
+assets/sources/
+
+# Behind-the-scenes code, not part of the website
+tools/
+.claude/
+.github/

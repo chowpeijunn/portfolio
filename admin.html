@@ -312,6 +312,7 @@ body.clip-reordering, body.clip-reordering * { cursor: grabbing !important; user
   aspect-ratio: 16 / 9;
   background: #000;
 }
+.clip-src-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 12px; text-align: center; color: var(--muted); font-size: 12px; pointer-events: none; }
 .clip-player-wrap iframe {
   position: absolute;
   inset: 0;
@@ -1771,12 +1772,14 @@ function toggleClipPreview(ci) {
     // ── Local source video (preferred) ──────────────────────────────────
     preview.innerHTML = `
       <div class="clip-player-wrap">
-        <video id="clip-vid-${ci}" src="${esc(localSrc)}" controls preload="metadata"
+        <video id="clip-vid-${ci}" controls preload="metadata"
           style="width:100%;height:100%;background:#000;display:block;"></video>
+        <div class="clip-src-loading" id="clip-vid-note-${ci}">Loading source video…</div>
       </div>${controlsHtml}`;
     row.insertAdjacentElement('afterend', preview);
 
     const vid = document.getElementById(`clip-vid-${ci}`);
+    loadSourceInto(vid, localSrc, `clip-vid-note-${ci}`);
     _clipPlayers[ci] = vid;   // store reference (duck-typed below)
     _clipTimers[ci] = setInterval(() => {
       if (!document.getElementById(`clip-preview-${ci}`)) { closeClipPreview(ci); return; }
@@ -1996,6 +1999,62 @@ function faststartRemuxBytes(bytes) {
 }
 
 // Move the moov atom to the front without touching the video streams.
+// Full source videos live in GitHub only — shipping ~2 GB of them with every Vercel
+// deployment blew the storage limit — so the admin fetches one through the GitHub
+// API when it needs it (clip scrubber, frame grab). A blob URL plays in every
+// browser and keeps the frame grab's canvas same-origin. Cached for the session.
+const _srcBlobUrls = {};
+async function sourceBlobUrl(path) {
+  if (_srcBlobUrls[path]) return _srcBlobUrls[path];
+  if (!/^assets\/sources\//.test(path)) return path;   // anything else is served by the site
+  const headers = { Accept: 'application/vnd.github.raw' };
+  if (getGhToken()) headers.Authorization = `Bearer ${getGhToken()}`;   // public repo — the token only lifts the rate limit
+  const r = await fetch(`https://api.github.com/repos/chowpeijunn/portfolio/contents/${path.split('/').map(encodeURIComponent).join('/')}?ref=main`, {
+    headers, cache: 'no-store'
+  });
+  if (!r.ok) throw new Error(`GitHub ${r.status} — is the file still in assets/sources?`);
+  const blob = new Blob([await r.arrayBuffer()], { type: 'video/mp4' });
+  return (_srcBlobUrls[path] = URL.createObjectURL(blob));
+}
+
+// Point a <video> at a source, with a "Loading…" note over it while it downloads.
+function loadSourceInto(vid, path, noteId) {
+  sourceBlobUrl(path).then(url => {
+    if (!vid.isConnected) return;
+    vid.src = url;
+    const note = document.getElementById(noteId);
+    if (note) note.remove();
+  }).catch(e => {
+    const note = document.getElementById(noteId);
+    if (note) note.textContent = 'Could not load the source video: ' + (e.message || e);
+  });
+}
+
+// The site's hover preview for a source (assets/previews/, same file name): the
+// whole video, muted, at card size — ≤540p, ~0.9 Mbps — a fraction of the source.
+async function makeHoverPreview(file, onProgress) {
+  const mb = await loadMediabunny();
+  const input = new mb.Input({ source: new mb.BlobSource(file), formats: mb.ALL_FORMATS });
+  try {
+    const vt = await input.getPrimaryVideoTrack();
+    if (!vt) throw new Error('no video found');
+    const h0 = Math.min(540, vt.displayHeight), h = h0 - (h0 % 2);
+    const w = Math.round(vt.displayWidth * h / vt.displayHeight / 2) * 2;
+    const output = new mb.Output({ format: new mb.Mp4OutputFormat({ fastStart: 'in-memory' }), target: new mb.BufferTarget() });
+    const conv = await mb.Conversion.init({
+      input, output,
+      video: { width: w, height: h, fit: 'contain', codec: 'avc', bitrate: 900_000, forceTranscode: true },
+      audio: { discard: true },
+    });
+    if (!conv.isValid) throw new Error("this video can't be converted in the browser");
+    if (onProgress) conv.onProgress = f => onProgress(f * 100);
+    await conv.execute();
+    return new Blob([output.target.buffer], { type: 'video/mp4' });
+  } finally {
+    try { input.dispose(); } catch (_) {}
+  }
+}
+
 async function remuxFastStart(file, onProgress) {
   // Fast path: rewrite the container in JS. Avoids the 30 MB ffmpeg download
   // entirely, which was the whole cost of this step for a small mp4.
@@ -2139,8 +2198,21 @@ function pickSourceVideo() {
         `assets/sources/${name}`,
         await blobToBase64(compressed),
         name,
-        (pct, msg) => set(5 + pct * 0.92, msg)
+        (pct, msg) => set(5 + pct * 0.85, msg)
       );
+      _srcBlobUrls[uploadPath] = URL.createObjectURL(compressed);   // scrub it straight away, no re-download
+
+      // The site never serves the full source — its hover preview is this cut.
+      const previewPath = uploadPath.replace(/^assets\/sources\//, 'assets/previews/');
+      let previewNote = '';
+      try {
+        const preview = await makeHoverPreview(compressed,
+          pct => set(90 + pct * 0.03, `Making hover preview… ${Math.floor(pct)}%`));
+        await githubPutLarge(previewPath, await blobToBase64(preview), previewPath.split('/').pop(),
+          (pct, msg) => set(92 + pct * 0.04, msg));
+      } catch (e) {
+        previewNote = ` (hover preview couldn't be made: ${e.message || e} — the card keeps its thumbnail on hover)`;
+      }
 
       if (!Array.isArray(project.sourceVideos)) project.sourceVideos = getAllSources(project);
       if (!project.sourceVideos.includes(uploadPath)) project.sourceVideos.push(uploadPath);
@@ -2151,10 +2223,10 @@ function pickSourceVideo() {
 
       set(97, 'Saving project…');
       await saveAll();
-      set(100, `✓ Uploaded ${name} (${outMB.toFixed(1)} MB)`, 'success');
+      set(100, `✓ Uploaded ${name} (${outMB.toFixed(1)} MB)${previewNote}`, previewNote ? 'error' : 'success');
       toast.allowDismiss();
       _sourceUploadInFlight = false;
-      await srcUploadWaitLive(uploadPath, set);
+      if (!previewNote) await srcUploadWaitLive(previewPath, set);
     } catch (err) {
       set(_srcUp ? _srcUp.pct : 100, 'Upload failed: ' + err.message, 'error');
     } finally {
@@ -2732,8 +2804,9 @@ function toggleFrameGrabber() {
   host.innerHTML = `
     <div class="clip-preview" style="margin-top:8px">
       <div class="clip-player-wrap">
-        <video id="frameGrabVid" src="${esc(src)}" controls preload="metadata"
+        <video id="frameGrabVid" controls preload="metadata"
           style="width:100%;height:100%;background:#000;display:block;"></video>
+        <div class="clip-src-loading" id="frameGrabNote">Loading source video…</div>
       </div>
       <div class="clip-controls">
         <span class="clip-current-time" id="frameGrabTime">0:00</span>
@@ -2744,6 +2817,7 @@ function toggleFrameGrabber() {
     </div>`;
 
   const vid = document.getElementById('frameGrabVid');
+  loadSourceInto(vid, src, 'frameGrabNote');
   const timer = setInterval(() => {
     if (!document.getElementById('frameGrabVid')) { clearInterval(timer); return; }
     const el = document.getElementById('frameGrabTime');

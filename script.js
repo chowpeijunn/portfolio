@@ -31,6 +31,12 @@ function categoryLabel(cat) {
   return CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
 }
 
+// Full source videos (assets/sources/) live in GitHub only — shipping ~2 GB of them
+// with every Vercel deployment blew the storage limit. The site uses each one's
+// card-size hover preview instead (assets/previews/<same name>, made on upload).
+const isFullSource = src => /^assets\/sources\//.test(src || '');
+const previewForSource = src => isFullSource(src) ? src.replace(/^assets\/sources\//, 'assets/previews/') : (src || '');
+
 // Shareable filter links (?filter=weddings). Friendly slugs in the URL map to the
 // internal filter values, so a link stays readable (e.g. ?filter=branded-content).
 const FILTER_SLUGS = { weddings: 'weddings', branded: 'branded-content', events: 'events', tvc: 'tvc' };
@@ -75,9 +81,7 @@ function renderCards(projects) {
     // Hover preview — lazy loaded via data-src, shown on hover/tap (no YouTube UI).
     // Source priority: explicit p.preview override → first sourceVideos[] entry → legacy p.sourceVideo.
     const previewSrc = p.preview
-      || (Array.isArray(p.sourceVideos) && p.sourceVideos[0])
-      || p.sourceVideo
-      || '';
+      || previewForSource((Array.isArray(p.sourceVideos) && p.sourceVideos[0]) || p.sourceVideo || '');
     const isPreviewVideo = /\.(mp4|webm|mov)$/i.test(previewSrc);
     const gifEl = previewSrc
       ? (isPreviewVideo
@@ -394,8 +398,11 @@ function initHoverToPlay() {
 
     if (gif) {
       const isVideo = gif.tagName === 'VIDEO';
+      // No preview file (yet) — drop it so hovering just keeps the thumbnail.
+      gif.addEventListener('error', () => gif.remove());
       card.addEventListener('mouseenter', () => {
         if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src; // fallback if not yet observed
+        if (isVideo) gif.preload = 'auto';   // hovering: buffer now — Safari otherwise starts slowly
         gif.style.opacity = '1';
         if (isVideo) gif.play().catch(() => {});
       });
@@ -726,6 +733,52 @@ initShowreel();
   // Loop each source-segment clip between its in and out points. The check runs
   // every frame — timeupdate only fires ~4×/s, which let a few frames of the next
   // shot slip past the out point — and stops once closing the overlay removes them.
+  // Clips of the same length are a set made to loop together (e.g. MooMoo's row of
+  // GIFs). Each video starts whenever it finishes loading, which staggers them, so
+  // once a set can play it is restarted from the top in one go, then any clip that
+  // drifts more than a frame or so from the first is nudged back into step.
+  function syncClipGroups(root) {
+    const vids = Array.from(root.querySelectorAll('.detail-clip-inner video:not(.clip-seg)'));
+    if (vids.length < 2) return;
+    const once = (v, ev, ms) => new Promise(r => {
+      const t = setTimeout(r, ms);
+      v.addEventListener(ev, () => { clearTimeout(t); r(); }, { once: true });
+    });
+    const meta = v => v.readyState >= 1 ? Promise.resolve() : once(v, 'loadedmetadata', 4000);
+    Promise.all(vids.map(meta)).then(() => {
+      const timed = vids.filter(v => isFinite(v.duration) && v.duration > 0).sort((a, b) => a.duration - b.duration);
+      const groups = [];
+      timed.forEach(v => {
+        const g = groups[groups.length - 1];
+        if (g && Math.abs(v.duration - g[0].duration) < 0.05) g.push(v); else groups.push([v]);
+      });
+      groups.filter(g => g.length > 1).forEach(playInStep);
+    });
+    function playInStep(group) {
+      const canPlay = v => v.readyState >= 3 ? Promise.resolve() : once(v, 'canplay', 4000);
+      Promise.all(group.map(canPlay)).then(async () => {
+        if (!group[0].isConnected) return;
+        // Park every clip on its first frame, then start them all in the same tick.
+        group.forEach(v => v.pause());
+        await Promise.all(group.map(v => { const done = once(v, 'seeked', 1000); try { v.currentTime = 0; } catch (_) {} return done; }));
+        if (!group[0].isConnected) return;
+        group.forEach(v => v.play().catch(() => {}));
+        const lead = group[0], dur = lead.duration, slack = 0.045;   // ~1 frame
+        const timer = setInterval(() => {
+          if (!lead.isConnected) { clearInterval(timer); return; }
+          if (lead.paused || lead.seeking) return;
+          group.slice(1).forEach(v => {
+            if (v.seeking) return;
+            let off = (v.currentTime - lead.currentTime) % dur;
+            if (off > dur / 2) off -= dur; else if (off < -dur / 2) off += dur;
+            if (Math.abs(off) > slack) { try { v.currentTime = lead.currentTime; } catch (_) {} }
+            if (v.paused) v.play().catch(() => {});
+          });
+        }, 250);
+      });
+    }
+  }
+
   function initClipPlayers(root) {
     const segs = Array.from(root.querySelectorAll('video.clip-seg'));
     if (!segs.length) return;
@@ -828,7 +881,9 @@ initShowreel();
         // hasn't been extracted yet, the resolved in/out seconds, and a still fallback.
         const resolved = clips.map(c => ({
           ...c,
-          _src: c.sourceVideo || projSrc,
+          // A full source isn't deployed, so an unextracted clip shows its still
+          // (below) until Save & extract cuts it.
+          _src: isFullSource(c.sourceVideo || projSrc) ? '' : (c.sourceVideo || projSrc),
           _start: parseTimecode(c.start || 0),
           _end:   parseTimecode(c.end   || 0),
           _thumb: ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : (project.thumb || '')
@@ -836,6 +891,7 @@ initShowreel();
         detailClipsEl.innerHTML = resolved.map((c, i) => makeClipEl(c, i)).join('');
         detailClipsEl.style.display = 'grid';
         initClipPlayers(detailClipsEl);
+        syncClipGroups(detailClipsEl);
       } else {
         detailClipsEl.innerHTML = '';
         detailClipsEl.style.display = 'none';
