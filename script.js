@@ -354,12 +354,6 @@ function centerOnHub(smooth) {
       queued = false;
       if (window._updateScrollProgress) window._updateScrollProgress();
       checkFooterVisibility();
-      // Scrolling away ends a tapped card's mobile preview.
-      document.querySelectorAll('.project-card.gif-active').forEach(c => {
-        c.classList.remove('gif-active');
-        const g = c.querySelector('.card-gif');
-        if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
-      });
     });
   }, { passive: true });
 
@@ -386,13 +380,13 @@ function initHoverToPlay() {
     });
   }, { rootMargin: '200px' }); // start loading 300px before card enters view
 
-  // Only where previews play on hover. On phones they play on tap, so preloading
-  // every card's video while scrolling past was wasted work — load on tap instead.
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    document.querySelectorAll('.card-gif[data-src]').forEach(gif => {
-      preloadObserver.observe(gif);
-    });
-  }
+  // Previews are a desktop (hover) feature. Phones and iPads — whose main pointer
+  // is a finger and can't hover — get no preview at all: a tap opens the project.
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  document.querySelectorAll('.card-gif[data-src]').forEach(gif => {
+    preloadObserver.observe(gif);
+  });
 
   document.querySelectorAll('.project-card').forEach((card) => {
     const media = card.querySelector('.card-media');
@@ -910,44 +904,8 @@ initShowreel();
   canvasInner.addEventListener('click', (e) => {
     if (_touchDragged) return;
     const card = e.target.closest('.project-card');
-
-    // Tapping off a card clears any active mobile preview
-    if (!card) {
-      document.querySelectorAll('.project-card.gif-active').forEach(c => {
-        c.classList.remove('gif-active');
-        const g = c.querySelector('.card-gif');
-        if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
-      });
-      return;
-    }
-
+    if (!card) return;
     e.preventDefault();
-
-    // On touch devices: first tap → preview, second tap → open detail
-    if ('ontouchstart' in window) {
-      const gif = card.querySelector('.card-gif');
-      if (gif && gif.dataset.src) {
-        // Preview path — works for both <img> (gif) and <video> (mp4)
-        const isActive = card.classList.contains('gif-active');
-        const isVideo = gif.tagName === 'VIDEO';
-        // Clear all other previews
-        document.querySelectorAll('.project-card.gif-active').forEach(c => {
-          c.classList.remove('gif-active');
-          const g = c.querySelector('.card-gif');
-          if (g) { g.style.opacity = '0'; if (g.tagName === 'VIDEO') g.pause(); }
-        });
-        if (!isActive) {
-          // First tap — show preview
-          if (!gif.src && gif.dataset.src) gif.src = gif.dataset.src;
-          gif.style.opacity = '1';
-          if (isVideo) gif.play().catch(() => {});
-          card.classList.add('gif-active');
-          return; // don't open detail yet
-        }
-        // Second tap — GIF was active, clear it and fall through to openDetail
-      }
-      // Cards without a preview video open straight away — no YouTube embed preview.
-    }
 
     openDetail(card);
   });

@@ -19,6 +19,7 @@
 html, body {
   height: 100%;
   overflow: hidden;
+  overscroll-behavior: none;   /* no whole-page bounce stealing a swipe from the grid */
 }
 
 body {
@@ -231,7 +232,10 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-.nav.visible { opacity: 1; pointer-events: auto; }
+/* The bar itself never catches touches — it's empty and spans the top of the
+   screen, so it blocked any swipe that started there. Only its contents do. */
+.nav.visible { opacity: 1; }
+.nav.visible > * { pointer-events: auto; }
 
 .nav-left {
   display: flex;
