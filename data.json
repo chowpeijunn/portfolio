@@ -805,7 +805,14 @@
         "assets/sources/compressed_subless_260803_moomoo-testimonial_main_16x9_digital_master-compressed-2.mp4"
       ],
       "sourceVideo": "assets/sources/compressed_subless_260803_moomoo-testimonial_main_16x9_digital_master-compressed-2.mp4",
-      "year": "2026"
+      "year": "2026",
+      "clips": [
+        {
+          "label": "",
+          "clipFile": "assets/clips/moomoo-testimonials-upload-mwdikk8o.mp4",
+          "uploaded": true
+        }
+      ]
     },
     {
       "slot": "before",
