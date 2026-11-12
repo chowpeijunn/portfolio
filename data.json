@@ -2398,8 +2398,33 @@
       "clips": [
         {
           "label": "Ai Background Gen + Footage Comp + Transition",
-          "start": "",
-          "end": ""
+          "start": "19.251",
+          "end": "22.537"
+        },
+        {
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "22.692",
+          "end": "25.282"
+        },
+        {
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "31.621",
+          "end": "32.781"
+        },
+        {
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "25.436",
+          "end": "29.225"
+        },
+        {
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "35.41",
+          "end": "36.647"
+        },
+        {
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "46.891",
+          "end": "48.862"
         }
       ]
     }
