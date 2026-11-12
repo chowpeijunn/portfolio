@@ -808,8 +808,13 @@
       "year": "2026",
       "clips": [
         {
-          "label": "",
+          "label": "Ai Relight",
           "clipFile": "assets/clips/moomoo-testimonials-upload-mwdikk8o.mp4",
+          "uploaded": true
+        },
+        {
+          "label": "",
+          "clipFile": "assets/clips/moomoo-testimonials-upload-mwdiktsr.mp4",
           "uploaded": true
         }
       ]
