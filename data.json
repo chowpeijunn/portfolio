@@ -2399,32 +2399,38 @@
         {
           "label": "Ai Background Gen + Footage Comp + Transition",
           "start": "19.251",
-          "end": "22.537"
+          "end": "22.537",
+          "clipFile": "assets/clips/shopee-11-11-2026-0.mp4"
         },
         {
           "label": "Ai Background Gen + Footage Comp",
           "start": "22.692",
-          "end": "25.282"
+          "end": "25.282",
+          "clipFile": "assets/clips/shopee-11-11-2026-1.mp4"
         },
         {
           "label": "Ai Background Gen + Footage Comp",
           "start": "31.621",
-          "end": "32.781"
+          "end": "32.781",
+          "clipFile": "assets/clips/shopee-11-11-2026-2.mp4"
         },
         {
           "label": "Ai Background Gen + Footage Comp",
           "start": "25.436",
-          "end": "29.225"
+          "end": "29.225",
+          "clipFile": "assets/clips/shopee-11-11-2026-3.mp4"
         },
         {
           "label": "Ai Background Gen + Footage Comp",
           "start": "35.41",
-          "end": "36.647"
+          "end": "36.647",
+          "clipFile": "assets/clips/shopee-11-11-2026-4.mp4"
         },
         {
           "label": "Ai Background Gen + Footage Comp",
           "start": "46.891",
-          "end": "48.862"
+          "end": "48.862",
+          "clipFile": "assets/clips/shopee-11-11-2026-5.mp4"
         }
       ]
     }
