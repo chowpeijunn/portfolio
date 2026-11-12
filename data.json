@@ -809,21 +809,6 @@
       "clips": [
         {
           "label": "Ai Relight",
-          "clipFile": "assets/clips/moomoo-testimonials-upload-mwdikk8o.mp4",
-          "uploaded": true
-        },
-        {
-          "label": "Ai Relight",
-          "clipFile": "assets/clips/moomoo-testimonials-upload-mwdiktsr.mp4",
-          "uploaded": true
-        },
-        {
-          "label": "Ai Relight",
-          "clipFile": "assets/clips/moomoo-testimonials-upload-mwdil5ib.mp4",
-          "uploaded": true
-        },
-        {
-          "label": "Ai Relight",
           "clipFile": "assets/clips/moomoo-testimonials-upload-mwdin4yo.mp4",
           "uploaded": true
         },
@@ -858,8 +843,13 @@
           "uploaded": true
         },
         {
-          "label": "",
+          "label": "Ai Relight",
           "clipFile": "assets/clips/moomoo-testimonials-upload-mwdipey5.mp4",
+          "uploaded": true
+        },
+        {
+          "label": "",
+          "clipFile": "assets/clips/moomoo-testimonials-upload-mwdipm6i.mp4",
           "uploaded": true
         }
       ]
