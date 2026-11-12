@@ -863,9 +863,9 @@ function renderEditor() {
         <label>Clips — mark your contributions as hover-to-play segments</label>
         <div class="clips-list" id="clipsList">${(p.clips || []).map((c, ci) => clipRowHtml(c, ci)).join('')}</div>
         <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="addClip()">+ Add clip</button>
-        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="uploadClipVideo()" title="Upload a ready-made video — it plays as a muted loop, like a GIF">+ Upload clip video</button>
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="uploadClipVideo()" title="Upload a ready-made video or GIF — it plays as a muted loop">+ Upload clip (video / GIF)</button>
         <button class="btn btn-sm btn-save-extract" id="processClipsBtn" onclick="processClips()">💾 Save &amp; extract clips</button>
-        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4. Or use <b>+ Upload clip video</b> to add a ready-made video as a looping clip (no extracting needed). Progress shows in the bottom-right corner — safe to switch projects while it runs.</div>
+        <div class="clip-hint">Hit ⏱ to set times, then click Save &amp; extract — the runner trims the uploaded Source video and embeds each clip as a local mp4. Or use <b>+ Upload clip</b> to add a ready-made video or GIF as a looping clip (no extracting needed). Progress shows in the bottom-right corner — safe to switch projects while it runs.</div>
       </div>
     </div>
 
@@ -1014,7 +1014,9 @@ function clipRowHtml(clip, ci) {
     const src = _clipLocalUrls[clip.clipFile] || ('/' + String(clip.clipFile || '').split('/').map(encodeURIComponent).join('/'));
     return `<div class="clip-row clip-row-uploaded" id="clip-${ci}">
     <input class="clip-label" type="text" value="${esc(clip.label || '')}" placeholder="Label (e.g. Direction)" oninput="updateClip(${ci}, 'label', this.value)">
-    <video class="clip-upload-thumb" src="${esc(src)}" muted loop autoplay playsinline preload="metadata"></video>
+    ${/\.gif$/i.test(clip.clipFile || '')
+      ? `<img class="clip-upload-thumb" src="${esc(src)}" alt="">`
+      : `<video class="clip-upload-thumb" src="${esc(src)}" muted loop autoplay playsinline preload="metadata"></video>`}
     <span class="field-status ok" title="${esc(clip.clipFile)}">🎞 Uploaded clip</span>
     <button class="credit-remove" onclick="removeClip(${ci})" title="Remove clip">×</button>
   </div>`;
@@ -1467,12 +1469,56 @@ async function makeLoopingClip(file, onProgress) {
   }
 }
 
+// A GIF becomes the same muted looping mp4: ImageDecoder hands back each fully
+// composited frame with its delay, drawn onto a canvas and encoded by Mediabunny.
+// An mp4 is a fraction of the GIF's size and keeps full colour. Returns null when
+// the browser has no ImageDecoder, so the caller can upload the GIF as it is.
+async function makeLoopingClipFromGif(file, onProgress) {
+  if (!('ImageDecoder' in window) || !('VideoEncoder' in window)) return null;
+  if (!(await ImageDecoder.isTypeSupported('image/gif'))) return null;
+  const mb = await loadMediabunny();
+  const dec = new ImageDecoder({ data: await file.arrayBuffer(), type: 'image/gif' });
+  try {
+    await dec.tracks.ready;
+    await dec.completed;
+    const n = dec.tracks.selectedTrack.frameCount;
+    if (!n) throw new Error('No frames found in that GIF.');
+    const first = (await dec.decode({ frameIndex: 0 })).image;
+    const h0 = Math.min(720, first.displayHeight), h = Math.max(2, h0 - (h0 % 2));
+    const w = Math.max(2, Math.round(first.displayWidth * h / first.displayHeight / 2) * 2);
+    first.close();
+    const canvas = new OffscreenCanvas(w, h);
+    const ctx = canvas.getContext('2d');
+    const output = new mb.Output({ format: new mb.Mp4OutputFormat({ fastStart: 'in-memory' }), target: new mb.BufferTarget() });
+    const source = new mb.CanvasSource(canvas, { codec: 'avc', bitrate: 2_500_000 });
+    output.addVideoTrack(source);
+    await output.start();
+    let t = 0;
+    for (let i = 0; i < n; i++) {
+      const frame = (await dec.decode({ frameIndex: i })).image;
+      // Browsers play GIF delays of 10 ms or less at 100 ms — match what you'd see.
+      const dur = (frame.duration && frame.duration > 10_000 ? frame.duration : 100_000) / 1e6;
+      ctx.fillStyle = '#000';   // transparent areas land on black, like the clip frame
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(frame, 0, 0, w, h);
+      frame.close();
+      await source.add(t, dur);
+      t += dur;
+      onProgress((i + 1) / n * 100, `Converting GIF to a looping clip… ${Math.floor((i + 1) / n * 100)}%`);
+    }
+    await output.finalize();
+    return { blob: new Blob([output.target.buffer], { type: 'video/mp4' }), duration: t };
+  } finally {
+    try { dec.close(); } catch (_) {}
+  }
+}
+
 function uploadClipVideo() {
   if (_clipUploadInFlight) { alert('A clip upload is already running. Wait for it to finish, or dismiss the progress card first.'); return; }
   if (!getGhToken()) { alert('Set your GitHub token (🔑 Token) first.'); return; }
   const picker = document.createElement('input');
   picker.type = 'file';
-  picker.accept = 'video/*,.mp4,.mov,.m4v,.webm';
+  picker.accept = 'video/*,.mp4,.mov,.m4v,.webm,image/gif,.gif';
   picker.onchange = async () => {
     const file = picker.files[0];
     if (!file) return;
@@ -1483,9 +1529,18 @@ function uploadClipVideo() {
     _clipUploadInFlight = true;
     try {
       set(0, 'Preparing…');
-      const { blob, duration } = await makeLoopingClip(file, (pct, label) => set(pct * 0.5, label));
+      const onConv = (pct, label) => set(pct * 0.5, label);
+      const isGif = file.type === 'image/gif' || /\.gif$/i.test(file.name);
+      let made = isGif ? await makeLoopingClipFromGif(file, onConv) : await makeLoopingClip(file, onConv);
+      if (!made) {
+        // No ImageDecoder in this browser (e.g. older Safari) — upload the GIF unchanged.
+        if (file.size > 30 * 1024 * 1024) throw new Error(`This GIF is ${(file.size / 1024 / 1024).toFixed(0)} MB and this browser can't shrink it — open the admin in Chrome, or use a GIF under 30 MB.`);
+        made = { blob: file, duration: 0 };
+      }
+      const { blob, duration } = made;
+      const ext = blob.type === 'image/gif' ? 'gif' : 'mp4';
       const slug = (project.title || 'clip').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'clip';
-      const path = `assets/clips/${slug}-upload-${Date.now().toString(36)}.mp4`;
+      const path = `assets/clips/${slug}-upload-${Date.now().toString(36)}.${ext}`;
       _clipLocalUrls[path] = URL.createObjectURL(blob);
       await githubPutLarge(path, await blobToBase64(blob), path.split('/').pop(), (pct, msg) => set(50 + pct * 0.45, msg));
       if (!Array.isArray(project.clips)) project.clips = [];
@@ -1494,7 +1549,8 @@ function uploadClipVideo() {
       markDirty();
       set(96, 'Saving project…');
       await saveAll();
-      set(100, `✓ Clip added — ${(blob.size / 1024 / 1024).toFixed(1)} MB, ${Math.round(duration)}s loop. Give it a label in Clips.`, 'success');
+      const len = duration ? `, ${duration < 10 ? duration.toFixed(1) : Math.round(duration)}s loop` : '';
+      set(100, `✓ Clip added — ${(blob.size / 1024 / 1024).toFixed(1)} MB${len}. Give it a label in Clips.`, 'success');
       toast.allowDismiss();
       _clipUploadInFlight = false;
       await srcUploadWaitLive(path, set);

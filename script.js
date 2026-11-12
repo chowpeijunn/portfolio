@@ -939,7 +939,10 @@ initShowreel();
   function makeClipEl(clip, i) {
     const label = clip.label ? `<span class="detail-clip-label">${escapeHtml(clip.label)}</span>` : '';
     let media = '';
-    if (clip.clipFile) {
+    if (clip.clipFile && /\.gif$/i.test(clip.clipFile)) {
+      // Uploaded GIF kept as-is (the browser couldn't convert it) — loops on its own.
+      media = `<img class="detail-clip-still" src="${escapeHtml(clip.clipFile)}" alt="${escapeHtml(clip.label || '')}">`;
+    } else if (clip.clipFile) {
       // Extracted clip — a short muted mp4 that loops on its own.
       media = `<video autoplay muted loop playsinline preload="auto" src="${escapeHtml(clip.clipFile)}"></video>`;
     } else if (clip._src && clip._end > clip._start) {
