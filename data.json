@@ -1079,7 +1079,8 @@
         {
           "label": "Graphics Comp",
           "start": "7.106",
-          "end": "9.23"
+          "end": "9.23",
+          "clipFile": "assets/clips/solo-sliders-2.mp4"
         }
       ],
       "sourceVideo": "assets/sources/solo-sliders.mp4",
