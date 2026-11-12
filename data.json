@@ -2308,12 +2308,33 @@
     },
     {
       "slot": "after",
-      "title": "Maybank Silverlife",
-      "category": "tvc",
+      "title": "NEA Hawker",
+      "category": "branded",
       "tags": [
-        "tvc"
+        "branded"
       ],
-      "thumb": "assets/thumbs/maybank-sunrise-thumbnail.jpg",
+      "thumb": "",
+      "video": "https://youtu.be/T2vhJprcyFk",
+      "client": "National Environment Agency",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Maybank Silverlife",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
       "video": "https://youtu.be/XRmPbh6CY7w",
       "client": "Maybank",
       "credits": [
@@ -2326,23 +2347,7 @@
           "Abundant Productions"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4",
-      "year": "2026",
-      "clips": [
-        {
-          "label": "Ai Background gen + Footage Comp",
-          "clipFile": "assets/clips/maybank-silverlife-upload-mwdat22e.mp4",
-          "uploaded": true
-        },
-        {
-          "label": "Ai Background gen + Footage Comp",
-          "clipFile": "assets/clips/maybank-silverlife-upload-mwdatztq.mp4",
-          "uploaded": true
-        }
-      ]
+      "year": "2026"
     }
   ],
   "categoryDefaults": {
