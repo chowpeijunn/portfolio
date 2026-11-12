@@ -5,66 +5,18 @@
   "projects": [
     {
       "slot": "before",
-      "title": "Shopee 10.10",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.jpg",
-      "video": "https://youtu.be/1VhaWAZnVWc",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Key & Rotoscoping | Set extensions"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "sourceVideo": "assets/sources/shopee-10-10.mp4",
-      "clips": [
-        {
-          "end": "3.144",
-          "label": "Screen Replacement + Graphics Comp",
-          "start": "0:00",
-          "clipFile": "assets/clips/shopee-10-10-0.mp4"
-        },
-        {
-          "end": "19.336",
-          "label": "Key + Compositing",
-          "start": "16.643",
-          "clipFile": "assets/clips/shopee-10-10-1.mp4"
-        },
-        {
-          "end": "20.72",
-          "label": "3D Tracking + Key + Compositing",
-          "start": "19.423",
-          "clipFile": "assets/clips/shopee-10-10-2.mp4"
-        }
-      ],
-      "sourceVideos": [
-        "assets/sources/shopee-10-10.mp4"
-      ],
-      "year": "2025"
-    },
-    {
-      "slot": "before",
-      "title": "Kyle + Ysien",
+      "title": "Jeric + Lydia",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/wedding-04.jpg",
-      "video": "https://youtu.be/NehXTHu9H1s",
+      "thumb": "assets/thumbs/thumbnail-jericlydia.png",
+      "video": "https://youtu.be/sWIkJ65nBt4",
       "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Editor"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
@@ -72,10 +24,36 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/kyle-ysien.mp4"
+        "assets/sources/jeric-lydia.mp4"
       ],
-      "sourceVideo": "assets/sources/kyle-ysien.mp4",
+      "sourceVideo": "assets/sources/jeric-lydia.mp4",
       "year": "2024"
+    },
+    {
+      "slot": "before",
+      "title": "Ivan + Jocelyn",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/53006978956_594f0c2b31_b.jpg",
+      "video": "https://youtu.be/7YCSG7n4Q3s",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/ivan-jocelyn.mp4"
+      ],
+      "sourceVideo": "assets/sources/ivan-jocelyn.mp4",
+      "year": "2023"
     },
     {
       "slot": "before",
@@ -183,29 +161,51 @@
     },
     {
       "slot": "before",
-      "title": "Jeric + Lydia",
-      "category": "weddings",
+      "title": "Shopee 10.10",
+      "category": "tvc",
       "tags": [
-        "weddings"
+        "tvc",
+        "ads",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/thumbnail-jericlydia.jpg",
-      "video": "https://youtu.be/sWIkJ65nBt4",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-9.17.31pm.png",
+      "video": "https://youtu.be/1VhaWAZnVWc",
+      "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Online | Cleanups | Key & Rotoscoping | Set extensions"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/jeric-lydia.mp4"
+      "sourceVideo": "assets/sources/shopee-10-10.mp4",
+      "clips": [
+        {
+          "end": "3.144",
+          "label": "Screen Replacement + Graphics Comp",
+          "start": "0:00",
+          "clipFile": "assets/clips/shopee-10-10-0.mp4"
+        },
+        {
+          "end": "19.336",
+          "label": "Key + Compositing",
+          "start": "16.643",
+          "clipFile": "assets/clips/shopee-10-10-1.mp4"
+        },
+        {
+          "end": "20.72",
+          "label": "3D Tracking + Key + Compositing",
+          "start": "19.423",
+          "clipFile": "assets/clips/shopee-10-10-2.mp4"
+        }
       ],
-      "sourceVideo": "assets/sources/jeric-lydia.mp4",
-      "year": "2024"
+      "sourceVideos": [
+        "assets/sources/shopee-10-10.mp4"
+      ],
+      "year": "2025"
     },
     {
       "slot": "before",
@@ -243,7 +243,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/heart-of-the-spirit-macallan-c.jpg",
+      "thumb": "assets/thumbs/heart-of-the-spirit-macallan.png",
       "video": "https://youtu.be/w7In-QMwguo",
       "client": "The Macallan",
       "credits": [
@@ -295,29 +295,45 @@
     },
     {
       "slot": "before",
-      "title": "Ivan + Jocelyn",
-      "category": "weddings",
+      "title": "Samyang Buldak Carbonara",
+      "category": "tvc",
       "tags": [
-        "weddings"
+        "tvc",
+        "ads",
+        "branded content"
       ],
-      "thumb": "assets/thumbs/53006978956_594f0c2b31_b.jpg",
-      "video": "https://youtu.be/7YCSG7n4Q3s",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/samyang-buldak-kfc.jpg",
+      "video": "https://youtu.be/YhajWC0WMx8",
+      "client": "KFC",
       "credits": [
         [
           "Work",
-          "Project Lead | 1st Videographer | Editor"
+          "Online | Cleanups | Skin retouching"
         ],
         [
           "Production",
-          "AndroidsinBoots"
+          "Abundant Productions"
         ]
       ],
-      "sourceVideos": [
-        "assets/sources/ivan-jocelyn.mp4"
+      "clips": [
+        {
+          "clipFile": "assets/clips/samyang-buldak-carbonara-0.mp4",
+          "end": "0:27",
+          "label": "Stabilise, Cleanup",
+          "start": "0:20"
+        },
+        {
+          "clipFile": "assets/clips/samyang-buldak-carbonara-1.mp4",
+          "end": "0:15",
+          "label": "Skin Retouch",
+          "start": "0:13"
+        }
       ],
-      "sourceVideo": "assets/sources/ivan-jocelyn.mp4",
-      "year": "2023"
+      "sourceVideo": "assets/sources/samyang-buldak-carbonara.mp4",
+      "sourceVideos": [
+        "assets/sources/samyang-buldak-carbonara.mp4"
+      ],
+      "year": "2025"
     },
     {
       "slot": "before",
@@ -409,6 +425,32 @@
     },
     {
       "slot": "before",
+      "title": "Samuel + Hui Qi",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/samuel-huiqi.jpg",
+      "video": "https://youtu.be/FhqX9KT8nr8",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/samuel-hui-qi.mp4"
+      ],
+      "sourceVideo": "assets/sources/samuel-hui-qi.mp4",
+      "year": "2024"
+    },
+    {
+      "slot": "before",
       "title": "Kenneth + Natalie",
       "category": "weddings",
       "tags": [
@@ -432,6 +474,85 @@
       ],
       "sourceVideo": "assets/sources/kenneth-natalie.mp4",
       "year": "2024"
+    },
+    {
+      "slot": "before",
+      "title": "Kyle + Ysien",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/wedding-04.jpg",
+      "video": "https://youtu.be/NehXTHu9H1s",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/kyle-ysien.mp4"
+      ],
+      "sourceVideo": "assets/sources/kyle-ysien.mp4",
+      "year": "2024"
+    },
+    {
+      "slot": "before",
+      "title": "Wilson + Chelsea",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/wilson-chelsea.jpg",
+      "video": "https://youtu.be/eOdWUo2DBm4",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/wilson-chelsea.mp4"
+      ],
+      "sourceVideo": "assets/sources/wilson-chelsea.mp4",
+      "year": "2023"
+    },
+    {
+      "slot": "before",
+      "title": "Foodflix",
+      "category": "branded",
+      "tags": [
+        "branded",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/foodflix-sats.jpg",
+      "video": "https://youtu.be/Cw0QIlILnzY",
+      "client": "SATS",
+      "credits": [
+        [
+          "Work",
+          "Assistant Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/foodflix.mp4"
+      ],
+      "sourceVideo": "assets/sources/foodflix.mp4",
+      "year": "2023"
     },
     {
       "slot": "before",
@@ -532,132 +653,12 @@
     },
     {
       "slot": "before",
-      "title": "Samuel + Hui Qi",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/samuel-huiqi.jpg",
-      "video": "https://youtu.be/FhqX9KT8nr8",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/samuel-hui-qi.mp4"
-      ],
-      "sourceVideo": "assets/sources/samuel-hui-qi.mp4",
-      "year": "2024"
-    },
-    {
-      "slot": "before",
-      "title": "Eugene + Annabelle",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.jpg",
-      "video": "https://youtu.be/aN7I7F1gPnI",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/eugene-annabelle.mp4"
-      ],
-      "sourceVideo": "assets/sources/eugene-annabelle.mp4",
-      "year": "2024"
-    },
-    {
-      "slot": "before",
-      "title": "Samyang Buldak Carbonara",
-      "category": "tvc",
-      "tags": [
-        "tvc",
-        "ads",
-        "branded content"
-      ],
-      "thumb": "assets/thumbs/samyang-buldak-kfc.jpg",
-      "video": "https://youtu.be/YhajWC0WMx8",
-      "client": "KFC",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups | Skin retouching"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "clips": [
-        {
-          "clipFile": "assets/clips/samyang-buldak-carbonara-0.mp4",
-          "end": "0:27",
-          "label": "Stabilise, Cleanup",
-          "start": "0:20"
-        },
-        {
-          "clipFile": "assets/clips/samyang-buldak-carbonara-1.mp4",
-          "end": "0:15",
-          "label": "Skin Retouch",
-          "start": "0:13"
-        }
-      ],
-      "sourceVideo": "assets/sources/samyang-buldak-carbonara.mp4",
-      "sourceVideos": [
-        "assets/sources/samyang-buldak-carbonara.mp4"
-      ],
-      "year": "2025"
-    },
-    {
-      "slot": "before",
-      "title": "Wilson + Chelsea",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/wilson-chelsea.jpg",
-      "video": "https://youtu.be/eOdWUo2DBm4",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "2nd Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/wilson-chelsea.mp4"
-      ],
-      "sourceVideo": "assets/sources/wilson-chelsea.mp4",
-      "year": "2023"
-    },
-    {
-      "slot": "before",
       "title": "Ryan + Cheryl",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/thumbnail-ryancheryl.jpg",
+      "thumb": "assets/thumbs/thumbnail-ryancheryl.png",
       "video": "https://youtu.be/R_Y8V4YaEhU",
       "client": "AndroidsinBoots",
       "credits": [
@@ -678,30 +679,29 @@
     },
     {
       "slot": "before",
-      "title": "Foodflix",
-      "category": "branded",
+      "title": "Eugene + Annabelle",
+      "category": "weddings",
       "tags": [
-        "branded",
-        "branded content"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/foodflix-sats.jpg",
-      "video": "https://youtu.be/Cw0QIlILnzY",
-      "client": "SATS",
+      "thumb": "assets/thumbs/thumbnail-eugeneannabelle.png",
+      "video": "https://youtu.be/aN7I7F1gPnI",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Assistant Producer"
+          "Project Lead | 1st Videographer | Editor"
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/foodflix.mp4"
+        "assets/sources/eugene-annabelle.mp4"
       ],
-      "sourceVideo": "assets/sources/foodflix.mp4",
-      "year": "2023"
+      "sourceVideo": "assets/sources/eugene-annabelle.mp4",
+      "year": "2024"
     },
     {
       "slot": "before",
@@ -736,7 +736,7 @@
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/thumbnail-yichangclara.jpg",
+      "thumb": "assets/thumbs/thumbnail-yichangclara.png",
       "video": "https://youtu.be/pcUNC46vu-s",
       "client": "AndroidsinBoots",
       "credits": [
@@ -916,7 +916,7 @@
         "ads",
         "branded content"
       ],
-      "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.jpg",
+      "thumb": "assets/thumbs/kia-man-vs-wild-discovery-1775959224368.png",
       "video": "https://youtu.be/ykw1c318hOY",
       "client": "Kia × Discovery Channel",
       "credits": [
@@ -1034,7 +1034,7 @@
         "tvc",
         "branded content"
       ],
-      "thumb": "assets/thumbs/thrive-bt-thumbnail.jpg",
+      "thumb": "assets/thumbs/thrive-bt-thumbnail.png",
       "video": "https://youtu.be/-iNtE4e-l4A",
       "client": "The Business Times",
       "credits": [
@@ -1133,55 +1133,67 @@
     },
     {
       "slot": "before",
-      "title": "Shopee 9.9 2026",
+      "title": "Shopee 11.11 2026",
       "category": "tvc",
       "tags": [
         "tvc"
       ],
-      "thumb": "assets/thumbs/Screenshot 2026-09-17 at 11.31.22 AM.jpg",
-      "video": "https://youtu.be/KNuLP7lrMhI?si=ln5tEUuiyCQfS1Yz",
+      "thumb": "assets/thumbs/shopee-1111-2026-thumbnail.jpg",
+      "video": "https://youtu.be/YvUWj_BhbgI?si=1qfeqWVWqVYXPqHA",
       "client": "Shopee",
       "credits": [
         [
           "Work",
-          "Online | Cleanups | Tracking & Rotoscoping | Graphics Comp"
+          "Online | Ai gen + Comp | Transition"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
+      "year": "2026",
       "sourceVideos": [
-        "assets/sources/shopee-9-9-2026.mp4"
+        "assets/sources/compressed_261026_shopee-11.11_54s_16x9_digital_master-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4",
+      "sourceVideo": "assets/sources/compressed_261026_shopee-11.11_54s_16x9_digital_master-compressed.mp4",
       "clips": [
         {
-          "label": "Clean up + Roto + Flyer and Bus Ad replacement",
-          "start": "17.625",
-          "end": "22.557",
-          "clipFile": "assets/clips/shopee-9-9-2026-0.mp4"
+          "label": "Ai Background Gen + Footage Comp + Transition",
+          "start": "19.251",
+          "end": "22.537",
+          "clipFile": "assets/clips/shopee-11-11-2026-0.mp4"
         },
         {
-          "label": "Billboard Comp",
-          "start": "31.342",
-          "end": "33.404",
-          "clipFile": "assets/clips/shopee-9-9-2026-1.mp4"
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "22.692",
+          "end": "25.282",
+          "clipFile": "assets/clips/shopee-11-11-2026-1.mp4"
         },
         {
-          "label": "Billboard Comp and Partial Animation",
-          "start": "33.532",
-          "end": "35.71",
-          "clipFile": "assets/clips/shopee-9-9-2026-2.mp4"
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "31.621",
+          "end": "32.781",
+          "clipFile": "assets/clips/shopee-11-11-2026-2.mp4"
         },
         {
-          "label": "Clean up + Billboard Comp",
-          "start": "11.883",
-          "end": "13.511",
-          "clipFile": "assets/clips/shopee-9-9-2026-3.mp4"
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "25.436",
+          "end": "29.225",
+          "clipFile": "assets/clips/shopee-11-11-2026-3.mp4"
+        },
+        {
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "35.41",
+          "end": "36.647",
+          "clipFile": "assets/clips/shopee-11-11-2026-4.mp4"
+        },
+        {
+          "label": "Ai Background Gen + Footage Comp",
+          "start": "46.891",
+          "end": "48.862",
+          "clipFile": "assets/clips/shopee-11-11-2026-5.mp4"
         }
-      ],
-      "year": "2026"
+      ]
     },
     {
       "slot": "after",
@@ -1243,7 +1255,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-05-at-12.30.31pm.jpg",
+      "thumb": "assets/thumbs/screenshot-2026-04-05-at-12.30.31pm.png",
       "video": "https://youtu.be/euCEtPWfARM",
       "client": "The Macallan",
       "credits": [
@@ -1386,148 +1398,121 @@
     },
     {
       "slot": "after",
-      "title": "William + Joie",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/william-joei-thumbnail.jpg",
-      "video": "https://youtu.be/_fCwejUqj7w",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/william-joie-lunch-express-edit-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/william-joie-lunch-express-edit-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Shopee 3.3",
+      "title": "LTA Deepavali",
       "category": "tvc",
       "tags": [
-        "tvc",
-        "ads",
-        "branded content"
+        "tvc"
       ],
-      "thumb": "assets/thumbs/shopee-33-shopee.jpg",
-      "video": "https://youtu.be/sBmAKofEaDE",
-      "client": "Shopee",
+      "thumb": "assets/thumbs/261027_lta-deepavali_main_16x9_digital_master-compressed-still-mw225vm7.jpg",
+      "video": "https://youtu.be/Vfwip9XLV8E",
+      "client": "Land Transport Authority (LTA)",
       "credits": [
         [
           "Work",
-          "Online | Comp | Screen Replacements | Cleanups"
+          "Cleanups"
         ],
         [
           "Production",
           "Abundant Productions"
         ]
       ],
+      "year": "2026",
+      "videos": [
+        ""
+      ],
+      "sourceVideos": [
+        "assets/sources/261027_lta-deepavali_main_16x9_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/261027_lta-deepavali_main_16x9_digital_master-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Maybank Silverlife",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/maybank-sunrise-thumbnail.jpg",
+      "video": "https://youtu.be/XRmPbh6CY7w?si=PQZEmIBT8091yEN7",
+      "client": "Maybank",
+      "credits": [
+        [
+          "Work",
+          "Online | Ai Gen + Comp"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4",
+      "year": "2026",
       "clips": [
         {
-          "label": "Lightning Comp",
-          "start": "0:00",
-          "end": "1.993",
-          "clipFile": "assets/clips/shopee-3-3-0.mp4"
+          "label": "Ai Background Gen + Footage Comp",
+          "clipFile": "assets/clips/maybank-silverlife-upload-mwdb5w3b.mp4",
+          "uploaded": true
         },
         {
-          "label": "Screen Replacement",
-          "start": "18.183",
-          "end": "23.113",
-          "clipFile": "assets/clips/shopee-3-3-1.mp4"
+          "label": "Ai Background Gen + Footage Comp",
+          "clipFile": "assets/clips/maybank-silverlife-upload-mwdb6ihh.mp4",
+          "uploaded": true
+        }
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 9.9 2026",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/Screenshot 2026-09-17 at 11.31.22 AM.jpg",
+      "video": "https://youtu.be/KNuLP7lrMhI?si=ln5tEUuiyCQfS1Yz",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups | Tracking & Rotoscoping | Graphics Comp"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/shopee-9-9-2026.mp4"
+      ],
+      "sourceVideo": "assets/sources/shopee-9-9-2026.mp4",
+      "clips": [
+        {
+          "label": "Clean up + Roto + Flyer and Bus Ad replacement",
+          "start": "17.625",
+          "end": "22.557",
+          "clipFile": "assets/clips/shopee-9-9-2026-0.mp4"
+        },
+        {
+          "label": "Billboard Comp",
+          "start": "31.342",
+          "end": "33.404",
+          "clipFile": "assets/clips/shopee-9-9-2026-1.mp4"
+        },
+        {
+          "label": "Billboard Comp and Partial Animation",
+          "start": "33.532",
+          "end": "35.71",
+          "clipFile": "assets/clips/shopee-9-9-2026-2.mp4"
+        },
+        {
+          "label": "Clean up + Billboard Comp",
+          "start": "11.883",
+          "end": "13.511",
+          "clipFile": "assets/clips/shopee-9-9-2026-3.mp4"
         }
       ],
-      "sourceVideo": "assets/sources/shopee-3-3.mp4",
-      "sourceVideos": [
-        "assets/sources/shopee-3-3.mp4"
-      ],
-      "year": "2026"
-    },
-    {
-      "slot": "after",
-      "title": "Weilun + Sandy",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
-      "video": "https://youtu.be/If-L6E2CqMg",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/weilun-sandy.mp4"
-      ],
-      "sourceVideo": "assets/sources/weilun-sandy.mp4",
-      "year": "2024"
-    },
-    {
-      "slot": "after",
-      "title": "Nianhua + Debbie",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/nianhua-debbie.jpg",
-      "video": "https://youtu.be/5ESVAnAJjDY",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/nianhua-debbie.mp4"
-      ],
-      "sourceVideo": "assets/sources/nianhua-debbie.mp4",
-      "year": "2023"
-    },
-    {
-      "slot": "after",
-      "title": "Sengchong + Melanie",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/sengchong--melanie-sde-compressed-still.jpg",
-      "video": "https://youtu.be/skIhkOQSgi8",
-      "client": "AndroindsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer "
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/sengchong--melanie-sde-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/sengchong--melanie-sde-compressed.mp4",
       "year": "2026"
     },
     {
@@ -1578,44 +1563,18 @@
     },
     {
       "slot": "after",
-      "title": "Trade Advocacy Programme",
-      "category": "branded",
-      "tags": [
-        "branded"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-8.42.55-am.jpg",
-      "video": "https://youtu.be/jFEWqfvhQC0",
-      "client": "The Macallan",
-      "credits": [
-        [
-          "Work",
-          "Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/trade-advocacy-programme.mp4"
-      ],
-      "sourceVideo": "assets/sources/trade-advocacy-programme.mp4",
-      "year": "2024"
-    },
-    {
-      "slot": "after",
-      "title": "Kit + Emily",
+      "title": "Sengchong + Melanie",
       "category": "weddings",
       "tags": [
         "weddings"
       ],
-      "thumb": "assets/thumbs/kit-emily-same-day-edit-compressed-still.jpg",
-      "video": "https://youtu.be/gu-lUrjBl50",
-      "client": "AndroidsinBoots",
+      "thumb": "assets/thumbs/sengchong--melanie-sde-compressed-still.jpg",
+      "video": "https://youtu.be/skIhkOQSgi8",
+      "client": "AndroindsinBoots",
       "credits": [
         [
           "Work",
-          "2nd Videographer "
+          "Project Lead | 1st Videographer "
         ],
         [
           "Production",
@@ -1623,11 +1582,62 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+        "assets/sources/sengchong--melanie-sde-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4",
-      "year": "2025",
-      "hidden": true
+      "sourceVideo": "assets/sources/sengchong--melanie-sde-compressed.mp4",
+      "year": "2026"
+    },
+    {
+      "slot": "after",
+      "title": "Nianhua + Debbie",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/nianhua-debbie.jpg",
+      "video": "https://youtu.be/5ESVAnAJjDY",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/nianhua-debbie.mp4"
+      ],
+      "sourceVideo": "assets/sources/nianhua-debbie.mp4",
+      "year": "2023"
+    },
+    {
+      "slot": "after",
+      "title": "Weilun + Sandy",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/53878358865_4a9572e29a_b.jpg",
+      "video": "https://youtu.be/If-L6E2CqMg",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/weilun-sandy.mp4"
+      ],
+      "sourceVideo": "assets/sources/weilun-sandy.mp4",
+      "year": "2024"
     },
     {
       "slot": "after",
@@ -1663,7 +1673,7 @@
         "branded",
         "branded content"
       ],
-      "thumb": "assets/thumbs/portraits-hta-c.jpg",
+      "thumb": "assets/thumbs/portraits-hta.png",
       "video": "https://youtu.be/m2RVVT-VFZ4",
       "client": "Home Team Academy (HTA)",
       "credits": [
@@ -1687,121 +1697,6 @@
       ],
       "sourceVideo": "assets/sources/portraits-of-hta.mp4",
       "year": "2024"
-    },
-    {
-      "slot": "after",
-      "title": "Vogue x MBS",
-      "category": "branded",
-      "tags": [
-        "ads",
-        "branded content",
-        "branded"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.jpg",
-      "video": "https://youtube.com/shorts/7phCcyXsNgo",
-      "client": "Vogue × Marina Bay Sands",
-      "credits": [
-        [
-          "Work",
-          "Online | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "sourceVideo": "assets/sources/vogue-x-mbs.mp4",
-      "sourceVideos": [
-        "assets/sources/vogue-x-mbs.mp4"
-      ],
-      "year": "2025"
-    },
-    {
-      "slot": "after",
-      "title": "Hariz + Aliah",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/hariz-aliah-thumbnail.jpg",
-      "video": "https://youtu.be/_CkRskuYJ2w",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4",
-      "year": "2023"
-    },
-    {
-      "slot": "after",
-      "title": "SG61 Tiger Brokers",
-      "category": "branded",
-      "tags": [
-        "branded"
-      ],
-      "thumb": "assets/thumbs/sg61-tiger-brokers-compressed-still-mvge32sx.jpg",
-      "video": "https://youtu.be/jsKgHTGKpdk",
-      "client": "Mediacorp Brand Studio / Tiger Brokers",
-      "credits": [
-        [
-          "Work",
-          "Online & Audio Mix | Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/sg61-tiger-brokers-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/sg61-tiger-brokers-compressed.mp4",
-      "clips": [
-        {
-          "label": "Pixel Sort Transition",
-          "start": "24.814",
-          "end": "26.512",
-          "clipFile": "assets/clips/sg61-tiger-brokers-0.mp4"
-        }
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "GoBusiness",
-      "category": "tvc",
-      "tags": [
-        "branded content",
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.jpg",
-      "video": "https://youtu.be/xoIFNObpu6M",
-      "client": "GovTech",
-      "credits": [
-        [
-          "Work",
-          "Assistant Producer"
-        ],
-        [
-          "Production",
-          "Optical Films"
-        ]
-      ],
-      "sourceVideo": "assets/sources/gobusiness.mp4",
-      "sourceVideos": [
-        "assets/sources/gobusiness.mp4"
-      ],
-      "year": "2023"
     },
     {
       "slot": "after",
@@ -1878,6 +1773,133 @@
     },
     {
       "slot": "after",
+      "title": "GoBusiness",
+      "category": "tvc",
+      "tags": [
+        "branded content",
+        "tvc"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-04-at-10.54.59am.png",
+      "video": "https://youtu.be/xoIFNObpu6M",
+      "client": "GovTech",
+      "credits": [
+        [
+          "Work",
+          "Assistant Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideo": "assets/sources/gobusiness.mp4",
+      "sourceVideos": [
+        "assets/sources/gobusiness.mp4"
+      ],
+      "year": "2023"
+    },
+    {
+      "slot": "after",
+      "title": "Token 2049",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.49-am.jpg",
+      "video": "https://youtu.be/cqDVmKocdrA",
+      "client": "DWF",
+      "credits": [
+        [
+          "Work",
+          "Producer | 2nd Videographer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "videos": [
+        "https://youtu.be/sAOndV48mY4",
+        "https://youtu.be/NLXX-hBEUPE"
+      ],
+      "sourceVideos": [
+        "assets/sources/token-2049.mp4"
+      ],
+      "sourceVideo": "assets/sources/token-2049.mp4",
+      "year": "2024"
+    },
+    {
+      "slot": "after",
+      "title": "Vogue x MBS",
+      "category": "branded",
+      "tags": [
+        "ads",
+        "branded content",
+        "branded"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-12-at-10.31.43pm.png",
+      "video": "https://youtube.com/shorts/7phCcyXsNgo",
+      "client": "Vogue × Marina Bay Sands",
+      "credits": [
+        [
+          "Work",
+          "Online | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "sourceVideo": "assets/sources/vogue-x-mbs.mp4",
+      "sourceVideos": [
+        "assets/sources/vogue-x-mbs.mp4"
+      ],
+      "year": "2025"
+    },
+    {
+      "slot": "after",
+      "title": "Shopee 3.3",
+      "category": "tvc",
+      "tags": [
+        "tvc",
+        "ads",
+        "branded content"
+      ],
+      "thumb": "assets/thumbs/shopee-33-shopee.jpg",
+      "video": "https://youtu.be/sBmAKofEaDE",
+      "client": "Shopee",
+      "credits": [
+        [
+          "Work",
+          "Online | Comp | Screen Replacements | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "clips": [
+        {
+          "label": "Lightning Comp",
+          "start": "0:00",
+          "end": "1.993",
+          "clipFile": "assets/clips/shopee-3-3-0.mp4"
+        },
+        {
+          "label": "Screen Replacement",
+          "start": "18.183",
+          "end": "23.113",
+          "clipFile": "assets/clips/shopee-3-3-1.mp4"
+        }
+      ],
+      "sourceVideo": "assets/sources/shopee-3-3.mp4",
+      "sourceVideos": [
+        "assets/sources/shopee-3-3.mp4"
+      ],
+      "year": "2026"
+    },
+    {
+      "slot": "after",
       "title": "Centre for Social Responsibility (C4SR)",
       "category": "branded",
       "tags": [
@@ -1926,59 +1948,55 @@
     },
     {
       "slot": "after",
-      "title": "Token 2049",
-      "category": "events",
+      "title": "William + Joie",
+      "category": "weddings",
       "tags": [
-        "events"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.49-am.jpg",
-      "video": "https://youtu.be/cqDVmKocdrA",
-      "client": "DWF",
+      "thumb": "assets/thumbs/william-joei-thumbnail.jpg",
+      "video": "https://youtu.be/_fCwejUqj7w",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Producer | 2nd Videographer"
+          "1st Videographer"
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
-      "videos": [
-        "https://youtu.be/sAOndV48mY4",
-        "https://youtu.be/NLXX-hBEUPE"
-      ],
+      "year": "2026",
       "sourceVideos": [
-        "assets/sources/token-2049.mp4"
+        "assets/sources/william-joie-lunch-express-edit-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/token-2049.mp4",
-      "year": "2024"
+      "sourceVideo": "assets/sources/william-joie-lunch-express-edit-compressed.mp4"
     },
     {
       "slot": "after",
-      "title": " Meiyume Singapore Showcase ",
-      "category": "events",
+      "title": "Hariz + Aliah",
+      "category": "weddings",
       "tags": [
-        "events"
+        "weddings"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
-      "video": "https://youtu.be/iM_y1T0M3cA",
-      "client": "Meiyume",
+      "thumb": "assets/thumbs/hariz-aliah-thumbnail.jpg",
+      "video": "https://youtu.be/_CkRskuYJ2w",
+      "client": "AndroidsinBoots",
       "credits": [
         [
           "Work",
-          "Producer | 1st Videographer "
+          "Project Lead | 1st Videographer"
         ],
         [
           "Production",
-          "Optical Films"
+          "AndroidsinBoots"
         ]
       ],
       "sourceVideos": [
-        "assets/sources/meiyume-singapore-showcase.mp4"
+        "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4",
-      "year": "2022"
+      "sourceVideo": "assets/sources/hariz__aliah_wedding_trailer-compressed.mp4",
+      "year": "2023"
     },
     {
       "slot": "after",
@@ -2008,6 +2026,117 @@
     },
     {
       "slot": "after",
+      "title": "Maybank Dining Deals",
+      "category": "branded",
+      "tags": [
+        "branded"
+      ],
+      "thumb": "assets/thumbs/261002_maybank-food_30s_16x9_el_digital_master-compressed-still-mw1eq042.jpg",
+      "video": "https://youtu.be/m0SFo3Ud8SY",
+      "client": "Maybank",
+      "credits": [
+        [
+          "Work",
+          "Online | Ai Gen *this video contains only Ai generated footage and Graphics"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "SG61 Tiger Brokers",
+      "category": "branded",
+      "tags": [
+        "branded"
+      ],
+      "thumb": "assets/thumbs/sg61-tiger-brokers-compressed-still-mvge32sx.jpg",
+      "video": "https://youtu.be/jsKgHTGKpdk",
+      "client": "Mediacorp Brand Studio / Tiger Brokers",
+      "credits": [
+        [
+          "Work",
+          "Online & Audio Mix | Cleanups"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/sg61-tiger-brokers-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/sg61-tiger-brokers-compressed.mp4",
+      "clips": [
+        {
+          "label": "Pixel Sort Transition",
+          "start": "24.814",
+          "end": "26.512",
+          "clipFile": "assets/clips/sg61-tiger-brokers-0.mp4"
+        }
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "NEA Hawker",
+      "category": "branded",
+      "tags": [
+        "branded"
+      ],
+      "thumb": "assets/thumbs/nea-hawker-thumbnail.jpg",
+      "video": "https://youtu.be/T2vhJprcyFk",
+      "client": "National Environment Agency",
+      "credits": [
+        [
+          "Work",
+          "Online | Clean ups | Graphic Comp"
+        ],
+        [
+          "Production",
+          "Abundant Productions"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/compressed_--superless_260923_nea-hawker_main_16x9_digital_master-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_--superless_260923_nea-hawker_main_16x9_digital_master-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "Bytedance 12th anniversary celebration",
+      "category": "events",
+      "tags": [
+        "events"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
+      "video": "https://youtu.be/LGDU2hlOIZI",
+      "client": "Bytedance",
+      "credits": [
+        [
+          "Work",
+          "Producer | 2nd Videographer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      ],
+      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+    },
+    {
+      "slot": "after",
       "title": "Louis + Kendra",
       "category": "weddings",
       "tags": [
@@ -2031,6 +2160,32 @@
       ],
       "sourceVideo": "assets/sources/louis__kendra_same-day-edit-compressed.mp4",
       "year": "2024"
+    },
+    {
+      "slot": "after",
+      "title": "Ian + Laetitia",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/ian--laetitia-same-day-edit-compressed-still-mw0pyzbq.jpg",
+      "video": "https://youtu.be/Y19r1wvmFx0",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "Project Lead | 1st Videographer | Editor"
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/ian--laetitia-same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/ian--laetitia-same-day-edit-compressed.mp4"
     },
     {
       "slot": "after",
@@ -2086,18 +2241,18 @@
     },
     {
       "slot": "after",
-      "title": "Bytedance 12th anniversary celebration",
+      "title": " Meiyume Singapore Showcase ",
       "category": "events",
       "tags": [
         "events"
       ],
-      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.17.21-pm.jpg",
-      "video": "https://youtu.be/LGDU2hlOIZI",
-      "client": "Bytedance",
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-9.08.45-pm.jpg",
+      "video": "https://youtu.be/iM_y1T0M3cA",
+      "client": "Meiyume",
       "credits": [
         [
           "Work",
-          "Producer | 2nd Videographer"
+          "Producer | 1st Videographer "
         ],
         [
           "Production",
@@ -2105,9 +2260,63 @@
         ]
       ],
       "sourceVideos": [
-        "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+        "assets/sources/meiyume-singapore-showcase.mp4"
       ],
-      "sourceVideo": "assets/sources/bytedance-12th-anniversary-celebration.mp4"
+      "sourceVideo": "assets/sources/meiyume-singapore-showcase.mp4",
+      "year": "2022"
+    },
+    {
+      "slot": "after",
+      "title": "Trade Advocacy Programme",
+      "category": "branded",
+      "tags": [
+        "branded"
+      ],
+      "thumb": "assets/thumbs/screenshot-2026-04-17-at-8.42.55-am.jpg",
+      "video": "https://youtu.be/jFEWqfvhQC0",
+      "client": "The Macallan",
+      "credits": [
+        [
+          "Work",
+          "Producer"
+        ],
+        [
+          "Production",
+          "Optical Films"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/trade-advocacy-programme.mp4"
+      ],
+      "sourceVideo": "assets/sources/trade-advocacy-programme.mp4",
+      "year": "2024"
+    },
+    {
+      "slot": "after",
+      "title": "Kit + Emily",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "assets/thumbs/kit-emily-same-day-edit-compressed-still.jpg",
+      "video": "https://youtu.be/gu-lUrjBl50",
+      "client": "AndroidsinBoots",
+      "credits": [
+        [
+          "Work",
+          "2nd Videographer "
+        ],
+        [
+          "Production",
+          "AndroidsinBoots"
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/kit-emily-same-day-edit-compressed.mp4"
+      ],
+      "sourceVideo": "assets/sources/kit-emily-same-day-edit-compressed.mp4",
+      "year": "2025",
+      "hidden": true
     },
     {
       "slot": "before",
@@ -2152,7 +2361,7 @@
         "events",
         "branded content"
       ],
-      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.jpg",
+      "thumb": "assets/thumbs/thumbnail_ritz-carlton_modern_oasis_bridal_show.png",
       "video": "https://youtu.be/qSGJ6Qo-NdA",
       "client": "Heaven's Gift",
       "credits": [
@@ -2224,215 +2433,6 @@
       "sourceVideo": "assets/sources/andysophie-same-day-edit-compressed-.mp4",
       "year": "2022",
       "hidden": true
-    },
-    {
-      "slot": "after",
-      "title": "Maybank Dining Deals",
-      "category": "branded",
-      "tags": [
-        "branded"
-      ],
-      "thumb": "assets/thumbs/261002_maybank-food_30s_16x9_el_digital_master-compressed-still-mw1eq042.jpg",
-      "video": "https://youtu.be/m0SFo3Ud8SY",
-      "client": "Maybank",
-      "credits": [
-        [
-          "Work",
-          "Online | Ai Gen *this video contains only Ai generated footage and Graphics"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/261002_maybank-food_30s_16x9_el_digital_master-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Ian + Laetitia",
-      "category": "weddings",
-      "tags": [
-        "weddings"
-      ],
-      "thumb": "assets/thumbs/ian--laetitia-same-day-edit-compressed-still-mw0pyzbq.jpg",
-      "video": "https://youtu.be/Y19r1wvmFx0",
-      "client": "AndroidsinBoots",
-      "credits": [
-        [
-          "Work",
-          "Project Lead | 1st Videographer | Editor"
-        ],
-        [
-          "Production",
-          "AndroidsinBoots"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/ian--laetitia-same-day-edit-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/ian--laetitia-same-day-edit-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "LTA Deepavali",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/261027_lta-deepavali_main_16x9_digital_master-compressed-still-mw225vm7.jpg",
-      "video": "https://youtu.be/Vfwip9XLV8E",
-      "client": "Land Transport Authority (LTA)",
-      "credits": [
-        [
-          "Work",
-          "Cleanups"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "year": "2026",
-      "videos": [
-        ""
-      ],
-      "sourceVideos": [
-        "assets/sources/261027_lta-deepavali_main_16x9_digital_master-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/261027_lta-deepavali_main_16x9_digital_master-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "NEA Hawker",
-      "category": "branded",
-      "tags": [
-        "branded"
-      ],
-      "thumb": "assets/thumbs/nea-hawker-thumbnail.jpg",
-      "video": "https://youtu.be/T2vhJprcyFk",
-      "client": "National Environment Agency",
-      "credits": [
-        [
-          "Work",
-          "Online | Clean ups | Graphic Comp"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/compressed_--superless_260923_nea-hawker_main_16x9_digital_master-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/compressed_--superless_260923_nea-hawker_main_16x9_digital_master-compressed.mp4"
-    },
-    {
-      "slot": "after",
-      "title": "Maybank Silverlife",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/maybank-sunrise-thumbnail.jpg",
-      "video": "https://youtu.be/XRmPbh6CY7w?si=PQZEmIBT8091yEN7",
-      "client": "Maybank",
-      "credits": [
-        [
-          "Work",
-          "Online | Ai Gen + Comp"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "sourceVideos": [
-        "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4",
-      "year": "2026",
-      "clips": [
-        {
-          "label": "Ai Background Gen + Footage Comp",
-          "clipFile": "assets/clips/maybank-silverlife-upload-mwdb5w3b.mp4",
-          "uploaded": true
-        },
-        {
-          "label": "Ai Background Gen + Footage Comp",
-          "clipFile": "assets/clips/maybank-silverlife-upload-mwdb6ihh.mp4",
-          "uploaded": true
-        }
-      ]
-    },
-    {
-      "slot": "after",
-      "title": "Shopee 11.11 2026",
-      "category": "tvc",
-      "tags": [
-        "tvc"
-      ],
-      "thumb": "assets/thumbs/shopee-1111-2026-thumbnail.jpg",
-      "video": "https://youtu.be/YvUWj_BhbgI?si=1qfeqWVWqVYXPqHA",
-      "client": "Shopee",
-      "credits": [
-        [
-          "Work",
-          "Online | Ai gen + Comp | Transition"
-        ],
-        [
-          "Production",
-          "Abundant Productions"
-        ]
-      ],
-      "year": "2026",
-      "sourceVideos": [
-        "assets/sources/compressed_261026_shopee-11.11_54s_16x9_digital_master-compressed.mp4"
-      ],
-      "sourceVideo": "assets/sources/compressed_261026_shopee-11.11_54s_16x9_digital_master-compressed.mp4",
-      "clips": [
-        {
-          "label": "Ai Background Gen + Footage Comp + Transition",
-          "start": "19.251",
-          "end": "22.537",
-          "clipFile": "assets/clips/shopee-11-11-2026-0.mp4"
-        },
-        {
-          "label": "Ai Background Gen + Footage Comp",
-          "start": "22.692",
-          "end": "25.282",
-          "clipFile": "assets/clips/shopee-11-11-2026-1.mp4"
-        },
-        {
-          "label": "Ai Background Gen + Footage Comp",
-          "start": "31.621",
-          "end": "32.781",
-          "clipFile": "assets/clips/shopee-11-11-2026-2.mp4"
-        },
-        {
-          "label": "Ai Background Gen + Footage Comp",
-          "start": "25.436",
-          "end": "29.225",
-          "clipFile": "assets/clips/shopee-11-11-2026-3.mp4"
-        },
-        {
-          "label": "Ai Background Gen + Footage Comp",
-          "start": "35.41",
-          "end": "36.647",
-          "clipFile": "assets/clips/shopee-11-11-2026-4.mp4"
-        },
-        {
-          "label": "Ai Background Gen + Footage Comp",
-          "start": "46.891",
-          "end": "48.862",
-          "clipFile": "assets/clips/shopee-11-11-2026-5.mp4"
-        }
-      ]
     }
   ],
   "categoryDefaults": {
