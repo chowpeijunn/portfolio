@@ -2398,23 +2398,24 @@
       "tags": [
         "tvc"
       ],
-      "thumb": "",
+      "thumb": "assets/thumbs/maybank-sunrise-thumbnail.jpg",
       "video": "https://youtu.be/XRmPbh6CY7w?si=PQZEmIBT8091yEN7",
       "client": "Maybank",
       "credits": [
         [
           "Work",
-          ""
+          "Online | Ai Gen + Comp"
         ],
         [
           "Production",
-          ""
+          "Abundant Productions"
         ]
       ],
       "sourceVideos": [
         "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
       ],
-      "sourceVideo": "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4"
+      "sourceVideo": "assets/sources/compressed_261006_maybank-silverlife_offline_30s_digital_master-compressed.mp4",
+      "year": "2026"
     }
   ],
   "categoryDefaults": {
