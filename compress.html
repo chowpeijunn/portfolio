@@ -358,7 +358,8 @@ function finish(blob, w, h, secs, maxBytes) {
   state.outUrl = URL.createObjectURL(blob);
   $('preview').src = state.outUrl + '#t=0.5';   // show a real frame, not black
   const base = state.file.name.replace(/\.[^.]+$/, '');
-  const name = `${base}-compressed.mp4`;
+  // "Compressed_" up front so it reads at a glance in a file list (no double prefix on a re-compress)
+  const name = /^compressed_/i.test(base) ? `${base}.mp4` : `Compressed_${base}.mp4`;
   const dl = $('downloadBtn');
   dl.href = state.outUrl; dl.download = name; dl.textContent = `Download ${fmtMB(blob.size)}`;
   const fits = blob.size <= maxBytes;
