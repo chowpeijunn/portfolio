@@ -887,22 +887,22 @@ function renderEditor() {
           : `
           <div style="font-size:11px;color:var(--muted);margin-top:2px">Add a source video to grab a thumbnail from it.</div>`}
           <div style="margin-top:8px">
-            <span class="thumb-grid-toggle" onclick="toggleThumbGrid()">${thumbGridVisible ? 'Hide image picker ↑' : 'Browse local images ↓'}</span>
+            <button class="btn btn-ghost btn-sm" onclick="toggleThumbGrid()">${thumbGridVisible ? 'Hide thumbnails ↑' : '🖼 Choose from your thumbnails'}</button>
           </div>
         </div>
       </div>
       <div id="frameGrabber"></div>
+      ${thumbGridVisible ? renderThumbGrid(thumbSrc) : ''}
       <div class="upload-zone" id="uploadZone"
         ondragover="event.preventDefault();this.classList.add('drag-over')"
         ondragleave="this.classList.remove('drag-over')"
         ondrop="handleUploadDrop(event)">
         <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handleUploadFile(this.files[0])">
         <div class="upload-zone-label">
-          <strong>Or upload an image</strong> — drag &amp; drop or click to browse
+          <strong>Or upload a new image from your computer</strong> — drag &amp; drop, or click to pick a file
         </div>
         <div class="upload-progress" id="uploadProgress">Uploading…</div>
       </div>
-      ${thumbGridVisible ? renderThumbGrid(thumbSrc) : ''}
     </div>
 
     <!-- CREDITS -->
