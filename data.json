@@ -2611,5 +2611,36 @@
         "Chow Pei Jun"
       ]
     ]
+  },
+  "filterLayouts": {
+    "weddings": {
+      "order": [
+        "Jeric + Lydia",
+        "Ivan + Jocelyn",
+        "Samuel + Hui Qi",
+        "Kenneth + Natalie",
+        "Kyle + Ysien",
+        "Wilson + Chelsea",
+        "Ryan + Cheryl",
+        "Eugene + Annabelle",
+        "Zachary + Leeyin ",
+        "Yi Chang + Clara",
+        "Mel + Jadey",
+        "Sengchong + Melanie",
+        "ShiHao + Kai Rou",
+        "Weilun + Sandy",
+        "Kenny + Gina",
+        "Norman + XinRu",
+        "William + Joie",
+        "Nianhua + Debbie",
+        "Hervé + Sarah",
+        "Louis + Kendra",
+        "Ian + Laetitia",
+        "Hariz + Aliah",
+        "Mark + Meredith",
+        "Christon + Michelle"
+      ],
+      "hubBefore": 12
+    }
   }
 }
