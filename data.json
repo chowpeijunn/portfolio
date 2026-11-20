@@ -2548,6 +2548,52 @@
         "assets/sources/compressed_fde_christon--michelle_v2-compressed.mp4"
       ],
       "sourceVideo": "assets/sources/compressed_fde_christon--michelle_v2-compressed.mp4"
+    },
+    {
+      "slot": "after",
+      "title": "SWDA Career Health",
+      "category": "weddings",
+      "tags": [
+        "weddings"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ]
+    },
+    {
+      "slot": "after",
+      "title": "SWDA Career Health",
+      "category": "tvc",
+      "tags": [
+        "tvc"
+      ],
+      "thumb": "",
+      "video": "",
+      "client": "Skills and Workforce Development Agency (SWDA)",
+      "credits": [
+        [
+          "Work",
+          ""
+        ],
+        [
+          "Production",
+          ""
+        ]
+      ],
+      "sourceVideos": [
+        "assets/sources/compressed_subless_261106_swda_rank-and-file_47s_16x9_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_subless_261106_swda_rank-and-file_47s_16x9_digital_master.mp4"
     }
   ],
   "categoryDefaults": {
