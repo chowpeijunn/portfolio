@@ -2572,28 +2572,29 @@
     },
     {
       "slot": "after",
-      "title": "SWDA Career Health",
+      "title": "SWDA Career Health Rank and File",
       "category": "tvc",
       "tags": [
         "tvc"
       ],
       "thumb": "assets/thumbs/compressed_subless_261106_swda_rank-and-file_47s_16x9_digital_master-still-mwo9c0js.jpg",
-      "video": "",
+      "video": "https://youtu.be/0uiVsLj2Q3w",
       "client": "Skills and Workforce Development Agency (SWDA)",
       "credits": [
         [
           "Work",
-          ""
+          "Online | Clean ups | Wipe Transition"
         ],
         [
           "Production",
-          ""
+          "Abundant Productions"
         ]
       ],
       "sourceVideos": [
         "assets/sources/compressed_subless_261106_swda_rank-and-file_47s_16x9_digital_master.mp4"
       ],
-      "sourceVideo": "assets/sources/compressed_subless_261106_swda_rank-and-file_47s_16x9_digital_master.mp4"
+      "sourceVideo": "assets/sources/compressed_subless_261106_swda_rank-and-file_47s_16x9_digital_master.mp4",
+      "year": "2026"
     }
   ],
   "categoryDefaults": {
