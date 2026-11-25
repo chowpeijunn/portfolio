@@ -2595,7 +2595,11 @@
           "Abundant Productions"
         ]
       ],
-      "year": "2026"
+      "year": "2026",
+      "sourceVideos": [
+        "assets/sources/compressed_clean_261120_shopee-1212-2026_30s_16x9_superless_digital_master.mp4"
+      ],
+      "sourceVideo": "assets/sources/compressed_clean_261120_shopee-1212-2026_30s_16x9_superless_digital_master.mp4"
     }
   ],
   "categoryDefaults": {
